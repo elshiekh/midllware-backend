@@ -26,8 +26,7 @@ namespace APIMiddleware.Core.Services.Implementation
         public bool AddRequest(RequestDTO requestDTO)
         {
             try
-            { 
-
+            {
                 if (requestDTO.Path.Contains("/swagger/"))
                     return true;
 
