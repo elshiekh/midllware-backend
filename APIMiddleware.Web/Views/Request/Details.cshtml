@@ -1,0 +1,79 @@
+﻿@model APIMiddleware.Web.Models.RequestMolel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+    <div>
+        <h4>Request Details</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Path)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => model.Path)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ProjectName)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => model.ProjectName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Method)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => model.Method)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.IsSuccess)
+            </dt>
+            <dd class="col-sm-4">
+                @Model.IsSuccess
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.RequestTime)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => model.RequestTime)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ElapsedMilliseconds)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => model.ElapsedMilliseconds)
+            </dd>
+        </dl>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.QueryString)
+            </dt>
+            <dd class="col-sm-4">
+                @Model.QueryString
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.StatusCode)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => model.StatusCode)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.RequestBodyContent)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.ActionLink("Download", "DownloadRequestBodyContent", new { id = Model.Id })
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ResponseBodyContent)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.ActionLink("Download", "DownloadResponseBodyContent", new { id = Model.Id })
+            </dd>
+        </dl>
+
+    </div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
