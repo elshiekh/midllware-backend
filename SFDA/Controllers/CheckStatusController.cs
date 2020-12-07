@@ -1,5 +1,4 @@
 ﻿using CheckStatusCodeService;
-using DeactivationProuctService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using System;
