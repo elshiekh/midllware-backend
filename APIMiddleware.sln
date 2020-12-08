@@ -15,10 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERP.VIDA.In", "ERP.VIDA.In\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERP.VIDA.Out", "ERP.VIDA.Out\ERP.VIDA.Out.csproj", "{64B5DAF8-2182-42AC-877B-193E3093D90E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HMGOnBaseIn", "..\HMGOnBaseIn\HMGOnBaseIn\HMGOnBaseIn.csproj", "{A4769DCD-98D8-4420-A438-BDE76F53ECD8}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HMGOnBaseOut", "..\HMGOnBaseOut\HMGOnBaseOut\HMGOnBaseOut.csproj", "{0355ACC8-B447-4DA1-A0DC-C3F3D8CC54E6}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,14 +45,6 @@ Global
 		{64B5DAF8-2182-42AC-877B-193E3093D90E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64B5DAF8-2182-42AC-877B-193E3093D90E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64B5DAF8-2182-42AC-877B-193E3093D90E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A4769DCD-98D8-4420-A438-BDE76F53ECD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4769DCD-98D8-4420-A438-BDE76F53ECD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4769DCD-98D8-4420-A438-BDE76F53ECD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4769DCD-98D8-4420-A438-BDE76F53ECD8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0355ACC8-B447-4DA1-A0DC-C3F3D8CC54E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0355ACC8-B447-4DA1-A0DC-C3F3D8CC54E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0355ACC8-B447-4DA1-A0DC-C3F3D8CC54E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0355ACC8-B447-4DA1-A0DC-C3F3D8CC54E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
