@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Middleware\APIMiddleware.Core\APIMiddleware.Core.csproj" />
+    <ProjectReference Include="..\..\APIMiddleware.Core\APIMiddleware.Core.csproj" />
   </ItemGroup>
-
 </Project>
