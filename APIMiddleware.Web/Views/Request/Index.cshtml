@@ -19,7 +19,10 @@
                 @Html.DisplayNameFor(model => model.Method)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RequestTime)
+                Date
+            </th>
+            <th>
+                Time
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ElapsedMilliseconds)
@@ -49,7 +52,10 @@
                     @Html.DisplayFor(modelItem => item.Method)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RequestTime)
+                    @item.RequestTime.ToString("dd/MM/yyyy")
+                </td>
+                <td>
+                    @item.RequestTime.ToString("HH:mm")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ElapsedMilliseconds)
