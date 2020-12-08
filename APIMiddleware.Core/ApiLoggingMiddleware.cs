@@ -71,33 +71,62 @@ namespace APIMiddleware.Core
 
         private async Task<string> ReadRequestBody(HttpRequest request)
         {
-            var buffer = new byte[Convert.ToInt32(request.ContentLength)];
-            await request.Body.ReadAsync(buffer, 0, buffer.Length);
-            var bodyAsText = Encoding.UTF8.GetString(buffer);
-            request.Body.Seek(0, SeekOrigin.Begin);
+            try
+            {
+                var buffer = new byte[Convert.ToInt32(request.ContentLength)];
+                await request.Body.ReadAsync(buffer, 0, buffer.Length);
+                var bodyAsText = Encoding.UTF8.GetString(buffer);
+                request.Body.Seek(0, SeekOrigin.Begin);
 
-            return bodyAsText;
+                return bodyAsText;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         private async Task<string> ReadResponseBody(HttpResponse response)
         {
-            response.Body.Seek(0, SeekOrigin.Begin);
-            var bodyAsText = await new StreamReader(response.Body).ReadToEndAsync();
-            response.Body.Seek(0, SeekOrigin.Begin);
+            try
+            {
+                response.Body.Seek(0, SeekOrigin.Begin);
+                var bodyAsText = await new StreamReader(response.Body).ReadToEndAsync();
+                response.Body.Seek(0, SeekOrigin.Begin);
 
-            return bodyAsText;
+                return bodyAsText;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         public byte[] JsonStringToByteArray(string jsonByteString)
         {
-            // Convert a C# string to a byte array  
-            return Encoding.ASCII.GetBytes(jsonByteString);
+            try
+            {
+                // Convert a C# string to a byte array  
+                return Encoding.ASCII.GetBytes(jsonByteString);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
         }
 
         public string ByteArrayToJsonString(byte[] bytes)
         {
-            // Convert a C# string to a byte array  
-            return Encoding.ASCII.GetString(bytes);
+            try
+            {
+                // Convert a C# string to a byte array  
+                return Encoding.ASCII.GetString(bytes);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
     }
 }
