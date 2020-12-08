@@ -66,7 +66,7 @@ namespace APIMiddleware.Core.Services.Implementation
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw;
             }
