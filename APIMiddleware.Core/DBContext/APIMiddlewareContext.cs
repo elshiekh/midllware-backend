@@ -14,8 +14,7 @@ namespace APIMiddleware.Core.DBContext
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            const string conn = "Server=CS-LPTP-51A\\SQLEXPRESS; Database=APIMiddlewareDB; Trusted_Connection=True; MultipleActiveResultSets=true";
-            //const string conn = "Server=10.201.203.131;Database=ERPMW;User Id=ERPMW;password=pass4erpmw;Trusted_Connection=False;MultipleActiveResultSets=true;";
+            const string conn = "Server=10.201.203.131;Database=ERPMW;User Id=ERPMW;password=pass4erpmw;Trusted_Connection=False;MultipleActiveResultSets=true;";
             optionsBuilder.UseSqlServer(conn);
         }
     }

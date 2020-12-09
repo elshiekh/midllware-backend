@@ -19,7 +19,7 @@ namespace APIMiddleware.Core.Services.Implementation
         public RequestService(ISystemPreferenceService systemPreferenceService, IEmailService emailService)
         {
             _systemPreferenceService = systemPreferenceService;
-            _emailService  = emailService;
+            _emailService = emailService;
             _dbContext = new APIMiddlewareContext();
         }
 
@@ -85,13 +85,13 @@ namespace APIMiddleware.Core.Services.Implementation
                     ProjectCode = request.ProjectCode,
                     RequestGuid = request.RequestGuid,
                     RequestTime = request.RequestTime,
-                    IsSuccess = request.IsSuccess,
+                    IsSuccess = (request.StatusCode == 201 || request.StatusCode == 200),
                     ElapsedMilliseconds = request.ElapsedMilliseconds,
                     StatusCode = request.StatusCode,
                     Method = request.Method,
                     Path = request.Path,
                     QueryString = request.QueryString,
-                }).ToList();
+                }).OrderByDescending(s => s.RequestTime).ToList();
 
             }
             catch (Exception)
@@ -114,6 +114,7 @@ namespace APIMiddleware.Core.Services.Implementation
                     RequestTime = request.RequestTime,
                     ElapsedMilliseconds = request.ElapsedMilliseconds,
                     StatusCode = request.StatusCode,
+                    IsSuccess = (request.StatusCode == 201 || request.StatusCode == 200),
                     Method = request.Method,
                     Path = request.Path,
                     QueryString = request.QueryString,
