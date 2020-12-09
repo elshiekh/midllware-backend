@@ -20,7 +20,7 @@ namespace HMGOnBaseIn
     {
 
         //MW
-        WebAPIProject properties = new WebAPIProject() { Id = 7, Name = "HMGOnBaseIn" };
+        WebAPIProject properties = new WebAPIProject() { Id = 206, Name = "HMGOnBaseIn" };
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;

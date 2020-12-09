@@ -8,12 +8,12 @@ namespace HMGOnBaseOut.DTO
         {
             return "HMG_ONBASE_INT_IN_PKG.GET_ITEM_CODE";
         }
-        public List<GetItemNameResponse> response { get; set; }
+        public List<GetItemCodeResponse> response { get; set; }
     }
 
     public class GetItemCodeResponse
     {
-        public string ITEM_CODE { get; set; }
+        public string SEGMENT1 { get; set; }
     }
 }
 

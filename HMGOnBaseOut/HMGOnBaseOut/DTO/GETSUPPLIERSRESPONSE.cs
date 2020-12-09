@@ -5,14 +5,15 @@ namespace HMGONBaseController.DTO
 {
     public class GetSuppliersResponse
     {
-        public string  VENDOR_NAME { get; set; }
+        public string SUPPLIER_NAME { get; set; }
+        public string SUPPLIER_NUMBER { get; set; }
     }
 
     public class GetSuppliersRequest
     {
         public string GetSPName()
         {
-            return "HMG_ONBASE_INT_IN_PKG.GET_SUPPLIERS";
+            return "HMG_ONBASE_INT_IN_PKG.GET_SUPPLIER_NAME";
         }
         public List<GetSuppliersResponse> response { get; set; }
     }
@@ -21,6 +22,7 @@ namespace HMGONBaseController.DTO
     public class GetSupplierNumberResponse
     {
         public string SUPPLIER_NUMBER { get; set; }
+        public string SUPPLIER_NAME { get; set; }
     }
 
     public class GetSupplierNumberRequest
@@ -29,6 +31,6 @@ namespace HMGONBaseController.DTO
         {
             return "HMG_ONBASE_INT_IN_PKG.GET_SUPPLIER_NUMBER";
         }
-        public GetSuppliersResponse response { get; set; }
+        public List<GetSupplierNumberResponse> response { get; set; }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace HMGOnBaseOut.DTO
 {
@@ -9,13 +6,13 @@ namespace HMGOnBaseOut.DTO
     {
         public string GetSPName()
         {
-            return "HMG_ONBASE_INT_IN_PKG.GET_ITEM_NAME";
+            return "HMG_ONBASE_INT_IN_PKG.GET_ITEM_DESC";
         }
         public List<GetItemNameResponse> response { get; set; }
     }
 
     public class GetItemNameResponse
     {
-        public string ITEM_NAME { get; set; }
+        public string DESCRIPTION { get; set; }
     }
 }

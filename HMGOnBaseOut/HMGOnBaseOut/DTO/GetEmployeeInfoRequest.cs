@@ -56,7 +56,7 @@ namespace HMGOnBaseOut.DTO
     public class GetHrEmployeeInfoResquest {
         public string GetSPName()
         {
-            return "HMG_ONBASE_INT_IN_PKG.GET_HR_EMPLOYEE_INFO";
+            return "HMG_ONBASE_INT_IN_PKG.GET_EMPLOYEE_DETAILS";
         }
         public GetHrEmployeeInfoResponse response { get; set; }
     }
@@ -70,9 +70,10 @@ namespace HMGOnBaseOut.DTO
         public string JOB_TITLE { get; set; }
         public string POSITION_TITLE { get; set; }
         public string EMPLOYMENT_CATEGORY { get; set; }
-        public string ORGANIZATION_NAME { get; set; }
-        public string NATIONALITY { get; set; }
         public DateTime HIRE_DATE { get; set; }
+        public string NATIONALITY { get; set; }
+        public string EMPLOYEE_ORGANIZATION { get; set; }
+        public string SUPERVISOR_NUMBER { get; set; }
+        public string SUPERVISOR_NAME { get; set; }
     }
-
 }

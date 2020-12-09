@@ -6,7 +6,7 @@ namespace HMGOnBaseOut.DTO
     {
         public string GetSPName()
         {
-            return "HMG_ONBASE_INT_IN_PKG.GET_POSITION_TITLE";
+            return "HMG_ONBASE_INT_IN_PKG.GET_POSITION_TITLES";
         }
         public List<GetPositionTitleResponse> response { get; set; }
     }

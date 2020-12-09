@@ -24,7 +24,7 @@ namespace HMGOnBaseOut
     public class Startup
     {
         //MW
-        WebAPIProject properties = new WebAPIProject() { Id = 8, Name = "HMGOnBaseOut" };
+        WebAPIProject properties = new WebAPIProject() { Id = 207, Name = "HMGOnBaseOut" };
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
