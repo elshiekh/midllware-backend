@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace HMGOnBaseOut.DTO
 {
@@ -6,13 +7,14 @@ namespace HMGOnBaseOut.DTO
     {
         public string GetSPName()
         {
-            return "HMG_ONBASE_INT_IN_PKG.GET_BUSINESS_GROUP";
+            return "HMG_ONBASE_INT_IN_PKG.GET_BUSINESS_GROUPS";
         }
         public List<GetBusinessGroupResponse> response { get; set; }
     }
 
     public class GetBusinessGroupResponse
     {
-        public string LEGAL_ENTITY { get; set; }
+        public Int64 BUSINESS_GROUP_ID { get; set; }
+        public string BUSINESS_GROUP_NAME { get; set; }
     }
 }

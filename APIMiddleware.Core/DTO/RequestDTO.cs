@@ -8,7 +8,10 @@ namespace APIMiddleware.Core.DTO
         public string RequestGuid { get; set; }
         public int ProjectCode { get; set; }
         public string ProjectName { get; set; }
+        public DateTime RequestDate { get; set; }
         public DateTime RequestTime { get; set; }
+        public string Date { get; set; }
+        public string Time { get; set; }
         public long ElapsedMilliseconds { get; set; }
         public int StatusCode { get; set; }
         public string Method { get; set; }

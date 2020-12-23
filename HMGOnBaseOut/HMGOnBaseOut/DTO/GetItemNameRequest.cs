@@ -13,6 +13,7 @@ namespace HMGOnBaseOut.DTO
 
     public class GetItemNameResponse
     {
-        public string DESCRIPTION { get; set; }
+        public string ITEM_DESCRIPTION { get; set; }
+        public string ITEM_CODE { get; set; }
     }
 }

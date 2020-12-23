@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace APIMiddleware.Core.Services.Implementation
 {
@@ -72,27 +73,42 @@ namespace APIMiddleware.Core.Services.Implementation
             }
         }
 
-        public List<RequestDTO> GetAllRequests()
+        public async Task<List<RequestDTO>> GetAllRequests()
         {
             try
             {
-                var requests = _dbContext.Requests.Include(s => s.Project).ToList();
+                var requests =  _dbContext.Requests.Include(s => s.Project);
 
-                return requests.Select(request => new RequestDTO
+                return  await requests.Select(request => new RequestDTO
                 {
                     Id = request.Id,
                     ProjectName = request.Project.ProjectName,
                     ProjectCode = request.ProjectCode,
                     RequestGuid = request.RequestGuid,
                     RequestTime = request.RequestTime,
+                    RequestDate = request.RequestTime,
+                    Date = request.RequestTime.ToString("dd/MM/yyyy"),
+                    Time = request.RequestTime.ToString("HH:mm"),
                     IsSuccess = (request.StatusCode == 201 || request.StatusCode == 200),
                     ElapsedMilliseconds = request.ElapsedMilliseconds,
                     StatusCode = request.StatusCode,
                     Method = request.Method,
                     Path = request.Path,
                     QueryString = request.QueryString,
-                }).OrderByDescending(s => s.RequestTime).ToList();
+                }).OrderByDescending(s => s.RequestTime).ToListAsync();
 
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<int> GetAllRequestCounts()
+        {
+            try
+            {
+                return  await _dbContext.Requests.CountAsync();
             }
             catch (Exception)
             {

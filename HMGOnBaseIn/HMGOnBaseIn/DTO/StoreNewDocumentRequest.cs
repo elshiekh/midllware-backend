@@ -9,6 +9,7 @@ namespace HMGOnBaseIn.DTO
         public string FileExtension { get; set; }
         public string DocTypeName { get; set; }
         public IDictionary<string, string> Keywords { get; set; }
+       // public Keywords Keywords { get; set; }
     }
 
     public class StoreNewDocumentResponse
@@ -18,22 +19,19 @@ namespace HMGOnBaseIn.DTO
         public string Description { get; set; }
     }
 
-    public class StoreDeleteDocumentResponse
+    public class Keywords
     {
-        public string Status { get; set; }
-        public string Description { get; set; }
+        public string P_ORACLE_ID { get; set; }
+        public string P_ATTACHED_DOCUMENT_ID { get; set; }
+        public string P_DOCUMENT_ID { get; set; }
+        public string P_ENTITY_NAME { get; set; }
+        public string P_CATEGORY_ID { get; set; }
+        public string P_CATEGORY_NAME { get; set; }
+        public string P_FILE_ID { get; set; }
+        public string P_PK1_VALUE { get; set; }
+        public string P_PK2_VALUE { get; set; }
+        public string P_PK3_VALUE { get; set; }
+        public string P_PK4_VALUE { get; set; }
+        public string P_PK5_Value { get; set; }
     }
-
-    public class StoreUpdateDocumentRequest
-    {
-        public IDictionary<string, string> Metadata { get; set; }
-    }
-
-    public class StoreUpdateDocumentResponse
-    {
-        public string Status { get; set; }
-        public string Description { get; set; }
-    }
-
-
 }

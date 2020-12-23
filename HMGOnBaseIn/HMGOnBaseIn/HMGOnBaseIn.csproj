@@ -26,4 +26,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\APIMiddleware.Core\APIMiddleware.Core.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Logs\" />
+  </ItemGroup>
 </Project>

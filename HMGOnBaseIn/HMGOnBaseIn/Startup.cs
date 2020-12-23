@@ -33,7 +33,7 @@ namespace HMGOnBaseIn
         {
            
             //MW
-            services.RegsiterAPIMiddlewareConfiguration(Configuration);
+           services.RegsiterAPIMiddlewareConfiguration(Configuration);
 
             services.AddControllers();
             services.AddControllers().AddXmlSerializerFormatters();
@@ -73,8 +73,8 @@ namespace HMGOnBaseIn
             app.UseStaticFiles();
             // app.UseRequestResponseLogging();
 
-            //MW
-            app.UseMiddleware<ApiLogging>(properties);
+           //MW
+           app.UseMiddleware<ApiLogging>(properties);
 
             app.UseRouting();
 

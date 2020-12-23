@@ -7,6 +7,9 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace HMGOnBaseOut.Controllers
 {
@@ -139,7 +142,6 @@ namespace HMGOnBaseOut.Controllers
                   OracleDbType.RefCursor, ParameterDirection.Output);
                 cmd.Parameters.Add(":P_ITEM_DESC", P_ITEM_DESC);
                 OracleDataReader reader = cmd.ExecuteReader();
-                GetItemCodeResponse ItemCode = new GetItemCodeResponse();
                 List<GetItemCodeResponse> itemCodeList = new List<GetItemCodeResponse>();
                 itemCodeList = QueryExtenstion.DataReaderMapToList<GetItemCodeResponse>(reader);
 
@@ -156,13 +158,13 @@ namespace HMGOnBaseOut.Controllers
         // GetPositionTitle-----------
         [HttpGet("api/HMGONBASE/GetPositionTitle.{format}")]
         //[ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
-        public IActionResult GetPositionTitle(int? P_BUSINESS_GROUP_ID)
+        public IActionResult GetPositionTitle(string P_BUSINESS_GROUP_NAME)
         {
             try
             {
                 GetPositionTitleRequest request = new GetPositionTitleRequest();
                 // Command text for getting the REF Cursor as OUT parameter
-                string cmdTxt1 = "BEGIN :refcursor1 := " + request.GetSPName() + "(:P_BUSINESS_GROUP_ID)"+"; end;";
+                string cmdTxt1 = "BEGIN :refcursor1 := " + request.GetSPName() + "(:P_BUSINESS_GROUP_NAME)" + "; end;";
                 OracleConnection conn = new OracleConnection(_dbOption.DbConection);
                 conn.Open();
                 // Create the command object for executing cmdTxt1 and cmdTxt2
@@ -171,7 +173,7 @@ namespace HMGOnBaseOut.Controllers
                 // Bind the Ref cursor to the PL/SQL stored procedure
                 OracleParameter outRefPrm = cmd.Parameters.Add(":refcursor1",
                   OracleDbType.RefCursor, ParameterDirection.Output);
-                cmd.Parameters.Add(":P_BUSINESS_GROUP_ID", P_BUSINESS_GROUP_ID);
+                cmd.Parameters.Add(":P_BUSINESS_GROUP_NAME", P_BUSINESS_GROUP_NAME);
                 OracleDataReader reader = cmd.ExecuteReader();
                 List<GetPositionTitleResponse> getPositionTitleList = new List<GetPositionTitleResponse>();
                 getPositionTitleList = QueryExtenstion.DataReaderMapToList<GetPositionTitleResponse>(reader);
@@ -179,21 +181,21 @@ namespace HMGOnBaseOut.Controllers
 
                 return Ok(getPositionTitleList);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                throw ex;
             }
         }
 
         // GetBusinessGroup ----------
         [HttpGet("api/HMGONBASE/GetBusinessGroup.{format}")]
-        public IActionResult GetBusinessGroup()
+        public IActionResult GetBusinessGroup(string P_BUSINESS_GROUP_NAME)
         {
             try
             {
                 GetBusinessGroupRequest request = new GetBusinessGroupRequest();
                 // Command text for getting the REF Cursor as OUT parameter
-                String cmdTxt1 = "BEGIN :refcursor1 := " + request.GetSPName() + "; end;";
+                string cmdTxt1 = "BEGIN :refcursor1 := " + request.GetSPName() + "(:P_BUSINESS_GROUP_NAME)" + "; end;";
                 OracleConnection conn = new OracleConnection(_dbOption.DbConection);
                 conn.Open();
                 // Create the command object for executing cmdTxt1 and cmdTxt2
@@ -201,6 +203,7 @@ namespace HMGOnBaseOut.Controllers
                 // Bind the Ref cursor to the PL/SQL stored procedure
                 OracleParameter outRefPrm = cmd.Parameters.Add(":refcursor1",
                   OracleDbType.RefCursor, ParameterDirection.Output);
+                cmd.Parameters.Add(":P_BUSINESS_GROUP_NAME", P_BUSINESS_GROUP_NAME);
                 OracleDataReader reader = cmd.ExecuteReader();
                 List<GetBusinessGroupResponse> getBusinessGroupList = new List<GetBusinessGroupResponse>();
                 getBusinessGroupList = QueryExtenstion.DataReaderMapToList<GetBusinessGroupResponse>(reader);
@@ -278,6 +281,60 @@ namespace HMGOnBaseOut.Controllers
             }
         }
 
+        // GetHrRequiredDocument ----------------------------------
+        [HttpGet("api/HMGONBASE/GetHrRequiredDocument.{format}")]
+        public IActionResult GetHrRequiredDocument()
+        {
+            try
+            {
+                GetHrRequiredDocumentResquest request = new GetHrRequiredDocumentResquest();
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = "BEGIN :refcursor1 := " + request.GetSPName() + "; end;";
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                conn.Open();
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+                // Bind the Ref cursor to the PL/SQL stored procedure
+                OracleParameter outRefPrm = cmd.Parameters.Add(":refcursor1",
+                  OracleDbType.RefCursor, ParameterDirection.Output);
+                OracleDataReader reader = cmd.ExecuteReader();
+                List<GetHrRequiredDocumentResponse> getHrRequiredDocumentResponse = new List<GetHrRequiredDocumentResponse>();
+                getHrRequiredDocumentResponse = QueryExtenstion.DataReaderMapToList<GetHrRequiredDocumentResponse>(reader);
+                reader.Close();
+
+                foreach (var item in getHrRequiredDocumentResponse)
+                {
+                    List<ROW> myObject = new List<ROW>();
+                    myObject = QueryExtenstion.DeserializeXMLObject(item.REQUIRED_DOCUMENT);
+                    item.REQUIRED_DOCUMENTS = myObject;
+                }
+                // -----------------------------------------------------
+                ////XDocument doc = new XDocument();
+                //////Check for empty string.
+                ////if (!string.IsNullOrEmpty(xmlString))
+                ////{
+                ////    doc = XDocument.Parse(xmlString);
+                ////}
+                ////List<ROW> ROWSET = new List<ROW>();
+                //////Check if xml has any elements 
+                ////if (!string.IsNullOrEmpty(xmlString) && doc.Root.Elements().Any())
+                ////{
+                ////    ROWSET = doc.Descendants("ROW").Select(d =>
+                ////    new ROW
+                ////    {
+                ////        DOCUMENT_TYPE = d.Element("DOCUMENT_TYPE").Value,
+                ////    }).ToList();
+                ////}
+                ////getHrRequiredDocumentResponse.REQUIRED_DOCUMENTS = ROWSET;
+                // ---------------------------------------------------------------------------
+                return Ok(getHrRequiredDocumentResponse);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         #region Canceled 
         //// GetAPEmployeeInfo----------------------------------
         //[HttpGet("api/HMGONBASE/GetAPEmployeeInfo.{format}")]
@@ -344,6 +401,5 @@ namespace HMGOnBaseOut.Controllers
         //    }
         //}
         #endregion
-      
     }
 }

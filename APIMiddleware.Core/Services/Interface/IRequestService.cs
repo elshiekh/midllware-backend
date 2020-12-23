@@ -1,5 +1,6 @@
 ﻿using APIMiddleware.Core.DTO;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace APIMiddleware.Core.Services.Interface
 {
@@ -7,7 +8,8 @@ namespace APIMiddleware.Core.Services.Interface
     {
         bool AddRequest(RequestDTO requestDTO);
         bool RemoveRequest(int id);
-        List<RequestDTO> GetAllRequests();
+        Task<List<RequestDTO>> GetAllRequests();
+        Task<int> GetAllRequestCounts();
         RequestDTO GetRequestsDetails(int id);
     }
 }

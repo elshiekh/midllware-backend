@@ -1,9 +1,13 @@
 ﻿using FastMember;
+using HMGOnBaseOut.DTO;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 //using Devart.Data.Oracle;
 
 namespace HMGOnBaseOut.Extenstion
@@ -37,12 +41,15 @@ namespace HMGOnBaseOut.Extenstion
             T obj = default(T);
             while (dr.Read())
             {
-                obj = System.Activator.CreateInstance<T>();
+                obj = Activator.CreateInstance<T>();
                 foreach (System.Reflection.PropertyInfo prop in obj.GetType().GetProperties())
                 {
-                    if (!object.Equals(dr[prop.Name], System.DBNull.Value))
+                    if (prop.Name != "REQUIRED_DOCUMENTS")
                     {
-                        prop.SetValue(obj, dr[prop.Name], null);
+                        if (!object.Equals(dr[prop.Name], DBNull.Value))
+                        {
+                            prop.SetValue(obj, dr[prop.Name], null);
+                        }
                     }
                 }
                 list.Add(obj);
@@ -80,5 +87,37 @@ namespace HMGOnBaseOut.Extenstion
             return t;
         }
 
+        public static List<ROW> DeserializeXMLObject(string xml)
+        {
+
+            XDocument doc = new XDocument();
+            //Check for empty string.
+            if (!string.IsNullOrEmpty(xml))
+            {
+                doc = XDocument.Parse(xml);
+            }
+            List<ROW> ROWSET = new List<ROW>();
+            //Check if xml has any elements 
+            if (!string.IsNullOrEmpty(xml) && doc.Root.Elements().Any())
+            {
+                ROWSET = doc.Descendants("ROW").Select(d =>
+                new ROW
+                {
+                    DOCUMENT_TYPE = d.Element("DOCUMENT_TYPE").Value,
+                }).ToList();
+            }
+            return ROWSET;
+
+        }
+
+        public static bool HasColumn(IDataReader Reader, string ColumnName)
+        {
+            foreach (DataRow row in Reader.GetSchemaTable().Rows)
+            {
+                if (row["ColumnName"].ToString() == ColumnName)
+                    return true;
+            } //Still here? Column not found. 
+            return false;
+        }
     }
 }
