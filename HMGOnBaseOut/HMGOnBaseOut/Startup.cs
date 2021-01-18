@@ -50,6 +50,8 @@ namespace HMGOnBaseOut
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HMG OnBase Web API", Version = "v1" });
             });
 
+            //------ Add Memory Cache
+            services.AddMemoryCache();
 
             Action<DBOption> mduOptions = (opt =>
             {

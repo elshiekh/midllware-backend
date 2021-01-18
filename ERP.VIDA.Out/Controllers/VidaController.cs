@@ -2,14 +2,20 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Vida.DTO.Vida;
+using Vida.Extenstion;
 
 namespace Vida.Controllers
 {
-    [Route("[controller]"), ApiController, Authorize]
+  
+   // [Authorize]
+   [ApiController]
+    [Consumes("application/xml")]
+    [Produces("application/xml")]
     public class VidaController : ControllerBase
     {
         private readonly DBOption _dbOption;
@@ -18,15 +24,18 @@ namespace Vida.Controllers
             _dbOption = dbOption;
         }
 
-        [HttpPost("api/vida/SCMInventory.{format}"), FormatFilter]
-        public async Task<IActionResult> AddReservation([FromBody] SCMInventoryRequest reservation)
+        [HttpPost("api/vida/SCMInventory"), FormatFilter]
+        public async Task<IActionResult> SCMInventory([FromBody] SCMInventoryRequest request)
         {
             try
             {
                 SCMInventoryResponse result = new SCMInventoryResponse();
+              
                 using (var httpClient = new HttpClient())
                 {
-                    StringContent content = new StringContent(JsonConvert.SerializeObject(reservation), Encoding.UTF8, "application/json");
+                    string postObject = JsonConvert.SerializeObject(request);
+                  
+                    StringContent content = new StringContent(postObject, Encoding.UTF8, "application/json");
 
                     using (var response = await httpClient.PostAsync(_dbOption.VidaURLConnection, content))
                     {
@@ -36,9 +45,9 @@ namespace Vida.Controllers
                 }
                 return Ok(result);
             }
-            catch (System.Exception e)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
     }

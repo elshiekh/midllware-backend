@@ -34,7 +34,7 @@ namespace Vida.Controllers
             {
                 CityListServiceClient client = new CityListServiceClient();
                 client.ClientCredentials.UserName.UserName = gln + "0000";
-                client.ClientCredentials.UserName.Password = "Rsd@197";
+                client.ClientCredentials.UserName.Password = "Ahmad123456";
                 var result = await client.getCityListAsync(request);
 
                 return result.CityListServiceResponse;

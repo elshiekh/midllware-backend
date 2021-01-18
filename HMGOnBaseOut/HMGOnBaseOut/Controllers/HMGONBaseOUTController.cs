@@ -3,13 +3,11 @@ using HMGOnBaseOut.DTO;
 using HMGOnBaseOut.Extenstion;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Xml;
-using System.Xml.Linq;
 
 namespace HMGOnBaseOut.Controllers
 {
@@ -21,14 +19,16 @@ namespace HMGOnBaseOut.Controllers
     public class HMGONBaseOUTController : ControllerBase
     {
         private readonly DBOption _dbOption;
-        public HMGONBaseOUTController(DBOption dbOption)
+        private readonly IMemoryCache _mCache;
+        public HMGONBaseOUTController(DBOption dbOption, IMemoryCache mCache)
         {
             _dbOption = dbOption;
+            _mCache = mCache;
         }
 
         // GetSuppliers
         [HttpGet("api/HMGONBASE/GetSuppliers.{format}")]
-       // [ResponseCache(Duration = 1800, Location = ResponseCacheLocation.Any)]
+        // [ResponseCache(Duration = 1800, Location = ResponseCacheLocation.Any)]
         public IActionResult GetSuppliers(int? P_SUPPLIER_NUMBER)
         {
             try
@@ -99,7 +99,7 @@ namespace HMGOnBaseOut.Controllers
             {
                 GetItemNameRequest request = new GetItemNameRequest();
                 // Command text for getting the REF Cursor as OUT parameter
-                String cmdTxt1 = "BEGIN :refcursor1 := " + request.GetSPName()  + "(:P_ITEM_CODE)" + "; end;";
+                String cmdTxt1 = "BEGIN :refcursor1 := " + request.GetSPName() + "(:P_ITEM_CODE)" + "; end;";
                 OracleConnection conn = new OracleConnection(_dbOption.DbConection);
                 conn.Open();
                 // Create the command object for executing cmdTxt1 and cmdTxt2
@@ -287,47 +287,30 @@ namespace HMGOnBaseOut.Controllers
         {
             try
             {
-                GetHrRequiredDocumentResquest request = new GetHrRequiredDocumentResquest();
-                // Command text for getting the REF Cursor as OUT parameter
-                string cmdTxt1 = "BEGIN :refcursor1 := " + request.GetSPName() + "; end;";
-                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
-                conn.Open();
-                // Create the command object for executing cmdTxt1 and cmdTxt2
-                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
-                // Bind the Ref cursor to the PL/SQL stored procedure
-                OracleParameter outRefPrm = cmd.Parameters.Add(":refcursor1",
-                  OracleDbType.RefCursor, ParameterDirection.Output);
-                OracleDataReader reader = cmd.ExecuteReader();
-                List<GetHrRequiredDocumentResponse> getHrRequiredDocumentResponse = new List<GetHrRequiredDocumentResponse>();
-                getHrRequiredDocumentResponse = QueryExtenstion.DataReaderMapToList<GetHrRequiredDocumentResponse>(reader);
-                reader.Close();
-
-                foreach (var item in getHrRequiredDocumentResponse)
+                var cachRequest = new CacheHrRequiredDocumentRequest();
+                List<GetHrRequiredDocumentResponse> value=null;
+                _mCache.TryGetValue(cachRequest.GetKey(), out value);
+                if (value == null)
                 {
-                    List<ROW> myObject = new List<ROW>();
-                    myObject = QueryExtenstion.DeserializeXMLObject(item.REQUIRED_DOCUMENT);
-                    item.REQUIRED_DOCUMENTS = myObject;
+                    GetHrRequiredDocumentResquest request = new GetHrRequiredDocumentResquest();
+                    // Command text for getting the REF Cursor as OUT parameter
+                    string cmdTxt1 = "BEGIN :refcursor1 := " + request.GetSPName() + "; end;";
+                    OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                    conn.Open();
+                    // Create the command object for executing cmdTxt1 and cmdTxt2
+                    OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+                    // Bind the Ref cursor to the PL/SQL stored procedure
+                    OracleParameter outRefPrm = cmd.Parameters.Add(":refcursor1",
+                      OracleDbType.RefCursor, ParameterDirection.Output);
+                    OracleDataReader reader = cmd.ExecuteReader();
+                    List<GetHrRequiredDocumentResponse> getHrRequiredDocumentResponse = new List<GetHrRequiredDocumentResponse>();
+                    getHrRequiredDocumentResponse = QueryExtenstion.CustomDataReaderMapToList<GetHrRequiredDocumentResponse>(reader);
+                    reader.Close();
+                    value = QueryExtenstion.SetCaching(_mCache, cachRequest.GetKey(), getHrRequiredDocumentResponse);
+                   // value = getHrRequiredDocumentResponse;
                 }
-                // -----------------------------------------------------
-                ////XDocument doc = new XDocument();
-                //////Check for empty string.
-                ////if (!string.IsNullOrEmpty(xmlString))
-                ////{
-                ////    doc = XDocument.Parse(xmlString);
-                ////}
-                ////List<ROW> ROWSET = new List<ROW>();
-                //////Check if xml has any elements 
-                ////if (!string.IsNullOrEmpty(xmlString) && doc.Root.Elements().Any())
-                ////{
-                ////    ROWSET = doc.Descendants("ROW").Select(d =>
-                ////    new ROW
-                ////    {
-                ////        DOCUMENT_TYPE = d.Element("DOCUMENT_TYPE").Value,
-                ////    }).ToList();
-                ////}
-                ////getHrRequiredDocumentResponse.REQUIRED_DOCUMENTS = ROWSET;
-                // ---------------------------------------------------------------------------
-                return Ok(getHrRequiredDocumentResponse);
+
+                return Ok(value);
             }
             catch (Exception e)
             {

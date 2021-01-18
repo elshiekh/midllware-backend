@@ -1,11 +1,13 @@
 ﻿using FastMember;
 using HMGOnBaseOut.DTO;
+using Microsoft.Extensions.Caching.Memory;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 //using Devart.Data.Oracle;
@@ -35,6 +37,7 @@ namespace HMGOnBaseOut.Extenstion
             }
             return columns;
         }
+
         public static List<T> DataReaderMapToList<T>(IDataReader dr)
         {
             List<T> list = new List<T>();
@@ -42,7 +45,7 @@ namespace HMGOnBaseOut.Extenstion
             while (dr.Read())
             {
                 obj = Activator.CreateInstance<T>();
-                foreach (System.Reflection.PropertyInfo prop in obj.GetType().GetProperties())
+                foreach (PropertyInfo prop in obj.GetType().GetProperties())
                 {
                     if (prop.Name != "REQUIRED_DOCUMENTS")
                     {
@@ -52,9 +55,64 @@ namespace HMGOnBaseOut.Extenstion
                         }
                     }
                 }
+              
                 list.Add(obj);
             }
             return list;
+        }
+
+        public static List<T> CustomDataReaderMapToList<T>(IDataReader dr)
+        {
+            List<T> list = new List<T>();
+            T obj = default(T);
+            int count = 0;
+            while (dr.Read())
+            {
+                count = count + 1;
+                obj = Activator.CreateInstance<T>();
+                var xmlString = "";
+                foreach (PropertyInfo prop in obj.GetType().GetProperties())
+                {
+                    if (prop.Name != "REQUIRED_DOCUMENTS")
+                    {
+                        if (prop.Name == "REQUIRED_DOCUMENT")
+                        {
+                            xmlString = dr[prop.Name].ToString();
+                            prop.SetValue(obj, null, null);
+                        }
+                        else
+                        {
+                            if (!object.Equals(dr[prop.Name], DBNull.Value))
+                            { prop.SetValue(obj, dr[prop.Name], null); }
+                        }
+                    }
+                    else
+                    {
+                        var myObject = DeserializeXMLObject(xmlString);
+                        prop.SetValue(obj, myObject, null);
+                        xmlString = "";
+                    }
+                }
+                list.Add(obj);
+            }
+            var countNumber = count;
+
+            return list;
+        }
+
+        public static List<T> SetCaching<T>(IMemoryCache _mCache, string cacheKey, List<T> response)
+        {
+            List<T> value;
+            var cacheExpiryOptions = new MemoryCacheEntryOptions
+            {
+                AbsoluteExpiration = DateTime.Now.AddSeconds(10),
+                Priority = CacheItemPriority.High,
+                SlidingExpiration = TimeSpan.FromSeconds(10)
+            };
+            _mCache.Set(cacheKey, response, cacheExpiryOptions);
+            _mCache.TryGetValue(cacheKey, out value);
+
+            return value;
         }
 
         /// <summary>
@@ -108,16 +166,6 @@ namespace HMGOnBaseOut.Extenstion
             }
             return ROWSET;
 
-        }
-
-        public static bool HasColumn(IDataReader Reader, string ColumnName)
-        {
-            foreach (DataRow row in Reader.GetSchemaTable().Rows)
-            {
-                if (row["ColumnName"].ToString() == ColumnName)
-                    return true;
-            } //Still here? Column not found. 
-            return false;
         }
     }
 }

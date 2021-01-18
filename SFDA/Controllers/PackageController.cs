@@ -1,10 +1,15 @@
 ﻿using AcceptDispatchPackageService;
 using AcceptProductService;
+using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.AspNetCore.Mvc;
 using ProductPackageDownloadService;
 using ProductPackageUploadService;
 using QueryPackageService;
+using SFDA.DTO;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SFDA.Controllers
@@ -69,18 +74,23 @@ namespace SFDA.Controllers
             }
         }
 
+        
         [HttpPost("api/SFDA/PackageDownload/.{format}"), FormatFilter]
         public async Task<IActionResult> PackageDownload([FromBody] packageDownloadServiceRequest request, string gln)
         {
             try
             {
                 PackageDownloadServiceClient client = new PackageDownloadServiceClient();
+                PackageDownloadResponse response = new PackageDownloadResponse();
                 var postRequest = new downloadFileRequest() { PackageDownloadServiceRequest = request };
                 client.ClientCredentials.UserName.UserName = gln + "0000";
                 client.ClientCredentials.UserName.Password = "Ahmad123456";
                 var result = await client.downloadFileAsync(postRequest);
 
-                return Ok(result.PackageDownloadServiceResponse);
+                response.MD5CHECKSUM = result.PackageDownloadServiceResponse.MD5CHECKSUM;
+                response.FILES = GetUnCompressedFiles(result.PackageDownloadServiceResponse.FILE);
+
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -106,5 +116,35 @@ namespace SFDA.Controllers
                 throw ex;
             }
         }
+
+        private List<FILE> GetUnCompressedFiles(byte[] data)
+        {
+            List<FILE> result = new List<FILE>();
+            using (var inputStream = new MemoryStream(data))
+            {
+                using (var zipInputStream = new ZipInputStream(inputStream))
+                {
+                    ZipEntry entry;
+                    var ContentText = "";
+                    while ((entry = zipInputStream.GetNextEntry()) != null)
+                    {
+                        ContentText = "";
+                        var currentStream = new MemoryStream();
+                        var entryName = entry.Name;
+                        
+                        zipInputStream.CopyTo(currentStream);
+                        MemoryStream stream = new MemoryStream(currentStream.ToArray());
+                        StreamReader reader = new StreamReader(stream);
+                        ContentText = reader.ReadToEnd();
+                       // ContentText = Regex.Replace(ContentText, @"\r\n", "");
+                        result.Add(new FILE() {NAME = entryName, CONTENT= ContentText.ToString() });
+                    }
+
+                }
+
+                return result;
+            }
+        }
+
     }
 }

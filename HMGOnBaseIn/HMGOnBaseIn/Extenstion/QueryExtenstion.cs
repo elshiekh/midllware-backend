@@ -3,7 +3,9 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Xml.Serialization;
 //using Devart.Data.Oracle;
 
 namespace HMGOnBaseIn.Extenstion
@@ -78,6 +80,19 @@ namespace HMGOnBaseIn.Extenstion
             }
 
             return t;
+        }
+
+        public static string ConvertObjectToXMLString(object classObject)
+        {
+            string xmlString = null;
+            XmlSerializer xmlSerializer = new XmlSerializer(classObject.GetType());
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                xmlSerializer.Serialize(memoryStream, classObject);
+                memoryStream.Position = 0;
+                xmlString = new StreamReader(memoryStream).ReadToEnd();
+            }
+            return xmlString;
         }
 
     }

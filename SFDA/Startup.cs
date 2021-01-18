@@ -25,8 +25,9 @@ namespace SFDA
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddControllers();
-            services.AddControllers().AddXmlSerializerFormatters();
+            //services.AddControllers();
+            services.AddControllers().AddXmlSerializerFormatters()
+              .AddXmlDataContractSerializerFormatters();
             // configure basic authentication 
 
             services.AddSwaggerGen(c =>
@@ -34,6 +35,13 @@ namespace SFDA
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SFDA WebAPI", Version = "v1" });
                 c.CustomSchemaIds(type => type.ToString());
             });
+
+            // If using IIS:
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
             services.RegsiterAPIMiddlewareConfiguration(Configuration);
         }
 
@@ -42,12 +50,12 @@ namespace SFDA
         {
             if (env.IsDevelopment()) { app.UseDeveloperExceptionPage(); }
 
-            app.Use(async (context, next) => { context.Request.EnableBuffering(); await next(); });
+         app.Use(async (context, next) => { context.Request.EnableBuffering(); await next(); });
 
             //MW
-            app.UseMiddleware<ApiLogging>(properties);
+           app.UseMiddleware<ApiLogging>(properties);
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -60,7 +68,6 @@ namespace SFDA
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
-
 
         }
     }

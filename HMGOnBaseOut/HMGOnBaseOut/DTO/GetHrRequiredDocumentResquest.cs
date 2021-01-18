@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace HMGOnBaseOut.DTO
 {
@@ -27,6 +29,7 @@ namespace HMGOnBaseOut.DTO
         public DateTime TERMINATION_DATE { get; set; }
         public string NATIONALITY { get; set; }
         public string EMPLOYEE_ORGANIZATION { get; set; }
+        [IgnoreDataMember]
         public string REQUIRED_DOCUMENT { get; set; }
         public List<ROW> REQUIRED_DOCUMENTS { get; set; }
     }
@@ -34,5 +37,14 @@ namespace HMGOnBaseOut.DTO
     public class ROW
     {
         public string DOCUMENT_TYPE { get; set; }
+    }
+
+    public class CacheHrRequiredDocumentRequest
+    {
+        public string GetKey()
+        {
+            return "GetHrRequiredDocumentResponse";
+        }
+        public List<GetHrRequiredDocumentResponse> value { get; set; }
     }
 }
