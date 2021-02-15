@@ -10,6 +10,6 @@ namespace APIMiddleware.Core.Services.Interface
         bool RemoveRequest(int id);
         Task<List<RequestDTO>> GetAllRequests();
         Task<int> GetAllRequestCounts();
-        RequestDTO GetRequestsDetails(int id);
+        Task<RequestDTO> GetRequestsDetails(int id);
     }
 }

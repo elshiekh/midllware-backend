@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace SFDA.Controllers
 {
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class DrugController : ControllerBase
     {
         [HttpPost("api/SFDA/GetDrugList/.{format}"), FormatFilter]

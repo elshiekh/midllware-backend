@@ -14,7 +14,9 @@ namespace APIMiddleware.Core.DBContext
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            /// Server=(localdb)\\mssqllocaldb;Database=APIMiddlewareWebContext;Trusted_Connection=True;MultipleActiveResultSets=true
             const string conn = "Server=10.201.203.131;Database=ERPMW;User Id=ERPMW;password=pass4erpmw;Trusted_Connection=False;MultipleActiveResultSets=true;";
+            //const string conn = "Server=(localdb)\\mssqllocaldb;Database=APIMiddlewareDB;Trusted_Connection=True;MultipleActiveResultSets=true";
             optionsBuilder.UseSqlServer(conn);
         }
     }

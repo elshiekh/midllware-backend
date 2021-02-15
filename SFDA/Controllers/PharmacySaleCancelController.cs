@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace SFDA.Controllers
 {
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class PharmacyController : ControllerBase
     {
         [HttpPost("api/SFDA/PharmacySale/.{format}"), FormatFilter]

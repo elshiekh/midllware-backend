@@ -3,31 +3,31 @@ using HMGOnBaseOut.DTO;
 using HMGOnBaseOut.Extenstion;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace HMGOnBaseOut.Controllers
 {
     //[Authorize]
     [ApiController]
-    [Route("[controller]")]
+    //[Route("[controller]")]
     [FormatFilter]
     //[ApiExplorerSettings(IgnoreApi = true)]
     public class HMGONBaseOUTController : ControllerBase
     {
         private readonly DBOption _dbOption;
-        private readonly IMemoryCache _mCache;
-        public HMGONBaseOUTController(DBOption dbOption, IMemoryCache mCache)
+        //private readonly IMemoryCache _mCache;
+        public HMGONBaseOUTController(DBOption dbOption)
         {
             _dbOption = dbOption;
-            _mCache = mCache;
+            //_mCache = mCache;
         }
 
         // GetSuppliers
-        [HttpGet("api/HMGONBASE/GetSuppliers.{format}")]
+        [HttpGet("api/HMGONBASEOUT/GetSuppliers.{format}")]
         // [ResponseCache(Duration = 1800, Location = ResponseCacheLocation.Any)]
         public IActionResult GetSuppliers(int? P_SUPPLIER_NUMBER)
         {
@@ -60,7 +60,7 @@ namespace HMGOnBaseOut.Controllers
         }
 
         // GetSupplierNumber----------------------------------
-        [HttpGet("api/HMGONBASE/GetSupplierNumber.{format}")]
+        [HttpGet("api/HMGONBASEOUT/GetSupplierNumber.{format}")]
         public IActionResult GetSupplierNumber(string P_SUPPLIER_NAME)
         {
             try
@@ -92,7 +92,7 @@ namespace HMGOnBaseOut.Controllers
         }
 
         // GetItemName
-        [HttpGet("api/HMGONBASE/GetItemName.{format}")]
+        [HttpGet("api/HMGONBASEOUT/GetItemName.{format}")]
         public IActionResult GetItemName(string P_ITEM_CODE)
         {
             try
@@ -124,7 +124,7 @@ namespace HMGOnBaseOut.Controllers
         }
 
         // GetItemCode ----------------------------------
-        [HttpGet("api/HMGONBASE/GetItemCode.{format}")]
+        [HttpGet("api/HMGONBASEOUT/GetItemCode.{format}")]
         public IActionResult GetItemCode(string P_ITEM_DESC)
         {
             try
@@ -156,7 +156,7 @@ namespace HMGOnBaseOut.Controllers
         }
 
         // GetPositionTitle-----------
-        [HttpGet("api/HMGONBASE/GetPositionTitle.{format}")]
+        [HttpGet("api/HMGONBASEOUT/GetPositionTitle.{format}")]
         //[ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
         public IActionResult GetPositionTitle(string P_BUSINESS_GROUP_NAME)
         {
@@ -188,7 +188,7 @@ namespace HMGOnBaseOut.Controllers
         }
 
         // GetBusinessGroup ----------
-        [HttpGet("api/HMGONBASE/GetBusinessGroup.{format}")]
+        [HttpGet("api/HMGONBASEOUT/GetBusinessGroup.{format}")]
         public IActionResult GetBusinessGroup(string P_BUSINESS_GROUP_NAME)
         {
             try
@@ -218,7 +218,7 @@ namespace HMGOnBaseOut.Controllers
         }
 
         // GetHrEmployeeInfo ----------------------------------
-        [HttpGet("api/HMGONBASE/GetHrEmployeeInfo.{format}")]
+        [HttpGet("api/HMGONBASEOUT/GetHrEmployeeInfo.{format}")]
         public IActionResult GetHrEmployeeInfo(string P_EMPLOYEE_NUMBER)
         {
             try
@@ -249,7 +249,7 @@ namespace HMGOnBaseOut.Controllers
         }
 
         //GetEngineerName ----------------------------------
-        [HttpGet("api/HMGONBASE/GetEngineerName.{format}")]
+        [HttpGet("api/HMGONBASEOUT/GetEngineerName.{format}")]
         public IActionResult GetEngineerName(string P_ENGINEER_NUMBER)
         {
             try
@@ -281,34 +281,79 @@ namespace HMGOnBaseOut.Controllers
             }
         }
 
+        //// GetHrRequiredDocument ----------------------------------
+        //[HttpGet("api/HMGONBASEOUT/GetHrRequiredDocument.{format}")]
+        //public IActionResult GetHrRequiredDocument()
+        //{
+        //    try
+        //    {
+        //        var cachRequest = new CacheHrRequiredDocumentRequest();
+        //        List<GetHrRequiredDocumentResponse> value=null;
+        //        _mCache.TryGetValue(cachRequest.GetKey(), out value);
+        //        if (value == null)
+        //        {
+        //            GetHrRequiredDocumentResquest request = new GetHrRequiredDocumentResquest();
+        //            // Command text for getting the REF Cursor as OUT parameter
+        //            string cmdTxt1 = "BEGIN :refcursor1 := " + request.GetSPName() + "; end;";
+        //            OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+        //            conn.Open();
+        //            // Create the command object for executing cmdTxt1 and cmdTxt2
+        //            OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+        //            //cmd.CommandTimeout = 0;
+        //            // Bind the Ref cursor to the PL/SQL stored procedure
+        //            OracleParameter outRefPrm = cmd.Parameters.Add(":refcursor1",
+        //              OracleDbType.RefCursor, ParameterDirection.Output);
+        //            OracleDataReader reader = cmd.ExecuteReader();
+        //            List<GetHrRequiredDocumentResponse> getHrRequiredDocumentResponse = new List<GetHrRequiredDocumentResponse>();
+        //            getHrRequiredDocumentResponse = QueryExtenstion.CustomDataReaderMapToList<GetHrRequiredDocumentResponse>(reader);
+        //            reader.Close();
+        //            value = QueryExtenstion.SetCaching(_mCache, cachRequest.GetKey(), getHrRequiredDocumentResponse);
+        //           // value = getHrRequiredDocumentResponse;
+        //        }
+
+        //        return Ok(value);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw e;
+        //    }
+        //}
+
         // GetHrRequiredDocument ----------------------------------
-        [HttpGet("api/HMGONBASE/GetHrRequiredDocument.{format}")]
+        [HttpGet("api/HMGONBASEOUT/GetHrRequiredDocument.{format}")]
         public IActionResult GetHrRequiredDocument()
         {
             try
             {
                 var cachRequest = new CacheHrRequiredDocumentRequest();
-                List<GetHrRequiredDocumentResponse> value=null;
-                _mCache.TryGetValue(cachRequest.GetKey(), out value);
+                List<GetHrEmployeeDocumentsResponse> value = null;
+                //_mCache.TryGetValue(cachRequest.GetKey(), out value);
+                //string JSONString = string.Empty;
                 if (value == null)
                 {
-                    GetHrRequiredDocumentResquest request = new GetHrRequiredDocumentResquest();
+                    GetHrEmployeeDocumentsResquest request = new GetHrEmployeeDocumentsResquest();
                     // Command text for getting the REF Cursor as OUT parameter
                     string cmdTxt1 = "BEGIN :refcursor1 := " + request.GetSPName() + "; end;";
                     OracleConnection conn = new OracleConnection(_dbOption.DbConection);
                     conn.Open();
                     // Create the command object for executing cmdTxt1 and cmdTxt2
                     OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+                    //cmd.CommandTimeout = 0;
                     // Bind the Ref cursor to the PL/SQL stored procedure
                     OracleParameter outRefPrm = cmd.Parameters.Add(":refcursor1",
                       OracleDbType.RefCursor, ParameterDirection.Output);
                     OracleDataReader reader = cmd.ExecuteReader();
-                    List<GetHrRequiredDocumentResponse> getHrRequiredDocumentResponse = new List<GetHrRequiredDocumentResponse>();
-                    getHrRequiredDocumentResponse = QueryExtenstion.CustomDataReaderMapToList<GetHrRequiredDocumentResponse>(reader);
+                    //var dataTable = new DataTable();
+                    //dataTable.Load(reader,LoadOption.Upsert);
+                   //List<GetHrEmployeeDocumentsResponse> getHrRequiredDocumentResponse = new List<GetHrEmployeeDocumentsResponse>();
+                 //   getHrRequiredDocumentResponse = QueryExtenstion.ConvertDataTable<GetHrEmployeeDocumentsResponse>(dataTable);
+                    //JSONString = JsonConvert.SerializeObject(dataTable);
+                    List<GetHrEmployeeDocumentsResponse> getHrRequiredDocumentResponse = new List<GetHrEmployeeDocumentsResponse>();
+                    getHrRequiredDocumentResponse = QueryExtenstion.CustomDataReaderMapToList<GetHrEmployeeDocumentsResponse>(reader);
                     reader.Close();
-                    value = QueryExtenstion.SetCaching(_mCache, cachRequest.GetKey(), getHrRequiredDocumentResponse);
-                   // value = getHrRequiredDocumentResponse;
-                }
+                    //value = QueryExtenstion.SetCaching(_mCache, cachRequest.GetKey(), getHrRequiredDocumentResponse);
+                    value = getHrRequiredDocumentResponse;
+                 }
 
                 return Ok(value);
             }
@@ -318,9 +363,263 @@ namespace HMGOnBaseOut.Controllers
             }
         }
 
+        // GetEmployeeByName
+        [HttpGet("api/HMGONBASEOUT/GetEmployeeByName.{format}")]
+        public IActionResult GetEmployeeByName(string P_EMPLOYEE_NAME)
+        {
+            try
+            {
+                GetEmployeeByNameRequest request = new GetEmployeeByNameRequest();
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = "BEGIN :refcursor1 := " + request.GetSPName() + "(:P_EMPLOYEE_NAME)" + "; end;";
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                conn.Open();
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                // Bind the Ref cursor to the PL/SQL stored procedure
+                OracleParameter outRefPrm = cmd.Parameters.Add(":refcursor1",
+                  OracleDbType.RefCursor, ParameterDirection.Output);
+                cmd.Parameters.Add(":P_EMPLOYEE_NAME ", P_EMPLOYEE_NAME);
+                OracleDataReader reader = cmd.ExecuteReader();
+                List<GetEmployeeByNameResponse> employerNameList = new List<GetEmployeeByNameResponse>();
+                employerNameList = QueryExtenstion.DataReaderMapToList<GetEmployeeByNameResponse>(reader);
+
+                reader.Close();
+
+                return Ok(employerNameList);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        // GetEmployers 
+        [HttpGet("api/HMGONBASEOUT/GetEmployers.{format}")]
+        public IActionResult GetEmployers(string P_EMPLOYER_NAME)
+        {
+            try
+            {
+                GetEmployersRequest request = new GetEmployersRequest();
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = "BEGIN :refcursor1 := " + request.GetSPName() + "(:P_EMPLOYER_NAME)" + "; end;";
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                conn.Open();
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                // Bind the Ref cursor to the PL/SQL stored procedure
+                OracleParameter outRefPrm = cmd.Parameters.Add(":refcursor1",
+                  OracleDbType.RefCursor, ParameterDirection.Output);
+                cmd.Parameters.Add("P_EMPLOYER_NAME", P_EMPLOYER_NAME);
+                OracleDataReader reader = cmd.ExecuteReader();
+                List<GetEmployersResponse> employersList = new List<GetEmployersResponse>();
+                employersList = QueryExtenstion.DataReaderMapToList<GetEmployersResponse>(reader);
+
+                reader.Close();
+
+                return Ok(employersList);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        // GetJobTitles
+        [HttpGet("api/HMGONBASEOUT/GetJobTitles.{format}")]
+        public IActionResult GetJobTitles(string P_JOB_TITLE)
+        {
+            try
+            {
+                GetJobTitlesRequest request = new GetJobTitlesRequest();
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = "BEGIN :refcursor1 := " + request.GetSPName() + "(:P_JOB_TITLE)" + "; end;";
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                conn.Open();
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                // Bind the Ref cursor to the PL/SQL stored procedure
+                OracleParameter outRefPrm = cmd.Parameters.Add(":refcursor1",
+                  OracleDbType.RefCursor, ParameterDirection.Output);
+                cmd.Parameters.Add(":P_JOB_TITLE", P_JOB_TITLE);
+                OracleDataReader reader = cmd.ExecuteReader();
+                List<GetJobTitlesResponse> jobTitleList = new List<GetJobTitlesResponse>();
+                jobTitleList = QueryExtenstion.DataReaderMapToList<GetJobTitlesResponse>(reader);
+
+                reader.Close();
+
+                return Ok(jobTitleList);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        // GetEmploymentCategory
+        [HttpGet("api/HMGONBASEOUT/GetEmploymentCategory.{format}")]
+        public IActionResult GetEmploymentCategory(string P_EMPLOYMENT_CATEGORY)
+        {
+            try
+            {
+                GetEmploymentCategoryRequest request = new GetEmploymentCategoryRequest();
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = "BEGIN :refcursor1 := " + request.GetSPName() + "(:P_EMPLOYMENT_CATEGORY)" + "; end;";
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                conn.Open();
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                // Bind the Ref cursor to the PL/SQL stored procedure
+                OracleParameter outRefPrm = cmd.Parameters.Add(":refcursor1",
+                  OracleDbType.RefCursor, ParameterDirection.Output);
+                cmd.Parameters.Add(":P_EMPLOYMENT_CATEGORY", P_EMPLOYMENT_CATEGORY);
+                OracleDataReader reader = cmd.ExecuteReader();
+                List<GetEmploymentCategoryResponse> getEmploymentCategoryList = new List<GetEmploymentCategoryResponse>();
+                getEmploymentCategoryList = QueryExtenstion.DataReaderMapToList<GetEmploymentCategoryResponse>(reader);
+
+                reader.Close();
+
+                return Ok(getEmploymentCategoryList);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        //-- GetNationality
+        [HttpGet("api/HMGONBASEOUT/GetNationality.{format}")]
+        public IActionResult GetNationality(string P_NATIONALITY)
+        {
+            try
+            {
+                GetNationalityRequest request = new GetNationalityRequest();
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = "BEGIN :refcursor1 := " + request.GetSPName() + "(:P_NATIONALITY)" + "; end;";
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                conn.Open();
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                // Bind the Ref cursor to the PL/SQL stored procedure
+                OracleParameter outRefPrm = cmd.Parameters.Add(":refcursor1",
+                OracleDbType.RefCursor, ParameterDirection.Output);
+                cmd.Parameters.Add(":P_NATIONALITY", P_NATIONALITY);
+                OracleDataReader reader = cmd.ExecuteReader();
+                List<GetNationalityResponse> getNationalityResponse = new List<GetNationalityResponse>();
+                getNationalityResponse = QueryExtenstion.DataReaderMapToList<GetNationalityResponse>(reader);
+                reader.Close();
+
+                return Ok(getNationalityResponse);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        // GetOrganizations 
+        [HttpGet("api/HMGONBASEOUT/GetOrganizations.{format}")]
+        public IActionResult GetOrganizations(string P_ORGANIZATION_NAME)
+        {
+            try
+            {
+                GetOrganizationsRequest request = new GetOrganizationsRequest();
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = "BEGIN :refcursor1 := " + request.GetSPName() + "(:P_EMPLOYEE_NAME)" + "; end;";
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                conn.Open();
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                // Bind the Ref cursor to the PL/SQL stored procedure
+                OracleParameter outRefPrm = cmd.Parameters.Add(":refcursor1",
+                  OracleDbType.RefCursor, ParameterDirection.Output);
+                cmd.Parameters.Add(":P_ORGANIZATION_NAME  ", P_ORGANIZATION_NAME);
+                OracleDataReader reader = cmd.ExecuteReader();
+                List<GetOrganizationsResponse> getOrganizationsResponse = new List<GetOrganizationsResponse>();
+                getOrganizationsResponse = QueryExtenstion.DataReaderMapToList<GetOrganizationsResponse>(reader);
+
+                return Ok(getOrganizationsResponse);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        // SetOnBaseURLRequest
+        [HttpPost("api/HMGONBASEOUT/SetOnBaseURL.{format}")]
+        public async Task<IActionResult> SetOnBaseURL([FromBody] SetOnBaseURLRequest request)
+        {
+            OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+            IDataParameter[] parameters = new IDataParameter[4];
+            // Inputs
+            parameters[0] = new OracleParameter("P_FILE_ID", OracleDbType.Int64, request.P_FILE_ID, ParameterDirection.Input);
+            parameters[1] = new OracleParameter("P_DOCUMENT_ID", OracleDbType.NVarchar2, request.P_DOCUMENT_ID, ParameterDirection.Input);
+            parameters[2] = new OracleParameter("P_URL", OracleDbType.NVarchar2, request.P_URL, ParameterDirection.Input);
+            // Outputs
+            parameters[3] = new OracleParameter("P_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+
+
+            using (OracleCommand command = QueryExtenstion.BuildQueryCommand(conn, request.GetSPName(), parameters))
+            {
+                try
+                {
+                    conn.Open();
+                    var isSuccess = await command.ExecuteNonQueryAsync();
+                    var result = new SetOnBaseURLResponse()
+                    {
+                        P_STATUS = command.Parameters["P_STATUS"].Value.ToString(),
+                    };
+
+                    return Ok(result);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex);
+                }
+            }
+        }
+
+        //----SetHrRequiredDocErrors
+        [HttpPost("api/HMGONBASEOUT/SetHrRequiredDocErrors.{format}")]
+        public async Task<IActionResult> SetHrRequiredDocErrors([FromBody] SetHrRequiredDocErrorsRequest request)
+        {
+            OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+            IDataParameter[] parameters = new IDataParameter[3];
+            // Inputs
+            parameters[0] = new OracleParameter("P_EMPLOYEE_NUM", OracleDbType.Int32, request.P_EMPLOYEE_NUM, ParameterDirection.Input);
+            parameters[1] = new OracleParameter("P_STATUS", OracleDbType.NVarchar2, request.P_STATUS, ParameterDirection.Input);
+            parameters[2] = new OracleParameter("P_DESCRIPTION", OracleDbType.NVarchar2, request.P_DESCRIPTION, ParameterDirection.Input);
+
+            using (OracleCommand command = QueryExtenstion.BuildQueryCommand(conn, request.GetSPName(), parameters))
+            {
+                try
+                {
+                    conn.Open();
+                    var isSuccess = await command.ExecuteNonQueryAsync();
+                    var result = new SetHrRequiredDocErrorsResponse()
+                    {
+                        //P_RESPONSE_STATUS = command.Parameters["@P_RESPONSE_STATUS"].Value.ToString(),
+                    };
+
+                    return Ok(result);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex);
+                }
+            }
+        }
+
         #region Canceled 
         //// GetAPEmployeeInfo----------------------------------
-        //[HttpGet("api/HMGONBASE/GetAPEmployeeInfo.{format}")]
+        //[HttpGet("api/HMGONBASEOUT/GetAPEmployeeInfo.{format}")]
         //public IActionResult GetAPEmployeeInfo(string P_EMPLOYEE_NUMBER)
         //{
         //    try
@@ -351,7 +650,7 @@ namespace HMGOnBaseOut.Controllers
         //}
 
         //// GetPOEmployeeInfo----------------------------------
-        //[HttpGet("api/HMGONBASE/GetPOEmployeeInfo.{format}")]
+        //[HttpGet("api/HMGONBASEOUT/GetPOEmployeeInfo.{format}")]
         //public IActionResult GetPOEmployeeInfo(string P_EMPLOYEE_NUMBER)
         //{
         //    try
@@ -383,6 +682,37 @@ namespace HMGOnBaseOut.Controllers
         //        throw e;
         //    }
         //}
+
+        //      public IActionResult GetEmployers(string P_EMPLOYER_NAME, int? P_BUSINESS_GROUP_ID)
+        //    {
+        //        try
+        //        {
+        //            GetEmployersRequest request = new GetEmployersRequest();
+        //    // Command text for getting the REF Cursor as OUT parameter
+        //    string cmdTxt1 = "BEGIN :refcursor1 := " + request.GetSPName() + "(:P_EMPLOYER_NAME ,:P_BUSINESS_GROUP_ID)" + "; end;";
+        //    OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+        //    conn.Open();
+        //            // Create the command object for executing cmdTxt1 and cmdTxt2
+        //            OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+        //    // Bind the Ref cursor to the PL/SQL stored procedure
+        //    OracleParameter outRefPrm = cmd.Parameters.Add(":refcursor1",
+        //      OracleDbType.RefCursor, ParameterDirection.Output);
+        //    cmd.Parameters.Add("P_EMPLOYER_NAME", P_EMPLOYER_NAME);
+        //            cmd.Parameters.Add("P_BUSINESS_GROUP_ID", P_BUSINESS_GROUP_ID);
+        //            OracleDataReader reader = cmd.ExecuteReader();
+        //    List<GetEmployersResponse> employersList = new List<GetEmployersResponse>();
+        //    employersList = QueryExtenstion.DataReaderMapToList<GetEmployersResponse>(reader);
+
+        //            reader.Close();
+
+        //            return Ok(employersList);
+        //}
+        //        catch (Exception ex)
+        //        {
+        //            throw ex;
+        //        }
+        // }
         #endregion
     }
 }

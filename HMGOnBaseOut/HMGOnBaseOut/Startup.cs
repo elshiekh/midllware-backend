@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using APIMiddleware.Core;
 using APIMiddleware.Core.DTO;
 using HMGOnBaseOut.Helper;
@@ -10,14 +6,12 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace HMGOnBaseOut
 {
@@ -37,7 +31,7 @@ namespace HMGOnBaseOut
         {
             services.AddControllers();
             services.AddControllers().AddXmlSerializerFormatters();
-            services.AddResponseCaching();
+            //services.AddResponseCaching();
             // configure basic authentication 
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
@@ -51,7 +45,7 @@ namespace HMGOnBaseOut
             });
 
             //------ Add Memory Cache
-            services.AddMemoryCache();
+            //services.AddMemoryCache();
 
             Action<DBOption> mduOptions = (opt =>
             {
@@ -62,6 +56,8 @@ namespace HMGOnBaseOut
 
             //MW
             services.RegsiterAPIMiddlewareConfiguration(Configuration);
+
+            //services.AddResponseCompression();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,12 +77,14 @@ namespace HMGOnBaseOut
 
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseResponseCaching();
+            //app.UseResponseCaching();
             // global cors policy
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
+
+           // app.UseResponseCompression();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
@@ -94,7 +92,7 @@ namespace HMGOnBaseOut
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "HMG OnBase Web API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "HMG OnBaseOut API");
                 c.DefaultModelsExpandDepth(-1);
             });
 

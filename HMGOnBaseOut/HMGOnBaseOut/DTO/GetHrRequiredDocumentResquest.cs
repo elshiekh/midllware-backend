@@ -29,14 +29,15 @@ namespace HMGOnBaseOut.DTO
         public DateTime TERMINATION_DATE { get; set; }
         public string NATIONALITY { get; set; }
         public string EMPLOYEE_ORGANIZATION { get; set; }
-        [IgnoreDataMember]
+        //[IgnoreDataMember]
         public string REQUIRED_DOCUMENT { get; set; }
-        public List<ROW> REQUIRED_DOCUMENTS { get; set; }
+       // public List<ROW> REQUIRED_DOCUMENTS { get; set; }
     }
 
     public class ROW
     {
         public string DOCUMENT_TYPE { get; set; }
+        public string REQUIRED_FLAG { get; set; }
     }
 
     public class CacheHrRequiredDocumentRequest

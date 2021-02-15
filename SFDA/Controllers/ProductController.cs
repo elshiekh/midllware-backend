@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 namespace SFDA.Controllers
 {
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ProductController : ControllerBase
     {
         [HttpPost("api/SFDA/Deactivate/.{format}"), FormatFilter]

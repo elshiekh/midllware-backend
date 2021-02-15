@@ -44,6 +44,9 @@ namespace APIMiddleware.Core.Migrations
                     b.Property<long>("ElapsedMilliseconds")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Host")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsSuccess")
                         .HasColumnType("bit");
 

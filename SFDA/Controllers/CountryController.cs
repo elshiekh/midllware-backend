@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Vida.Controllers
 {
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class CountryController : ControllerBase
     {
         [HttpPost("api/SFDA/GetCountryList/.{format}"), FormatFilter]
@@ -21,9 +22,9 @@ namespace Vida.Controllers
 
                 return result.CountryListServiceResponse;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw ;
             }
         }
 

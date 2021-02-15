@@ -42,6 +42,7 @@ namespace APIMiddleware.Core.Services.Implementation
                     StatusCode = requestDTO.StatusCode,
                     Method = requestDTO.Method,
                     Path = requestDTO.Path,
+                    Host = requestDTO.Host,
                     IsSuccess = (requestDTO.StatusCode == 201 || requestDTO.StatusCode == 200),
                     QueryString = requestDTO.QueryString,
                     ResponseBody = requestDTO.ResponseBody,
@@ -116,11 +117,11 @@ namespace APIMiddleware.Core.Services.Implementation
             }
         }
 
-        public RequestDTO GetRequestsDetails(int id)
+        public async Task<RequestDTO> GetRequestsDetails(int id)
         {
             try
             {
-                var request = _dbContext.Requests.Include(s => s.Project).FirstOrDefault(s => s.Id == id);
+                var request =  _dbContext.Requests.Include(s => s.Project).FirstOrDefault(s => s.Id == id);
 
                 return new RequestDTO()
                 {
@@ -128,6 +129,8 @@ namespace APIMiddleware.Core.Services.Implementation
                     ProjectName = request.Project.ProjectName,
                     RequestGuid = request.RequestGuid,
                     RequestTime = request.RequestTime,
+                    Date = request.RequestTime.ToString("dd/MM/yyyy"),
+                    Time = request.RequestTime.ToString("HH:mm"),
                     ElapsedMilliseconds = request.ElapsedMilliseconds,
                     StatusCode = request.StatusCode,
                     IsSuccess = (request.StatusCode == 201 || request.StatusCode == 200),

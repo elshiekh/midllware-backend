@@ -8,8 +8,10 @@ namespace HMGOnBaseIn.DTO
     public class StoreUpdateDocumentRequest
     {
         public long OnBaseDocID { get; set; }
-        public IDictionary<string, string> Metadata { get; set; }
         public string DocTypename { get; set; }
+
+        // public IDictionary<string, string> Metadata { get; set; }
+        public List<IDictionary<string, string>> Metadata { get; set; }
     }
 
     public class StoreUpdateDocumentResponse

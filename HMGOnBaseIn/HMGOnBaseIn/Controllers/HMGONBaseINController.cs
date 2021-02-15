@@ -18,22 +18,22 @@ namespace HMGOnBaseIn.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    //[Route("[controller]")]
     [FormatFilter]
     //[ApiExplorerSettings(IgnoreApi = true)]
     public class HMGOnBaseINController : ControllerBase
     {
         private readonly DBOption _dbOption;
         private readonly ILogger _logger;
-
         public HMGOnBaseINController(DBOption dbOption, ILogger<HMGOnBaseINController> logger)
         {
             _dbOption = dbOption;
             _logger = logger;
         }
-        
+
+        #region Retrieve Document List
         // ---- RetrieveDocumentList
-        [HttpPost("api/HMGOnBaseIN/RetrieveDocumentList.{format}")]
+        [HttpPost("api/HMGONBASEIN/RetrieveDocumentList.{format}")]
         public async Task<IActionResult> RetrieveDocumentList(RetrieveDocumentListRequest request)
         {
             try
@@ -81,9 +81,11 @@ namespace HMGOnBaseIn.Controllers
                 throw ex;
             }
         }
-      
+        #endregion
+
+        #region Retrieve Document
         // ---- RetrieveDocument
-        [HttpGet("api/HMGOnBaseIN/RetrieveDocument.{format}")]
+        [HttpGet("api/HMGONBASEIN/RetrieveDocument.{format}")]
         public async Task<IActionResult> RetrieveDocument(string OnBaseDocID)
         {
             try
@@ -115,9 +117,11 @@ namespace HMGOnBaseIn.Controllers
                 return BadRequest(ex);
             }
         }
+        #endregion
 
+        #region Store New Document
         //---- StoreNewDocument
-        [HttpPost("api/HMGOnBaseIN/StoreNewDocument.{format}")]
+        [HttpPost("api/HMGONBASEIN/StoreNewDocument.{format}")]
         public async Task<IActionResult> StoreNewDocument([FromBody] StoreNewDocumentRequest request)
         {
             try
@@ -139,7 +143,7 @@ namespace HMGOnBaseIn.Controllers
                 //file.Write(fileBlob, 0, fileBlob.Length);
                 //file.Close();
                 //----------
-               // string base64String = Convert.ToBase64String(fileBlob, 0, fileBlob.Length);
+                // string base64String = Convert.ToBase64String(fileBlob, 0, fileBlob.Length);
                 //request.FileBytes = base64String;
                 StoreNewDocumentResponse result = new StoreNewDocumentResponse();
                 HttpClientHandler httpClientHandler = new HttpClientHandler()
@@ -175,9 +179,11 @@ namespace HMGOnBaseIn.Controllers
                 throw ex;
             }
         }
+        #endregion
 
+        #region Update Document Based Condition
         //---- UpdateDocumentBasedCondition
-        [HttpPost("api/UpdateDocumentBasedCondition.{format}")]
+        [HttpPost("api/HMGONBASEIN/UpdateDocumentBasedCondition.{format}")]
         public async Task<IActionResult> UpdateDocumentBasedCondition([FromBody] UpdateDocumentBasedConditionRequest request)
         {
             try
@@ -218,43 +224,47 @@ namespace HMGOnBaseIn.Controllers
                 throw ex;
             }
         }
+        #endregion
 
-        //---- SetOnBaseURL
-        [HttpPost("api/HMGOnBaseIN/SetOnBaseURL.{format}")]
-        public async Task<IActionResult> SetOnBaseURL([FromBody] SetOnBaseURLRequest request)
+        #region Update Doc By Keywords
+        // UpdateDocByKeywords
+        [HttpPut("api/HMGONBASEIN/UpdateDocByKeywords.{format}")]
+        public async Task<IActionResult> UpdateDocByKeywords([FromBody] UpdateDocumentByKeywordsRequest request)
         {
-            OracleConnection conn = new OracleConnection(_dbOption.DbConection);
-            IDataParameter[] parameters = new IDataParameter[4];
-            // Inputs
-            parameters[0] = new OracleParameter("P_FILE_ID", OracleDbType.Int64, request.P_FILE_ID, ParameterDirection.Input);
-            parameters[1] = new OracleParameter("P_DOCUMENT_ID", OracleDbType.NVarchar2, request.P_DOCUMENT_ID, ParameterDirection.Input);
-            parameters[2] = new OracleParameter("P_URL", OracleDbType.NVarchar2, request.P_URL, ParameterDirection.Input);
-            // Outputs
-            parameters[3] = new OracleParameter("P_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
-
-
-            using (OracleCommand command = QueryExtenstion.BuildQueryCommand(conn, request.GetSPName(), parameters))
+            try
             {
-                try
+                _logger.LogInformation("Update Document By Keywords");
+                List<UpdateDocumentByKeywordsResponse> result = new List<UpdateDocumentByKeywordsResponse>();
+                HttpClientHandler httpClientHandler = new HttpClientHandler()
                 {
-                    conn.Open();
-                    var isSuccess = await command.ExecuteNonQueryAsync();
-                    var result = new SetOnBaseURLResponse()
-                    {
-                        P_STATUS = command.Parameters["P_STATUS"].Value.ToString(),
-                    };
+                    Credentials = new NetworkCredential("onbase", "onbase123"),
+                };
+                using (var httpClient = new HttpClient(httpClientHandler))
+                {
+                    var byteArray = Encoding.ASCII.GetBytes("onbase:onbase123");
 
-                    return Ok(result);
+                    httpClient.DefaultRequestHeaders.Authorization = new
+                    AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+                    using (var response = await httpClient.PutAsync("http://10.201.203.132/OnBaseAPI/API/documents/UpdateDocByKeywords", content))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        result = JsonConvert.DeserializeObject<List<UpdateDocumentByKeywordsResponse>>(apiResponse.ToString());
+                    }
                 }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex);
-                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error: UpdateDocByKeywords-" + DateTime.Now);
+                return BadRequest();
             }
         }
+        #endregion
 
+        #region Post Revision
         //---- PostRevision
-        [HttpPost("api/HMGOnBaseIN/PostRevision.{format}")]
+        [HttpPost("api/HMGONBASEIN/PostRevision.{format}")]
         public async Task<IActionResult> PostRevision([FromBody] PostRevisionRequest request)
         {
             try
@@ -262,11 +272,13 @@ namespace HMGOnBaseIn.Controllers
                 _logger.LogInformation("Fire Store New Document");
                 var isXML = Request.ContentType.Contains("application/xml");
                 var fileBlob = GetFIle(request.FileId).FILE_DATA;
-                if (fileBlob != null) 
+                if (fileBlob != null)
                 {
-                    request.fileBytes = Convert.ToBase64String(fileBlob, 0, fileBlob.Length); 
-                } else {
-                    request.fileBytes = null; 
+                    request.fileBytes = Convert.ToBase64String(fileBlob, 0, fileBlob.Length);
+                }
+                else
+                {
+                    request.fileBytes = null;
                 }
                 PostRevisionResponse result = new PostRevisionResponse();
                 HttpClientHandler httpClientHandler = new HttpClientHandler()
@@ -302,9 +314,11 @@ namespace HMGOnBaseIn.Controllers
                 return BadRequest();
             }
         }
+        #endregion
 
+        #region Update Document
         //---- UpdateDocument
-        [HttpPut("api/HMGOnBaseIN/UpdateDocument.{format}")]
+        [HttpPut("api/HMGONBASEIN/UpdateDocument.{format}")]
         public async Task<IActionResult> UpdateDocument([FromBody] StoreUpdateDocumentRequest request)
         {
             try
@@ -336,9 +350,11 @@ namespace HMGOnBaseIn.Controllers
                 return BadRequest();
             }
         }
+        #endregion
 
+        #region Delete Document
         //---- DeleteDocument
-        [HttpDelete("api/HMGOnBaseIN/DeleteDocument/.{format}")]
+        [HttpDelete("api/HMGONBASEIN/DeleteDocument/.{format}")]
         public async Task<IActionResult> DeleteDocument(long OnBaseDocID, bool DeletePermanently)
         {
             try
@@ -369,39 +385,7 @@ namespace HMGOnBaseIn.Controllers
                 return BadRequest();
             }
         }
-
-        //----SetHrRequiredDocErrors
-        [HttpPost("api/HMGOnBaseIN/SetHrRequiredDocErrors.{format}")]
-        public async Task<IActionResult> SetHrRequiredDocErrors([FromBody] SetHrRequiredDocErrorsRequest request)
-        {
-            OracleConnection conn = new OracleConnection(_dbOption.DbConection);
-            IDataParameter[] parameters = new IDataParameter[3];
-            // Inputs
-            parameters[0] = new OracleParameter("P_EMPLOYEE_NUM", OracleDbType.Int32, request.P_EMPLOYEE_NUM, ParameterDirection.Input);
-            parameters[1] = new OracleParameter("P_STATUS", OracleDbType.NVarchar2, request.P_STATUS, ParameterDirection.Input);
-            parameters[2] = new OracleParameter("P_DESCRIPTION", OracleDbType.NVarchar2, request.P_DESCRIPTION, ParameterDirection.Input);
- 
-            using (OracleCommand command = QueryExtenstion.BuildQueryCommand(conn, request.GetSPName(), parameters))
-            {
-                try
-                {
-                    conn.Open();
-                    var isSuccess = await command.ExecuteNonQueryAsync();
-                    var result = new SetHrRequiredDocErrorsResponse()
-                    {
-                        //P_ORACLE_ID = Convert.ToDecimal(((OracleDecimal)command.Parameters["@P_ORACLE_ID"].Value).Value),
-                        //P_RESPONSE_STATUS = command.Parameters["@P_RESPONSE_STATUS"].Value.ToString(),
-                        //P_RESPONSE_MSG = command.Parameters["@P_RESPONSE_MSG"].Value.ToString()
-                    };
-
-                    return Ok(result);
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex);
-                }
-            }
-        }
+        #endregion
 
         private GetFileResponse GetFIle(int FILE_ID)
         {
@@ -435,10 +419,11 @@ namespace HMGOnBaseIn.Controllers
                 throw e;
             }
         }
+        
     }
 }
-      #region LegacySection
-         //private IActionResult TETS(RetrieveDocumentResponse request)
+     #region LegacySection
+//private IActionResult TETS(RetrieveDocumentResponse request)
 //{
 
 //    List<DocFile> myTable = new List<DocFile>();
@@ -517,4 +502,107 @@ namespace HMGOnBaseIn.Controllers
 //        }
 //    }
 //}
-      #endregion
+
+
+//---- SetOnBaseURL
+//[HttpPost("api/HMGOnBaseIN/SetOnBaseURL.{format}")]
+//public async Task<IActionResult> SetOnBaseURL([FromBody] SetOnBaseURLRequest request)
+//{
+//    OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+//    IDataParameter[] parameters = new IDataParameter[4];
+//    // Inputs
+//    parameters[0] = new OracleParameter("P_FILE_ID", OracleDbType.Int64, request.P_FILE_ID, ParameterDirection.Input);
+//    parameters[1] = new OracleParameter("P_DOCUMENT_ID", OracleDbType.NVarchar2, request.P_DOCUMENT_ID, ParameterDirection.Input);
+//    parameters[2] = new OracleParameter("P_URL", OracleDbType.NVarchar2, request.P_URL, ParameterDirection.Input);
+//    // Outputs
+//    parameters[3] = new OracleParameter("P_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+
+
+//    using (OracleCommand command = QueryExtenstion.BuildQueryCommand(conn, request.GetSPName(), parameters))
+//    {
+//        try
+//        {
+//            conn.Open();
+//            var isSuccess = await command.ExecuteNonQueryAsync();
+//            var result = new SetOnBaseURLResponse()
+//            {
+//                P_STATUS = command.Parameters["P_STATUS"].Value.ToString(),
+//            };
+
+//            return Ok(result);
+//        }
+//        catch (Exception ex)
+//        {
+//            return BadRequest(ex);
+//        }
+//    }
+//}
+
+//---- SetOnBaseURL
+//[HttpPost("api/HMGOnBaseIN/SetOnBaseURL.{format}")]
+//public async Task<IActionResult> SetOnBaseURL([FromBody] SetOnBaseURLRequest request)
+//{
+//    OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+//    IDataParameter[] parameters = new IDataParameter[4];
+//    // Inputs
+//    parameters[0] = new OracleParameter("P_FILE_ID", OracleDbType.Int64, request.P_FILE_ID, ParameterDirection.Input);
+//    parameters[1] = new OracleParameter("P_DOCUMENT_ID", OracleDbType.NVarchar2, request.P_DOCUMENT_ID, ParameterDirection.Input);
+//    parameters[2] = new OracleParameter("P_URL", OracleDbType.NVarchar2, request.P_URL, ParameterDirection.Input);
+//    // Outputs
+//    parameters[3] = new OracleParameter("P_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+
+
+//    using (OracleCommand command = QueryExtenstion.BuildQueryCommand(conn, request.GetSPName(), parameters))
+//    {
+//        try
+//        {
+//            conn.Open();
+//            var isSuccess = await command.ExecuteNonQueryAsync();
+//            var result = new SetOnBaseURLResponse()
+//            {
+//                P_STATUS = command.Parameters["P_STATUS"].Value.ToString(),
+//            };
+
+//            return Ok(result);
+//        }
+//        catch (Exception ex)
+//        {
+//            return BadRequest(ex);
+//        }
+//    }
+//}
+
+//----SetHrRequiredDocErrors
+//[HttpPost("api/HMGONBASEIN/SetHrRequiredDocErrors.{format}")]
+//public async Task<IActionResult> SetHrRequiredDocErrors([FromBody] SetHrRequiredDocErrorsRequest request)
+//{
+//    OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+//    IDataParameter[] parameters = new IDataParameter[3];
+//    // Inputs
+//    parameters[0] = new OracleParameter("P_EMPLOYEE_NUM", OracleDbType.Int32, request.P_EMPLOYEE_NUM, ParameterDirection.Input);
+//    parameters[1] = new OracleParameter("P_STATUS", OracleDbType.NVarchar2, request.P_STATUS, ParameterDirection.Input);
+//    parameters[2] = new OracleParameter("P_DESCRIPTION", OracleDbType.NVarchar2, request.P_DESCRIPTION, ParameterDirection.Input);
+
+//    using (OracleCommand command = QueryExtenstion.BuildQueryCommand(conn, request.GetSPName(), parameters))
+//    {
+//        try
+//        {
+//            conn.Open();
+//            var isSuccess = await command.ExecuteNonQueryAsync();
+//            var result = new SetHrRequiredDocErrorsResponse()
+//            {
+//                //P_ORACLE_ID = Convert.ToDecimal(((OracleDecimal)command.Parameters["@P_ORACLE_ID"].Value).Value),
+//                //P_RESPONSE_STATUS = command.Parameters["@P_RESPONSE_STATUS"].Value.ToString(),
+//                //P_RESPONSE_MSG = command.Parameters["@P_RESPONSE_MSG"].Value.ToString()
+//            };
+
+//            return Ok(result);
+//        }
+//        catch (Exception ex)
+//        {
+//            return BadRequest(ex);
+//        }
+//    }
+//}
+
+#endregion

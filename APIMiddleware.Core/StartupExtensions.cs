@@ -11,6 +11,7 @@ namespace APIMiddleware.Core
         public static void RegsiterAPIMiddlewareConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient<IRequestService, RequestService>();
+            services.AddTransient<IProjectService, ProjectService>();
             services.AddTransient<ISystemPreferenceService, SystemPreferenceService>();
 
             services.RegsiterAPIMiddlewareNotification(configuration);

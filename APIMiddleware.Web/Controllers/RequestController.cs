@@ -68,9 +68,9 @@ namespace APIMiddleware.Web.Controllers
             });
         }
 
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            var request = _requestService.GetRequestsDetails(id);
+            var request = await _requestService.GetRequestsDetails(id);
             var model = new RequestMolel()
             {
                 Id = request.Id,
@@ -86,9 +86,9 @@ namespace APIMiddleware.Web.Controllers
             return View(model);
         }
 
-        public ActionResult DownloadResponseBodyContent(int id)
+        public async Task<ActionResult> DownloadResponseBodyContent(int id)
         {
-            var response = _requestService.GetRequestsDetails(id);
+            var response = await _requestService.GetRequestsDetails(id);
             if (response.ResponseBody != null)
             {
                 byte[] bytes = response?.ResponseBody;
@@ -101,9 +101,9 @@ namespace APIMiddleware.Web.Controllers
             return null;
         }
 
-        public ActionResult DownloadRequestBodyContent(int id)
+        public async Task<ActionResult> DownloadRequestBodyContent(int id)
         {
-            var request = _requestService.GetRequestsDetails(id);
+            var request = await _requestService.GetRequestsDetails(id);
             if (request.RequestBody != null)
             {
                 byte[] bytes = request?.RequestBody;

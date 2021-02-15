@@ -27,7 +27,6 @@ namespace APIMiddleware.Core
             try
             {
                 var request = httpContext.Request;
-
                 var stopWatch = Stopwatch.StartNew();
                 var requestTime = DateTime.UtcNow;
                 var requestBodyContent = await ReadRequestBody(request);
@@ -45,9 +44,9 @@ namespace APIMiddleware.Core
                     string responseBodyContent = await ReadResponseBody(response);
                     await responseBody.CopyToAsync(originalBodyStream);
 
+                    var host = httpContext.Request.Host;
                     var requestContentType = httpContext.Request.ContentType;
                     var responseContentType = httpContext.Response.ContentType;
-
                     _requestService.AddRequest(new DTO.RequestDTO()
                     {
                         ProjectCode = _options.Id,
@@ -57,10 +56,13 @@ namespace APIMiddleware.Core
                         StatusCode = response.StatusCode,
                         Method = request.Method,
                         Path = request.Path,
+                        Host = host.ToString(),
                         QueryString = request.QueryString.ToString(),
                         RequestBody = JsonStringToByteArray(requestBodyContent),
                         ResponseBody = JsonStringToByteArray(responseBodyContent),
-                    });
+                        RequestExtension = requestContentType,
+                        ResponseExtension = responseContentType
+                    });;
                 }
             }
             catch (Exception ex)

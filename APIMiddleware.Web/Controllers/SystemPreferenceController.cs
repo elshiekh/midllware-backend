@@ -16,7 +16,7 @@ namespace APIMiddleware.Web.Controllers
 
         public IActionResult SystemSetting()
         {
-            var model = _systemPreferenceService.InitiateSystemPreferenceDTO();
+            var model = _systemPreferenceService.GetSystemPreferences();
             var systemPreference = new SystemPreferenceModel
             {
                 PreferenceId = model.PreferenceId,

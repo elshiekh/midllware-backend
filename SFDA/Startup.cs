@@ -1,5 +1,6 @@
 using APIMiddleware.Core;
 using APIMiddleware.Core.DTO;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -7,13 +8,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using SFDA.Helper;
+using SFDA.Service;
 
 namespace SFDA
 {
     public class Startup
     {
+        //WebAPIProject properties = new WebAPIProject() { Id = 203, Name = "SFDA" };
         WebAPIProject properties = new WebAPIProject() { Id = 203, Name = "SFDA" };
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,12 +30,18 @@ namespace SFDA
             services.AddCors();
             //services.AddControllers();
             services.AddControllers().AddXmlSerializerFormatters()
-              .AddXmlDataContractSerializerFormatters();
+             .AddXmlDataContractSerializerFormatters();
             // configure basic authentication 
+
+            services.AddAuthentication("BasicAuthentication")
+               .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+
+            // configure DI for application services
+            services.AddScoped<IUserService, UserService>();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SFDA WebAPI", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SFDA PROJECT", Version = "v1" });
                 c.CustomSchemaIds(type => type.ToString());
             });
 
@@ -57,11 +66,16 @@ namespace SFDA
 
             //app.UseHttpsRedirection();
             app.UseRouting();
+
             app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
             app.UseSwagger();
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "SFDA WebAPI"); });
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SFDA PROJECT");
+                c.DefaultModelsExpandDepth(-1);
+            });
 
             // global cors policy
             app.UseCors(x => x

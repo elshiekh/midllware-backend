@@ -1,6 +1,7 @@
 ﻿using FastMember;
 using HMGOnBaseOut.DTO;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,8 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 //using Devart.Data.Oracle;
@@ -20,6 +23,7 @@ namespace HMGOnBaseOut.Extenstion
         {
             OracleCommand command = new OracleCommand(storedProcName, connection);
             command.CommandType = CommandType.StoredProcedure;
+            command.CommandTimeout = 0;
             command.BindByName = true;
             foreach (OracleParameter parameter in parameters)
             {
@@ -47,16 +51,13 @@ namespace HMGOnBaseOut.Extenstion
                 obj = Activator.CreateInstance<T>();
                 foreach (PropertyInfo prop in obj.GetType().GetProperties())
                 {
-                    if (prop.Name != "REQUIRED_DOCUMENTS")
-                    {
                         if (!object.Equals(dr[prop.Name], DBNull.Value))
                         {
                             prop.SetValue(obj, dr[prop.Name], null);
                         }
-                    }
+                
                 }
-              
-                list.Add(obj);
+             list.Add(obj);
             }
             return list;
         }
@@ -73,21 +74,13 @@ namespace HMGOnBaseOut.Extenstion
                 var xmlString = "";
                 foreach (PropertyInfo prop in obj.GetType().GetProperties())
                 {
-                    if (prop.Name != "REQUIRED_DOCUMENTS")
+                    if (prop.Name != "EMPLOYEE_DOCUMENTS")
                     {
-                        if (prop.Name == "REQUIRED_DOCUMENT")
-                        {
-                            xmlString = dr[prop.Name].ToString();
-                            prop.SetValue(obj, null, null);
-                        }
-                        else
-                        {
-                            if (!object.Equals(dr[prop.Name], DBNull.Value))
-                            { prop.SetValue(obj, dr[prop.Name], null); }
-                        }
+                       prop.SetValue(obj, dr[prop.Name], null);
                     }
                     else
                     {
+                        xmlString = dr[prop.Name].ToString();
                         var myObject = DeserializeXMLObject(xmlString);
                         prop.SetValue(obj, myObject, null);
                         xmlString = "";
@@ -115,15 +108,8 @@ namespace HMGOnBaseOut.Extenstion
             return value;
         }
 
-        /// <summary>
-        /// Maps a SqlDataReader record to an object.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="dataReader"></param>
-        /// <param name="newObject"></param>
         public static T ConvertToObject<T>(this IDataReader rd) where T : class, new()
         {
-
             Type type = typeof(T);
             var accessor = TypeAccessor.Create(type);
             var members = accessor.GetMembers();
@@ -162,10 +148,59 @@ namespace HMGOnBaseOut.Extenstion
                 new ROW
                 {
                     DOCUMENT_TYPE = d.Element("DOCUMENT_TYPE").Value,
+                    REQUIRED_FLAG = d.Element("REQUIRED_FLAG").Value
                 }).ToList();
             }
             return ROWSET;
 
+        }
+
+        public static string EncodeStringToBase64(string stringToEncode)
+        {
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(stringToEncode));
+        }
+        public static string XmlToJson(string xml)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+            string jsonText = JsonConvert.SerializeXmlNode(doc);
+            return jsonText;
+        }
+        /// <summary>
+        /// Maps a SqlDataReader record to an object.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dataReader"></param>
+        /// <param name="newObject"></param>
+        /// 
+
+        public static List<T> ConvertDataTable<T>(DataTable dt)
+        {
+            List<T> data = new List<T>();
+            foreach (DataRow row in dt.Rows)
+            {
+                T item = GetItem<T>(row);
+                data.Add(item);
+            }
+            return data;
+        }
+        private static T GetItem<T>(DataRow dr)
+        {
+            Type temp = typeof(T);
+            T obj = Activator.CreateInstance<T>();
+
+            foreach (DataColumn column in dr.Table.Columns)
+            {
+                foreach (PropertyInfo pro in temp.GetProperties())
+                {
+                    if (pro.Name == column.ColumnName)
+                        pro.SetValue(obj, dr[column.ColumnName], null);
+                    else
+                        continue;
+                }
+            }
+            return obj;
         }
     }
 }

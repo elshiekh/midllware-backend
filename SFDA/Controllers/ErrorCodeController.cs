@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace SFDA.Controllers
 {
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ErrorCodeController : ControllerBase
     {
         [HttpPost("api/SFDA/GetErrorCodeList/.{format}"), FormatFilter]

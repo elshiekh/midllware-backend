@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 namespace SFDA.Controllers
 {
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class PackageController : ControllerBase
     {
         [HttpPost("api/SFDA/PackageQuery/.{format}"), FormatFilter]
