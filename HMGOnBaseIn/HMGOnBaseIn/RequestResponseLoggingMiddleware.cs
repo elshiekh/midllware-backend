@@ -33,8 +33,8 @@ namespace HMGOnBaseIn
             await context.Request.Body.CopyToAsync(requestStream);
             _logger.LogInformation($"Http Request Information:{Environment.NewLine}" +
                                    $"Schema:{context.Request.Scheme} " +
-                                   $"Method: {context.Request.Method} " +
-                                   $"Path: {context.Request.Path} " +
+                                   $"RequestMethod: {context.Request.Method} " +
+                                   $"RequestUrl: {context.Request.Path} " +
                                    $"QueryString: {context.Request.QueryString} " +
                                    $"Request Body: {ReadStreamInChunks(requestStream)}");
             context.Request.Body.Position = 0;
@@ -66,8 +66,8 @@ namespace HMGOnBaseIn
             context.Response.Body.Seek(0, SeekOrigin.Begin);
             _logger.LogInformation($"Http Response Information:{Environment.NewLine}" +
                                    $"Schema:{context.Request.Scheme} " +
-                                   $"Method: {context.Request.Method} " +
-                                   $"Path: {context.Request.Path} " +
+                                   $"RequestMethod: {context.Request.Method} " +
+                                   $"RequestUrl: {context.Request.Path} " +
                                    $"QueryString: {context.Request.QueryString} " +
                                    $"Response Body: {text}");
             await responseBody.CopyToAsync(originalBodyStream);

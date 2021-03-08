@@ -1,10 +1,12 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Oracle.ManagedDataAccess.Client;
 using Oracle.ManagedDataAccess.Types;
 using System;
 using System.Data;
+using System.Net;
 using System.Threading.Tasks;
 using Vida.DTO;
 using Vida.Extenstion;
@@ -17,12 +19,15 @@ namespace Vida.Controllers
     [Route("[controller]")]
     public class ERPController : ControllerBase
     {
+        #region Field
         private readonly DBOption _dbOption;
         public ERPController(DBOption dbOption)
         {
             _dbOption = dbOption;
         }
+        #endregion
 
+        #region Process Transactions
         [HttpPost("api/erp/ProcessTransactions.{format}"), FormatFilter]
         public async Task<IActionResult> ProcessTransactions([FromBody] ProcessTransactionsRequest request)
         {
@@ -75,9 +80,26 @@ namespace Vida.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex);
+                    return ReturnException(ex);
                 }
             }
         }
+        #endregion
+
+        #region Return Exception
+        private IActionResult ReturnException(Exception ex)
+        {
+            HttpContext.Response.ContentType = "application/json";
+            HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            return StatusCode(HttpContext.Response.StatusCode, JsonConvert.SerializeObject(new
+            {
+                error = new
+                {
+                    message = ex.Message,
+                    exception = ex.GetType().Name
+                }
+            }));
+        }
+        #endregion
     }
 }

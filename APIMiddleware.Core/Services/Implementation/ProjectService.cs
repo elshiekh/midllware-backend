@@ -48,9 +48,9 @@ namespace APIMiddleware.Core.Services.Implementation
 
                 return true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -59,13 +59,16 @@ namespace APIMiddleware.Core.Services.Implementation
             try
             {
                 var requests =  _dbContext.Projects;
-
                 return  await requests.Select(request => new ProjectDTO
                 {
                     Id = request.ProjectId,
                     ProjectName = request.ProjectName,
+                    ProjectCode = (int)request.ProjectCode,
+                    CREATED_BY = request.CREATED_BY,
+                    LAST_UPDATED_BY = request.LAST_UPDATED_BY,
+                    CREATION_DATE = request.CREATION_DATE,
+                    LAST_UPDATE_DATE = request.LAST_UPDATE_DATE
                 }).ToListAsync();
-
             }
             catch (Exception)
             {

@@ -18,7 +18,8 @@ namespace HMGOnBaseOut
     public class Startup
     {
         //MW
-        WebAPIProject properties = new WebAPIProject() { Id = 207, Name = "HMGOnBaseOut" };
+        WebAPIProject properties = new WebAPIProject() { Id = 8, Code = 8, Name = "HMGOnBaseOut", UserName = "HmgOnBase" };
+        //WebAPIProject properties = new WebAPIProject() { Id = 207, Code= 207, Name = "OnBaseIn", UserName = "HmgOnBase" };
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -41,7 +42,7 @@ namespace HMGOnBaseOut
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "HMG OnBase Web API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ECM OnBase In API", Version = "v1" });
             });
 
             //------ Add Memory Cache
@@ -92,7 +93,7 @@ namespace HMGOnBaseOut
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "HMG OnBaseOut API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECM OnBase In API");
                 c.DefaultModelsExpandDepth(-1);
             });
 

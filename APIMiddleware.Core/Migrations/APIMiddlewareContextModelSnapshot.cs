@@ -26,7 +26,25 @@ namespace APIMiddleware.Core.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CREATED_BY")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CREATION_DATE")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LAST_UPDATED_BY")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LAST_UPDATE_DATE")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ProjectCode")
+                        .HasColumnType("int");
+
                     b.Property<string>("ProjectName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RowVersion")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProjectId");
@@ -41,19 +59,25 @@ namespace APIMiddleware.Core.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Created_By")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Creation_Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<long>("ElapsedMilliseconds")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Host")
+                    b.Property<string>("IP_Address")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsSuccess")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Method")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("Last_Update_Date")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Path")
+                    b.Property<string>("Last_Updated_By")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProjectCode")
@@ -65,17 +89,41 @@ namespace APIMiddleware.Core.Migrations
                     b.Property<byte[]>("RequestBody")
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<string>("RequestFormat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RequestFunction")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RequestGuid")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RequestMethod")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RequestStatus")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("RequestTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("RequestUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<byte[]>("ResponseBody")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<int>("StatusCode")
+                    b.Property<string>("ResponseFormat")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ResponseStatus")
                         .HasColumnType("int");
+
+                    b.Property<string>("RowVersion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

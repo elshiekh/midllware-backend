@@ -25,7 +25,7 @@ namespace APIMiddleware.Web.Models
         [Display(Name = "Type")]
         public string Method { get; set; }
 
-        [Display(Name = "Path")]
+        [Display(Name = "RequestUrl")]
         public string Path { get; set; }
 
         [Display(Name = "Parameters")]

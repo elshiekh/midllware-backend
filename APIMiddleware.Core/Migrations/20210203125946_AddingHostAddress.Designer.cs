@@ -23,7 +23,7 @@ namespace APIMiddleware.Core.Migrations
 
             modelBuilder.Entity("APIMiddleware.Core.DBContext.Entities.Project", b =>
                 {
-                    b.Property<int>("ProjectId")
+                    b.Property<int>("ProjectCode")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -31,7 +31,7 @@ namespace APIMiddleware.Core.Migrations
                     b.Property<string>("ProjectName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ProjectId");
+                    b.HasKey("ProjectCode");
 
                     b.ToTable("Projects");
                 });
@@ -46,16 +46,16 @@ namespace APIMiddleware.Core.Migrations
                     b.Property<long>("ElapsedMilliseconds")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Host")
+                    b.Property<string>("IP_Address")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsSuccess")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Method")
+                    b.Property<string>("RequestMethod")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Path")
+                    b.Property<string>("RequestUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProjectCode")
@@ -76,7 +76,7 @@ namespace APIMiddleware.Core.Migrations
                     b.Property<byte[]>("ResponseBody")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<int>("StatusCode")
+                    b.Property<int>("ResponseStatus")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

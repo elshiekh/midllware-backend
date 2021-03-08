@@ -16,7 +16,7 @@ namespace SFDA
     public class Startup
     {
         //WebAPIProject properties = new WebAPIProject() { Id = 203, Name = "SFDA" };
-        WebAPIProject properties = new WebAPIProject() { Id = 203, Name = "SFDA" };
+        WebAPIProject properties = new WebAPIProject() { Id = 203, Code = 203, Name = "SFDA" , UserName = "SFDA" };
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;

@@ -11,13 +11,13 @@ namespace APIMiddleware.Core.Migrations
             //    name: "Projects",
             //    columns: table => new
             //    {
-            //        ProjectId = table.Column<int>(nullable: false)
+            //        ProjectCode = table.Column<int>(nullable: false)
             //            .Annotation("SqlServer:Identity", "1, 1"),
             //        ProjectName = table.Column<string>(nullable: true)
             //    },
             //    constraints: table =>
             //    {
-            //        table.PrimaryKey("PK_Projects", x => x.ProjectId);
+            //        table.PrimaryKey("PK_Projects", x => x.ProjectCode);
             //    });
 
             //migrationBuilder.CreateTable(
@@ -44,10 +44,10 @@ namespace APIMiddleware.Core.Migrations
             //        RequestGuid = table.Column<string>(nullable: true),
             //        RequestTime = table.Column<DateTime>(nullable: false),
             //        ElapsedMilliseconds = table.Column<long>(nullable: false),
-            //        StatusCode = table.Column<int>(nullable: false),
+            //        ResponseStatus = table.Column<int>(nullable: false),
             //        IsSuccess = table.Column<bool>(nullable: false),
-            //        Method = table.Column<string>(nullable: true),
-            //        Path = table.Column<string>(nullable: true),
+            //        RequestMethod = table.Column<string>(nullable: true),
+            //        RequestUrl = table.Column<string>(nullable: true),
             //        QueryString = table.Column<string>(nullable: true),
             //        RequestBody = table.Column<byte[]>(nullable: true),
             //        ResponseBody = table.Column<byte[]>(nullable: true)
@@ -59,7 +59,7 @@ namespace APIMiddleware.Core.Migrations
             //            name: "FK_Requests_Projects_ProjectCode",
             //            column: x => x.ProjectCode,
             //            principalTable: "Projects",
-            //            principalColumn: "ProjectId",
+            //            principalColumn: "ProjectCode",
             //            onDelete: ReferentialAction.Cascade);
             //    });
 

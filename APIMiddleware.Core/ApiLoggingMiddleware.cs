@@ -1,9 +1,12 @@
 ﻿using APIMiddleware.Core.DTO;
+using APIMiddleware.Core.Extenstion;
 using APIMiddleware.Core.Services.Interface;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,49 +29,73 @@ namespace APIMiddleware.Core
         {
             try
             {
-                var request = httpContext.Request;
-                var stopWatch = Stopwatch.StartNew();
-                var requestTime = DateTime.UtcNow;
-                var requestBodyContent = await ReadRequestBody(request);
-                var originalBodyStream = httpContext.Response.Body;
-
-                var webAPIName = _options.Name;
-
-                using (var responseBody = new MemoryStream())
-                {
-                    var response = httpContext.Response;
-                    response.Body = responseBody;
-                    await _next(httpContext);
-                    stopWatch.Stop();
-
-                    string responseBodyContent = await ReadResponseBody(response);
-                    await responseBody.CopyToAsync(originalBodyStream);
-
-                    var host = httpContext.Request.Host;
-                    var requestContentType = httpContext.Request.ContentType;
-                    var responseContentType = httpContext.Response.ContentType;
-                    _requestService.AddRequest(new DTO.RequestDTO()
-                    {
-                        ProjectCode = _options.Id,
-                        RequestGuid = Guid.NewGuid().ToString(),
-                        RequestTime = requestTime,
-                        ElapsedMilliseconds = stopWatch.ElapsedMilliseconds,
-                        StatusCode = response.StatusCode,
-                        Method = request.Method,
-                        Path = request.Path,
-                        Host = host.ToString(),
-                        QueryString = request.QueryString.ToString(),
-                        RequestBody = JsonStringToByteArray(requestBodyContent),
-                        ResponseBody = JsonStringToByteArray(responseBodyContent),
-                        RequestExtension = requestContentType,
-                        ResponseExtension = responseContentType
-                    });;
-                }
+                await RegisterRequest(httpContext);
             }
             catch (Exception ex)
             {
                 await _next(httpContext);
             }
+        }
+
+        private async Task RegisterRequest(HttpContext httpContext)
+        {
+            using (var responseBody = new MemoryStream())
+            {
+                var webAPIName = _options.Name;
+                var ProjectUserName = _options.UserName;
+                var stopWatch = Stopwatch.StartNew();
+                var requestTime = DateTime.UtcNow;
+                var request = httpContext.Request;
+                var requestBodyContent = await ReadRequestBody(request);
+                var originalBodyStream = httpContext.Response.Body;
+                var host = httpContext.Connection.RemoteIpAddress;
+                var response = httpContext.Response;
+                response.Body = responseBody;
+
+                await _next(httpContext);
+                stopWatch.Stop();
+
+                string responseBodyContent = await ReadResponseBody(response);
+                await responseBody.CopyToAsync(originalBodyStream);
+                var requestContentType = httpContext.Request.ContentType;
+                var responseContentType = httpContext.Response.ContentType;
+
+                _requestService.AddRequest(new DTO.RequestDTO()
+                {
+                    ProjectCode = _options.Id,
+                    RequestGuid = Guid.NewGuid().ToString(),
+                    RequestTime = requestTime,
+                    ElapsedMilliseconds = stopWatch.ElapsedMilliseconds,
+                    ResponseStatus = response.StatusCode,
+                    RequestMethod = request.Method,
+                    RequestUrl = request.Path,
+                    RequestFunction = QueryExtenstion.GetFileNameFromUrl(request.Path),
+                    IP_Address = host.ToString(),
+                    QueryString = request.QueryString.ToString(),
+                    RequestBody = JsonStringToByteArray(requestBodyContent),
+                    ResponseBody = JsonStringToByteArray(responseBodyContent),
+                    RequestFormat = requestContentType,
+                    ResponseFormat = responseContentType,
+                    UserName = ProjectUserName,
+                    RowVersion = DateTime.Now.ToString()
+                });
+            }
+        }
+
+        private async Task HandleExceptionAsync(HttpContext context, Exception ex)
+        {
+            var response = context.Response;
+            response.ContentType = "application/json";
+            response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            await response.WriteAsync(JsonConvert.SerializeObject(new
+            {
+                // customize as you need
+                error = new
+                {
+                    message = ex.Message,
+                    exception = ex.GetType().Name
+                }
+            }));
         }
 
         private async Task<string> ReadRequestBody(HttpRequest request)
@@ -98,9 +125,9 @@ namespace APIMiddleware.Core
 
                 return bodyAsText;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 

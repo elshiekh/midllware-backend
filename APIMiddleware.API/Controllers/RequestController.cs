@@ -1,8 +1,8 @@
 ﻿using APIMiddleware.API.Models;
 using APIMiddleware.Core.Services.Interface;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace APIMiddleware.API.Controllers
@@ -21,7 +21,7 @@ namespace APIMiddleware.API.Controllers
             _logger = logger;
         }
 
-   
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -29,24 +29,22 @@ namespace APIMiddleware.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetAllWithFilter")]
+        public async Task<IActionResult> GetAllWithFilter(int? projectId, string function,
+            int? statusCode, int? requestReceiveId,
+            string ipAddress,string userName,string fromDate,string toDate)
+        {
+            var result = await _requestService.GetAllWithFilter(projectId,function,
+            statusCode, requestReceiveId,
+             ipAddress,  userName, fromDate, toDate);
+            return Ok(result);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var request = await _requestService.GetRequestsDetails(id);
-            var model = new RequestMolel()
-            {
-                Id = request.Id,
-                ProjectName = request.ProjectName,
-                RequestGuid = request.RequestGuid,
-                RequestTime = request.RequestTime,
-                Time = request.Time,
-                ElapsedMilliseconds = request.ElapsedMilliseconds,
-                StatusCode = request.StatusCode,
-                Method = request.Method,
-                Path = request.Path,
-                QueryString = (request.QueryString != string.Empty) ? request.QueryString : "No Parameters",
-            };
-            return Ok(model);
+            return Ok(request);
         }
 
         [HttpGet("DownloadResponse/{id}")]

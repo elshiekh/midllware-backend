@@ -67,27 +67,43 @@ namespace HMGOnBaseOut.Extenstion
             List<T> list = new List<T>();
             T obj = default(T);
             int count = 0;
-            while (dr.Read())
+            try
             {
-                count = count + 1;
-                obj = Activator.CreateInstance<T>();
-                var xmlString = "";
-                foreach (PropertyInfo prop in obj.GetType().GetProperties())
+                while (dr.Read())
                 {
-                    if (prop.Name != "EMPLOYEE_DOCUMENTS")
+                    count = count + 1;
+                    obj = Activator.CreateInstance<T>();
+                    var xmlString = "";
+                    foreach (PropertyInfo prop in obj.GetType().GetProperties())
                     {
-                       prop.SetValue(obj, dr[prop.Name], null);
+                        try
+                        {
+                            if (prop.Name != "EMPLOYEE_DOCUMENTS")
+                            {
+                                prop.SetValue(obj, dr[prop.Name], null);
+                            }
+                            else
+                            {
+                                xmlString = dr[prop.Name].ToString();
+                                var myObject = DeserializeXMLObject(xmlString);
+                                prop.SetValue(obj, myObject, null);
+                                xmlString = "";
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
+                        
                     }
-                    else
-                    {
-                        xmlString = dr[prop.Name].ToString();
-                        var myObject = DeserializeXMLObject(xmlString);
-                        prop.SetValue(obj, myObject, null);
-                        xmlString = "";
-                    }
+                    list.Add(obj);
                 }
-                list.Add(obj);
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+          
             var countNumber = count;
 
             return list;
@@ -133,25 +149,34 @@ namespace HMGOnBaseOut.Extenstion
 
         public static List<ROW> DeserializeXMLObject(string xml)
         {
-
-            XDocument doc = new XDocument();
-            //Check for empty string.
-            if (!string.IsNullOrEmpty(xml))
+            try
             {
-                doc = XDocument.Parse(xml);
-            }
-            List<ROW> ROWSET = new List<ROW>();
-            //Check if xml has any elements 
-            if (!string.IsNullOrEmpty(xml) && doc.Root.Elements().Any())
-            {
-                ROWSET = doc.Descendants("ROW").Select(d =>
-                new ROW
+                XDocument doc = new XDocument();
+                //Check for empty string.
+                if (!string.IsNullOrEmpty(xml))
                 {
-                    DOCUMENT_TYPE = d.Element("DOCUMENT_TYPE").Value,
-                    REQUIRED_FLAG = d.Element("REQUIRED_FLAG").Value
-                }).ToList();
+                    doc = XDocument.Parse(xml);
+                }
+                List<ROW> ROWSET = new List<ROW>();
+                //Check if xml has any elements 
+                if (!string.IsNullOrEmpty(xml) && doc.Root.Elements().Any())
+                {
+                    ROWSET = doc.Descendants("ROW").Select(d =>
+                    new ROW
+                    {
+                        DOCUMENT_TYPE = d.Element("DOCUMENT_TYPE").Value,
+                        REQUIRED_FLAG = d.Element("REQUIRED_FLAG").Value
+                    }).ToList();
+                }
+
+                return ROWSET;
             }
-            return ROWSET;
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+         
 
         }
 

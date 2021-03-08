@@ -33,6 +33,7 @@ namespace APIMiddleware.API.Controllers
             var model = new ProjectModel()
             {
                 Id = request.Id,
+                Code =request.ProjectCode,
                 Name = request.ProjectName,
             };
             return Ok(model);

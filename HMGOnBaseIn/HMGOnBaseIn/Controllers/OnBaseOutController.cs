@@ -1,4 +1,6 @@
-﻿using HMGOnBaseIn.DTO;
+﻿using HMGOnBaseIn;
+using HMGOnBaseIn.Controllers;
+using HMGOnBaseIn.DTO;
 using HMGOnBaseIn.Extenstion;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,26 +16,28 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HMGOnBaseIn.Controllers
+namespace HmgOnBaseOut.Controllers
 {
     [Authorize]
     [ApiController]
-    //[Route("[controller]")]
+    [Route("api/[controller]")]
     [FormatFilter]
     //[ApiExplorerSettings(IgnoreApi = true)]
-    public class HMGOnBaseINController : ControllerBase
+    public class OnBaseOutController : ControllerBase
     {
+        #region Field
         private readonly DBOption _dbOption;
         private readonly ILogger _logger;
-        public HMGOnBaseINController(DBOption dbOption, ILogger<HMGOnBaseINController> logger)
+        public OnBaseOutController(DBOption dbOption, ILogger<OnBaseOutController> logger)
         {
             _dbOption = dbOption;
             _logger = logger;
         }
+        #endregion
 
         #region Retrieve Document List
         // ---- RetrieveDocumentList
-        [HttpPost("api/HMGONBASEIN/RetrieveDocumentList.{format}")]
+        [HttpPost("RetrieveDocumentList.{format}")]
         public async Task<IActionResult> RetrieveDocumentList(RetrieveDocumentListRequest request)
         {
             try
@@ -78,14 +82,13 @@ namespace HMGOnBaseIn.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error: Retrieve Document List-" + DateTime.Now);
-                throw ex;
+                return ReturnException(ex);
             }
         }
         #endregion
 
         #region Retrieve Document
-        // ---- RetrieveDocument
-        [HttpGet("api/HMGONBASEIN/RetrieveDocument.{format}")]
+        [HttpGet("RetrieveDocument.{format}")]
         public async Task<IActionResult> RetrieveDocument(string OnBaseDocID)
         {
             try
@@ -114,14 +117,13 @@ namespace HMGOnBaseIn.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error: Store-Retrieve-Document-" + DateTime.Now);
-                return BadRequest(ex);
+                return ReturnException(ex);
             }
         }
         #endregion
 
         #region Store New Document
-        //---- StoreNewDocument
-        [HttpPost("api/HMGONBASEIN/StoreNewDocument.{format}")]
+        [HttpPost("StoreNewDocument.{format}")]
         public async Task<IActionResult> StoreNewDocument([FromBody] StoreNewDocumentRequest request)
         {
             try
@@ -176,14 +178,13 @@ namespace HMGOnBaseIn.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error: StoreNewDocument-" + DateTime.Now);
-                throw ex;
+                return ReturnException(ex);
             }
         }
         #endregion
 
         #region Update Document Based Condition
-        //---- UpdateDocumentBasedCondition
-        [HttpPost("api/HMGONBASEIN/UpdateDocumentBasedCondition.{format}")]
+        [HttpPost("UpdateDocumentBasedCondition.{format}")]
         public async Task<IActionResult> UpdateDocumentBasedCondition([FromBody] UpdateDocumentBasedConditionRequest request)
         {
             try
@@ -221,14 +222,13 @@ namespace HMGOnBaseIn.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error: Update Document Based Condition-" + DateTime.Now);
-                throw ex;
+                return ReturnException(ex);
             }
         }
         #endregion
 
         #region Update Doc By Keywords
-        // UpdateDocByKeywords
-        [HttpPut("api/HMGONBASEIN/UpdateDocByKeywords.{format}")]
+        [HttpPut("UpdateDocByKeywords.{format}")]
         public async Task<IActionResult> UpdateDocByKeywords([FromBody] UpdateDocumentByKeywordsRequest request)
         {
             try
@@ -257,14 +257,48 @@ namespace HMGOnBaseIn.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error: UpdateDocByKeywords-" + DateTime.Now);
-                return BadRequest();
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+        #region  UpdateDoc By Keyword Special Case
+        [HttpPut("UpdateDocByKeywordSpecialCase.{format}")]
+        public async Task<IActionResult> UpdateDocByKeywordSpecialCase([FromBody] UpdateDocByKeywordSpecialCaseRequest request)
+        {
+            try
+            {
+                _logger.LogInformation("Update Document By Keywords");
+                UpdateDocByKeywordSpecialCaseResponse result = new UpdateDocByKeywordSpecialCaseResponse();
+                HttpClientHandler httpClientHandler = new HttpClientHandler()
+                {
+                    Credentials = new NetworkCredential("onbase", "onbase123"),
+                };
+                using (var httpClient = new HttpClient(httpClientHandler))
+                {
+                    var byteArray = Encoding.ASCII.GetBytes("onbase:onbase123");
+
+                    httpClient.DefaultRequestHeaders.Authorization = new
+                    AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+                    using (var response = await httpClient.PutAsync("http://10.201.203.132/OnBaseAPI/API/documents/UpdateDocByKeywords_SpecialCase", content))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        result = JsonConvert.DeserializeObject<UpdateDocByKeywordSpecialCaseResponse>(apiResponse.ToString());
+                    }
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error: UpdateDocByKeywords-" + DateTime.Now);
+                return ReturnException(ex);
             }
         }
         #endregion
 
         #region Post Revision
-        //---- PostRevision
-        [HttpPost("api/HMGONBASEIN/PostRevision.{format}")]
+        [HttpPost("PostRevision.{format}")]
         public async Task<IActionResult> PostRevision([FromBody] PostRevisionRequest request)
         {
             try
@@ -311,14 +345,13 @@ namespace HMGOnBaseIn.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error: PostRevision-" + DateTime.Now);
-                return BadRequest();
+                return ReturnException(ex);
             }
         }
         #endregion
 
         #region Update Document
-        //---- UpdateDocument
-        [HttpPut("api/HMGONBASEIN/UpdateDocument.{format}")]
+        [HttpPut("UpdateDocument.{format}")]
         public async Task<IActionResult> UpdateDocument([FromBody] StoreUpdateDocumentRequest request)
         {
             try
@@ -347,14 +380,13 @@ namespace HMGOnBaseIn.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error: StoreUpdateDocument-" + DateTime.Now);
-                return BadRequest();
+                return ReturnException(ex);
             }
         }
         #endregion
 
         #region Delete Document
-        //---- DeleteDocument
-        [HttpDelete("api/HMGONBASEIN/DeleteDocument/.{format}")]
+        [HttpDelete("DeleteDocument.{format}")]
         public async Task<IActionResult> DeleteDocument(long OnBaseDocID, bool DeletePermanently)
         {
             try
@@ -382,11 +414,28 @@ namespace HMGOnBaseIn.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error: StoreDeleteDocument-" + DateTime.Now);
-                return BadRequest();
+                return ReturnException(ex);
             }
         }
         #endregion
 
+        #region Return Exception
+        private IActionResult ReturnException(Exception ex)
+        {
+            HttpContext.Response.ContentType = "application/json";
+            HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            return StatusCode(HttpContext.Response.StatusCode, JsonConvert.SerializeObject(new
+            {
+                error = new
+                {
+                    message = ex.Message,
+                    exception = ex.GetType().Name
+                }
+            }));
+        }
+        #endregion
+
+        #region GetFIle
         private GetFileResponse GetFIle(int FILE_ID)
         {
             try
@@ -412,6 +461,9 @@ namespace HMGOnBaseIn.Controllers
                 }
                 reader.Close();
 
+                conn.Close();
+                conn.Dispose();
+
                 return fileResponset;
             }
             catch (Exception e)
@@ -419,8 +471,9 @@ namespace HMGOnBaseIn.Controllers
                 throw e;
             }
         }
-        
+        #endregion
     }
+
 }
      #region LegacySection
 //private IActionResult TETS(RetrieveDocumentResponse request)
@@ -505,7 +558,7 @@ namespace HMGOnBaseIn.Controllers
 
 
 //---- SetOnBaseURL
-//[HttpPost("api/HMGOnBaseIN/SetOnBaseURL.{format}")]
+//[HttpPost("api/HmgOnBaseOut/SetOnBaseURL.{format}")]
 //public async Task<IActionResult> SetOnBaseURL([FromBody] SetOnBaseURLRequest request)
 //{
 //    OracleConnection conn = new OracleConnection(_dbOption.DbConection);
@@ -539,7 +592,7 @@ namespace HMGOnBaseIn.Controllers
 //}
 
 //---- SetOnBaseURL
-//[HttpPost("api/HMGOnBaseIN/SetOnBaseURL.{format}")]
+//[HttpPost("api/HmgOnBaseOut/SetOnBaseURL.{format}")]
 //public async Task<IActionResult> SetOnBaseURL([FromBody] SetOnBaseURLRequest request)
 //{
 //    OracleConnection conn = new OracleConnection(_dbOption.DbConection);
@@ -573,7 +626,7 @@ namespace HMGOnBaseIn.Controllers
 //}
 
 //----SetHrRequiredDocErrors
-//[HttpPost("api/HMGONBASEIN/SetHrRequiredDocErrors.{format}")]
+//[HttpPost("api/HmgOnBaseOut/SetHrRequiredDocErrors.{format}")]
 //public async Task<IActionResult> SetHrRequiredDocErrors([FromBody] SetHrRequiredDocErrorsRequest request)
 //{
 //    OracleConnection conn = new OracleConnection(_dbOption.DbConection);

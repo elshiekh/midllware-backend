@@ -7,6 +7,7 @@ using DrugService;
 using ErrorCodeService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Pharmacy_SaleService;
 using PharmacyProductSaleCancelService;
 using ProductPackageDownloadService;
@@ -16,6 +17,7 @@ using SFDA.DTO;
 using SFDA.Extenstion;
 using StakeholderList;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace SFDA.Controllers
@@ -47,7 +49,7 @@ namespace SFDA.Controllers
 
         #region GetCountryList
         [HttpPost("api/SFDA/GetCountryList.{format}"), FormatFilter]
-        public async Task<countryListServiceResponse> GetCountryList([FromBody] countryListServiceRequest request, string gln)
+        public async Task<IActionResult> GetCountryList([FromBody] countryListServiceRequest request, string gln)
         {
             try
             {
@@ -56,18 +58,18 @@ namespace SFDA.Controllers
                 client.ClientCredentials.UserName.Password = "Ahmad123456";
                 var result = await client.getCountryListAsync(request);
 
-                return result.CountryListServiceResponse;
+                return Ok(result.CountryListServiceResponse);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                return ReturnException(ex);
             }
         }
         #endregion
 
         #region  GetCityList
-          [HttpPost("api/SFDA/GetCityList.{format}"), FormatFilter]
-          public async Task<cityListServiceResponse> GetCityList([FromBody] cityListServiceRequest request, string gln)
+        [HttpPost("api/SFDA/GetCityList.{format}"), FormatFilter]
+        public async Task<IActionResult> GetCityList([FromBody] cityListServiceRequest request, string gln)
         {
             try
             {
@@ -76,18 +78,18 @@ namespace SFDA.Controllers
                 client.ClientCredentials.UserName.Password = "Ahmad123456";
                 var result = await client.getCityListAsync(request);
 
-                return result.CityListServiceResponse;
+                return Ok(result.CityListServiceResponse);
             }
             catch (Exception ex)
             {
-                throw ex;
+                return ReturnException(ex);
             }
         }
         #endregion
 
         #region  GetDrugList
-           [HttpPost("api/SFDA/GetDrugList.{format}"), FormatFilter]
-           public async Task<drugListServiceResponse> GetDrugList([FromBody] drugListServiceRequest request, string gln)
+        [HttpPost("api/SFDA/GetDrugList.{format}"), FormatFilter]
+        public async Task<IActionResult> GetDrugList([FromBody] drugListServiceRequest request, string gln)
         {
             try
             {
@@ -97,23 +99,22 @@ namespace SFDA.Controllers
                 client.ClientCredentials.UserName.Password = "Ahmad123456";
                 var result = await client.getDrugListAsync(requestedPost);
 
-                return result.DrugListServiceResponse;
+                return Ok(result.DrugListServiceResponse);
             }
             catch (Exception ex)
             {
-                throw ex;
+                return ReturnException(ex);
             }
         }
         #endregion
 
         #region  GetErrorCodeList
-          [HttpPost("api/SFDA/GetErrorCodeList.{format}"), FormatFilter]
-          public async Task<IActionResult> GetErrorCodeList([FromBody] getErrorCodeListRequest request, string gln)
+        [HttpPost("api/SFDA/GetErrorCodeList.{format}"), FormatFilter]
+        public async Task<IActionResult> GetErrorCodeList([FromBody] getErrorCodeListRequest request, string gln)
         {
             try
             {
                 ErrorCodeListServiceClient client = new ErrorCodeListServiceClient();
-
                 client.ClientCredentials.UserName.UserName = gln + "0000";
                 client.ClientCredentials.UserName.Password = "Ahmad123456";
                 var result = await client.getErrorCodeListAsync(request);
@@ -122,7 +123,7 @@ namespace SFDA.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                return ReturnException(ex);
             }
         }
         #endregion
@@ -143,7 +144,7 @@ namespace SFDA.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                return ReturnException(ex);
             }
         }
         #endregion
@@ -155,7 +156,7 @@ namespace SFDA.Controllers
             try
             {
                 AcceptServiceClient client = new AcceptServiceClient();
-                var postRequest = new  AcceptProductService.notifyAcceptRequest() { AcceptServiceRequest = request };
+                var postRequest = new AcceptProductService.notifyAcceptRequest() { AcceptServiceRequest = request };
                 client.ClientCredentials.UserName.UserName = gln + "0000";
                 client.ClientCredentials.UserName.Password = "Ahmad123456";
                 var result = await client.notifyAcceptAsync(postRequest);
@@ -164,7 +165,7 @@ namespace SFDA.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                return ReturnException(ex);
             }
         }
         #endregion
@@ -185,7 +186,7 @@ namespace SFDA.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                return ReturnException(ex);
             }
         }
         #endregion
@@ -210,7 +211,7 @@ namespace SFDA.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                return ReturnException(ex);
             }
         }
         #endregion
@@ -231,14 +232,14 @@ namespace SFDA.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                return ReturnException(ex);
             }
         }
         #endregion
 
         #region PharmacySale
         [HttpPost("api/SFDA/PharmacySale.{format}"), FormatFilter]
-        public async Task<pharmacySaleServiceResponse> PharmacySaleCancel([FromBody] pharmacySaleServiceRequest request, string gln)
+        public async Task<IActionResult> PharmacySaleCancel([FromBody] pharmacySaleServiceRequest request, string gln)
         {
             try
             {
@@ -248,18 +249,18 @@ namespace SFDA.Controllers
                 client.ClientCredentials.UserName.Password = "Ahmad123456";
                 var result = await client.notifyPharmacySaleAsync(postRequest);
 
-                return result.PharmacySaleServiceResponse;
+                return Ok(result.PharmacySaleServiceResponse);
             }
             catch (Exception ex)
             {
-                throw ex;
+                return ReturnException(ex);
             }
         }
         #endregion
 
         #region  PharmacySaleCancel
         [HttpPost("api/SFDA/PharmacySaleCancel.{format}"), FormatFilter]
-        public async Task<pharmacySaleCancelServiceResponse> PharmacySaleCancel([FromBody] pharmacySaleCancelServiceRequest request, string gln)
+        public async Task<IActionResult> PharmacySaleCancel([FromBody] pharmacySaleCancelServiceRequest request, string gln)
         {
             try
             {
@@ -269,18 +270,18 @@ namespace SFDA.Controllers
                 client.ClientCredentials.UserName.Password = "Ahmad123456";
                 var result = await client.notifyPharmacySaleCancelAsync(postRequest);
 
-                return result.PharmacySaleCancelServiceResponse;
+                return Ok(result.PharmacySaleCancelServiceResponse);
             }
             catch (Exception ex)
             {
-                throw ex;
+               return ReturnException(ex);
             }
         }
         #endregion
 
         #region GetStakeHolderList
         [HttpPost("api/SFDA/GetStakeHolderList.{format}"), FormatFilter]
-        public async Task<stakeholderListServiceResponse> GetStakeHolderList([FromBody] stakeholderListServiceRequest request, string gln)
+        public async Task<IActionResult> GetStakeHolderList([FromBody] stakeholderListServiceRequest request, string gln)
         {
             try
             {
@@ -290,12 +291,28 @@ namespace SFDA.Controllers
                 client.ClientCredentials.UserName.Password = "Ahmad123456";
                 var result = await client.getStakeholderListAsync(request);
 
-                return result.StakeholderListServiceResponse;
+                return Ok(result.StakeholderListServiceResponse);
             }
             catch (Exception ex)
             {
-                throw ex;
+                return ReturnException(ex);
             }
+        }
+        #endregion
+
+        #region Return Exception
+        private IActionResult ReturnException(Exception ex)
+        {
+            HttpContext.Response.ContentType = "application/json";
+            HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            return StatusCode(HttpContext.Response.StatusCode, JsonConvert.SerializeObject(new
+            {
+                error = new
+                {
+                    message = ex.Message,
+                    exception = ex.GetType().Name
+                }
+            }));
         }
         #endregion
     }

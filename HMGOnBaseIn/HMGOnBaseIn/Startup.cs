@@ -6,11 +6,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System;
@@ -19,9 +17,9 @@ namespace HMGOnBaseIn
 {
     public class Startup
     {
-
         //MW
-        WebAPIProject properties = new WebAPIProject() { Id = 206, Name = "HMGOnBaseIn" };
+       // WebAPIProject properties = new WebAPIProject() { Id = 7, Code = 7, Name = "HMGOnBaseIn", UserName = "HmgOnBase" };
+        WebAPIProject properties = new WebAPIProject() { Id = 206, Code = 206, Name = "onBaseOut", UserName = "HmgOnBase" };
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -43,7 +41,7 @@ namespace HMGOnBaseIn
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "HMG OnBase Web API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ECM OnBase Out", Version = "v1" });
             });
 
           
@@ -67,7 +65,7 @@ namespace HMGOnBaseIn
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env )
         {
-            app.Use(async (context, next) => { context.Request.EnableBuffering(); await next(); });
+           app.Use(async (context, next) => { context.Request.EnableBuffering(); await next(); });
             // loggerFactory.AddFile("Logs/HMGOnBaseIn-{Date}.txt"); , ILoggerFactory loggerFactory
             // app.UseRequestResponseLogging();
             if (env.IsDevelopment())
@@ -80,7 +78,7 @@ namespace HMGOnBaseIn
             // app.UseRequestResponseLogging();
 
            //MW
-           app.UseMiddleware<ApiLogging>(properties);
+            app.UseMiddleware<ApiLogging>(properties);
 
             app.UseRouting();
 
@@ -93,13 +91,19 @@ namespace HMGOnBaseIn
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            //Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "HMG OnBase Web API");
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "HMG OnBaseOut API");
+            //    //c.RoutePrefix = string.Empty;
+            //    c.DefaultModelsExpandDepth(-1);
+            //});
+
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECM OnBase Out API");
                 c.DefaultModelsExpandDepth(-1);
             });
 

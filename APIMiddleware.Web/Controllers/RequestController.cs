@@ -43,11 +43,11 @@ namespace APIMiddleware.Web.Controllers
             if (!string.IsNullOrEmpty(searchBy))
             {
                 result =  result.Where(r => r.ProjectName != null && r.ProjectName.ToUpper().Contains(searchBy.ToUpper()) ||
-                                           r.Path != null && r.Path.ToUpper().Contains(searchBy.ToUpper()) ||
-                                           r.Method != null && r.Method.ToUpper().Contains(searchBy.ToUpper()) ||
+                                           r.RequestUrl != null && r.RequestUrl.ToUpper().Contains(searchBy.ToUpper()) ||
+                                           r.RequestMethod != null && r.RequestMethod.ToUpper().Contains(searchBy.ToUpper()) ||
                                            r.RequestDate != null && r.RequestDate.ToString("dd/MM/yyyy").Contains(searchBy) ||
                                              r.RequestTime != null && r.RequestTime.ToString("HH:mm").Contains(searchBy) ||
-                                           r.StatusCode != 0 && r.StatusCode.ToString().Contains(searchBy) ||
+                                           r.ResponseStatus != 0 && r.ResponseStatus.ToString().Contains(searchBy) ||
                                            r.ElapsedMilliseconds != 0 && r.ElapsedMilliseconds.ToString().Contains(searchBy) ||
                                            r.IsSuccess.ToString().Contains(searchBy)
                                           )
@@ -78,9 +78,9 @@ namespace APIMiddleware.Web.Controllers
                 RequestGuid = request.RequestGuid,
                 RequestTime = request.RequestTime,
                 ElapsedMilliseconds = request.ElapsedMilliseconds,
-                StatusCode = request.StatusCode,
-                Method = request.Method,
-                Path = request.Path,
+                StatusCode = request.ResponseStatus,
+                Method = request.RequestMethod,
+                Path = request.RequestUrl,
                 QueryString = (request.QueryString != string.Empty) ? request.QueryString : "No Parameters",
             };
             return View(model);

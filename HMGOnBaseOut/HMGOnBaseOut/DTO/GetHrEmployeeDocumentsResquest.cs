@@ -18,6 +18,8 @@ namespace HMGOnBaseOut.DTO
         public string PAYROLL_NAME { get; set; }
         public string POSITION_TITLE { get; set; }
         public string JOB_CATEGORY { get; set; }
+        public string NATIONALITY { get; set; }
+        public DateTime HIRE_DATE { get; set; }
         public string EMPLOYEE_ORGANIZATION { get; set; }
         public List<ROW> EMPLOYEE_DOCUMENTS { get; set; }
     }

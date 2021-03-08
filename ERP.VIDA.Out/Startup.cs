@@ -18,7 +18,7 @@ namespace Vida
     public class Startup
     {
         //MW
-        WebAPIProject properties = new WebAPIProject() { Id = 205, Name = "VIDA Out" };
+        WebAPIProject properties = new WebAPIProject() { Id = 205, Code = 205, Name = "VIDA Out", UserName = "erpuser101" };
 
         public Startup(IConfiguration configuration)
         {

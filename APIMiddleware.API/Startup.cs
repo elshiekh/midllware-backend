@@ -23,7 +23,7 @@ namespace APIMiddleware.API
             services.AddControllers();
             services.RegsiterAPIMiddlewareConfiguration(Configuration);
         
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "MiddleWare  WebAPI", Version = "v1" }); c.CustomSchemaIds(type => type.ToString()); });
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "MiddleWare", Version = "v1" }); c.CustomSchemaIds(type => type.ToString()); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +52,10 @@ namespace APIMiddleware.API
 
             //  app.UseAuthorization();
             app.UseSwagger();
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "MiddleWare WebAPI"); });
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "MiddleWare");
+                c.DefaultModelsExpandDepth(-1);
+            });
 
             app.UseEndpoints(endpoints =>
             {
