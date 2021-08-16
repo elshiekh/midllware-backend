@@ -1,5 +1,5 @@
 ﻿using APIMiddleware.Core.DBContext;
-using APIMiddleware.Core.DBContext.Entities;
+using APIMiddleware.Core.Entities;
 using APIMiddleware.Core.DTO;
 using APIMiddleware.Core.Services.Interface;
 using APIMiddleware.Notification.Services;
@@ -20,13 +20,13 @@ namespace APIMiddleware.Core.Services.Implementation
             _dbContext = new APIMiddlewareContext();
         }
 
-        public bool AddProject(ProjectDTO requestDTO)
+        public bool AddProject(ProjectDTO projectDTO)
         {
             try
             {
                 _dbContext.Add(new Project()
                 {
-                    ProjectName = requestDTO.ProjectName,
+                    ProjectName = projectDTO.ProjectName,
                 });
 
                 _dbContext.SaveChanges();
@@ -43,8 +43,8 @@ namespace APIMiddleware.Core.Services.Implementation
         {
             try
             {
-                var request = _dbContext.Projects.FirstOrDefault(s => s.ProjectId == id);
-                _dbContext.Remove(request);
+                var project = _dbContext.Projects.FirstOrDefault(s => s.ProjectId == id);
+                _dbContext.Remove(project);
 
                 return true;
             }
@@ -58,21 +58,51 @@ namespace APIMiddleware.Core.Services.Implementation
         {
             try
             {
-                var requests =  _dbContext.Projects;
-                return  await requests.Select(request => new ProjectDTO
+              var projects =  await _dbContext.Projects.ToListAsync();
+                return projects.Select(project => new ProjectDTO
                 {
-                    Id = request.ProjectId,
-                    ProjectName = request.ProjectName,
-                    ProjectCode = (int)request.ProjectCode,
-                    CREATED_BY = request.CREATED_BY,
-                    LAST_UPDATED_BY = request.LAST_UPDATED_BY,
-                    CREATION_DATE = request.CREATION_DATE,
-                    LAST_UPDATE_DATE = request.LAST_UPDATE_DATE
-                }).ToListAsync();
+                    ProjectId = project.ProjectId,
+                    ProjectName = project.ProjectName,
+                    ProjectCode = project.ProjectCode,
+                    Functions = GetProjectFunctions(project.ProjectId),
+                    Description = project.Description,
+                    EnabledFlag = project.EnabledFlag,
+                    RowVersion = project.RowVersion,
+                    CREATED_BY = project.CREATED_BY,
+                    LAST_UPDATED_BY = project.LAST_UPDATED_BY,
+                    CREATION_DATE = project.CREATION_DATE,
+                    LAST_UPDATE_DATE = project.LAST_UPDATE_DATE
+                }).ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
+            }
+        }
+
+        public List<FunctionDTO> GetProjectFunctions(int projectId)
+        {
+            try
+            {
+                var functions = _dbContext.Functions.Where(x=>x.ProjectId == projectId).Include(x => x.Project);
+                return  functions.Select(function => new FunctionDTO
+                {
+                    FunctionId = function.FunctionId,
+                    FunctionName = function.FunctionName,
+                    FunctionCode = function.FunctionCode,
+                    ProjectId = function.ProjectId,
+                    ProjectName = function.Project.ProjectName,
+                    Description = function.Description,
+                    EnabledFlag = function.EnabledFlag,
+                    CREATED_BY = function.CREATED_BY,
+                    LAST_UPDATED_BY = function.LAST_UPDATED_BY,
+                    CREATION_DATE = function.CREATION_DATE,
+                    LAST_UPDATE_DATE = function.LAST_UPDATE_DATE
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -92,12 +122,12 @@ namespace APIMiddleware.Core.Services.Implementation
         {
             try
             {
-                var request = await _dbContext.Projects.FirstOrDefaultAsync(s => s.ProjectId == id);
+                var project = await _dbContext.Projects.FirstOrDefaultAsync(s => s.ProjectId == id);
 
                 return new ProjectDTO()
                 {
-                    Id = request.ProjectId,
-                    ProjectName = request.ProjectName,
+                    ProjectId = project.ProjectId,
+                    ProjectName = project.ProjectName,
                 };
             }
             catch (Exception)

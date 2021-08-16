@@ -2,14 +2,15 @@
 using APIMiddleware.Core.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace APIMiddleware.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-
     public class RequestController : ControllerBase
     {
         private readonly IRequestService _requestService;
@@ -21,26 +22,60 @@ namespace APIMiddleware.API.Controllers
             _logger = logger;
         }
 
-
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("AllRequests")]
+        public async Task<IActionResult> AllRequests()
         {
             var result = await _requestService.GetAllRequests();
             return Ok(result);
         }
 
         [HttpGet("GetAllWithFilter")]
-        public async Task<IActionResult> GetAllWithFilter(int? projectId, string function,
-            int? statusCode, int? requestReceiveId,
-            string ipAddress,string userName,string fromDate,string toDate)
+        public async Task<IActionResult> GetAllWithFilter(int? requestId,int? projectId, int? function,
+            int? responseCode, string requestStatus,
+            string ipAddress, string userName, string fromDate, string toDate)
         {
-            var result = await _requestService.GetAllWithFilter(projectId,function,
-            statusCode, requestReceiveId,
-             ipAddress,  userName, fromDate, toDate);
-            return Ok(result);
+            try
+            {
+                var result = await _requestService.GetAllWithFilter(requestId,projectId, function,
+                responseCode, requestStatus.Trim(),
+                ipAddress, userName, fromDate, toDate);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+
         }
 
-        [HttpGet("{id}")]
+        [HttpDelete("PurgeAllWithFilter")]
+        public IActionResult PurgeAllWithFilter(int? requestId, int? projectId, int? function,
+          int? responseCode, string requestStatus,
+          string ipAddress, string userName, string fromDate, string toDate)
+        {
+            try
+            {
+                var result =  _requestService.PurgeAllWithFilter(requestId, projectId, function,
+                responseCode, requestStatus.Trim(),
+                ipAddress, userName, fromDate, toDate);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+
+        //[HttpPost("PostFilterRequest")]
+        //public async Task<IActionResult> PostFilterRequest([FromBody] RequestFilterPost request)
+        //{
+        //    var result = await _requestService.GetAllWithFilter(request.requestId, request.projectId, request.function,
+        //      request.responseCode, request.requestStatus,
+        //      request.ipAddress, request.userName, request.fromDate, request.toDate);
+        //    return Ok(result);
+        //}
+
+        [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var request = await _requestService.GetRequestsDetails(id);
@@ -79,5 +114,20 @@ namespace APIMiddleware.API.Controllers
             return null;
         }
 
+        #region Return Exception
+        private IActionResult ReturnException(Exception ex)
+        {
+            HttpContext.Response.ContentType = "application/json";
+            HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            return StatusCode(HttpContext.Response.StatusCode, JsonConvert.SerializeObject(new
+            {
+                error = new
+                {
+                    message = ex.Message,
+                    exception = ex.GetType().Name
+                }
+            }));
+        }
+        #endregion
     }
 }

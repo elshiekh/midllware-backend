@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace APIMiddleware.Core.DBContext.Entities
+namespace APIMiddleware.Core.Entities
 {
     public class SystemPreference
     {

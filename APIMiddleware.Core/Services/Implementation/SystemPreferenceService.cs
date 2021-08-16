@@ -1,5 +1,5 @@
 ﻿using APIMiddleware.Core.DBContext;
-using APIMiddleware.Core.DBContext.Entities;
+using APIMiddleware.Core.Entities;
 using APIMiddleware.Core.DTO;
 using APIMiddleware.Core.Services.Interface;
 using APIMiddleware.Notification.Models;

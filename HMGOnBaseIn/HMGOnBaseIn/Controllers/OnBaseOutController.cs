@@ -62,7 +62,7 @@ namespace HmgOnBaseOut.Controllers
                     AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                     StringContent content = new StringContent(JsonConvert.SerializeObject(onBaseDocIDList), Encoding.UTF8, "application/json");
-                    using (var response = await httpClient.PostAsync("http://10.201.203.132/OnBaseAPI/API/documents/GetDocListBytes", content))
+                    using (var response = await httpClient.PostAsync(_dbOption.OnBaseAPI + "/" + _dbOption.OnBaseSite + "/API/documents/GetDocListBytes", content))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
 
@@ -105,10 +105,45 @@ namespace HmgOnBaseOut.Controllers
 
                     httpClient.DefaultRequestHeaders.Authorization = new
                     AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
-                    using (var response = await httpClient.GetAsync("http://10.201.203.132/onbaseapi/api/documents?OnBaseDocID=" + OnBaseDocID))
+                    using (var response = await httpClient.GetAsync(_dbOption.OnBaseAPI + "/" + _dbOption.OnBaseSite + "/api/documents?OnBaseDocID=" + OnBaseDocID))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         result = JsonConvert.DeserializeObject<RetrieveDocumentResponse>(apiResponse.ToString());
+                    }
+                }
+                //TETSXML(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error: Store-Retrieve-Document-" + DateTime.Now);
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+        #region Retrieve Document Info
+        [HttpGet("RetrieveDocumentInfo.{format}")]
+        public async Task<IActionResult> RetrieveDocumentInfo(string OnBaseDocID)
+        {
+            try
+            {
+                _logger.LogInformation("Fire RetrieveDocumentInfo");
+                RetrieveDocResponse result = new RetrieveDocResponse();
+                HttpClientHandler httpClientHandler = new HttpClientHandler()
+                {
+                    Credentials = new NetworkCredential("onbase", "onbase123"),
+                };
+                using (var httpClient = new HttpClient(httpClientHandler))
+                {
+                    var byteArray = Encoding.ASCII.GetBytes("onbase:onbase123");
+
+                    httpClient.DefaultRequestHeaders.Authorization = new
+                    AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                    using (var response = await httpClient.GetAsync(_dbOption.OnBaseAPI + "/" + _dbOption.OnBaseSite + "/api/Documents/GetRecoveryDocument?OnBaseDocID=" + OnBaseDocID))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        result = JsonConvert.DeserializeObject<RetrieveDocResponse>(apiResponse.ToString());
                     }
                 }
                 //TETSXML(result);
@@ -160,7 +195,7 @@ namespace HmgOnBaseOut.Controllers
                     AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                     StringContent content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-                    using (var response = await httpClient.PostAsync("http://10.201.203.132/OnBaseAPI/API/documents", content))
+                    using (var response = await httpClient.PostAsync(_dbOption.OnBaseAPI + "/"+ _dbOption.OnBaseSite + "/API/documents", content))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         if (isXML)
@@ -204,7 +239,7 @@ namespace HmgOnBaseOut.Controllers
                     AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                     StringContent content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-                    using (var response = await httpClient.PostAsync("http://10.201.203.132/RequiredDocsRule/API/RequiredDoc", content))
+                    using (var response = await httpClient.PostAsync(_dbOption.OnBaseAPI + "/RequiredDocsRule/API/RequiredDoc", content))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         if (isXML)
@@ -246,7 +281,7 @@ namespace HmgOnBaseOut.Controllers
                     httpClient.DefaultRequestHeaders.Authorization = new
                     AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
                     StringContent content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-                    using (var response = await httpClient.PutAsync("http://10.201.203.132/OnBaseAPI/API/documents/UpdateDocByKeywords", content))
+                    using (var response = await httpClient.PutAsync(_dbOption.OnBaseAPI +"/" + _dbOption.OnBaseSite + "/API/documents/UpdateDocByKeywords", content))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         result = JsonConvert.DeserializeObject<List<UpdateDocumentByKeywordsResponse>>(apiResponse.ToString());
@@ -281,7 +316,7 @@ namespace HmgOnBaseOut.Controllers
                     httpClient.DefaultRequestHeaders.Authorization = new
                     AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
                     StringContent content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-                    using (var response = await httpClient.PutAsync("http://10.201.203.132/OnBaseAPI/API/documents/UpdateDocByKeywords_SpecialCase", content))
+                    using (var response = await httpClient.PutAsync(_dbOption.OnBaseAPI + "/" + _dbOption.OnBaseSite + "/API/documents/UpdateDocByKeywords_SpecialCase", content))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         result = JsonConvert.DeserializeObject<UpdateDocByKeywordSpecialCaseResponse>(apiResponse.ToString());
@@ -327,7 +362,7 @@ namespace HmgOnBaseOut.Controllers
                     AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                     StringContent content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-                    using (var response = await httpClient.PostAsync("http://10.201.203.132/OnBaseAPI/API/documents/PostRevision", content))
+                    using (var response = await httpClient.PostAsync(_dbOption.OnBaseAPI + "/" + _dbOption.OnBaseSite + "/API/documents/PostRevision", content))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         if (isXML)
@@ -369,10 +404,11 @@ namespace HmgOnBaseOut.Controllers
                     httpClient.DefaultRequestHeaders.Authorization = new
                     AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
                     StringContent content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-                    using (var response = await httpClient.PutAsync("http://10.201.203.132/OnBaseAPI/API/documents/", content))
+                    using (var response = await httpClient.PutAsync(_dbOption.OnBaseAPI + "/" + _dbOption.OnBaseSite + "/API/documents/", content))
                     {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
+                       string apiResponse = await response.Content.ReadAsStringAsync();
                         result = JsonConvert.DeserializeObject<StoreUpdateDocumentResponse>(apiResponse.ToString());
+                        if (string.IsNullOrEmpty(result.docURL)) { result.docURL = ""; }
                     }
                 }
                 return Ok(result);
@@ -403,7 +439,7 @@ namespace HmgOnBaseOut.Controllers
 
                     httpClient.DefaultRequestHeaders.Authorization = new
                     AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
-                    using (var response = await httpClient.DeleteAsync("http://10.201.203.132/onbaseapi/api/documents?OnBaseDocID=" + OnBaseDocID + "&DeletePermanently=" + DeletePermanently))
+                    using (var response = await httpClient.DeleteAsync(_dbOption.OnBaseAPI + "/" + _dbOption.OnBaseSite + "/api/documents?OnBaseDocID=" + OnBaseDocID + "&DeletePermanently=" + DeletePermanently))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         result = JsonConvert.DeserializeObject<StoreDeleteDocumentResponse>(apiResponse.ToString());

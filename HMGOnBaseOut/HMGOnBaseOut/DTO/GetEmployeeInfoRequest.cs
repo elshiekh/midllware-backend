@@ -75,5 +75,6 @@ namespace HMGOnBaseOut.DTO
         public string EMPLOYEE_ORGANIZATION { get; set; }
         public string SUPERVISOR_NUMBER { get; set; }
         public string SUPERVISOR_NAME { get; set; }
+        public string  POSITION_GROUP { get; set; }
     }
 }

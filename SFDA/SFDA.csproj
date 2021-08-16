@@ -6,6 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\CheckStatusController.cs" />
+    <Compile Remove="Controllers\CountryController.cs" />
+    <Compile Remove="Controllers\DrugController.cs" />
+    <Compile Remove="Controllers\ErrorCodeController.cs" />
+    <Compile Remove="Controllers\PackageController.cs" />
+    <Compile Remove="Controllers\PharmacySaleCancelController.cs" />
+    <Compile Remove="Controllers\ProductController.cs" />
+    <Compile Remove="Controllers\StakeHolderController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" ExcludeAssets="All" />

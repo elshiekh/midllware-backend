@@ -43,7 +43,7 @@ namespace Vida
             services.Configure(mduOptions);
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<DBOption>>().Value);
 
-
+         
             //MW
             services.RegsiterAPIMiddlewareConfiguration(Configuration);
         }

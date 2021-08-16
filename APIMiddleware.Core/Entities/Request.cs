@@ -2,37 +2,80 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace APIMiddleware.Core.DBContext.Entities
+namespace APIMiddleware.Core.Entities
 {
+    [Table("MID_REQUESTS")]
     public class Request
     {
         [Key]
-        public int Id { get; set; }
-        public int ProjectCode { get; set; }
+
+        [Column("REQUEST_ID")]
+        public int RequestId { get; set; }
+
+        [Column("PROJECT_ID")]
+        public int ProjectId { get; set; }
+
+        [Column("REQUEST_GUID")]
         public string RequestGuid { get; set; }
+
+        [Column("REQUEST_DATE")]
         public DateTime RequestTime { get; set; }
+
+        [Column("ELAPSED_TIME")]
         public long ElapsedMilliseconds { get; set; }
-        public int RequestStatus { get; set; }
-        public int ResponseStatus { get; set; }
-       //  public string  ResponseError { get; set; }
-        public bool IsSuccess { get; set; }
+
+        [Column("RESPONSE_CODE")]
+        public int ResponseCode { get; set; }
+
+        [Column("REQUEST_STATUS")]
+        public string RequestStatus { get; set; }
+
+        [Column("REQUEST_METHOD")]
         public string RequestMethod { get; set; }
+
+        [Column("REQUEST_FUNCTION")]
         public string RequestFunction { get; set; }
+
+        [Column("REQUEST_URL")]
         public string RequestUrl { get; set; }
+
+        [Column("QUERY_STRING")]
         public string QueryString { get; set; }
+
+        [Column("REQUEST_BODY")]
         public byte[] RequestBody { get; set; }
+
+        [Column("REQUEST_FORMAT")]
         public string RequestFormat { get; set; }
+
+        [Column("RESPONSE_BODY")]
         public byte[] ResponseBody { get; set; }
+
+        [Column("RESPONSE_FORMAT")]
         public string ResponseFormat { get; set; }
+
+        [Column("IP_ADDRESS")]
         public string IP_Address { get; set; }
+
+        [Column("USER_NAME")]
         public string  UserName { get; set; }
+
+        [Column("ROW_VERSION")]
         public string RowVersion { get; set; }
+
+        [Column("CREATION_DATE")]
         public DateTime? Creation_Date { get; set; }
+
+        [Column("CREATED_BY")]
         public string Created_By { get; set; }
+
+        [Column("LAST_UPDATE_DATE")]
         public DateTime? Last_Update_Date { get; set; }
+
+        [Column("LAST_UPDATED_BY")]
         public string Last_Updated_By { get; set; }
 
-        [ForeignKey("ProjectCode")]
+        [ForeignKey("ProjectId")]
         public virtual Project Project { get; set; }
 
     }

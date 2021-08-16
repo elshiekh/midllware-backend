@@ -18,8 +18,8 @@ namespace HMGOnBaseIn
     public class Startup
     {
         //MW
-       // WebAPIProject properties = new WebAPIProject() { Id = 7, Code = 7, Name = "HMGOnBaseIn", UserName = "HmgOnBase" };
-        WebAPIProject properties = new WebAPIProject() { Id = 206, Code = 206, Name = "onBaseOut", UserName = "HmgOnBase" };
+       // WebAPIProject properties = new WebAPIProject() { RequestId = 7, Code = 7, Name = "HMGOnBaseIn", UserName = "HmgOnBase" };
+        WebAPIProject properties = new WebAPIProject() { Id = 207, Code = 207, Name = "onBaseOut", UserName = "onbaseout" };
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -48,6 +48,8 @@ namespace HMGOnBaseIn
             Action<DBOption> mduOptions = (opt =>
             {
                 opt.DbConection = Configuration["ConnectionStrings:ERPConn"];
+                opt.OnBaseAPI = Configuration["ConnectionStrings:OnBaseAPI"];
+                opt.OnBaseSite = Configuration["ConnectionStrings:OnBaseSite"];
             });
             services.Configure(mduOptions);
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<DBOption>>().Value);

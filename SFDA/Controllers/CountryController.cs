@@ -10,7 +10,7 @@ namespace Vida.Controllers
     [ApiExplorerSettings(IgnoreApi = true)]
     public class CountryController : ControllerBase
     {
-        [HttpPost("api/SFDA/GetCountryList/.{format}"), FormatFilter]
+        [HttpPost("api/SFDA/GetCountryList.{format}"), FormatFilter]
         public async Task<countryListServiceResponse> GetCountryList([FromBody] countryListServiceRequest request, string gln)
         {
             try
@@ -28,7 +28,7 @@ namespace Vida.Controllers
             }
         }
 
-        [HttpPost("api/SFDA/GetCityList/.{format}"), FormatFilter]
+        [HttpPost("api/SFDA/GetCityList.{format}"), FormatFilter]
         public async Task<cityListServiceResponse> GetCityList([FromBody] cityListServiceRequest request, string gln)
         {
             try

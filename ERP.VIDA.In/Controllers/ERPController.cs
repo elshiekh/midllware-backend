@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Oracle.ManagedDataAccess.Client;
 using Oracle.ManagedDataAccess.Types;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Net;
 using System.Threading.Tasks;
@@ -14,9 +15,9 @@ using Vida.Mapper;
 
 namespace Vida.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ERPController : ControllerBase
     {
         #region Field
@@ -28,7 +29,7 @@ namespace Vida.Controllers
         #endregion
 
         #region Process Transactions
-        [HttpPost("api/erp/ProcessTransactions.{format}"), FormatFilter]
+        [HttpPost("ProcessTransactions.{format}"), FormatFilter]
         public async Task<IActionResult> ProcessTransactions([FromBody] ProcessTransactionsRequest request)
         {
             OracleConnection conn = new OracleConnection(_dbOption.DbConnection);
@@ -77,6 +78,61 @@ namespace Vida.Controllers
                     };
 
                     return Ok(result);
+                }
+                catch (Exception ex)
+                {
+                    return ReturnException(ex);
+                }
+            }
+        }
+        #endregion
+
+        #region Insert Booked Orders
+        [HttpPost("InsertBookedOrdersInToStg.{format}"), FormatFilter]
+        public async Task<IActionResult> InsertBookedOrdersInToStg([FromBody] InsertBookedOrdersInToStgRequest request)
+        {
+            OracleConnection conn = new OracleConnection(_dbOption.DbConnection);
+
+            IDataParameter[] parameters = new IDataParameter[2];
+
+            // Inputs
+            parameters[0] = new OracleParameter("@P_BOOKED_ORDERS_XML", OracleDbType.XmlType, request.P_BOOKED_ORDERS_XML.To_BOOKED_ORDERSXML(), ParameterDirection.Input);
+            // Outputs
+            parameters[1] = new OracleParameter("@P_BOOKED_ORDERS_RESPONSE", OracleDbType.RefCursor, ParameterDirection.Output);
+
+            using (OracleCommand command = QueryExtenstion.BuildQueryCommand(conn, request.GetSPName(), parameters))
+            {
+                try
+                {
+                    conn.Open();
+                    OracleDataReader objReader =  command.ExecuteReader();
+                    List<InsertBookedOrdersInToStgResponce> OperatingUnitList = new List<InsertBookedOrdersInToStgResponce>();
+                    OperatingUnitList = QueryExtenstion.DataReaderMapToList<InsertBookedOrdersInToStgResponce>(objReader);
+
+                    objReader.Close();
+
+                    conn.Close();
+                    conn.Dispose();
+                    //var isSuccess = await command.ExecuteNonQueryAsync();
+                    //var result = new InsertBookedOrdersInToStgResponce()
+                    //{
+                    //    VIDA_ID = (Int32)command.Parameters["@VIDA_ID"].Value,
+                    //    //USER_NAME = command.Parameters["@USER_NAME"].Value.ToString(),
+                    //    //ORDER_NUMBER = command.Parameters["@ORDER_NUMBER"].Value.ToString(),
+                    //    // ORDER_DATE = Convert.ToDateTime((command.Parameters["@ORDER_DATE"].Value)),
+                    //    //LINE_NUMBER = command.Parameters["@LINE_NUMBER"].Value.ToString(),
+                    //    //ITEM_CODE = command.Parameters["@ITEM_CODE"].Value.ToString(),
+                    //    //QUANTITY = Convert.ToDecimal((OracleDecimal)(command.Parameters["@QUANTITY"].Value)),
+                    //    //   NEED_BY_DATE = Convert.ToDateTime((OracleDate)(command.Parameters["@NEED_BY_DATE"].Value)),
+                    //    //DEST_ORGANIZATION_CODE = command.Parameters["@DEST_ORGANIZATION_CODE"].Value.ToString(),
+                    //    //DEST_SUBINVENTORY = command.Parameters["@DEST_SUBINVENTORY"].Value.ToString(),
+                    //    //EXTENSION_NUMBER = command.Parameters["@EXTENSION_NUMBER"].Value.ToString(),
+                    //    // ORACLE_ID = Convert.ToInt32((command.Parameters["@ORACLE_ID"].Value)),
+                    //    //RESPONSE_STATUS = command.Parameters["@RESPONSE_STATUS"].Value.ToString(),
+                    //    //RESPONSE_MSG = command.Parameters["@RESPONSE_MSG"].Value.ToString(),
+                    //};
+
+                    return Ok(OperatingUnitList);
                 }
                 catch (Exception ex)
                 {

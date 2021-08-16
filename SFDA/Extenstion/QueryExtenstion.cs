@@ -22,6 +22,7 @@ namespace SFDA.Extenstion
     {
         public static List<FILE> GetUnCompressedFiles(byte[] data)
         {
+            SaveData("FIRSTTRANSFERID", data);
             List<FILE> result = new List<FILE>();
             using (var inputStream = new MemoryStream(data))
             {
@@ -47,6 +48,26 @@ namespace SFDA.Extenstion
             }
         }
 
+        private static bool SaveData(string FileName, byte[] Data)
+        {
+            BinaryWriter Writer = null;
+            string name = @"C:\wf\TRANSFER\" + FileName;
 
+            try
+            {
+                // Create a new stream to write to the file
+                Writer = new BinaryWriter(File.OpenWrite(name));
+
+                // Writer raw data                
+                Writer.Write(Data);
+                Writer.Flush();
+                Writer.Close();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

@@ -20,6 +20,17 @@ namespace HMGOnBaseIn.Controllers
         public string Keywords { get; set; }
     }
 
+    public class RetrieveDocResponse
+    {
+        public long  ID { get; set; }
+        public string FileBytes { get; set; }
+        public string FileExtension { get; set; }
+        public string DocTypeName { get; set; }
+        public string DocumentName { get; set; }
+        public string STATUS { get; set; }
+        public string RESPONSEMESSAGE { get; set; }
+    }
+
 
     public class DocFile
     {

@@ -4,7 +4,7 @@ namespace APIMiddleware.Web.Models
 {
     public class SystemPreferenceModel
     {
-        [Display(Name = "Id")]
+        [Display(Name = "RequestId")]
         public int PreferenceId { get; set; }
 
         [Display(Name = "Code")]

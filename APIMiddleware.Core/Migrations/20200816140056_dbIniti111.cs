@@ -11,13 +11,13 @@ namespace APIMiddleware.Core.Migrations
             //    name: "Projects",
             //    columns: table => new
             //    {
-            //        ProjectCode = table.Column<int>(nullable: false)
+            //        ProjectId = table.Column<int>(nullable: false)
             //            .Annotation("SqlServer:Identity", "1, 1"),
             //        ProjectName = table.Column<string>(nullable: true)
             //    },
             //    constraints: table =>
             //    {
-            //        table.PrimaryKey("PK_Projects", x => x.ProjectCode);
+            //        table.PrimaryKey("PK_Projects", x => x.ProjectId);
             //    });
 
             //migrationBuilder.CreateTable(
@@ -38,14 +38,14 @@ namespace APIMiddleware.Core.Migrations
             //    name: "Requests",
             //    columns: table => new
             //    {
-            //        Id = table.Column<int>(nullable: false)
+            //        RequestId = table.Column<int>(nullable: false)
             //            .Annotation("SqlServer:Identity", "1, 1"),
-            //        ProjectCode = table.Column<int>(nullable: false),
+            //        ProjectId = table.Column<int>(nullable: false),
             //        RequestGuid = table.Column<string>(nullable: true),
             //        RequestTime = table.Column<DateTime>(nullable: false),
             //        ElapsedMilliseconds = table.Column<long>(nullable: false),
-            //        ResponseStatus = table.Column<int>(nullable: false),
-            //        IsSuccess = table.Column<bool>(nullable: false),
+            //        ResponseCode = table.Column<int>(nullable: false),
+            //        RequestStatus = table.Column<bool>(nullable: false),
             //        RequestMethod = table.Column<string>(nullable: true),
             //        RequestUrl = table.Column<string>(nullable: true),
             //        QueryString = table.Column<string>(nullable: true),
@@ -54,19 +54,19 @@ namespace APIMiddleware.Core.Migrations
             //    },
             //    constraints: table =>
             //    {
-            //        table.PrimaryKey("PK_Requests", x => x.Id);
+            //        table.PrimaryKey("PK_Requests", x => x.RequestId);
             //        table.ForeignKey(
             //            name: "FK_Requests_Projects_ProjectCode",
-            //            column: x => x.ProjectCode,
+            //            column: x => x.ProjectId,
             //            principalTable: "Projects",
-            //            principalColumn: "ProjectCode",
+            //            principalColumn: "ProjectId",
             //            onDelete: ReferentialAction.Cascade);
             //    });
 
             //migrationBuilder.CreateIndex(
             //    name: "IX_Requests_ProjectCode",
             //    table: "Requests",
-            //    column: "ProjectCode");
+            //    column: "ProjectId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

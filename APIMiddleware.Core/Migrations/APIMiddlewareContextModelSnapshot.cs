@@ -23,113 +23,140 @@ namespace APIMiddleware.Core.Migrations
                 {
                     b.Property<int>("ProjectId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("PROJECT_ID")
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CREATED_BY")
+                        .HasColumnName("CREATED_BY")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CREATION_DATE")
+                        .HasColumnName("CREATION_DATE")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LAST_UPDATED_BY")
+                        .HasColumnName("LAST_UPDATED_BY")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LAST_UPDATE_DATE")
+                        .HasColumnName("LAST_UPDATE_DATE")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ProjectCode")
+                    b.Property<int?>("ProjectId")
+                        .HasColumnName("PROJECT_CODE")
                         .HasColumnType("int");
 
                     b.Property<string>("ProjectName")
+                        .HasColumnName("PROJECT_NAME")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RowVersion")
+                        .HasColumnName("ROW_VERSION")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProjectId");
 
-                    b.ToTable("Projects");
+                    b.ToTable("MID_PROJECTS");
                 });
 
             modelBuilder.Entity("APIMiddleware.Core.DBContext.Entities.Request", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("RequestId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("REQUEST_ID")
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Created_By")
+                        .HasColumnName("CREATED_BY")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Creation_Date")
+                        .HasColumnName("CREATION_DATE")
                         .HasColumnType("datetime2");
 
                     b.Property<long>("ElapsedMilliseconds")
+                        .HasColumnName("ELAPSED_TIME")
                         .HasColumnType("bigint");
 
                     b.Property<string>("IP_Address")
+                        .HasColumnName("IP_ADDRESS")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsSuccess")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime?>("Last_Update_Date")
+                        .HasColumnName("LAST_UPDATE_DATE")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Last_Updated_By")
+                        .HasColumnName("LAST_UPDATED_BY")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProjectCode")
+                    b.Property<int>("ProjectId")
+                        .HasColumnName("PROJECT_ID")
                         .HasColumnType("int");
 
                     b.Property<string>("QueryString")
+                        .HasColumnName("QUERY_STRING")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("RequestBody")
+                        .HasColumnName("REQUEST_BODY")
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("RequestFormat")
+                        .HasColumnName("REQUEST_FORMAT")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RequestFunction")
+                        .HasColumnName("REQUEST_FUNCTION")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RequestGuid")
+                        .HasColumnName("REQUEST_GUID")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RequestMethod")
+                        .HasColumnName("REQUEST_METHOD")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RequestStatus")
-                        .HasColumnType("int");
+                    b.Property<string>("RequestStatus")
+                        .HasColumnName("REQUEST_STATUS")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("RequestTime")
+                        .HasColumnName("REQUEST_DATE")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("RequestUrl")
+                        .HasColumnName("REQUEST_URL")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("ResponseBody")
+                        .HasColumnName("RESPONSE_BODY")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("ResponseFormat")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ResponseStatus")
+                    b.Property<int>("ResponseCode")
+                        .HasColumnName("RESPONSE_CODE")
                         .HasColumnType("int");
 
+                    b.Property<string>("ResponseFormat")
+                        .HasColumnName("RESPONSE_FORMAT")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RowVersion")
+                        .HasColumnName("ROW_VERSION")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
+                        .HasColumnName("USER_NAME")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("RequestId");
 
-                    b.HasIndex("ProjectCode");
+                    b.HasIndex("ProjectId");
 
-                    b.ToTable("Requests");
+                    b.ToTable("MID_REQUESTS");
                 });
 
             modelBuilder.Entity("APIMiddleware.Core.DBContext.Entities.SystemPreference", b =>
@@ -153,8 +180,8 @@ namespace APIMiddleware.Core.Migrations
             modelBuilder.Entity("APIMiddleware.Core.DBContext.Entities.Request", b =>
                 {
                     b.HasOne("APIMiddleware.Core.DBContext.Entities.Project", "Project")
-                        .WithMany("Requests")
-                        .HasForeignKey("ProjectCode")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

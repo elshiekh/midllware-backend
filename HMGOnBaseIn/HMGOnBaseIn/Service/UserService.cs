@@ -17,7 +17,10 @@ namespace HMGOnBaseIn.Service
         // users hardcoded for simplicity, store in a db with hashed passwords in production applications
         private List<User> _users = new List<User>
         {
-            new User { Id = 1, FirstName = "HmgOnBase", LastName = "User", Username = "HmgOnBase", Password = "Bj5nmRvt" }
+            // DEV 
+          new User { Id = 1, FirstName = "HmgOnBase", LastName = "User", Username = "HmgOnBase", Password = "Bj5nmRvt" }
+            // PROD 
+           //  new User { Id = 1, FirstName = "OnBaseOut", LastName = "User", Username = "onbaseout", Password = "#B2VKtx$WS" }
         };
 
         public async Task<User> Authenticate(string username, string password)

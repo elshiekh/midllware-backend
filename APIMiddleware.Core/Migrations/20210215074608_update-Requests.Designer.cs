@@ -23,7 +23,7 @@ namespace APIMiddleware.Core.Migrations
 
             modelBuilder.Entity("APIMiddleware.Core.DBContext.Entities.Project", b =>
                 {
-                    b.Property<int>("ProjectCode")
+                    b.Property<int>("ProjectId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -40,7 +40,7 @@ namespace APIMiddleware.Core.Migrations
                     b.Property<DateTime?>("LAST_UPDATE_DATE")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ProjectCode")
+                    b.Property<string>("ProjectId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProjectName")
@@ -49,14 +49,14 @@ namespace APIMiddleware.Core.Migrations
                     b.Property<string>("RowVersion")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ProjectCode");
+                    b.HasKey("ProjectId");
 
                     b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("APIMiddleware.Core.DBContext.Entities.Request", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("RequestId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -73,7 +73,7 @@ namespace APIMiddleware.Core.Migrations
                     b.Property<string>("IP_Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsSuccess")
+                    b.Property<bool>("RequestStatus")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("Last_Update_Date")
@@ -82,7 +82,7 @@ namespace APIMiddleware.Core.Migrations
                     b.Property<string>("Last_Updated_By")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProjectCode")
+                    b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
                     b.Property<string>("QueryString")
@@ -118,7 +118,7 @@ namespace APIMiddleware.Core.Migrations
                     b.Property<string>("ResponseFormat")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ResponseStatus")
+                    b.Property<int>("ResponseCode")
                         .HasColumnType("int");
 
                     b.Property<string>("RowVersion")
@@ -127,9 +127,9 @@ namespace APIMiddleware.Core.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("RequestId");
 
-                    b.HasIndex("ProjectCode");
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Requests");
                 });
@@ -156,7 +156,7 @@ namespace APIMiddleware.Core.Migrations
                 {
                     b.HasOne("APIMiddleware.Core.DBContext.Entities.Project", "Project")
                         .WithMany("Requests")
-                        .HasForeignKey("ProjectCode")
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

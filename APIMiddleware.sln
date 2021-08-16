@@ -19,7 +19,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HMGOnBaseIn", "HMGOnBaseIn\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HMGOnBaseOut", "HMGOnBaseOut\HMGOnBaseOut\HMGOnBaseOut.csproj", "{8D413C22-A0FB-4C16-A8F1-A7821A7DE71D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIMiddleware.API", "APIMiddleware.API\APIMiddleware.API.csproj", "{CD62B2EE-F533-443A-A727-48B74B354583}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIMiddleware.API", "APIMiddleware.API\APIMiddleware.API.csproj", "{CD62B2EE-F533-443A-A727-48B74B354583}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MohemmOut", "MohemmOut\MohemmOut.csproj", "{89C2A9E5-C7FB-4B2F-8EB0-DD7416EB5C09}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Promotions-Portal-In", "Promotions-Portal-In\Promotions-Portal-In.csproj", "{202CF7AA-CFB6-436E-A614-08005E417616}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "external-portal-in", "external-portal-in\external-portal-in.csproj", "{55EB4F5F-DA3B-487A-8C76-448BC05B436B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFDA-PRODUCTION", "SFDA-PRODUCTION\SFDA-PRODUCTION.csproj", "{5E9D0F5C-BF03-4198-A0EC-EB596EF40BF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +71,22 @@ Global
 		{CD62B2EE-F533-443A-A727-48B74B354583}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD62B2EE-F533-443A-A727-48B74B354583}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD62B2EE-F533-443A-A727-48B74B354583}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89C2A9E5-C7FB-4B2F-8EB0-DD7416EB5C09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89C2A9E5-C7FB-4B2F-8EB0-DD7416EB5C09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89C2A9E5-C7FB-4B2F-8EB0-DD7416EB5C09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89C2A9E5-C7FB-4B2F-8EB0-DD7416EB5C09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{202CF7AA-CFB6-436E-A614-08005E417616}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{202CF7AA-CFB6-436E-A614-08005E417616}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{202CF7AA-CFB6-436E-A614-08005E417616}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{202CF7AA-CFB6-436E-A614-08005E417616}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55EB4F5F-DA3B-487A-8C76-448BC05B436B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55EB4F5F-DA3B-487A-8C76-448BC05B436B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55EB4F5F-DA3B-487A-8C76-448BC05B436B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55EB4F5F-DA3B-487A-8C76-448BC05B436B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E9D0F5C-BF03-4198-A0EC-EB596EF40BF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E9D0F5C-BF03-4198-A0EC-EB596EF40BF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E9D0F5C-BF03-4198-A0EC-EB596EF40BF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E9D0F5C-BF03-4198-A0EC-EB596EF40BF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

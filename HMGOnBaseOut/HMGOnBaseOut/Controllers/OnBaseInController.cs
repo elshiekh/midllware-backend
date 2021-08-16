@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace HmgOnBaseIn.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [FormatFilter]
@@ -584,12 +584,11 @@ namespace HmgOnBaseIn.Controllers
         public async Task<IActionResult> SetOnBaseURL([FromBody] SetOnBaseURLRequest request)
         {
             OracleConnection conn = new OracleConnection(_dbOption.DbConection);
-            IDataParameter[] parameters = new IDataParameter[4];
+            IDataParameter[] parameters = new IDataParameter[3];
             // Inputs
-            parameters[0] = new OracleParameter("P_FILE_ID", OracleDbType.Int64, request.P_FILE_ID, ParameterDirection.Input);
-            parameters[1] = new OracleParameter("P_DOCUMENT_ID", OracleDbType.NVarchar2, request.P_DOCUMENT_ID, ParameterDirection.Input);
-            parameters[2] = new OracleParameter("P_URL", OracleDbType.NVarchar2, request.P_URL, ParameterDirection.Input);
-            parameters[3] = new OracleParameter("P_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+            parameters[0] = new OracleParameter("P_DOCUMENT_ID", OracleDbType.NVarchar2, request.P_DOCUMENT_ID, ParameterDirection.Input);
+            parameters[1] = new OracleParameter("P_URL", OracleDbType.NVarchar2, request.P_URL, ParameterDirection.Input);
+            parameters[2] = new OracleParameter("P_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
             using (OracleCommand command = QueryExtenstion.BuildQueryCommand(conn, request.GetSPName(), parameters))
             {
                 try

@@ -14,5 +14,11 @@ namespace APIMiddleware.Core.Extenstion
             }
             return DateTime.MinValue;
         }
+
+        public static DateTime ToDate(this string datetime)
+        {
+            DateTime returnData = DateTime.ParseExact(datetime, "dd/MM/yyyy HH:mm", null);
+            return returnData;
+        }
     }
 }

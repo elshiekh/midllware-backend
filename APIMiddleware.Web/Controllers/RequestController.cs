@@ -34,7 +34,7 @@ namespace APIMiddleware.Web.Controllers
             }
             else
             {
-                orderCriteria = "Id";
+                orderCriteria = "RequestId";
                 orderAscendingDirection = true;
             }
 
@@ -47,9 +47,9 @@ namespace APIMiddleware.Web.Controllers
                                            r.RequestMethod != null && r.RequestMethod.ToUpper().Contains(searchBy.ToUpper()) ||
                                            r.RequestDate != null && r.RequestDate.ToString("dd/MM/yyyy").Contains(searchBy) ||
                                              r.RequestTime != null && r.RequestTime.ToString("HH:mm").Contains(searchBy) ||
-                                           r.ResponseStatus != 0 && r.ResponseStatus.ToString().Contains(searchBy) ||
+                                           r.ResponseCode != 0 && r.ResponseCode.ToString().Contains(searchBy) ||
                                            r.ElapsedMilliseconds != 0 && r.ElapsedMilliseconds.ToString().Contains(searchBy) ||
-                                           r.IsSuccess.ToString().Contains(searchBy)
+                                           r.RequestStatus.ToString().Contains(searchBy)
                                           )
                     .ToList();
             }
@@ -78,7 +78,7 @@ namespace APIMiddleware.Web.Controllers
                 RequestGuid = request.RequestGuid,
                 RequestTime = request.RequestTime,
                 ElapsedMilliseconds = request.ElapsedMilliseconds,
-                StatusCode = request.ResponseStatus,
+                StatusCode = request.ResponseCode,
                 Method = request.RequestMethod,
                 Path = request.RequestUrl,
                 QueryString = (request.QueryString != string.Empty) ? request.QueryString : "No Parameters",

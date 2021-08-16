@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace HMGOnBaseOut.DTO
+﻿namespace HMGOnBaseOut.DTO
 {
     public class SetOnBaseURLRequest
     {
-        public int P_FILE_ID { get; set; }
         public string P_DOCUMENT_ID { get; set; }
         public string P_URL { get; set; }
         public string GetSPName()

@@ -20,7 +20,7 @@ namespace APIMiddleware.Core.Migrations
                 table: "Requests");
 
             migrationBuilder.DropColumn(
-                name: "ResponseStatus",
+                name: "ResponseCode",
                 table: "Requests");
 
             migrationBuilder.AddColumn<string>(
@@ -80,7 +80,7 @@ namespace APIMiddleware.Core.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<int>(
-                name: "ResponseStatus",
+                name: "ResponseCode",
                 table: "Requests",
                 nullable: false,
                 defaultValue: 0);
@@ -116,7 +116,7 @@ namespace APIMiddleware.Core.Migrations
             //    nullable: true);
 
             //migrationBuilder.AddColumn<string>(
-            //    name: "ProjectCode",
+            //    name: "ProjectId",
             //    table: "Projects",
             //    nullable: true);
 
@@ -173,7 +173,7 @@ namespace APIMiddleware.Core.Migrations
                 table: "Requests");
 
             migrationBuilder.DropColumn(
-                name: "ResponseStatus",
+                name: "ResponseCode",
                 table: "Requests");
 
             migrationBuilder.DropColumn(
@@ -201,7 +201,7 @@ namespace APIMiddleware.Core.Migrations
             //    table: "Projects");
 
             //migrationBuilder.DropColumn(
-            //    name: "ProjectCode",
+            //    name: "ProjectId",
             //    table: "Projects");
 
             //migrationBuilder.DropColumn(
@@ -227,7 +227,7 @@ namespace APIMiddleware.Core.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<int>(
-                name: "ResponseStatus",
+                name: "ResponseCode",
                 table: "Requests",
                 type: "int",
                 nullable: false,

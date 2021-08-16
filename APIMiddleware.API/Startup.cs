@@ -1,10 +1,14 @@
 using APIMiddleware.Core;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System.Text;
+using APIMiddleware.API.Helper;
+using Microsoft.IdentityModel.Tokens;
 
 namespace APIMiddleware.API
 {
@@ -21,8 +25,33 @@ namespace APIMiddleware.API
         {
             services.AddCors();
             services.AddControllers();
+            services.AddAutoMapper(typeof(Startup));
             services.RegsiterAPIMiddlewareConfiguration(Configuration);
-        
+            //-----------------------------
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            // configure jwt authentication
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+            //----------------------------------
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "MiddleWare", Version = "v1" }); c.CustomSchemaIds(type => type.ToString()); });
         }
 

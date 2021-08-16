@@ -1,4 +1,4 @@
-﻿using APIMiddleware.Core.DBContext.Entities;
+﻿using APIMiddleware.Core.Entities;
 using APIMiddleware.Core.DTO;
 using APIMiddleware.Notification.Models;
 

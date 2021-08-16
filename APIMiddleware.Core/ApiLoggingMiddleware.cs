@@ -62,11 +62,11 @@ namespace APIMiddleware.Core
 
                 _requestService.AddRequest(new DTO.RequestDTO()
                 {
-                    ProjectCode = _options.Id,
+                    ProjectId = _options.Id,
                     RequestGuid = Guid.NewGuid().ToString(),
                     RequestTime = requestTime,
                     ElapsedMilliseconds = stopWatch.ElapsedMilliseconds,
-                    ResponseStatus = response.StatusCode,
+                    ResponseCode = response.StatusCode,
                     RequestMethod = request.Method,
                     RequestUrl = request.Path,
                     RequestFunction = QueryExtenstion.GetFileNameFromUrl(request.Path),
