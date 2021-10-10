@@ -32,10 +32,12 @@ using SFDA_PRODUCTION.Extenstion;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SFDA_PRODUCTION.Controllers
 {
-   // [Authorize]
+   //[Authorize]
     [ApiController]
     public class SFDAController : ControllerBase
     {
@@ -96,8 +98,10 @@ namespace SFDA_PRODUCTION.Controllers
                 client.ClientCredentials.UserName.UserName = gln + "0000";
                 client.ClientCredentials.UserName.Password = "Sfda0506779945";
                 var result = await client.getDrugListAsync(requestedPost);
-
-                return Ok(result.DrugListServiceResponse);
+                var testArray = result.DrugListServiceResponse.DRUGLIST.Select(p=> new { GTIN = p.GTIN, DrugName = p.DRUGNAME, DrugStatus = p.DRUGSTATUS==1?"Valid":"InValid" });
+                //var list = new List<drug>(testArray);
+                //list.Select( x=> new { GTIN = x.GTIN , DrugName =x.DRUGNAME , DrugStatus = x.DRUGSTATUS});
+                return Ok(testArray);
             }
             catch (Exception ex)
             {

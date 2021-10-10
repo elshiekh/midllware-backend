@@ -7,7 +7,7 @@ namespace Vida.DTO.Vida
     public class SCMInventoryRequest
     {
         public INVStock INVStock { get; set; }
-        public List<ScmSerials> ScmSerials { get; set; }
+        public List<Serials_ROW>  Serials { get; set; }   // ScmSerials
     }
 
     public class SCMInventoryResponse
@@ -40,10 +40,10 @@ namespace Vida.DTO.Vida
         public string TRANSACTION_REFFERENCE { get; set; } = "6280020242";
     }
 
-    public class ScmSerials
+    public class Serials_ROW  // Serials_ROW ScmSerials
     {
-        public string SerialNum { get; set; } = "1111111111";
-        public string GTIN { get; set; } = "22222222222";
-        public string QRCode { get; set; } = "33333333";
+        public string SFDA_BARCODE { get; set; } = "1111111111"; //SerialNum
+        public string GTIN { get; set; } = "22222222222"; //GTIN
+        public string SERIAL_NUMBER { get; set; } = "33333333"; //QRCode
     }
 }

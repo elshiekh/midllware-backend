@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace HmgOnBaseOut.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [FormatFilter]
@@ -165,7 +165,16 @@ namespace HmgOnBaseOut.Controllers
             {
                 _logger.LogInformation("Fire Store New Document");
                 var isXML = Request.ContentType.Contains("application/xml");
-                var fileBlob = GetFIle(request.FileId).FILE_DATA;
+                byte[] fileBlob;
+                try
+                {
+                     fileBlob = GetFIle(request.FileId).FILE_DATA;
+                }
+                catch (Exception ex )
+                {
+                    _logger.LogError(ex, $"Error: FILE ERROR-" + DateTime.Now);
+                    return ReturnException(ex);
+                }
                 if (fileBlob != null)
                 {
                     request.FileBytes = Convert.ToBase64String(fileBlob, 0, fileBlob.Length);
@@ -502,9 +511,9 @@ namespace HmgOnBaseOut.Controllers
 
                 return fileResponset;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                throw ex;
             }
         }
         #endregion

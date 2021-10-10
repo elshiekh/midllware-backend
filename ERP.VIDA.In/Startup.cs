@@ -31,18 +31,19 @@ namespace Vida
         {
             services.AddCors();
             services.AddControllers();
-            services.AddControllers().AddXmlSerializerFormatters();
+            //services.AddControllers().AddXmlSerializerFormatters();
+            //services.AddControllers().AddXmlSerializerFormatters();
+            services.AddControllers().AddXmlDataContractSerializerFormatters();
             services.AddAuthentication("BasicAuthentication").AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
             services.AddScoped<IUserService, UserService>();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "VIDA IN WebAPI", Version = "v1" }); c.CustomSchemaIds(type => type.ToString()); });
             Action<DBOption> mduOptions = (opt =>
             {
                 opt.DbConnection = Configuration["ConnectionStrings:ERPConn"];
-                opt.VidaURLConnection = Configuration["ConnectionStrings:VidaURLConn"];
+                //opt.VidaURLConnection = Configuration["ConnectionStrings:VidaURLConn"];
             });
             services.Configure(mduOptions);
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<DBOption>>().Value);
-
          
             //MW
             services.RegsiterAPIMiddlewareConfiguration(Configuration);

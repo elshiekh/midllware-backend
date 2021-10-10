@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -10,8 +11,9 @@ using Vida.DTO.Vida;
 namespace Vida.Controllers
 {
 
-    // [Authorize]
+    [Authorize]
     [ApiController]
+    [Route("api/[controller]")]
     [Consumes("application/xml")]
     [Produces("application/xml")]
     public class VidaController : ControllerBase
@@ -26,7 +28,7 @@ namespace Vida.Controllers
         #endregion
 
         #region SCMInventory
-        [HttpPost("api/vida/SCMInventory"), FormatFilter]
+        [HttpPost("SCMInventory"), FormatFilter]
         public async Task<IActionResult> SCMInventory([FromBody] SCMInventoryRequest request)
         {
             try
