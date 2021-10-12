@@ -26,7 +26,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region GetHierarchy
-        [HttpPost("GetHierarchys"), FormatFilter]
+        [HttpPost("GetHierarchys.{format}"), FormatFilter]
         public async Task<IActionResult> GetHierarchys([FromBody] GetHierarchyRequest obj)
         {
             try
@@ -56,7 +56,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region CreateHierarchy
-        [HttpPost("NewHierarchy"), FormatFilter]
+        [HttpPost("NewHierarchy.{format}"), FormatFilter]
         public async Task<IActionResult> NewHierarchy([FromBody] HierarchyRequest obj)
         {
             try
@@ -85,7 +85,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region UpdateHierarchy
-        [HttpPut("UpdateHierarchy"), FormatFilter]
+        [HttpPut("UpdateHierarchy.{format}"), FormatFilter]
         public async Task<IActionResult> UpdateHierarchy([FromBody] HierarchyRequest obj)
         {
             try
@@ -114,7 +114,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region DeleteHierarchy
-        [HttpDelete("DeleteHierarchy"), FormatFilter]
+        [HttpDelete("DeleteHierarchy.{format}"), FormatFilter]
         public async Task<IActionResult> DeleteHierarchy([FromBody] DeleteHierarchyRequest obj)
         {
             try

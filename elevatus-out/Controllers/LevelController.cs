@@ -26,7 +26,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region GetLevel
-        [HttpGet("GetLevels"), FormatFilter]
+        [HttpGet("GetLevels.{format}"), FormatFilter]
         public async Task<IActionResult> GetLevels(int limit = 30, int page = 1)
         {
             try
@@ -54,7 +54,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region CreateLevel
-        [HttpPost("NewLevel"), FormatFilter]
+        [HttpPost("NewLevel.{format}"), FormatFilter]
         public async Task<IActionResult> NewLevel([FromBody] LevelRequest obj)
         {
             try
@@ -83,7 +83,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region UpdateLevel
-        [HttpPut("UpdateLevel"), FormatFilter]
+        [HttpPut("UpdateLevel.{format}"), FormatFilter]
         public async Task<IActionResult> UpdateLevel([FromBody] LevelRequest obj)
         {
             try
@@ -112,7 +112,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region DeleteLevel
-        [HttpDelete("DeleteLevel"), FormatFilter]
+        [HttpDelete("DeleteLevel.{format}"), FormatFilter]
         public async Task<IActionResult> DeleteLevel([FromBody] DeleteLevelRequest obj)
         {
             try

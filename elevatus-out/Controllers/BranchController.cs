@@ -26,7 +26,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region GetBranch
-        [HttpGet("GetBranches"), FormatFilter]
+        [HttpGet("GetBranches.{format}"), FormatFilter]
         public async Task<IActionResult> GetBranches(int limit = 30, int page = 1)
         {
             try
@@ -54,7 +54,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region CreateBranch
-        [HttpPost("NewBranch"), FormatFilter]
+        [HttpPost("NewBranch.{format}"), FormatFilter]
         public async Task<IActionResult> NewBranch([FromBody] BranchRequest obj)
         {
             try
@@ -83,7 +83,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region UpdateBranch
-        [HttpPut("UpdateBranch"), FormatFilter]
+        [HttpPut("UpdateBranch.{format}"), FormatFilter]
         public async Task<IActionResult> UpdateBranch([FromBody] BranchRequest obj)
         {
             try
@@ -112,7 +112,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region DeleteBranch
-        [HttpDelete("DeleteBranch"), FormatFilter]
+        [HttpDelete("DeleteBranch.{format}"), FormatFilter]
         public async Task<IActionResult> DeleteBranch([FromBody] DeleteBranchRequest obj)
         {
             try
