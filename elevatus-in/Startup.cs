@@ -43,6 +43,7 @@ namespace elevatus_in
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Elevatus-In API", Version = "v1" });
+                c.CustomSchemaIds(type => type.ToString());
                 c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",

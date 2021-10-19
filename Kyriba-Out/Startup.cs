@@ -1,7 +1,7 @@
 using APIMiddleware.Core;
 using APIMiddleware.Core.DTO;
-using elevatus_out.Helper;
-using elevatus_out.Service;
+using Kyriba_Out.Helper;
+using Kyriba_Out.Service;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,13 +13,12 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System;
 
-namespace elevatus_out
+namespace Kyriba_Out
 {
     public class Startup
     {
         //MW
-        // WebAPIProject properties = new WebAPIProject() { Id = 8, Code = 8, Name = "HMGOnBaseOut", UserName = "HmgOnBase" };
-        WebAPIProject properties = new WebAPIProject() { Id = 212, Code = 212, Name = "elevatusOut", UserName = "elevatusOut" };
+        WebAPIProject properties = new WebAPIProject() { Id = 213, Code = 213, Name = "KyribaOut", UserName = "KyribaOut" };
 
         public Startup(IConfiguration configuration)
         {
@@ -28,19 +27,12 @@ namespace elevatus_out
 
         public IConfiguration Configuration { get; }
 
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             //MW
              services.RegsiterAPIMiddlewareConfiguration(Configuration);
-            // services.AddCors();
-            //services.AddMvc()
-            //.AddXmlSerializerFormatters()
-            //.AddXmlDataContractSerializerFormatters();
              services.AddControllers().AddXmlSerializerFormatters();
-            // services.AddControllers().AddXmlDataContractSerializerFormatters();
-
 
             // configure basic authentication 
             services.AddAuthentication("BasicAuthentication")
@@ -51,7 +43,7 @@ namespace elevatus_out
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Elevatus Out WebAPI", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Kyriba Out Web API", Version = "v1" });
                 c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -79,15 +71,12 @@ namespace elevatus_out
 
             Action<DBOption> mduOptions = (opt =>
             {
-                opt.BaseAddress = Configuration["ELEVATUS:BaseAddress"];
-                opt.JsonFormat = Configuration["ELEVATUS:JsonFormat"];
-                opt.UserName = Configuration["ELEVATUS:UserName"];
-                opt.Password = Configuration["ELEVATUS:Password"];
+                opt.FtpAddress = Configuration["KyribaOut:FtpAddress"];
+                opt.UserName = Configuration["KyribaOut:UserName"];
+                opt.Password = Configuration["KyribaOut:Password"];
             });
             services.Configure(mduOptions);
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<DBOption>>().Value);
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,7 +88,6 @@ namespace elevatus_out
             {
                 app.UseDeveloperExceptionPage();
             }
-
             //MW
             app.UseMiddleware<ApiLogging>(properties);
 
@@ -127,7 +115,7 @@ namespace elevatus_out
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Elevatus Out WebAPI");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kyriba Out Web API");
                 c.DefaultModelsExpandDepth(-1);
             });
         }

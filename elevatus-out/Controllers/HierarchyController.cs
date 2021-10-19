@@ -45,7 +45,7 @@ namespace elevatus_out.Controllers
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<GetHierarchyResponse>(stringData);
-                    return Ok(data);
+                    return Ok(data.IntegrateAccount.ExtraData);
                 }
             }
             catch (Exception ex)
@@ -61,6 +61,7 @@ namespace elevatus_out.Controllers
         {
             try
             {
+                CreateResponseHierarchy result = new CreateResponseHierarchy();
                 using (var client = new HttpClient())
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
@@ -74,7 +75,9 @@ namespace elevatus_out.Controllers
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<NewHierarchyResponse>(stringData);
-                    return Ok(data);
+                    result.Message = data.Identifiers.Status == "success" ? "New Hierarchy Successfully" : "";
+                    result.Status = data.Identifiers.Status;
+                    return Ok(result);
                 }
             }
             catch (Exception ex)
@@ -90,6 +93,7 @@ namespace elevatus_out.Controllers
         {
             try
             {
+                UpdateResponseHierarchy result = new UpdateResponseHierarchy();
                 using (var client = new HttpClient())
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
@@ -103,7 +107,10 @@ namespace elevatus_out.Controllers
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<UpdateHierarchyResponse>(stringData);
-                    return Ok(data);
+                    result.Message = data.Identifiers.Status == "success" ? "Updated Hierarchy Successfully" : "";
+                    result.Status = data.Identifiers.Status;
+                    result.Reasons = data.Reason;
+                    return Ok(result);
                 }
             }
             catch (Exception ex)
@@ -119,6 +126,7 @@ namespace elevatus_out.Controllers
         {
             try
             {
+                DeleteResponseHierarchy result = new DeleteResponseHierarchy();
                 using (var client = new HttpClient())
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
@@ -132,7 +140,9 @@ namespace elevatus_out.Controllers
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<DeleteHierarchyResponse>(stringData);
-                    return Ok(data);
+                    result.Message = data.Identifiers.Status == "success" ? "Delete Hierarchy Successfully" : "";
+                    result.Status = data.Identifiers.Status;
+                    return Ok(result);
                 }
             }
             catch (Exception ex)
@@ -157,6 +167,5 @@ namespace elevatus_out.Controllers
             }));
         }
         #endregion
-
     }
 }

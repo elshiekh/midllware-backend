@@ -43,7 +43,7 @@ namespace elevatus_out.Controllers
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<GetLevelResponse>(stringData);
-                    return Ok(data);
+                    return Ok(data.IntegrateAccount.ExtraData);
                 }
             }
             catch (Exception ex)
@@ -59,6 +59,7 @@ namespace elevatus_out.Controllers
         {
             try
             {
+                CreateResponseLevel result = new CreateResponseLevel();
                 using (var client = new HttpClient())
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
@@ -72,7 +73,9 @@ namespace elevatus_out.Controllers
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<NewLevelResponse>(stringData);
-                    return Ok(data);
+                    result.Message = data.Identifiers.Status == "success" ? "New Level Successfully" : "";
+                    result.Status = data.Identifiers.Status;
+                    return Ok(result);
                 }
             }
             catch (Exception ex)
@@ -88,6 +91,7 @@ namespace elevatus_out.Controllers
         {
             try
             {
+                UpdateResponseLevel result = new UpdateResponseLevel();
                 using (var client = new HttpClient())
                 {
                    var baseAddress = new Uri(_dbOption.BaseAddress);
@@ -101,7 +105,10 @@ namespace elevatus_out.Controllers
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<UpdateLevelResponse>(stringData);
-                    return Ok(data);
+                    result.Message = data.Identifiers.Status == "success" ? "Updated Level Successfully" : "";
+                    result.Status = data.Identifiers.Status;
+                    result.Reasons = data.Reason;
+                    return Ok(result);
                 }
             }
             catch (Exception ex)
@@ -117,6 +124,7 @@ namespace elevatus_out.Controllers
         {
             try
             {
+                DeleteResponseLevel result = new DeleteResponseLevel();
                 using (var client = new HttpClient())
                 {
                     byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
@@ -130,7 +138,9 @@ namespace elevatus_out.Controllers
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<DeleteLevelResponse>(stringData);
-                    return Ok(data);
+                    result.Message = data.Identifiers.Status == "success" ? "Delete Level Successfully" : "";
+                    result.Status = data.Identifiers.Status;
+                    return Ok(result);
                 }
             }
             catch (Exception ex)

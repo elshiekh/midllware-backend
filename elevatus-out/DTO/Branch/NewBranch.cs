@@ -7,9 +7,24 @@ namespace elevatus_out.Branch
     public class BranchRequest
     {
         public int system_id { get; set; }
-        public string system_name { get; set; }
+        public Translate translate { get; set; }
         public bool system_status { get; set; }
     }
+
+    public class Translate {
+        public TranslateArabic ar { get; set; }
+        public TranslateEnglish en { get; set; }
+    }
+
+    public class TranslateArabic
+    {
+        public string system_name { get; set; }
+    }
+    public class TranslateEnglish
+    {
+        public string system_name { get; set; }
+    }
+    
     public class DeleteBranchRequest
     {
         public int system_id { get; set; }
@@ -70,7 +85,7 @@ namespace elevatus_out.Branch
     }
     public class ExtraData {
         public int SystemId { get; set; }
-        public string SystemName { get; set; }
+        public Translate translate { get; set; }
         public bool SystemStatus { get; set; }
         public bool  CanDelete { get; set; }
     }
@@ -79,6 +94,26 @@ namespace elevatus_out.Branch
         public string Filed { get; set; }
         public string Type { get; set; }
         public string error { get; set; }
+    }
+
+    public class CreateResponse {
+        public string Status { get; set; }
+        public string  Message { get; set; }
+        public string Reasons { get; set; }
+    }
+
+    public class UpdateResponse
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public object  Reasons { get; set; }
+    }
+
+    public class DeleteResponse
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public string Reasons { get; set; }
     }
 
     #endregion

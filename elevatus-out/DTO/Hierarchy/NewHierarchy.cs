@@ -8,11 +8,13 @@ namespace elevatus_out.Hierarchy
     {
         public int system_branch_id { get; set; }
         public string system_id { get; set; }
-        public int system_level_id { get; set; }
-        public string system_name { get; set; }
-        public string  system_hr_name { get; set; }
+        public string system_level_id { get; set; }
+        public string system_name_en { get; set; }
+        public string system_hr_name_en { get; set; }
+        public string system_name_ar { get; set; }
+        public string system_hr_name_ar { get; set; }
         public bool system_status { get; set; }
-        public string system_parent_id { get; set; }
+        public int? system_parent_id { get; set; }
     }
     public class DeleteHierarchyRequest
     {
@@ -81,11 +83,13 @@ namespace elevatus_out.Hierarchy
         public string SystemBranchId { get; set; }
         public string SystemLevelId { get; set; }
         public int SystemId { get; set; }
-        public string SystemName { get; set; }
+        public string SystemNameEn { get; set; }
+        public string SystemHrNameEn { get; set; }
+        public string SystemNameAr { get; set; }
+        public string SystemHrNameAr { get; set; }
         public bool SystemStatus { get; set; }
-        public string SystemHrName { get; set; }
         public bool CanDelete { get; set; }
-       // public Parent Parent { get; set; }
+        //public object [] Parent { get; set; }
     }
     public class Reason
     {
@@ -95,5 +99,42 @@ namespace elevatus_out.Hierarchy
     }
 
     public class Parent {}
+
+    public class TranslateHierarchy
+    {
+        public TranslateHierarchyArabic ar { get; set; }
+        public TranslateHierarchyEnglish en { get; set; }
+    }
+
+    public class TranslateHierarchyArabic
+    {
+        public string system_name { get; set; }
+    }
+
+    public class TranslateHierarchyEnglish
+    {
+        public string system_name { get; set; }
+    }
+
+    public class CreateResponseHierarchy
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public string Reasons { get; set; }
+    }
+
+    public class UpdateResponseHierarchy
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public object Reasons { get; set; }
+    }
+
+    public class DeleteResponseHierarchy
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public string Reasons { get; set; }
+    }
     #endregion
 }

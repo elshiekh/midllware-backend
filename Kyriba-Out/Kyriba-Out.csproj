@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Kyriba_Out</RootNamespace>
+    <UserSecretsId>c6958df9-1149-4890-b06d-54ee59667f5e</UserSecretsId>
+  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="BouncyCastle.NetCore" Version="1.8.8" />
+		<PackageReference Include="BouncyCastle.NetCoreSdk" Version="1.9.3.1" />
+		<PackageReference Include="xunit.assert" Version="2.4.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc4" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\APIMiddleware.Core\APIMiddleware.Core.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Extenstion\" />
+	  <Folder Include="Resources\EnryptionFiles\" />
+	</ItemGroup>
+</Project>
