@@ -7,10 +7,11 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
+using System.Threading;
 
 namespace Kyriba_Out.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     [FormatFilter]
@@ -39,11 +40,11 @@ namespace Kyriba_Out.Controllers
                 request.Method = WebRequestMethods.Ftp.UploadFile;
                 //Set the NetworkCredentials
                 request.Credentials = new NetworkCredential(_dbOption.UserName, _dbOption.Password);
-                request.UseBinary = false;
+                request.UseBinary = true;
                 request.UsePassive = true;
-                request.Timeout = 500;
-                request.EnableSsl = true;
+                request.Timeout = Timeout.Infinite;
                 request.KeepAlive = false;
+                request.EnableSsl = true;
 
                 byte[] fileInbytes = Convert.FromBase64String(model.fileByte);
                 var input = fileInbytes;

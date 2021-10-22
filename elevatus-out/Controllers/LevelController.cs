@@ -1,4 +1,5 @@
-﻿using elevatus_out.Level;
+﻿using elevatus_out.DTO;
+using elevatus_out.Level;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -7,11 +8,12 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace elevatus_out.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [FormatFilter]
@@ -73,7 +75,7 @@ namespace elevatus_out.Controllers
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<NewLevelResponse>(stringData);
-                    result.Message = data.Identifiers.Status == "success" ? "New Level Successfully" : "";
+                    result.Message = data.Identifiers.Status == "success" ? "Added Level Successfully" : "";
                     result.Status = data.Identifiers.Status;
                     return Ok(result);
                 }
@@ -149,6 +151,14 @@ namespace elevatus_out.Controllers
             }
         }
         #endregion
+
+        [HttpPost("GenericJson.{format}"), FormatFilter]
+        public IActionResult GenericJson([FromBody] Request body)
+        {
+            string json = System.Text.Json.JsonSerializer.Serialize(body);
+            var result = JsonConvert.DeserializeObject<Object>(json);
+            return Ok(body);
+        }
 
         #region Return Exception
         private IActionResult ReturnException(Exception ex)

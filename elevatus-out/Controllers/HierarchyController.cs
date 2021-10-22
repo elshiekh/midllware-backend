@@ -75,7 +75,7 @@ namespace elevatus_out.Controllers
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<NewHierarchyResponse>(stringData);
-                    result.Message = data.Identifiers.Status == "success" ? "New Hierarchy Successfully" : "";
+                    result.Message = data.Identifiers.Status == "success" ? "Added Hierarchy Successfully" : "";
                     result.Status = data.Identifiers.Status;
                     return Ok(result);
                 }
