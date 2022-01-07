@@ -6,6 +6,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Kyriba_Out.DTO;
+using System.Text;
 
 namespace Kyriba_Out.Helper
 {
@@ -61,7 +62,7 @@ namespace Kyriba_Out.Helper
             // Creates a stream whose backing store is memory. 
             using (MemoryStream xmlStream = new MemoryStream())
             {
-                xmlSerializer.Serialize(xmlStream, YourClassObject,ns);
+                xmlSerializer.Serialize(xmlStream, YourClassObject, ns);
                 xmlStream.Position = 0;
                 //Loads the XML document from the specified string.
                 xmlDoc.Load(xmlStream);
@@ -104,6 +105,50 @@ namespace Kyriba_Out.Helper
                 list.Add(obj);
             }
             return list;
+        }
+
+        //public static byte[] DecodeUrlBase64(string s)
+        //{
+        //    if (String.IsNullOrWhiteSpace(s)) return null;
+        //    try
+        //    {
+        //        string working = s.Replace('-', '+').Replace('_', '/'); ;
+        //        while (working.Length % 4 != 0)
+        //        {
+        //            working += '=';
+        //        }
+        //        return Convert.FromBase64String(working);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return null;
+        //    }
+        //}
+
+        public static DecodeBase64Response DecodeUrlBase64(string s)
+        {
+            DecodeBase64Response result = new DecodeBase64Response();
+            try
+            {
+                //s = s.Replace('-', '+').Replace('_', '/').PadRight(4 * ((s.Length + 3) / 4), '=');
+                result.FileInBase64 = Convert.FromBase64String(s);
+                result.Staus = true;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.FileInBase64 = null;
+                result.Staus = false;
+                result.Message = ex.Message.ToString();
+                return result;
+            }
+        }
+
+        public class DecodeBase64Response
+        {
+            public byte[] FileInBase64 { get; set; }
+            public string Message { get; set; }
+            public bool Staus { get; set; }
         }
     }
 }

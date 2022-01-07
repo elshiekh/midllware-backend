@@ -6,4 +6,9 @@ namespace elevatus_out.DTO
     {
         public IDictionary<string, object> GenericObject { get; set; }
     }
+
+    public class BodyBase64Request
+    {
+        public string Base64Request { get; set; }
+    }
 }

@@ -16,7 +16,7 @@ namespace APIMiddleware.Core.DBContext
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //Production ----------------
-             // const string conn = "Server=10.201.201.130;Database=ERPMW;User Id=ERPMW;password=U$r4mwerp;Trusted_Connection=False;MultipleActiveResultSets=true;"; //PRODUCTION
+            // const string conn = "Server=10.201.201.130;Database=ERPMW;User Id=ERPMW;password=U$r4mwerp;Trusted_Connection=False;MultipleActiveResultSets=true;"; //PRODUCTION
            // Development -----------------
             const string conn = "Server=10.201.203.131;Database=ERPMW;User Id=ERPMW;password=pass4erpmw;Trusted_Connection=False;MultipleActiveResultSets=true;";
             ///Testing-----------------------

@@ -389,7 +389,9 @@ namespace Kyriba_Out.PGB
 
                 return decoded.ToArray();
             }
+#pragma warning disable CS0168 // The variable 'e' is declared but never used
             catch (Exception e)
+#pragma warning restore CS0168 // The variable 'e' is declared but never used
             {
                 //if (e.Message.StartsWith("Checksum mismatch"))
                 //    MessageBox.Show(null, "Likely invalid passcode. Possible data corruption.", "Invalid Passcode", MessageBoxButtons.OK, MessageBoxIcon.Error);

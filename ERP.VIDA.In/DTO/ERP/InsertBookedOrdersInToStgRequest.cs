@@ -50,4 +50,25 @@ namespace Vida.DTO
         public string DEST_SUBINVENTORY { get; set; }
         public string EXTENSION_NUMBER { get; set; }
     }
+
+
+    public class TestRequest
+    {
+        public string GetSPName()
+        {
+            return "HMG_ELEVATUS_INT_IN_PKG. XX_TEST_REC";
+        }
+        public int SEQ_ID { get; set; }
+        public TableRequest TableRequest { get; set; }
+    }
+    public class TableRequest
+    {
+        public List<TableColumn> TableColumns { get; set; }
+    }
+
+    public class TableColumn
+    {
+        public string EMPLOYEE_NUMBER { get; set; }
+        public string NAME { get; set; }
+    }
 }

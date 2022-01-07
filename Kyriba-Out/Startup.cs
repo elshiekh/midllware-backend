@@ -67,7 +67,7 @@ namespace Kyriba_Out
                     }
                 });
             });
-
+            services.AddCors();
 
             Action<DBOption> mduOptions = (opt =>
             {
@@ -88,16 +88,14 @@ namespace Kyriba_Out
             {
                 app.UseDeveloperExceptionPage();
             }
+            else { app.UseDeveloperExceptionPage(); }
             //MW
             app.UseMiddleware<ApiLogging>(properties);
 
             app.UseRouting();
 
             // global cors policy
-            app.UseCors(x => x
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().WithExposedHeaders("*"));
 
             //app.UseHttpsRedirection();
             app.UseAuthentication();

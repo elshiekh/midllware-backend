@@ -5,7 +5,9 @@ using Newtonsoft.Json;
 using Oracle.ManagedDataAccess.Client;
 using Oracle.ManagedDataAccess.Types;
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Vida.DTO;
@@ -107,6 +109,85 @@ namespace Vida.Controllers
         //        {
         //            conn.Open();
         //            OracleDataReader objReader =  command.ExecuteReader();
+        //            List<InsertBookedOrdersInToStgResponce> OperatingUnitList = new List<InsertBookedOrdersInToStgResponce>();
+        //            OperatingUnitList = QueryExtenstion.DataReaderMapToList<InsertBookedOrdersInToStgResponce>(objReader);
+
+        //            objReader.Close();
+
+        //            conn.Close();
+        //            conn.Dispose();
+        //            //var isSuccess = await command.ExecuteNonQueryAsync();
+        //            //var result = new InsertBookedOrdersInToStgResponce()
+        //            //{
+        //            //    VIDA_ID = (Int32)command.Parameters["@VIDA_ID"].Value,
+        //            //    //USER_NAME = command.Parameters["@USER_NAME"].Value.ToString(),
+        //            //    //ORDER_NUMBER = command.Parameters["@ORDER_NUMBER"].Value.ToString(),
+        //            //    // ORDER_DATE = Convert.ToDateTime((command.Parameters["@ORDER_DATE"].Value)),
+        //            //    //LINE_NUMBER = command.Parameters["@LINE_NUMBER"].Value.ToString(),
+        //            //    //ITEM_CODE = command.Parameters["@ITEM_CODE"].Value.ToString(),
+        //            //    //QUANTITY = Convert.ToDecimal((OracleDecimal)(command.Parameters["@QUANTITY"].Value)),
+        //            //    //   NEED_BY_DATE = Convert.ToDateTime((OracleDate)(command.Parameters["@NEED_BY_DATE"].Value)),
+        //            //    //DEST_ORGANIZATION_CODE = command.Parameters["@DEST_ORGANIZATION_CODE"].Value.ToString(),
+        //            //    //DEST_SUBINVENTORY = command.Parameters["@DEST_SUBINVENTORY"].Value.ToString(),
+        //            //    //EXTENSION_NUMBER = command.Parameters["@EXTENSION_NUMBER"].Value.ToString(),
+        //            //    // ORACLE_ID = Convert.ToInt32((command.Parameters["@ORACLE_ID"].Value)),
+        //            //    //RESPONSE_STATUS = command.Parameters["@RESPONSE_STATUS"].Value.ToString(),
+        //            //    //RESPONSE_MSG = command.Parameters["@RESPONSE_MSG"].Value.ToString(),
+        //            //};
+
+        //            return Ok(OperatingUnitList);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return ReturnException(ex);
+        //        }
+        //    }
+        //}
+        //#endregion
+
+        public void InsertQuestion(IEnumerable<string> area_list)
+        {
+            area_list.ToList().Add("TEST1");
+            area_list.ToList().Add("TEST2");
+            var connect = new OracleConnection("YOUR CONNECTION STRING");
+
+            var command = new OracleCommand("BEGIN Testpackage.Testprocedure(:Areas); END;", connect);
+
+            connect.Open();
+
+            var arry = command.Parameters.Add("Areas", OracleDbType.Varchar2);
+
+            arry.Direction = ParameterDirection.Input;
+            arry.CollectionType = OracleCollectionType.PLSQLAssociativeArray;
+            arry.Value = area_list.ToArray();
+            arry.Size = area_list.Count();
+            arry.ArrayBindSize = area_list.Select(_ => _.Length).ToArray();
+            arry.ArrayBindStatus = Enumerable.Repeat(OracleParameterStatus.Success, area_list.Count()).ToArray();
+
+            command.ExecuteNonQuery();
+
+            connect.Close();
+        }
+
+        //#region Insert Booked Orders
+        //[HttpPost("InsertBookedOrdersInToStg.{format}"), FormatFilter]
+        //public async Task<IActionResult> InsertTable([FromBody] TestRequest request)
+        //{
+        //    OracleConnection conn = new OracleConnection(_dbOption.DbConnection);
+
+        //    IDataParameter[] parameters = new IDataParameter[2];
+
+        //    // Inputs
+        //    parameters[0] = new OracleParameter("@P_BOOKED_ORDERS_XML", OracleDbType.XmlType, request.P_BOOKED_ORDERS_XML.To_BOOKED_ORDERSXML(), ParameterDirection.Input);
+        //    // Outputs
+        //    parameters[1] = new OracleParameter("@P_BOOKED_ORDERS_RESPONSE", OracleDbType.RefCursor, ParameterDirection.Output);
+
+        //    using (OracleCommand command = QueryExtenstion.BuildQueryCommand(conn, request.GetSPName(), parameters))
+        //    {
+        //        try
+        //        {
+        //            conn.Open();
+        //            OracleDataReader objReader = command.ExecuteReader();
         //            List<InsertBookedOrdersInToStgResponce> OperatingUnitList = new List<InsertBookedOrdersInToStgResponce>();
         //            OperatingUnitList = QueryExtenstion.DataReaderMapToList<InsertBookedOrdersInToStgResponce>(objReader);
 

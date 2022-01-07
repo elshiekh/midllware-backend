@@ -18,9 +18,9 @@ namespace HMGOnBaseIn.Service
         private List<User> _users = new List<User>
         {
             // DEV -------------
-          // new User { Id = 1, FirstName = "HmgOnBase", LastName = "User", Username = "HmgOnBase", Password = "Bj5nmRvt" }
+               new User { Id = 1, FirstName = "HmgOnBase", LastName = "User", Username = "HmgOnBase", Password = "Bj5nmRvt" }
             // PROD ------------
-             new User { Id = 1, FirstName = "OnBaseOut", LastName = "User", Username = "onbaseout", Password = "#B2VKtx$WS" }
+           // new User { Id = 1, FirstName = "OnBaseOut", LastName = "User", Username = "onbaseout", Password = "#B2VKtx$WS" }
         };
 
         public async Task<User> Authenticate(string username, string password)

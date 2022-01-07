@@ -6,9 +6,12 @@ namespace elevatus_out.Branch
     #region New-Branch
     public class BranchRequest
     {
-        public int system_id { get; set; }
-        public Translate translate { get; set; }
+        public string system_id { get; set; }
+        public string system_payroll_id { get; set; }
+        public string system_name_en { get; set; }
+        public string system_name_ar { get; set; }
         public bool system_status { get; set; }
+        public string system_business_group_id { get; set; }
     }
 
     public class Translate {
@@ -24,16 +27,17 @@ namespace elevatus_out.Branch
     {
         public string system_name { get; set; }
     }
-    
+
     public class DeleteBranchRequest
     {
-        public int system_id { get; set; }
+        public List<string> system_id { get; set; }
     }
     // Response --------
     public class NewBranchResponse
     {
         public Identifiers Identifiers { get; set; }
         public IntegrateAccountBranch IntegrateAccount { get; set; }
+        public List<Reason> Reason { get; set; }
     }
     public class UpdateBranchResponse
     {
@@ -41,8 +45,9 @@ namespace elevatus_out.Branch
         public IntegrateAccountBranch IntegrateAccount { get; set; }
         public List<Reason> Reason { get; set; }
     }
-    public class DeleteBranchResponse {
-       public IdentifierDeleteResponse Identifiers { get; set; }
+    public class DeleteBranchResponse
+    {
+        public IdentifierDeleteResponse Identifiers { get; set; }
     }
     #endregion
 
@@ -54,7 +59,7 @@ namespace elevatus_out.Branch
     }
     public class Identifiers
     {
-        public string  RequestId { get; set; }
+        public string RequestId { get; set; }
         public string ApplicationId { get; set; }
         public string Status { get; set; }
         public string StatusCode { get; set; }
@@ -65,9 +70,13 @@ namespace elevatus_out.Branch
     {
         public string RequestId { get; set; }
         public string ApplicationId { get; set; }
-        public string  Action { get; set; }
+        public List<IdentifierDeleteResponseAction> Action { get; set; }
         public string Status { get; set; }
         public string StatusCode { get; set; }
+    }
+    public class IdentifierDeleteResponseAction {
+        public string System_Id { get; set; }
+        public string Status { get; set; }
     }
     public class Paginate
     {
@@ -85,7 +94,10 @@ namespace elevatus_out.Branch
     }
     public class ExtraData {
         public int SystemId { get; set; }
-        public Translate translate { get; set; }
+        public string SystemNameAr { get; set; }
+        public string SystemNameEn { get; set; }
+        public string SystemPayrollId { get; set; }
+        public string SystemBusinessGroupId { get; set; }
         public bool SystemStatus { get; set; }
         public bool  CanDelete { get; set; }
     }
@@ -96,20 +108,21 @@ namespace elevatus_out.Branch
         public string error { get; set; }
     }
 
-    public class CreateResponse {
-        public string Status { get; set; }
-        public string  Message { get; set; }
-        public string Reasons { get; set; }
-    }
-
-    public class UpdateResponse
+    public class NewResponseBranch
     {
         public string Status { get; set; }
         public string Message { get; set; }
-        public object  Reasons { get; set; }
+        public string Reasons { get; set; }
     }
 
-    public class DeleteResponse
+    public class UpdateResponseBranch
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public string Reasons { get; set; }
+    }
+
+    public class DeleteResponseBranch
     {
         public string Status { get; set; }
         public string Message { get; set; }

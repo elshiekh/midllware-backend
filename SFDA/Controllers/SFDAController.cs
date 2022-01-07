@@ -35,7 +35,7 @@ using System.Threading.Tasks;
 
 namespace SFDA.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     public class SFDAController : ControllerBase
     {

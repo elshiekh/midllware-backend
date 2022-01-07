@@ -37,7 +37,7 @@ using System.Linq;
 
 namespace SFDA_PRODUCTION.Controllers
 {
-   //[Authorize]
+    //[Authorize]
     [ApiController]
     public class SFDAController : ControllerBase
     {
@@ -120,8 +120,15 @@ namespace SFDA_PRODUCTION.Controllers
                 client.ClientCredentials.UserName.UserName = gln + "0000";
                 client.ClientCredentials.UserName.Password = "Sfda0506779945";
                 var result = await client.getErrorCodeListAsync(request);
-
-                return Ok(result.ErrorCodeListServiceResponse);
+                //var cc = result.ErrorCodeListServiceResponse.ERRORCODELIST.ToList();
+                //List<Object> c = new List<object>();
+                //foreach (var item in cc)
+                //{
+                //    var description = item.ERRORCODEDESC !=null? item.ERRORCODEDESC[0].DESCRIPTION: null;
+                //    c.Add(new { code = item.CODE, Description = description });
+                //}
+                //var ccResult = cc.Select(x => new { code =x.CODE , Description = x.ERRORCODEDESC.FirstOrDefault().DESCRIPTION });
+                return Ok(result.ErrorCodeListServiceResponse.ERRORCODELIST);
             }
             catch (Exception ex)
             {

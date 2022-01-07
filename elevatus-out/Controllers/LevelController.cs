@@ -4,16 +4,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace elevatus_out.Controllers
 {
-    //[Authorize]
+     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [FormatFilter]
@@ -36,6 +36,7 @@ namespace elevatus_out.Controllers
                 using (var client = new HttpClient())
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
+                    client.Timeout = TimeSpan.FromMinutes(5);
                     byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
                     var request = new HttpRequestMessage(HttpMethod.Get, baseAddress + "api/v1/service/level?limit=" + limit + "&page=" + page);
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
@@ -65,6 +66,7 @@ namespace elevatus_out.Controllers
                 using (var client = new HttpClient())
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
+                    client.Timeout = TimeSpan.FromMinutes(5);
                     byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
                     var request = new HttpRequestMessage(HttpMethod.Post, baseAddress + "api/v1/service/level");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
@@ -73,10 +75,14 @@ namespace elevatus_out.Controllers
                     request.Content = new StringContent(postObject, Encoding.UTF8, "application/json");
                     request.Content.Headers.ContentType = new MediaTypeHeaderValue(_dbOption.JsonFormat);
                     var response = await client.SendAsync(request);
+
                     string stringData = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<NewLevelResponse>(stringData);
-                    result.Message = data.Identifiers.Status == "success" ? "Added Level Successfully" : "";
+                    var issues = JsonConvert.SerializeObject(data.Reason).Replace("\"", "");
+                    issues = issues.Replace(":", " ").Replace(",", " ");
+                    result.Message = data.Identifiers.Status == "success" ? "Added Level Successfully" : issues; 
                     result.Status = data.Identifiers.Status;
+                    //result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();
                     return Ok(result);
                 }
             }
@@ -96,7 +102,8 @@ namespace elevatus_out.Controllers
                 UpdateResponseLevel result = new UpdateResponseLevel();
                 using (var client = new HttpClient())
                 {
-                   var baseAddress = new Uri(_dbOption.BaseAddress);
+                    var baseAddress = new Uri(_dbOption.BaseAddress);
+                    client.Timeout = TimeSpan.FromMinutes(5);
                     byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
                     var request = new HttpRequestMessage(HttpMethod.Put, baseAddress + "api/v1/service/level");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
@@ -107,9 +114,11 @@ namespace elevatus_out.Controllers
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<UpdateLevelResponse>(stringData);
-                    result.Message = data.Identifiers.Status == "success" ? "Updated Level Successfully" : "";
+                    var issues = JsonConvert.SerializeObject(data.Reason).Replace("\"", "");
+                    issues = issues.Replace(":", " ").Replace(",", " ");
+                    result.Message = data.Identifiers.Status == "success" ? "Updated Level Successfully" : issues;
                     result.Status = data.Identifiers.Status;
-                    result.Reasons = data.Reason;
+                    // result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();
                     return Ok(result);
                 }
             }
@@ -131,6 +140,7 @@ namespace elevatus_out.Controllers
                 {
                     byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
                     var baseAddress = new Uri(_dbOption.BaseAddress);
+                    client.Timeout = TimeSpan.FromMinutes(5);
                     var request = new HttpRequestMessage(HttpMethod.Delete, baseAddress + "api/v1/service/level");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
@@ -140,7 +150,7 @@ namespace elevatus_out.Controllers
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<DeleteLevelResponse>(stringData);
-                    result.Message = data.Identifiers.Status == "success" ? "Delete Level Successfully" : "";
+                    result.Message = data.Identifiers.Status == "success" ? "Delete Level Successfully" : "Failed to delete Record!";
                     result.Status = data.Identifiers.Status;
                     return Ok(result);
                 }
@@ -151,14 +161,6 @@ namespace elevatus_out.Controllers
             }
         }
         #endregion
-
-        [HttpPost("GenericJson.{format}"), FormatFilter]
-        public IActionResult GenericJson([FromBody] Request body)
-        {
-            string json = System.Text.Json.JsonSerializer.Serialize(body);
-            var result = JsonConvert.DeserializeObject<Object>(json);
-            return Ok(body);
-        }
 
         #region Return Exception
         private IActionResult ReturnException(Exception ex)
@@ -175,6 +177,5 @@ namespace elevatus_out.Controllers
             }));
         }
         #endregion
-
     }
 }

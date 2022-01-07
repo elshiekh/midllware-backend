@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace elevatus_out.Controllers
 {
+    
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
@@ -26,7 +28,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region GetHierarchy
-        [HttpPost("GetHierarchys.{format}"), FormatFilter]
+        [HttpGet("GetHierarchys.{format}"), FormatFilter]
         public async Task<IActionResult> GetHierarchys([FromBody] GetHierarchyRequest obj)
         {
             try
@@ -34,6 +36,7 @@ namespace elevatus_out.Controllers
                 using (var client = new HttpClient())
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
+                    client.Timeout = TimeSpan.FromMinutes(5);
                     byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
                     var request = new HttpRequestMessage(HttpMethod.Get, baseAddress + "/api/v1/service/hierarchy");
@@ -65,6 +68,7 @@ namespace elevatus_out.Controllers
                 using (var client = new HttpClient())
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
+                    client.Timeout = TimeSpan.FromMinutes(5);
                     byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
                     var request = new HttpRequestMessage(HttpMethod.Post, baseAddress + "api/v1/service/hierarchy");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
@@ -75,8 +79,11 @@ namespace elevatus_out.Controllers
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<NewHierarchyResponse>(stringData);
-                    result.Message = data.Identifiers.Status == "success" ? "Added Hierarchy Successfully" : "";
+                    var issues = JsonConvert.SerializeObject(data.Reason).Replace("\"", "");
+                    issues = issues.Replace(":", " ").Replace(",", " ");
+                    result.Message = data.Identifiers.Status == "success" ? "Added Hierarchy Successfully" : issues;
                     result.Status = data.Identifiers.Status;
+                    //result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();
                     return Ok(result);
                 }
             }
@@ -97,6 +104,7 @@ namespace elevatus_out.Controllers
                 using (var client = new HttpClient())
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
+                    client.Timeout = TimeSpan.FromMinutes(5);
                     byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
                     var request = new HttpRequestMessage(HttpMethod.Put, baseAddress+ "api/v1/service/hierarchy");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
@@ -107,9 +115,11 @@ namespace elevatus_out.Controllers
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<UpdateHierarchyResponse>(stringData);
-                    result.Message = data.Identifiers.Status == "success" ? "Updated Hierarchy Successfully" : "";
+                    var issues = JsonConvert.SerializeObject(data.Reason).Replace("\"", "");
+                    issues = issues.Replace(":", " ").Replace(",", " ");
+                    result.Message = data.Identifiers.Status == "success" ? "Updated Hierarchy Successfully" : issues;
                     result.Status = data.Identifiers.Status;
-                    result.Reasons = data.Reason;
+                    //result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();
                     return Ok(result);
                 }
             }
@@ -130,6 +140,7 @@ namespace elevatus_out.Controllers
                 using (var client = new HttpClient())
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
+                    client.Timeout = TimeSpan.FromMinutes(5);
                     byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
                     var request = new HttpRequestMessage(HttpMethod.Delete, baseAddress+ "api/v1/service/hierarchy");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
@@ -140,7 +151,7 @@ namespace elevatus_out.Controllers
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<DeleteHierarchyResponse>(stringData);
-                    result.Message = data.Identifiers.Status == "success" ? "Delete Hierarchy Successfully" : "";
+                    result.Message = data.Identifiers.Status == "success" ? "Delete Hierarchy Successfully" : "Falid to delete record!";
                     result.Status = data.Identifiers.Status;
                     return Ok(result);
                 }

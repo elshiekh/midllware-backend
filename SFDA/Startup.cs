@@ -51,7 +51,7 @@ namespace SFDA
                 options.AllowSynchronousIO = true;
             });
 
-            services.RegsiterAPIMiddlewareConfiguration(Configuration);
+           //---- services.RegsiterAPIMiddlewareConfiguration(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,7 +62,7 @@ namespace SFDA
          app.Use(async (context, next) => { context.Request.EnableBuffering(); await next(); });
 
             //MW
-           app.UseMiddleware<ApiLogging>(properties);
+          //------ app.UseMiddleware<ApiLogging>(properties);
 
             //app.UseHttpsRedirection();
             app.UseRouting();
