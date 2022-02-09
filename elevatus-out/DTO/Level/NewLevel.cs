@@ -109,6 +109,7 @@ namespace elevatus_out.Level
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class UpdateResponseLevel
@@ -116,6 +117,7 @@ namespace elevatus_out.Level
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class DeleteResponseLevel
@@ -123,5 +125,6 @@ namespace elevatus_out.Level
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 }

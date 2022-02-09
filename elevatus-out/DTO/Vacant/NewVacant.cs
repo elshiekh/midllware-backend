@@ -1,44 +1,63 @@
 ﻿using System.Collections.Generic;
 
-namespace elevatus_out.Payroll
+namespace elevatus_out.Vacant
 {
 
-    #region New-Payroll
-    public class PayrollRequest
+    #region New-Vacant
+    public class VacantRequestObj
     {
-        public string system_id { get; set; }
-        public string system_name_en { get; set; }
-        public string system_name_ar { get; set; }
-        public bool system_status { get; set; }
+        //public string system_id { get; set; }
+        public string system_position_id { get; set; }
+        public int system_branch_id { get; set; }
+        public string system_overlap_start { get; set; }
+        public string system_overlap_end_date { get; set; }
+        public string system_number_ocp { get; set; }
+        public string system_new_position { get; set; }
+        public string system_number_ocpbfp { get; set; }
+        public string system_number_ocpbft { get; set; }
+        public string employee_person_id { get; set; }
     }
-    public class DeletePayrollRequest
+    public class VacantRequest
+    {
+        public string system_position_id { get; set; }
+        public int system_branch_id { get; set; }
+        public string system_overlap_start { get; set; }
+        public string system_overlap_end_date { get; set; }
+        public string system_number_ocp { get; set; }
+        public string system_new_position { get; set; }
+        public string system_number_ocpbfp { get; set; }
+        public string system_number_ocpbft { get; set; }
+        public string []  employee_person_id { get; set; }
+    }
+    public class DeleteVacantRequest
     {
         public List<string> system_id { get; set; }
     }
     // Response --------
-    public class NewPayrollResponse
+    public class NewVacantResponse
     {
         public Identifiers Identifiers { get; set; }
-        public IntegrateAccountPayroll IntegrateAccount { get; set; }
+        public IntegrateAccountVacant IntegrateAccount { get; set; }
         public List<Reason> Reason { get; set; }
     }
-    public class UpdatePayrollResponse
+    public class UpdateVacantResponse
     {
         public Identifiers Identifiers { get; set; }
-        public IntegrateAccountPayroll IntegrateAccount { get; set; }
+        public IntegrateAccountVacant IntegrateAccount { get; set; }
         public List<Reason> Reason { get; set; }
     }
-    public class DeletePayrollResponse {
+    public class DeleteVacantResponse {
         public IdentifierDeleteResponse Identifiers { get; set; }
     }
     #endregion
 
-    #region GET-Payroll-RESPONSE
+    #region GET-Vacant-RESPONSE
 
-    public class GetPayrollRequest
+    public class GetVacantRequest
     {
+        public string system_branch_id { get; set; }
     }
-    public class GetPayrollResponse {
+    public class GetVacantResponse {
         public Identifiers Identifiers { get; set; }
         public IntegrateAccount IntegrateAccount { get; set; }
     }
@@ -59,6 +78,7 @@ namespace elevatus_out.Payroll
         public string Status { get; set; }
         public string StatusCode { get; set; }
     }
+
     public class IdentifierDeleteResponseAction
     {
         public string System_Id { get; set; }
@@ -74,16 +94,21 @@ namespace elevatus_out.Payroll
         public List<ExtraData> ExtraData { get; set; }
     }
 
-    public class IntegrateAccountPayroll
+    public class IntegrateAccountVacant
     {
-        public ExtraData ExtraData { get; set; }
+        public List<ExtraData> ExtraData { get; set; }
     }
     public class ExtraData
     {
-        public string SystemId { get; set; }
-        public string SystemNameEn { get; set; }
-        public string SystemNameAr { get; set; }
-        public bool SystemStatus { get; set; }
+        public int SystemPositionId { get; set; }
+        public string SystemBranchId { get; set; }
+        public string SystemOverlapStart { get; set; }
+        public string SystemOverlapEndDate { get; set; }
+        public string SystemNewPosition { get; set; }
+        public string SystemNumberOcpbf { get; set; }
+        public string SystemNoopbpt { get; set; }
+        public string SystemObel { get; set; }
+        public string SystemNumberOcp { get; set; }
         public bool CanDelete { get; set; }
     }
     public class Reason
@@ -95,7 +120,7 @@ namespace elevatus_out.Payroll
 
     public class Parent {}
   
-    public class CreateResponsePayroll
+    public class CreateResponseVacant
     {
         public string Status { get; set; }
         public string Message { get; set; }
@@ -103,7 +128,7 @@ namespace elevatus_out.Payroll
         public string RequestId { get; set; }
     }
 
-    public class UpdateResponsePayroll
+    public class UpdateResponseVacant
     {
         public string Status { get; set; }
         public string Message { get; set; }
@@ -111,7 +136,7 @@ namespace elevatus_out.Payroll
         public string RequestId { get; set; }
     }
 
-    public class DeleteResponsePayroll
+    public class DeleteResponseVacant
     {
         public string Status { get; set; }
         public string Message { get; set; }

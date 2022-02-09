@@ -17,8 +17,10 @@ namespace elevatus_in.Service
         // users hardcoded for simplicity, store in a db with hashed passwords in production applications
         private List<User> _users = new List<User>
         {
-            //new User { Id = 1, FirstName = "externalPortalIn", LastName = "User", Username = "externalPortalIn", Password = "mV24WX]N" }
-            new User { Id = 1, FirstName = "elevatusIn", LastName = "User", Username = "elevatusIn", Password = "mK96WX]V" }
+            //----DEVELOPMENT--------
+             new User { Id = 1, FirstName = "elevatusIn", LastName = "User", Username = "elevatusIn", Password = "mK96WX]V" }
+            //----PRODUCTION--------
+            //new User { Id = 1, FirstName = "elevatusIn", LastName = "User", Username = "elevatusIn", Password = "mK865W7X]V" }
         };
 
         public async Task<User> Authenticate(string username, string password)

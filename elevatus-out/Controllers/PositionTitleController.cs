@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace elevatus_out.Controllers
 {
-    
+
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
@@ -81,6 +81,7 @@ namespace elevatus_out.Controllers
                     issues = issues.Replace(":", " ").Replace(",", " ");
                     result.Message = data.Identifiers.Status == "success" ? "Added Job Title Successfully" : issues;
                     result.Status = data.Identifiers.Status;
+                    result.RequestId = data.Identifiers.RequestId;
                     //result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();
                     return Ok(result);
                 }
@@ -104,7 +105,7 @@ namespace elevatus_out.Controllers
                     var baseAddress = new Uri(_dbOption.BaseAddress);
                     client.Timeout = TimeSpan.FromMinutes(5);
                     byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
-                    var request = new HttpRequestMessage(HttpMethod.Put, baseAddress+ "api/v1/service/position/title");
+                    var request = new HttpRequestMessage(HttpMethod.Put, baseAddress + "api/v1/service/position/title");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
                     var postObject = JsonConvert.SerializeObject(obj);
@@ -117,6 +118,7 @@ namespace elevatus_out.Controllers
                     issues = issues.Replace(":", " ").Replace(",", " ");
                     result.Message = data.Identifiers.Status == "success" ? "Updated Job Title Successfully" : issues;
                     result.Status = data.Identifiers.Status;
+                    result.RequestId = data.Identifiers.RequestId;
                     //result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();
                     return Ok(result);
                 }
@@ -140,7 +142,7 @@ namespace elevatus_out.Controllers
                     var baseAddress = new Uri(_dbOption.BaseAddress);
                     client.Timeout = TimeSpan.FromMinutes(5);
                     byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
-                    var request = new HttpRequestMessage(HttpMethod.Delete, baseAddress+ "api/v1/service/position/title");
+                    var request = new HttpRequestMessage(HttpMethod.Delete, baseAddress + "api/v1/service/position/title");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
                     var postObject = JsonConvert.SerializeObject(obj);
@@ -151,6 +153,7 @@ namespace elevatus_out.Controllers
                     var data = JsonConvert.DeserializeObject<DeletePositionTitleResponse>(stringData);
                     result.Message = data.Identifiers.Status == "success" ? "Delete Job Title Successfully" : "Falid to delete record!";
                     result.Status = data.Identifiers.Status;
+                    result.RequestId = data.Identifiers.RequestId;
                     return Ok(result);
                 }
             }

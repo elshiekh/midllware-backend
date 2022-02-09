@@ -81,6 +81,7 @@ namespace elevatus_out.Controllers
                     issues = issues.Replace(":", " ").Replace(",", " ");
                     result.Message = data.Identifiers.Status == "success" ? "Added Position Project Successfully" : issues;
                     result.Status = data.Identifiers.Status;
+                    result.RequestId = data.Identifiers.RequestId;
                     //result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();
                     return Ok(result);
                 }
@@ -117,6 +118,7 @@ namespace elevatus_out.Controllers
                     issues = issues.Replace(":", " ").Replace(",", " ");
                     result.Message = data.Identifiers.Status == "success" ? "Updated Position Project Successfully" : issues;
                     result.Status = data.Identifiers.Status;
+                    result.RequestId = data.Identifiers.RequestId;
                     //result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();
                     return Ok(result);
                 }
@@ -151,6 +153,7 @@ namespace elevatus_out.Controllers
                     var data = JsonConvert.DeserializeObject<DeletePositionProjectResponse>(stringData);
                     result.Message = data.Identifiers.Status == "success" ? "Delete Position Project Successfully" : "Falid to delete record!";
                     result.Status = data.Identifiers.Status;
+                    result.RequestId = data.Identifiers.RequestId;
                     return Ok(result);
                 }
             }

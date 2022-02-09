@@ -129,6 +129,7 @@ namespace elevatus_out.Hierarchy
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class UpdateResponseHierarchy
@@ -136,6 +137,7 @@ namespace elevatus_out.Hierarchy
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class DeleteResponseHierarchy
@@ -143,6 +145,7 @@ namespace elevatus_out.Hierarchy
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
     #endregion
 }

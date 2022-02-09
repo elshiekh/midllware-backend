@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Oracle.ManagedDataAccess.Client;
+using Oracle.ManagedDataAccess.Types;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -642,6 +643,81 @@ namespace HmgOnBaseIn.Controllers
                 {
                     return ReturnException(ex);
                 }
+            }
+        }
+        #endregion
+
+        #region Insert Employee Document
+        [HttpPut("InsertEmployeeDocument.{format}")]
+        public async Task<IActionResult> InsertEmployeeDocument([FromBody] InsertEmployeeDocumentRequest request)
+        {
+            try
+            {
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                IDataParameter[] parameters = new IDataParameter[8];
+
+                parameters[0] = new OracleParameter("P_DOCUMENT_HANDLE", OracleDbType.Int32, request.P_DOCUMENT_HANDLE, ParameterDirection.Input);
+                parameters[1] = new OracleParameter("P_EMPLOYEE_NUMBER", OracleDbType.Varchar2, 25, ParameterDirection.Input, false, 0, 0, "P_EMPLOYEE_NUMBER", DataRowVersion.Current, request.P_EMPLOYEE_NUMBER); // 
+                parameters[2] = new OracleParameter("P_DOCUMENT_TYPE_NAME", OracleDbType.Varchar2, 25, ParameterDirection.Input, false, 0, 0, "P_DOCUMENT_TYPE_NAME", DataRowVersion.Current, request.P_DOCUMENT_TYPE_NAME); // 
+                parameters[3] = new OracleParameter("P_EXPIRY_DATE", OracleDbType.Date, request.P_EXPIRY_DATE, ParameterDirection.Input); // 
+                parameters[4] = new OracleParameter("P_YEAR", OracleDbType.Int32, request.P_YEAR, ParameterDirection.Input);   //
+                // Outputs                
+                parameters[5] = new OracleParameter("P_ORACLE_ID", OracleDbType.Int64, ParameterDirection.Output);
+                parameters[6] = new OracleParameter("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                parameters[7] = new OracleParameter("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                using (OracleCommand command = QueryExtenstion.BuildQueryCommand(conn, request.GetSPName(), parameters))
+                {
+                    conn.Open();
+                    var isSuccess = await command.ExecuteNonQueryAsync();
+                    var result = new InsertEmployeeDocumentResponse()
+                    {
+                        P_ORACLE_ID = Convert.ToDecimal(((OracleDecimal)command.Parameters["P_ORACLE_ID"].Value).Value),
+                        P_RETURN_MSG = command.Parameters["P_RETURN_MSG"].Value.ToString(),
+                        P_RETURN_STATUS = command.Parameters["P_RETURN_STATUS"].Value.ToString(),
+                    };
+                    conn.Close();
+                    conn.Dispose();
+
+                    return Ok(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+        #region Delete Employee Document
+        [HttpDelete("DeleteEmployeeDocument.{format}")]
+        public async Task<IActionResult> DeleteEmployeeDocument([FromBody] DeleteEmployeeDocumentRequest request)
+        {
+            try
+            {
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                IDataParameter[] parameters = new IDataParameter[3];
+                parameters[0] = new OracleParameter("P_DOCUMENT_HANDLE", OracleDbType.Int32, request.P_DOCUMENT_HANDLE, ParameterDirection.Input);
+                // Outputs
+                parameters[1] = new OracleParameter("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                parameters[2] = new OracleParameter("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                using (OracleCommand command = QueryExtenstion.BuildQueryCommand(conn, request.GetSPName(), parameters))
+                {
+                    conn.Open();
+                    var isSuccess = await command.ExecuteNonQueryAsync();
+                    var result = new DeleteEmployeeDocumentResponse()
+                    {
+                        P_RETURN_STATUS = command.Parameters["P_RETURN_STATUS"].Value.ToString(),
+                        P_RETURN_MSG = command.Parameters["P_RETURN_MSG"].Value.ToString(),
+                    };
+                    conn.Close();
+                    conn.Dispose();
+
+                    return Ok(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
             }
         }
         #endregion

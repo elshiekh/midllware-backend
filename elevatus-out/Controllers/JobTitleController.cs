@@ -81,6 +81,7 @@ namespace elevatus_out.Controllers
                     issues = issues.Replace(":", " ").Replace(",", " ");
                     result.Message = data.Identifiers.Status == "success" ? "Added Job Title Successfully" : issues;
                     result.Status = data.Identifiers.Status;
+                    result.RequestId = data.Identifiers.RequestId;
                     //result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();
                     return Ok(result);
                 }
@@ -117,6 +118,7 @@ namespace elevatus_out.Controllers
                     issues = issues.Replace(":", " ").Replace(",", " ");
                     result.Message = data.Identifiers.Status == "success" ? "Updated Job Title Successfully" : issues;
                     result.Status = data.Identifiers.Status;
+                    result.RequestId = data.Identifiers.RequestId;
                     //result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();
                     return Ok(result);
                 }
@@ -151,6 +153,7 @@ namespace elevatus_out.Controllers
                     var data = JsonConvert.DeserializeObject<DeleteJobTitleResponse>(stringData);
                     result.Message = data.Identifiers.Status == "success" ? "Delete Job Title Successfully" : "Falid to delete record!";
                     result.Status = data.Identifiers.Status;
+                    result.RequestId = data.Identifiers.RequestId;
                     return Ok(result);
                 }
             }

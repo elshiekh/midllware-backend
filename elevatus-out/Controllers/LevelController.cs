@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace elevatus_out.Controllers
 {
-     [Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [FormatFilter]
@@ -82,6 +82,7 @@ namespace elevatus_out.Controllers
                     issues = issues.Replace(":", " ").Replace(",", " ");
                     result.Message = data.Identifiers.Status == "success" ? "Added Level Successfully" : issues; 
                     result.Status = data.Identifiers.Status;
+                    result.RequestId = data.Identifiers.RequestId;
                     //result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();
                     return Ok(result);
                 }
@@ -118,6 +119,7 @@ namespace elevatus_out.Controllers
                     issues = issues.Replace(":", " ").Replace(",", " ");
                     result.Message = data.Identifiers.Status == "success" ? "Updated Level Successfully" : issues;
                     result.Status = data.Identifiers.Status;
+                    result.RequestId = data.Identifiers.RequestId;
                     // result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();
                     return Ok(result);
                 }
@@ -152,6 +154,7 @@ namespace elevatus_out.Controllers
                     var data = JsonConvert.DeserializeObject<DeleteLevelResponse>(stringData);
                     result.Message = data.Identifiers.Status == "success" ? "Delete Level Successfully" : "Failed to delete Record!";
                     result.Status = data.Identifiers.Status;
+                    result.RequestId = data.Identifiers.RequestId;
                     return Ok(result);
                 }
             }

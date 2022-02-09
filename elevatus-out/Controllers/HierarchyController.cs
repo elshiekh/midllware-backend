@@ -73,6 +73,7 @@ namespace elevatus_out.Controllers
                     var request = new HttpRequestMessage(HttpMethod.Post, baseAddress + "api/v1/service/hierarchy");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
+                    obj.system_parent_id = (obj.system_parent_id ==0) ? null: obj.system_parent_id; 
                     var postObject = JsonConvert.SerializeObject(obj);
                     request.Content = new StringContent(postObject, Encoding.UTF8, "application/json");
                     request.Content.Headers.ContentType = new MediaTypeHeaderValue(_dbOption.JsonFormat);
@@ -83,6 +84,7 @@ namespace elevatus_out.Controllers
                     issues = issues.Replace(":", " ").Replace(",", " ");
                     result.Message = data.Identifiers.Status == "success" ? "Added Hierarchy Successfully" : issues;
                     result.Status = data.Identifiers.Status;
+                    result.RequestId = data.Identifiers.RequestId;
                     //result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();
                     return Ok(result);
                 }
@@ -119,6 +121,7 @@ namespace elevatus_out.Controllers
                     issues = issues.Replace(":", " ").Replace(",", " ");
                     result.Message = data.Identifiers.Status == "success" ? "Updated Hierarchy Successfully" : issues;
                     result.Status = data.Identifiers.Status;
+                    result.RequestId = data.Identifiers.RequestId;
                     //result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();
                     return Ok(result);
                 }
@@ -153,6 +156,7 @@ namespace elevatus_out.Controllers
                     var data = JsonConvert.DeserializeObject<DeleteHierarchyResponse>(stringData);
                     result.Message = data.Identifiers.Status == "success" ? "Delete Hierarchy Successfully" : "Falid to delete record!";
                     result.Status = data.Identifiers.Status;
+                    result.RequestId = data.Identifiers.RequestId;
                     return Ok(result);
                 }
             }

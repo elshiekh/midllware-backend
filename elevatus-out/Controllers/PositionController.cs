@@ -81,6 +81,7 @@ namespace elevatus_out.Controllers
                     issues = issues.Replace(":", " ").Replace(",", " ");
                     result.Message = data.Identifiers.Status == "success" ? "Added position Successfully" : issues;
                     result.Status = data.Identifiers.Status;
+                    result.RequestId = data.Identifiers.RequestId;
                     //result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();
                     return Ok(result);
                 }
@@ -117,6 +118,7 @@ namespace elevatus_out.Controllers
                     issues = issues.Replace(":", " ").Replace(",", " ");
                     result.Message = data.Identifiers.Status == "success" ? "Updated position Successfully" : issues;
                     result.Status = data.Identifiers.Status;
+                    result.RequestId = data.Identifiers.RequestId;
                     //result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();
                     return Ok(result);
                 }
@@ -151,7 +153,60 @@ namespace elevatus_out.Controllers
                     var data = JsonConvert.DeserializeObject<DeletePositionResponse>(stringData);
                     result.Message = data.Identifiers.Status == "success" ? "Delete position Successfully" : "Falid to delete record!";
                     result.Status = data.Identifiers.Status;
+                    result.RequestId = data.Identifiers.RequestId;
                     return Ok(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+        #region Number Of Requisition
+        [HttpPost("NumberOfRequisition.{format}"), FormatFilter]
+        public async Task<IActionResult> NumberOfRequisition([FromBody] NumberOfRequisitionRequest obj)
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    var baseAddress = new Uri(_dbOption.BaseAddress);
+                    ResponseOfNumberRequisition result = new ResponseOfNumberRequisition();
+                    client.Timeout = TimeSpan.FromMinutes(5);
+                    byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
+                    var request = new HttpRequestMessage(HttpMethod.Get, baseAddress + "/api/v1/service/positions/number_of_requisition");
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
+                    request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
+                    var postObject = JsonConvert.SerializeObject(obj);
+                    request.Content = new StringContent(postObject, Encoding.UTF8, "application/json");
+                    request.Content.Headers.ContentType = new MediaTypeHeaderValue(_dbOption.JsonFormat);
+                    var response = await client.SendAsync(request);
+                    string stringData = await response.Content.ReadAsStringAsync();
+                    var data = JsonConvert.DeserializeObject<NumberOfRequisitionResponse>(stringData);
+                    //result.Message = data.IntegrateAccount.ExtraData;
+                    //result.Status = data.Identifiers.Status;
+                    var issues = JsonConvert.SerializeObject(data.Reason).Replace("\"", "");
+                    issues = issues.Replace(":", " ").Replace(",", " ");
+                    if (data.Identifiers.Status == "success")
+                    {
+                        result.SystemId = data.IntegrateAccount.ExtraData.SystemId;
+                        result.SystemBranchId = data.IntegrateAccount.ExtraData.SystemBranchId;
+                        result.NumberOfRequisition = data.IntegrateAccount.ExtraData.NumberOfRequisition;
+                        result.Message = "Number Of Requisition is " + result.NumberOfRequisition.ToString();
+                        result.Status = data.Identifiers.Status;
+                        result.RequestId = data.Identifiers.RequestId;
+                        return Ok(result);
+                    }
+                    else
+                    {
+                        result.Message = issues;
+                        result.Status = data.Identifiers.Status;
+                        result.RequestId = data.Identifiers.RequestId;
+                        return Ok(result);
+                    }
                 }
             }
             catch (Exception ex)

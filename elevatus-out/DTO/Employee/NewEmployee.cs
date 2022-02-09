@@ -8,6 +8,7 @@ namespace elevatus_out.Employee
     {
         public string system_id { get; set; }
         public int system_branch_id { get; set; }
+        public string system_category_id { get; set; }
         public string system_employee_number { get; set; }
         public string system_full_name { get; set; }
         public string system_supervisor_id { get; set; }
@@ -130,6 +131,7 @@ namespace elevatus_out.Employee
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string  RequestId { get; set; }
     }
 
     public class ResponseEmployeeType
@@ -137,6 +139,7 @@ namespace elevatus_out.Employee
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class UpdateResponseEmployee
@@ -144,6 +147,7 @@ namespace elevatus_out.Employee
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class DeleteResponseEmployee
@@ -151,6 +155,7 @@ namespace elevatus_out.Employee
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
     #endregion
 
@@ -175,6 +180,36 @@ namespace elevatus_out.Employee
     }
     #endregion
 
+    #region Connect Employee Applicant 
+    public class ConnectEmployeeApplicantRequest
+    {
+        public string system_id { get; set; }
+        public string applicant_id { get; set; }
+    }
+    public class ConnectEmployeeApplicantResponse
+    {
+        public Identifiers Identifiers { get; set; }
+        public IntegrateAccountConnectEmployeeApplicant IntegrateAccount { get; set; }
+        public List<Reason> Reason { get; set; }
+    }
+    public class IntegrateAccountConnectEmployeeApplicant
+    {
+        public ExtraDataConnectEmployeeApplicant ExtraData { get; set; }
+    }
+    public class ExtraDataConnectEmployeeApplicant
+    {
+        public bool Type { get; set; }
+    }
+
+    public class ConnectResponseApplicantEmployee
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public string Reasons { get; set; }
+        public string RequestId { get; set; }
+    }
+    #endregion
+
     #region Enable/Disable User 
     public class EmployeeEnableRequest
     {
@@ -187,31 +222,23 @@ namespace elevatus_out.Employee
         public IntegrateAccountEmployeeEnable IntegrateAccount { get; set; }
         public List<Reason> Reason { get; set; }
     }
+    public class EmployeeResponseEnable
+    {
+        public string SystemId { get; set; }
+        public bool SystemStatus { get; set; }
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public string Reasons { get; set; }
+        public string RequestId { get; set; }
+    }
     public class IntegrateAccountEmployeeEnable
     {
         public ExtraDataEnable ExtraData { get; set; }
     }
     public class ExtraDataEnable
     {
-        public bool Type { get; set; }
         public string SystemId { get; set; }
-        public string SystemBranchId { get; set; }
-        public string SystemEmployeeNumber { get; set; }
-        public string SystemFullName { get; set; }
-        public string SystemSupervisorId { get; set; }
-        public string SystemHodPersonId { get; set; }
-        public string SystemEmailAddress { get; set; }
-        public string SystemMobileNumber { get; set; }
-        public string SystemCivilId { get; set; }
-        public string SystemOrganizationId { get; set; }
-        public string SystemAbsenceRepPersonId { get; set; }
-        public string SystemTeamRepPersonId { get; set; }
-        public string SystemAbsenceStartDate { get; set; }
-        public string SystemAbsenceEnDate { get; set; }
-        public string SystemTerminationDate { get; set; }
-        public bool SystemAbsenceStatus { get; set; }
         public bool SystemStatus { get; set; }
-        public bool CanDelete { get; set; }
     }
     #endregion
 }

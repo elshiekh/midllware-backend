@@ -7,6 +7,7 @@ namespace elevatus_out.PositionProject
     public class PositionProjectRequest
     {
         public string system_id { get; set; }
+        public string system_branch_id { get; set; }
         public string system_code { get; set; }
         public string system_name_en { get; set; }
         public string system_name_ar { get; set; }
@@ -81,7 +82,7 @@ namespace elevatus_out.PositionProject
     }
     public class ExtraData
     {
-        public int SystemId { get; set; }
+        public string SystemId { get; set; }
         public string SystemCode { get; set; }
         public string SystemNameEn { get; set; }
         public string SystemNameAr { get; set; }
@@ -102,6 +103,7 @@ namespace elevatus_out.PositionProject
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class UpdateResponsePositionProject
@@ -109,6 +111,7 @@ namespace elevatus_out.PositionProject
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class DeleteResponsePositionProject
@@ -116,6 +119,7 @@ namespace elevatus_out.PositionProject
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
     #endregion
 }

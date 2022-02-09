@@ -103,6 +103,7 @@ namespace elevatus_out.JobTitle
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class UpdateResponseJobTitle
@@ -110,6 +111,7 @@ namespace elevatus_out.JobTitle
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class DeleteResponseJobTitle
@@ -117,6 +119,7 @@ namespace elevatus_out.JobTitle
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
     #endregion
 }

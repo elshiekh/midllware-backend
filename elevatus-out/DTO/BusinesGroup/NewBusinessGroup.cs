@@ -102,6 +102,7 @@ namespace elevatus_out.BusinesGroup
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class UpdateResponseBusinesGroup
@@ -109,6 +110,7 @@ namespace elevatus_out.BusinesGroup
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class DeleteResponseBusinesGroup
@@ -116,6 +118,7 @@ namespace elevatus_out.BusinesGroup
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
     #endregion
 }

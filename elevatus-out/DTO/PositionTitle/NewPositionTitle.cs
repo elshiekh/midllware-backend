@@ -103,6 +103,7 @@ namespace elevatus_out.PositionTitle
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class UpdateResponsePositionTitle
@@ -110,6 +111,7 @@ namespace elevatus_out.PositionTitle
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class DeleteResponsePositionTitle
@@ -117,6 +119,7 @@ namespace elevatus_out.PositionTitle
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
     #endregion
 }

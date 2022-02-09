@@ -64,7 +64,8 @@ namespace Kyriba_Out.Controllers
                     //Upload the 'fileContents' byte array 
                     using (Stream requestStream = request.GetRequestStream())
                     {
-                        requestStream.Write(encrBytes, 0, encrBytes.Length);
+                         requestStream.Write(encrBytes, 0, encrBytes.Length);
+                        //requestStream.Write(input, 0, input.Length);
                     }
                     //Get the response
                     // Some proper handling is needed
@@ -95,16 +96,11 @@ namespace Kyriba_Out.Controllers
         {
             try
             {
-                var DirectoryLists = RetrieveDirectoryListingsFromFTP(null);
-                //var files = GetFtpData();
-                //var fileInOut = new List<string>();
-                //foreach (var item in files)
-                //{
-                //    fileInOut.Add(item);
-                //}
+                var directoryLists = RetrieveDirectoryListingsFromFTP(null);
+
                 DownloadFileResponse result = new DownloadFileResponse();
                 var fileResponse = new List<FileResponse>();
-                foreach (var file in DirectoryLists)
+                foreach (var file in directoryLists)
                 {
                     //Create an FtpWebRequest
                     var request = (FtpWebRequest)WebRequest.Create(_dbOption.FtpAddress + "/out/" + file.Name);
@@ -125,10 +121,10 @@ namespace Kyriba_Out.Controllers
                     using (var memoryStream = new MemoryStream())
                     {
                         responseStream?.CopyTo(memoryStream);
-                        //var privateKey = System.IO.File.OpenRead("Resources/private-cloud2022.key");
-                        //var decrypted = Pgp.Decrypt(memoryStream.ToArray(), privateKey, "Cloud@2022");
-                        //var fileStream = Convert.ToBase64String(decrypted);
-                        var fileStream = Convert.ToBase64String(memoryStream.ToArray());
+                        var privateKey = System.IO.File.OpenRead("Resources/private-cloud2022.key");
+                        var decrypted = Pgp.Decrypt(memoryStream.ToArray(), privateKey, "Cloud@2022");
+                        var fileStream = Convert.ToBase64String(decrypted);
+                        //var fileStream = Convert.ToBase64String(memoryStream.ToArray());
                         var newFile = new FileResponse() { fileName = file.Name, fileBase64 = fileStream, LastModified = file.LastModified.ToString("dd/MM/yyyy HH:mm:ss") };
                         fileResponse.Add(newFile);
                         result.Files = fileResponse;
@@ -214,6 +210,7 @@ namespace Kyriba_Out.Controllers
             ftpRequest.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
             ftpRequest.UseBinary = true;
             ftpRequest.UsePassive = true;
+            ftpRequest.Proxy = null;
             ftpRequest.Timeout = Timeout.Infinite;
             ftpRequest.KeepAlive = false;
             ftpRequest.EnableSsl = true;
@@ -223,9 +220,8 @@ namespace Kyriba_Out.Controllers
             IFormatProvider culture = CultureInfo.GetCultureInfo("en-us");
             string[] hourMinFormats = new[] { "MMM dd HH:mm", "MMM dd H:mm", "MMM d HH:mm", "MMM d H:mm" };
             string[] yearFormats = new[] { "MMM dd yyyy", "MMM d yyyy" };
-            using (FtpWebResponse response = (FtpWebResponse)ftpRequest.GetResponse())
-            {
-                using (Stream responseStream = response.GetResponseStream())
+            FtpWebResponse response = (FtpWebResponse)ftpRequest.GetResponse();
+            using (Stream responseStream = response.GetResponseStream())
                 {
                     using (StreamReader reader = new StreamReader(responseStream))
                     {
@@ -233,22 +229,22 @@ namespace Kyriba_Out.Controllers
                         while ((line = reader.ReadLine()) != null)
                         {
                             Match match = regex.Match(line);
-                            string permissions = match.Groups[1].Value;
-                            int inode = int.Parse(match.Groups[2].Value, culture);
-                            string owner = match.Groups[3].Value;
-                            string group = match.Groups[4].Value;
-                            long size = long.Parse(match.Groups[5].Value, culture);
+                            //string permissions = match.Groups[1].Value;
+                            //int inode = int.Parse(match.Groups[2].Value, culture);
+                            //string owner = match.Groups[3].Value;
+                            //string group = match.Groups[4].Value;
+                            //long size = long.Parse(match.Groups[5].Value, culture);
                             string s = Regex.Replace(match.Groups[6].Value, @"\s+", " ");
                             string[] formats = (s.IndexOf(':') >= 0) ? hourMinFormats : yearFormats;
                             var modified = DateTime.ParseExact(s, formats, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal);
                             string name = match.Groups[7].Value;
                             FTPItem item = new FTPItem
                             {
-                                Permissions = match.Groups[1].Value,
-                                Size = int.Parse(match.Groups[5].Value, culture),
+                                //Permissions = match.Groups[1].Value,
+                                //Size = int.Parse(match.Groups[5].Value, culture),
                                 LastModified = DateTime.ParseExact(s, formats, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal),
                                 Name = match.Groups[7].Value,
-                                FullPath = $"{ftpRequest.RequestUri}/{match.Groups[8].Value.Replace(" ", "%20")}",
+                                //FullPath = $"{ftpRequest.RequestUri}/{match.Groups[8].Value.Replace(" ", "%20")}",
                             };
                             if (match.Groups[1].Value == "d")
                             {
@@ -264,7 +260,7 @@ namespace Kyriba_Out.Controllers
                         }
                     }
                 }
-            }
+            response.Close();
 
             return results;
         }

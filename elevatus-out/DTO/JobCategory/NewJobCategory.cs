@@ -102,6 +102,7 @@ namespace elevatus_out.JobCategory
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class UpdateResponseJobCategory
@@ -109,6 +110,7 @@ namespace elevatus_out.JobCategory
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class DeleteResponseJobCategory
@@ -116,6 +118,7 @@ namespace elevatus_out.JobCategory
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
     #endregion
 }

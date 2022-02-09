@@ -7,8 +7,8 @@ namespace Kyriba_Out.DTO
 {
     public class FTPItem
     {
-        public string  Permissions { get; set; }
-        public int Size { get; set; }
+        //public string  Permissions { get; set; }
+        //public int Size { get; set; }
         public DateTime LastModified { get; set; }
         public string Name { get; set; }
         public string FullPath { get; set; }
@@ -24,8 +24,8 @@ namespace Kyriba_Out.DTO
         public FTPDirectory() { }
         public FTPDirectory(FTPItem item)
         {
-            Permissions = item.Permissions;
-            Size = item.Size;
+            //Permissions = item.Permissions;
+            //Size = item.Size;
             LastModified = item.LastModified;
             Name = item.Name;
             FullPath = item.FullPath;
@@ -39,8 +39,8 @@ namespace Kyriba_Out.DTO
         public FTPFile() { }
         public FTPFile(FTPItem item)
         {
-            Permissions = item.Permissions;
-            Size = item.Size;
+            //Permissions = item.Permissions;
+            //Size = item.Size;
             LastModified = item.LastModified;
             Name = item.Name;
             FullPath = item.FullPath;

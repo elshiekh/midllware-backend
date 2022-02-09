@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>d3f71b8d-60ce-46c9-9dce-7ea5f3dc04ae</UserSecretsId>
   </PropertyGroup>
 
@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.35" />
+    <!--<PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" ExcludeAssets="All" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.90" />
@@ -29,9 +29,30 @@
     <PackageReference Include="System.ServiceModel.Duplex" Version="4.4.*" />
     <PackageReference Include="System.ServiceModel.Http" Version="4.4.*" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.4.*" />
-    <PackageReference Include="System.ServiceModel.Security" Version="4.4.*" />
+    <PackageReference Include="System.ServiceModel.Security" Version="4.4.*" />-->
     <!--<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.18.3" />-->
     <!--<PackageReference Include="Oracle.DataAccess" Version="4.121.2.2" />-->
+
+	  <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.0.1" />
+	  <PackageReference Include="FastMember" Version="1.5.0" />
+	  <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
+	  <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
+	  <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" ExcludeAssets="All" />
+	  <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+	  <PackageReference Include="SharpZipLib" Version="1.3.1" />
+	  <PackageReference Include="FastMember" Version="1.5.0" />
+	  <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
+	  <PackageReference Include="Dapper" Version="2.0.35" />
+	  <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
+	  <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.50" />
+	  <PackageReference Include="ServiceStack.Text" Version="5.12.0" />
+	  <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.5.1" />
+	  <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.5.1" />
+	  <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="5.5.1" />
+	  <PackageReference Include="System.ServiceModel.Duplex" Version="4.4.*" />
+	  <PackageReference Include="System.ServiceModel.Http" Version="4.4.*" />
+	  <PackageReference Include="System.ServiceModel.NetTcp" Version="4.4.*" />
+	  <PackageReference Include="System.ServiceModel.Security" Version="4.4.*" />
   </ItemGroup>
 
   <ItemGroup>

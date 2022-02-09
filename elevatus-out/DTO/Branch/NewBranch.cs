@@ -113,6 +113,7 @@ namespace elevatus_out.Branch
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class UpdateResponseBranch
@@ -120,6 +121,7 @@ namespace elevatus_out.Branch
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class DeleteResponseBranch
@@ -127,6 +129,7 @@ namespace elevatus_out.Branch
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     #endregion

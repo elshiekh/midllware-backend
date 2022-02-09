@@ -17,6 +17,11 @@ namespace elevatus_out.Position
         public string system_job_id { get; set; }
         public string system_organization_id { get; set; }
         public string system_position_type { get; set; }
+        public string system_exchanged_position_ar { get; set; }
+        public string system_exchanged_position_en { get; set; }
+        public string system_mrf_number { get; set; }
+        public string system_fte { get; set; }
+        public string system_permanent_seasonal_flag { get; set; }
     }
     public class DeletePositionRequest
     {
@@ -107,13 +112,14 @@ namespace elevatus_out.Position
         public string error { get; set; }
     }
 
-    public class Parent {}
-  
+    public class Parent { }
+
     public class CreateResponsePosition
     {
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class UpdateResponsePosition
@@ -121,6 +127,7 @@ namespace elevatus_out.Position
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class DeleteResponsePosition
@@ -128,6 +135,38 @@ namespace elevatus_out.Position
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
+        public string RequestId { get; set; }
     }
     #endregion
+
+    public class NumberOfRequisitionRequest {
+        public string  system_id { get; set; }
+        
+    }
+    public class NumberOfRequisitionResponse {
+        public Identifiers Identifiers { get; set; }
+        public NORIntegrateAccount IntegrateAccount { get; set; }
+        public List<Reason> Reason { get; set; }
+    }
+    public class NORIntegrateAccount {
+        public NORExtraData ExtraData { get; set; }
+    }
+
+    public class NORExtraData
+    {
+        public string SystemId { get; set; }
+        public string SystemBranchId { get; set; }
+        public int NumberOfRequisition { get; set; }
+    }
+
+    public class ResponseOfNumberRequisition
+    {
+        public string SystemId { get; set; }
+        public string SystemBranchId { get; set; }
+        public int NumberOfRequisition { get; set; }
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public string Reasons { get; set; }
+        public string RequestId { get; set; }
+    }
 }

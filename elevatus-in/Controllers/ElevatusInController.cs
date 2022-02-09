@@ -1,10 +1,11 @@
-﻿using elevatus_in.DTO;
+﻿ using elevatus_in.DTO;
 using elevatus_in.Extenstion;
 using elevatus_in.Mapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Oracle.ManagedDataAccess.Client;
+using Oracle.ManagedDataAccess.Types;
 using System;
 using System.Data;
 using System.Net;
@@ -78,19 +79,20 @@ namespace elevatus_in.Controllers
             try
             {
                 OracleConnection conn = new OracleConnection(_dbOption.DbConection);
-                IDataParameter[] parameters = new IDataParameter[4];
-
+                IDataParameter[] parameters = new IDataParameter[5];
                 parameters[0] = new OracleParameter("P_POSITION_ID", OracleDbType.Int32, request.P_POSITION_ID, ParameterDirection.Input); // 
-                parameters[1] = new OracleParameter("P_NUM_OF_REQUISITION", OracleDbType.Int32, request.P_NUM_OF_REQUISITION,ParameterDirection.Input);   //
-                // Outputs
-                parameters[2] = new OracleParameter("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
-                parameters[3] = new OracleParameter("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                parameters[1] = new OracleParameter("P_NUM_OF_REQUISITION", OracleDbType.Int32, request.P_NUM_OF_REQUISITION, ParameterDirection.Input);   //
+                // outPut                                                                                                                                      // Outputs
+                parameters[2] = new OracleParameter("P_ORACLE_ID", OracleDbType.Int64, ParameterDirection.Output);
+                parameters[3] = new OracleParameter("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                parameters[4] = new OracleParameter("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
                 using (OracleCommand command = QueryExtenstion.BuildQueryCommand(conn, request.GetSPName(), parameters))
                 {
                     conn.Open();
                     var isSuccess = await command.ExecuteNonQueryAsync();
                     var result = new UpdateRequisitionResponse()
                     {
+                        P_ORACLE_ID = Convert.ToDecimal(((OracleDecimal)command.Parameters["P_ORACLE_ID"].Value).Value),
                         P_RETURN_MSG = command.Parameters["P_RETURN_MSG"].Value.ToString(),
                         P_RETURN_STATUS = command.Parameters["P_RETURN_STATUS"].Value.ToString(),
                     };
@@ -114,9 +116,9 @@ namespace elevatus_in.Controllers
             try
             {
                 OracleConnection conn = new OracleConnection(_dbOption.DbConection);
-                IDataParameter[] parameters = new IDataParameter[2]; 
-                 parameters[0] = new OracleParameter("P_POSITION_ID", OracleDbType.Int32,request.P_POSITION_ID, ParameterDirection.Input); // 
-                 parameters[1] = new OracleParameter("P_VACANT_POSITION_FLAG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                IDataParameter[] parameters = new IDataParameter[2];
+                parameters[0] = new OracleParameter("P_POSITION_ID", OracleDbType.Int32, request.P_POSITION_ID, ParameterDirection.Input); // 
+                parameters[1] = new OracleParameter("P_VACANT_POSITION_FLAG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
                 using (OracleCommand command = QueryExtenstion.BuildQueryCommand(conn, request.GetSPName(), parameters))
                 {
                     conn.Open();
@@ -145,25 +147,28 @@ namespace elevatus_in.Controllers
             try
             {
                 OracleConnection conn = new OracleConnection(_dbOption.DbConection);
-                IDataParameter[] parameters = new IDataParameter[9];
+                IDataParameter[] parameters = new IDataParameter[11];
 
-                parameters[0] = new OracleParameter("P_PERSON_ID", OracleDbType.Int32, request.P_PERSON_ID, ParameterDirection.Input); // 
-                parameters[1] = new OracleParameter("P_JOB_CATGEORY_ID", OracleDbType.Int32, request.P_PERSON_ID, ParameterDirection.Input);   //
+                parameters[0] = new OracleParameter("P_SECURITY_ID", OracleDbType.Int32, request.P_SECURITY_ID, ParameterDirection.Input);
+                parameters[1] = new OracleParameter("P_PERSON_ID", OracleDbType.Int32, request.P_PERSON_ID, ParameterDirection.Input); // 
+                parameters[2] = new OracleParameter("P_JOB_CATGEORY_ID", OracleDbType.Int32, request.P_PERSON_ID, ParameterDirection.Input);   //
 
-                parameters[2] = new OracleParameter("P_BRANCH_ID", OracleDbType.Int32, request.P_BRANCH_ID, ParameterDirection.Input); // 
-                parameters[3] = new OracleParameter("P_ORGANIZATION_ID", OracleDbType.Int32, request.P_ORGANIZATION_ID, ParameterDirection.Input);   //
-                parameters[4] = new OracleParameter("P_ORGANIZATION_GROUP", OracleDbType.Varchar2, 25, ParameterDirection.Input, false, 0, 0, "P_ORGANIZATION_GROUP", DataRowVersion.Current, request.P_ORGANIZATION_GROUP); // 
-                parameters[5] = new OracleParameter("P_HIERARCHY_ID", OracleDbType.Int32, request.P_HIERARCHY_ID, ParameterDirection.Input); // 
-                parameters[6] = new OracleParameter("P_POSITION_TITLE_ID", OracleDbType.Int32, request.P_POSITION_TITLE_ID, ParameterDirection.Input);   //
-                // Outputs
-                parameters[7] = new OracleParameter("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
-                parameters[8] = new OracleParameter("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                parameters[3] = new OracleParameter("P_BRANCH_ID", OracleDbType.Int32, request.P_BRANCH_ID, ParameterDirection.Input); // 
+                parameters[4] = new OracleParameter("P_ORGANIZATION_ID", OracleDbType.Int32, request.P_ORGANIZATION_ID, ParameterDirection.Input);   //
+                parameters[5] = new OracleParameter("P_ORGANIZATION_GROUP", OracleDbType.Varchar2, 25, ParameterDirection.Input, false, 0, 0, "P_ORGANIZATION_GROUP", DataRowVersion.Current, request.P_ORGANIZATION_GROUP); // 
+                parameters[6] = new OracleParameter("P_HIERARCHY_ID", OracleDbType.Int32, request.P_HIERARCHY_ID, ParameterDirection.Input); // 
+                parameters[7] = new OracleParameter("P_POSITION_TITLE_ID", OracleDbType.Int32, request.P_POSITION_TITLE_ID, ParameterDirection.Input);   //
+                                                                                                                                                         // Outputs
+                parameters[8] = new OracleParameter("P_ORACLE_ID", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                parameters[9] = new OracleParameter("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                parameters[10] = new OracleParameter("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
                 using (OracleCommand command = QueryExtenstion.BuildQueryCommand(conn, request.GetSPName(), parameters))
                 {
                     conn.Open();
                     var isSuccess = await command.ExecuteNonQueryAsync();
-                    var result = new SecurityResponse()
+                    var result = new CreateSecurityResponse()
                     {
+                        P_ORACLE_ID = command.Parameters["P_ORACLE_ID"].Value.ToString(),
                         P_RETURN_MSG = command.Parameters["P_RETURN_MSG"].Value.ToString(),
                         P_RETURN_STATUS = command.Parameters["P_RETURN_STATUS"].Value.ToString(),
                     };
@@ -185,25 +190,28 @@ namespace elevatus_in.Controllers
             try
             {
                 OracleConnection conn = new OracleConnection(_dbOption.DbConection);
-                IDataParameter[] parameters = new IDataParameter[9];
+                IDataParameter[] parameters = new IDataParameter[11];
 
-                parameters[0] = new OracleParameter("P_PERSON_ID", OracleDbType.Int32, request.P_PERSON_ID, ParameterDirection.Input); // 
-                parameters[1] = new OracleParameter("P_JOB_CATGEORY_ID", OracleDbType.Int32, request.P_PERSON_ID, ParameterDirection.Input);   //
+                parameters[0] = new OracleParameter("P_SECURITY_ID", OracleDbType.Int32, request.P_SECURITY_ID, ParameterDirection.Input);
+                parameters[1] = new OracleParameter("P_PERSON_ID", OracleDbType.Int32, request.P_PERSON_ID, ParameterDirection.Input); // 
+                parameters[2] = new OracleParameter("P_JOB_CATGEORY_ID", OracleDbType.Int32, request.P_PERSON_ID, ParameterDirection.Input);   //
 
-                parameters[2] = new OracleParameter("P_BRANCH_ID", OracleDbType.Int32, request.P_BRANCH_ID, ParameterDirection.Input); // 
-                parameters[3] = new OracleParameter("P_ORGANIZATION_ID", OracleDbType.Int32, request.P_ORGANIZATION_ID, ParameterDirection.Input);   //
-                parameters[4] = new OracleParameter("P_ORGANIZATION_GROUP", OracleDbType.Varchar2, 25, ParameterDirection.Input, false, 0, 0, "P_ORGANIZATION_GROUP", DataRowVersion.Current, request.P_ORGANIZATION_GROUP); // 
-                parameters[5] = new OracleParameter("P_HIERARCHY_ID", OracleDbType.Int32, request.P_HIERARCHY_ID, ParameterDirection.Input); // 
-                parameters[6] = new OracleParameter("P_POSITION_TITLE_ID", OracleDbType.Int32, request.P_POSITION_TITLE_ID, ParameterDirection.Input);   //
+                parameters[3] = new OracleParameter("P_BRANCH_ID", OracleDbType.Int32, request.P_BRANCH_ID, ParameterDirection.Input); // 
+                parameters[4] = new OracleParameter("P_ORGANIZATION_ID", OracleDbType.Int32, request.P_ORGANIZATION_ID, ParameterDirection.Input);   //
+                parameters[5] = new OracleParameter("P_ORGANIZATION_GROUP", OracleDbType.Varchar2, 25, ParameterDirection.Input, false, 0, 0, "P_ORGANIZATION_GROUP", DataRowVersion.Current, request.P_ORGANIZATION_GROUP); // 
+                parameters[6] = new OracleParameter("P_HIERARCHY_ID", OracleDbType.Int32, request.P_HIERARCHY_ID, ParameterDirection.Input); // 
+                parameters[7] = new OracleParameter("P_POSITION_TITLE_ID", OracleDbType.Int32, request.P_POSITION_TITLE_ID, ParameterDirection.Input);   //
                 // Outputs
-                parameters[7] = new OracleParameter("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
-                parameters[8] = new OracleParameter("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                parameters[8] = new OracleParameter("P_ORACLE_ID", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                parameters[9] = new OracleParameter("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                parameters[10] = new OracleParameter("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
                 using (OracleCommand command = QueryExtenstion.BuildQueryCommand(conn, request.GetSPName(), parameters))
                 {
                     conn.Open();
                     var isSuccess = await command.ExecuteNonQueryAsync();
-                    var result = new SecurityResponse()
+                    var result = new UpdateSecurityResponse()
                     {
+                        P_ORACLE_ID = command.Parameters["P_ORACLE_ID"].Value.ToString(),
                         P_RETURN_MSG = command.Parameters["P_RETURN_MSG"].Value.ToString(),
                         P_RETURN_STATUS = command.Parameters["P_RETURN_STATUS"].Value.ToString(),
                     };
@@ -225,19 +233,20 @@ namespace elevatus_in.Controllers
             try
             {
                 OracleConnection conn = new OracleConnection(_dbOption.DbConection);
-                IDataParameter[] parameters = new IDataParameter[9];
+                IDataParameter[] parameters = new IDataParameter[10];
 
-                parameters[0] = new OracleParameter("P_PERSON_ID", OracleDbType.Int32, request.P_PERSON_ID, ParameterDirection.Input); // 
-                parameters[1] = new OracleParameter("P_JOB_CATGEORY_ID", OracleDbType.Int32, request.P_PERSON_ID, ParameterDirection.Input);   //
+                parameters[0] = new OracleParameter("P_SECURITY_ID", OracleDbType.Int32, request.P_SECURITY_ID, ParameterDirection.Input);
+                parameters[1] = new OracleParameter("P_PERSON_ID", OracleDbType.Int32, request.P_PERSON_ID, ParameterDirection.Input); // 
+                parameters[2] = new OracleParameter("P_JOB_CATGEORY_ID", OracleDbType.Int32, request.P_PERSON_ID, ParameterDirection.Input);   //
 
-                parameters[2] = new OracleParameter("P_BRANCH_ID", OracleDbType.Int32, request.P_BRANCH_ID, ParameterDirection.Input); // 
-                parameters[3] = new OracleParameter("P_ORGANIZATION_ID", OracleDbType.Int32, request.P_ORGANIZATION_ID, ParameterDirection.Input);   //
-                parameters[4] = new OracleParameter("P_ORGANIZATION_GROUP", OracleDbType.Varchar2, 25, ParameterDirection.Input, false, 0, 0, "P_ORGANIZATION_GROUP", DataRowVersion.Current, request.P_ORGANIZATION_GROUP); // 
-                parameters[5] = new OracleParameter("P_HIERARCHY_ID", OracleDbType.Int32, request.P_HIERARCHY_ID, ParameterDirection.Input); // 
-                parameters[6] = new OracleParameter("P_POSITION_TITLE_ID", OracleDbType.Int32, request.P_POSITION_TITLE_ID, ParameterDirection.Input);   //
+                parameters[3] = new OracleParameter("P_BRANCH_ID", OracleDbType.Int32, request.P_BRANCH_ID, ParameterDirection.Input); // 
+                parameters[4] = new OracleParameter("P_ORGANIZATION_ID", OracleDbType.Int32, request.P_ORGANIZATION_ID, ParameterDirection.Input);   //
+                parameters[5] = new OracleParameter("P_ORGANIZATION_GROUP", OracleDbType.Varchar2, 25, ParameterDirection.Input, false, 0, 0, "P_ORGANIZATION_GROUP", DataRowVersion.Current, request.P_ORGANIZATION_GROUP); // 
+                parameters[6] = new OracleParameter("P_HIERARCHY_ID", OracleDbType.Int32, request.P_HIERARCHY_ID, ParameterDirection.Input); // 
+                parameters[7] = new OracleParameter("P_POSITION_TITLE_ID", OracleDbType.Int32, request.P_POSITION_TITLE_ID, ParameterDirection.Input);   //
                 // Outputs
-                parameters[7] = new OracleParameter("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
-                parameters[8] = new OracleParameter("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                parameters[8] = new OracleParameter("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                parameters[9] = new OracleParameter("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
                 using (OracleCommand command = QueryExtenstion.BuildQueryCommand(conn, request.GetSPName(), parameters))
                 {
                     conn.Open();
@@ -260,17 +269,16 @@ namespace elevatus_in.Controllers
         }
         #endregion
 
-        #region EMPLOYEE-XML
-        #region Process Transactions
+        #region Create Applicant
         [HttpPost("CreateApplicant.{format}"), FormatFilter]
         public async Task<IActionResult> CreateApplicant([FromBody] CreateApplicantRequest request)
         {
             OracleConnection conn = new OracleConnection(_dbOption.DbConection);
 
-            IDataParameter[] parameters = new IDataParameter[3];
+            IDataParameter[] parameters = new IDataParameter[4];
 
             // Inputs
-     
+
             // XmlType input
             if (request.P_APPLICANT_DETAILS != null)
             {
@@ -282,8 +290,9 @@ namespace elevatus_in.Controllers
             }
 
             // Outputs
-            parameters[1] = new OracleParameter("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
-            parameters[2] = new OracleParameter("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+            parameters[1] = new OracleParameter("P_ORACLE_ID", OracleDbType.Int64, ParameterDirection.Output);
+            parameters[2] = new OracleParameter("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+            parameters[3] = new OracleParameter("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
 
             using (OracleCommand command = QueryExtenstion.BuildQueryCommand(conn, request.GetSPName(), parameters))
             {
@@ -291,8 +300,9 @@ namespace elevatus_in.Controllers
                 {
                     conn.Open();
                     var isSuccess = await command.ExecuteNonQueryAsync();
-                    var result = new EmployeeResponce()
+                    var result = new CreateApplicantResponce()
                     {
+                        P_ORACLE_ID = Convert.ToDecimal(((OracleDecimal)command.Parameters["P_ORACLE_ID"].Value).Value),
                         P_RETURN_STATUS = command.Parameters["P_RETURN_STATUS"].Value.ToString(),
                         P_RETURN_MSG = command.Parameters["P_RETURN_MSG"].Value.ToString()
                     };
@@ -308,7 +318,6 @@ namespace elevatus_in.Controllers
             }
         }
         #endregion
-        #endregion 
 
         #region Return Exception
         private IActionResult ReturnException(Exception ex)

@@ -12,7 +12,6 @@ namespace elevatus_in.DTO
         public string P_USER_NAME { get; set; }
         public string P_LANGUAGE { get; set; }
         public string P_PASSWORD { get; set; } 
-       
     }
 
     public class ValidateLoginResponse
@@ -36,8 +35,9 @@ namespace elevatus_in.DTO
     }
     public class UpdateRequisitionResponse
     {
-       public string P_RETURN_STATUS { get; set; }
-       public string P_RETURN_MSG { get; set; }
+        public decimal P_ORACLE_ID { get; set; }
+        public string P_RETURN_STATUS { get; set; }
+        public string P_RETURN_MSG { get; set; }
     }
 
     public class IsPositionVacantRequest {
@@ -57,6 +57,7 @@ namespace elevatus_in.DTO
         {
             return "HMG_ELEVATUS_INT_IN_PKG.CREATE_SECURITY";
         }
+        public int P_SECURITY_ID { get; set; }
         public int P_PERSON_ID { get; set; }
         public int P_JOB_CATGEORY_ID { get; set; }
         public int P_BRANCH_ID { get; set; }
@@ -72,6 +73,7 @@ namespace elevatus_in.DTO
         {
             return "HMG_ELEVATUS_INT_IN_PKG.UPDATE_SECURITY";
         }
+        public int P_SECURITY_ID { get; set; }
         public int P_PERSON_ID { get; set; }
         public int P_JOB_CATGEORY_ID { get; set; }
         public int P_BRANCH_ID { get; set; }
@@ -86,6 +88,7 @@ namespace elevatus_in.DTO
         {
             return "HMG_ELEVATUS_INT_IN_PKG.DELETE_SECURITY";
         }
+        public int P_SECURITY_ID { get; set; }
         public int P_PERSON_ID { get; set; }
         public int P_JOB_CATGEORY_ID { get; set; }
         public int P_BRANCH_ID { get; set; }
@@ -95,6 +98,19 @@ namespace elevatus_in.DTO
         public int P_POSITION_TITLE_ID { get; set; }
     }
 
+    public class CreateSecurityResponse
+    {
+        public string P_ORACLE_ID { get; set; }
+        public string P_RETURN_STATUS { get; set; }
+        public string P_RETURN_MSG { get; set; }
+    }
+
+    public class UpdateSecurityResponse
+    {
+        public string P_ORACLE_ID { get; set; }
+        public string P_RETURN_STATUS { get; set; }
+        public string P_RETURN_MSG { get; set; }
+    }
     public class SecurityResponse
     {
         public string P_RETURN_STATUS { get; set; }
@@ -111,8 +127,9 @@ namespace elevatus_in.DTO
         public P_APPLICANT_DETAILS P_APPLICANT_DETAILS { get; set; }
     }
 
-    public class EmployeeResponce
+    public class CreateApplicantResponce
     {
+        public decimal P_ORACLE_ID { get; set; }
         public string P_RETURN_STATUS { get; set; }
         public string P_RETURN_MSG { get; set; }
     }
@@ -149,12 +166,12 @@ namespace elevatus_in.DTO
 
         public string EMER_CONTACT_PER { get; set; }
         public string EMER_CONTACT_PHONE { get; set; }
-        public string DISABILITY_FLAG { get; set; }
-        public string STUDENT_FLAG { get; set; }
-        public string HRDF_FLAG { get; set; }
-        public string RECRUITMENT_SOURCE { get; set; }
-        public string RECRUITER_EMP_NUM { get; set; }
-        public string WORK_ASSIGNMENT_FORM { get; set; }
+        public int DISABILITY_FLAG { get; set; }
+        public int STUDENT_FLAG { get; set; }
+        public int HRDF_FLAG { get; set; }
+        public int RECRUITMENT_SOURCE { get; set; }
+        public int RECRUITER_ID { get; set; }
+        public int WORK_ASSIGNMENT_FORM { get; set; }
 
         public int POSITION_ID { get; set; }
         public string EMPLOYEMENT_CATEGORY { get; set; }
@@ -165,22 +182,22 @@ namespace elevatus_in.DTO
         public int NOTICE_PERIOD { get; set; }
         public string NOTICE_PERIOD_UOM { get; set; }
         public int PAY_BASIS_ID { get; set; }
-        public string ANNUITIES { get; set; }
+        public int ANNUITIES { get; set; }
 
         public string ANNUITIES_JOINING_DATE { get; set; }
-        public string HAZARDS { get; set; }
+        public int HAZARDS { get; set; }
         public string HAZARDS_JOINING_DATE { get; set; }
 
-        public string MOQEEM_STATUS { get; set; }
-        public string BENEFIT_GROUP { get; set; }
-        public string CONTRACT_MAT_STATUS { get; set; }
-        public string TICKET_ROUTE { get; set; }
+        public int MOQEEM_STATUS { get; set; }
+        public int BENEFIT_GROUP { get; set; }
+        public int CONTRACT_MAT_STATUS { get; set; }
+        public int TICKET_ROUTE { get; set; }
         public string DOC_QUALIFICATION { get; set; }
 
         public int GOSI_EMPLOYER { get; set; }
         public string GOSI_NUM { get; set; }
-        public string HOUSING_TYPE { get; set; }
-        public string TRANS_TYPE { get; set; }
+        public int HOUSING_TYPE { get; set; }
+        public int TRANS_TYPE { get; set; }
 
         public int BASIC_SALARY { get; set; }
         public int HOUSING_ALLOWANCE { get; set; }
@@ -189,9 +206,9 @@ namespace elevatus_in.DTO
         public int TELEPHONE_ALLOWANCE { get; set; }
         public int SUBSIDIARY_ALLOWANCE { get; set; }
 
-        public string CRITICAL_ALLOWANCE { get; set; }
+        public int CRITICAL_ALLOWANCE { get; set; }
         public int OVERRIDE_CRITICAL_ALLOWANCE { get; set; }
-        public string SPECIAL_ALLOWANCE { get; set; }
+        public int SPECIAL_ALLOWANCE { get; set; }
 
         public int OVERRIDE_SPECIAL_ALLOWANCE { get; set; }
         public int ADMIN_PROF_ALLOWANCE { get; set; }
@@ -203,14 +220,22 @@ namespace elevatus_in.DTO
         public string DR_SPECIALITY_DESC { get; set; }
         public int PROJECT_ALLOWANCE { get; set; }
         public int TRANS_ALLOWANCE { get; set; }
+        public int OVERTIME { get; set; }
 
-        public string OVERTIME { get; set; }
+        public int EXP_ALLOWANCE { get; set; }
+        public int OTHER_ALLOWANCE { get; set; }
+        public int SUPERVISION_ALLOWANCE { get; set; }
+        public int CHILD_ALLOWANCE { get; set; }
+        public int FAMILY_COVERAGE_ALLOWANCE { get; set; }
+        public int INPATIENT_ALLOWANCE { get; set; }
+        public int PATIENT_CARE_ALLOWANCE { get; set; }
+        public int RISK_ALLOWANCE { get; set; }
+
         public string RELIGION { get; set; }
         public string PASSPORT_NUMBER { get; set; }
         public string PASS_PROFESSION { get; set; }
         public string PAAS_ISSUE_DATE { get; set; }
         public string PASS_EXPIRY_DATE { get; set; }
-
         public string PASS_PLACE_OF_ISSUE { get; set; }
         public string RECRUITMENT_AGENCY { get; set; }
 
@@ -220,8 +245,7 @@ namespace elevatus_in.DTO
         public int EMPLOYEE_SHARE { get; set; }
         public int NO_OF_INSTALLMENT { get; set; }
 
-
-        public string TICKET_ENTITLEMENT { get; set; }
+        public int TICKET_ENTITLEMENT { get; set; }
         public int ANNUAL_VAC_DAYS { get; set; }
         public string REC_RECOVERY_PERIOD { get; set; }
         public int CASH_ADVNACE_AMOUNT { get; set; }
