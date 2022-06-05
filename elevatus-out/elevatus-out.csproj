@@ -3,6 +3,7 @@
    <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>elevatus_out</RootNamespace>
     <UserSecretsId>cb98a4bf-7838-4aec-94cf-b5e5abf5af83</UserSecretsId>
+	<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
 	<ItemGroup>
 		<!--<PackageReference Include="Dapper" Version="2.0.35" />

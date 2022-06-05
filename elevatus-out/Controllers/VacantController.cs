@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace elevatus_out.Controllers
 {
     
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [FormatFilter]
@@ -59,7 +59,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region UpdateVacant
-        [HttpPut("UpdateVacant.{format}"), FormatFilter]
+        [HttpPost("UpdateVacant.{format}"), FormatFilter]
         public async Task<IActionResult> UpdateVacant([FromBody] List<VacantRequestObj> obj)
         {
             try
@@ -124,7 +124,7 @@ namespace elevatus_out.Controllers
             {
                 error = new
                 {
-                    message = ex.Message,
+                    message = ex.ToString(),
                     exception = ex.GetType().Name
                 }
             }));

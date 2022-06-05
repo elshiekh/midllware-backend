@@ -648,7 +648,7 @@ namespace HmgOnBaseIn.Controllers
         #endregion
 
         #region Insert Employee Document
-        [HttpPut("InsertEmployeeDocument.{format}")]
+        [HttpPost("InsertEmployeeDocument.{format}")]
         public async Task<IActionResult> InsertEmployeeDocument([FromBody] InsertEmployeeDocumentRequest request)
         {
             try
@@ -689,7 +689,7 @@ namespace HmgOnBaseIn.Controllers
         #endregion
 
         #region Delete Employee Document
-        [HttpDelete("DeleteEmployeeDocument.{format}")]
+        [HttpPost("DeleteEmployeeDocument.{format}")]
         public async Task<IActionResult> DeleteEmployeeDocument([FromBody] DeleteEmployeeDocumentRequest request)
         {
             try

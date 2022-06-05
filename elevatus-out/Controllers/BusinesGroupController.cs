@@ -93,7 +93,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region UpdateBusinesGroup
-        [HttpPut("UpdateBusinesGroup.{format}"), FormatFilter]
+        [HttpPost("UpdateBusinesGroup.{format}"), FormatFilter]
         public async Task<IActionResult> UpdateBusinesGroup([FromBody] BusinesGroupRequest obj)
         {
             try

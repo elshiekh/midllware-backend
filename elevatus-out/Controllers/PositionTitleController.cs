@@ -94,7 +94,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region UpdatePositionTitle
-        [HttpPut("UpdatePositionTitle.{format}"), FormatFilter]
+        [HttpPost("UpdatePositionTitle.{format}"), FormatFilter]
         public async Task<IActionResult> UpdatePositionTitle([FromBody] PositionTitleRequest obj)
         {
             try

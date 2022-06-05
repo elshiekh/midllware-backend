@@ -27,8 +27,8 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region GetPosition
-        [HttpGet("GetPositions.{format}"), FormatFilter]
-        public async Task<IActionResult> GetPositions(int limit = 30, int page = 1)
+        [HttpPost("GetPositions.{format}"), FormatFilter]
+        public async Task<IActionResult> GetPositions([FromBody] GetPositionRequest obj = null,int limit = 30, int page = 1)
         {
             try
             {
@@ -41,7 +41,10 @@ namespace elevatus_out.Controllers
                     var request = new HttpRequestMessage(HttpMethod.Get, baseAddress + "/api/v1/service/positions?limit=" + limit + "&page=" + page);
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
-                    request.Content = new StringContent(string.Empty, Encoding.UTF8, "application/json");
+                    // ---
+                    var postObject = JsonConvert.SerializeObject(obj);
+                    request.Content = new StringContent(postObject, Encoding.UTF8, "application/json");
+                    // --
                     request.Content.Headers.ContentType = new MediaTypeHeaderValue(_dbOption.JsonFormat);
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
@@ -94,7 +97,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region UpdatePosition
-        [HttpPut("UpdatePosition.{format}"), FormatFilter]
+        [HttpPost("UpdatePosition.{format}"), FormatFilter]
         public async Task<IActionResult> UpdatePosition([FromBody] PositionRequest obj)
         {
             try

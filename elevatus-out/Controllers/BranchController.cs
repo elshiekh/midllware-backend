@@ -93,7 +93,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region UpdateBranch
-        [HttpPut("UpdateBranch.{format}"), FormatFilter]
+        [HttpPost("UpdateBranch.{format}"), FormatFilter]
         public async Task<IActionResult> UpdateBranch([FromBody] BranchRequest obj)
         {
             try

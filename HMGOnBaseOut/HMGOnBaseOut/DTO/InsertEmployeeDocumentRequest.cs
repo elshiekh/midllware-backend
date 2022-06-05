@@ -11,8 +11,8 @@ namespace HMGOnBaseOut.DTO
         public int P_DOCUMENT_HANDLE { get; set; }
         public string P_EMPLOYEE_NUMBER { get; set; }
         public string P_DOCUMENT_TYPE_NAME { get; set; }
-        public DateTime P_EXPIRY_DATE { get; set; }
-        public int P_YEAR { get; set; }
+        public DateTime? P_EXPIRY_DATE { get; set; }
+        public int? P_YEAR { get; set; }
     }
 
     public class InsertEmployeeDocumentResponse

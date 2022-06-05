@@ -76,18 +76,15 @@ namespace elevatus_out
                 });
             });
 
-
             Action<DBOption> mduOptions = (opt =>
-            {
-                opt.BaseAddress = Configuration["ELEVATUS:BaseAddress"];
-                opt.JsonFormat = Configuration["ELEVATUS:JsonFormat"];
-                opt.UserName = Configuration["ELEVATUS:UserName"];
-                opt.Password = Configuration["ELEVATUS:Password"];
+            { // ELEVATUS-DEV -------- ELEVATUS-PROD
+              opt.BaseAddress= Configuration["ELEVATUS-PROD:BaseAddress"];
+              opt.JsonFormat= Configuration["ELEVATUS-PROD:JsonFormat"];
+              opt.UserName = Configuration["ELEVATUS-PROD:UserName"];
+              opt.Password = Configuration["ELEVATUS-PROD:Password"];
             });
             services.Configure(mduOptions);
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<DBOption>>().Value);
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

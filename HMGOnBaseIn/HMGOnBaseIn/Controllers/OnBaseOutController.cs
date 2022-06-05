@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace HmgOnBaseOut.Controllers
 {
-    [Authorize]
+    ///[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [FormatFilter]

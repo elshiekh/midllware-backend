@@ -94,7 +94,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region UpdatePayroll
-        [HttpPut("UpdatePayroll.{format}"), FormatFilter]
+        [HttpPost("UpdatePayroll.{format}"), FormatFilter]
         public async Task<IActionResult> UpdatePayroll([FromBody] PayrollRequest obj)
         {
             try

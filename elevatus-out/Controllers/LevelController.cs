@@ -1,10 +1,8 @@
-﻿using elevatus_out.DTO;
-using elevatus_out.Level;
+﻿using elevatus_out.Level;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -95,7 +93,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region UpdateLevel
-        [HttpPut("UpdateLevel.{format}"), FormatFilter]
+        [HttpPost("UpdateLevel.{format}"), FormatFilter]
         public async Task<IActionResult> UpdateLevel([FromBody] LevelRequest obj)
         {
             try

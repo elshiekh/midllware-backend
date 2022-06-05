@@ -94,7 +94,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region UpdateOrganizationGroup
-        [HttpPut("UpdateOrganizationGroup.{format}"), FormatFilter]
+        [HttpPost("UpdateOrganizationGroup.{format}"), FormatFilter]
         public async Task<IActionResult> UpdateOrganizationGroup([FromBody] OrganizationGroupRequest obj)
         {
             try

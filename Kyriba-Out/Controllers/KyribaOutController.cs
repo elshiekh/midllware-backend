@@ -57,7 +57,7 @@ namespace Kyriba_Out.Controllers
                 var input = fileInbytes.FileInBase64;
                 if (fileInbytes.Staus)
                 {
-                    var publicKey = System.IO.File.ReadAllBytes(@"C:/inetpub/wwwroot/Services/kyriba-out/Resources/Acceptance DB63F5F673F4DC03.asc");
+                    var publicKey = System.IO.File.ReadAllBytes("Resources/Acceptance DB63F5F673F4DC03.asc");
                     var pgp = new Pgp();
                     var encrBytes = pgp.Encrypt(input, publicKey);
                     //System.IO.File.WriteAllBytes(@"C:/inetpub/wwwroot/Services/kyriba-out/EncryptedFiles/" + model.fileName +"."+ model.fileExtension, encrBytes);
@@ -121,10 +121,10 @@ namespace Kyriba_Out.Controllers
                     using (var memoryStream = new MemoryStream())
                     {
                         responseStream?.CopyTo(memoryStream);
-                        var privateKey = System.IO.File.OpenRead("Resources/private-cloud2022.key");
-                        var decrypted = Pgp.Decrypt(memoryStream.ToArray(), privateKey, "Cloud@2022");
-                        var fileStream = Convert.ToBase64String(decrypted);
-                        //var fileStream = Convert.ToBase64String(memoryStream.ToArray());
+                        //var privateKey = System.IO.File.OpenRead("Resources/private-cloud2022.key");
+                        //var decrypted = Pgp.Decrypt(memoryStream.ToArray(), privateKey, "Cloud@2022");
+                        //var fileStream = Convert.ToBase64String(decrypted);
+                        var fileStream = Convert.ToBase64String(memoryStream.ToArray());
                         var newFile = new FileResponse() { fileName = file.Name, fileBase64 = fileStream, LastModified = file.LastModified.ToString("dd/MM/yyyy HH:mm:ss") };
                         fileResponse.Add(newFile);
                         result.Files = fileResponse;
@@ -280,6 +280,25 @@ namespace Kyriba_Out.Controllers
                 }
             }));
         }
+        #endregion
+
+        #region TEST Encryption Decryption 
+        //Pgp.EncryptFile("Resources/output.txt", "Resources/input.txt", "Resources/public-cloud2022.key", true, true);
+        //Pgp.DecryptFile("Resources/output.txt", "Resources/private-cloud2022.key", "Cloud@2022".ToCharArray(), "default.txt");
+        //var input = Encoding.ASCII.GetBytes("test 123");
+        //var publicKey = System.IO.File.ReadAllBytes("Resources/public-cloud2022.key");
+
+        //var pgp = new Pgp();
+
+        //var encrBytes = pgp.Encrypt(input, publicKey);
+
+        //var privateKey = System.IO.File.OpenRead("Resources/private-cloud2022.key");
+
+        //var decrypted = Pgp.Decrypt(encrBytes, privateKey, "Cloud@2022");
+        //var cc = Encoding.ASCII.GetString(decrypted);
+
+        // Assert.Equal("test 1", Encoding.ASCII.GetString(decrypted));
+        //return Ok(123);
         #endregion
     }
 }

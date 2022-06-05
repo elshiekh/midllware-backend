@@ -97,7 +97,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region UpdateHierarchy
-        [HttpPut("UpdateHierarchy.{format}"), FormatFilter]
+        [HttpPost("UpdateHierarchy.{format}"), FormatFilter]
         public async Task<IActionResult> UpdateHierarchy([FromBody] HierarchyRequest obj)
         {
             try

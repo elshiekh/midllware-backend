@@ -4,6 +4,11 @@ namespace elevatus_out.Position
 {
 
     #region New-Position
+
+    public class GetPositionRequest {
+        public string system_branch_id { get; set; }
+    }
+
     public class PositionRequest
     {
         public string system_id { get; set; }
@@ -47,9 +52,9 @@ namespace elevatus_out.Position
 
     #region GET-Position-RESPONSE
 
-    public class GetPositionRequest
-    {
-    }
+    //public class GetPositionRequest
+    //{
+    //}
     public class GetPositionResponse {
         public Identifiers Identifiers { get; set; }
         public IntegrateAccount IntegrateAccount { get; set; }

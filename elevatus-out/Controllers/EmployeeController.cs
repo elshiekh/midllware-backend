@@ -54,7 +54,7 @@ namespace elevatus_out.Controllers
                 return ReturnException(ex);
             }
         }
-        #endregion``````````````````````````````````````
+        #endregion
 
         #region Get Employee Type
         [HttpPost("EmployeeType.{format}"), FormatFilter]
@@ -94,7 +94,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region Enable Employee
-        [HttpPut("EnableEmployee.{format}"), FormatFilter]
+        [HttpPost("EnableEmployee.{format}"), FormatFilter]
         public async Task<IActionResult> EnableEmployee([FromBody] EmployeeEnableRequest obj)
         {
             try
@@ -180,7 +180,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region UpdateEmployee
-        [HttpPut("UpdateEmployee.{format}"), FormatFilter]
+        [HttpPost("UpdateEmployee.{format}"), FormatFilter]
         public async Task<IActionResult> UpdateEmployee([FromBody] EmployeeRequest obj)
         {
             try
@@ -251,7 +251,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region Connect employee with applicant
-        [HttpPut("ConnectEmployeeApplicant.{format}"), FormatFilter]
+        [HttpPost("ConnectEmployeeApplicant.{format}"), FormatFilter]
         public async Task<IActionResult> ConnectEmployeeApplicant([FromBody] ConnectEmployeeApplicantRequest obj)
         {
             try

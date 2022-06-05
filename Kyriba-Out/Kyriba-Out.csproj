@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Kyriba_Out</RootNamespace>
     <UserSecretsId>c6958df9-1149-4890-b06d-54ee59667f5e</UserSecretsId>
+	<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="BouncyCastle.NetCore" Version="1.8.8" />

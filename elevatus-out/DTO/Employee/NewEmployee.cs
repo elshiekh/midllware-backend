@@ -10,20 +10,23 @@ namespace elevatus_out.Employee
         public int system_branch_id { get; set; }
         public string system_category_id { get; set; }
         public string system_employee_number { get; set; }
-        public string system_full_name { get; set; }
+        public string system_first_name { get; set; }
+        public string system_second_name { get; set; }
+        public string system_third_name { get; set; }
+        public string system_last_name { get; set; }
         public string system_supervisor_id { get; set; }
         public string system_hod_person_id { get; set; }
         public string system_email_address { get; set; }
         public string system_civil_id { get; set; }
         public string system_mobile_number { get; set; }
-        public string system_organization_id { get; set; }
         public string system_absence_rep_person_id { get; set; }
-        public string system_team_rep_person_id { get; set; }
+        public string system_term_rep_person_id { get; set; }
         public string system_absence_start_date { get; set; }
-        public string system_absence_en_date { get; set; }
+        public string system_absence_end_date { get; set; }
         public bool system_absence_status { get; set; }
         public string system_termination_date { get; set; }
         public bool system_status { get; set; }
+        public string system_position_id { get; set; }
 
     }
     public class DeleteEmployeeRequest

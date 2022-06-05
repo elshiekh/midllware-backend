@@ -94,7 +94,7 @@ namespace elevatus_out.Controllers
         #endregion
 
         #region UpdateJob
-        [HttpPut("UpdateJob.{format}"), FormatFilter]
+        [HttpPost("UpdateJob.{format}"), FormatFilter]
         public async Task<IActionResult> UpdateJob([FromBody] JobRequest obj)
         {
             try
