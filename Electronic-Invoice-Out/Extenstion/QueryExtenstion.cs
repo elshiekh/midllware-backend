@@ -1,19 +1,16 @@
-﻿using FastMember;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Oracle.ManagedDataAccess.Client;
-using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace elevatus_in.Extenstion
+namespace Electronic_Invoice_Out.Extenstion
 {
     public static class QueryExtenstion
     {
@@ -83,41 +80,9 @@ namespace elevatus_in.Extenstion
             return value;
         }
 
-        public static T ConvertToObject<T>(this IDataReader rd) where T : class, new()
-        {
-            Type type = typeof(T);
-            var accessor = TypeAccessor.Create(type);
-            var members = accessor.GetMembers();
-            var t = new T();
-
-            for (int i = 0; i < rd.FieldCount; i++)
-            {
-                if (!rd.IsDBNull(i))
-                {
-                    string fieldName = rd.GetName(i);
-
-                    if (members.Any(m => string.Equals(m.Name, fieldName, StringComparison.OrdinalIgnoreCase)))
-                    {
-                        accessor[t, fieldName] = rd.GetValue(i);
-                    }
-                }
-            }
-
-            return t;
-        }
-
         public static string EncodeStringToBase64(string stringToEncode)
         {
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(stringToEncode));
-        }
-
-        public static string ObjectToBase64(this object obj)
-        {
-            string json = JsonConvert.SerializeObject(obj);
-
-            byte[] bytes = Encoding.Default.GetBytes(json);
-
-            return Convert.ToBase64String(bytes);
         }
         public static string XmlToJson(string xml)
         {
@@ -162,12 +127,18 @@ namespace elevatus_in.Extenstion
             }
             return obj;
         }
-        private static readonly XDeclaration _defaultDeclaration = new("1.0", null, null);
-        public static string JsonToXml(string json)
+
+        public static List<T> ToDelimitedList<T>(this string value, string delimiter, Func<string, T> converter)
         {
-            var doc = JsonConvert.DeserializeXNode(json)!;
-            var declaration = doc.Declaration ?? _defaultDeclaration;
-            return $"{declaration}{Environment.NewLine}{doc}";
+            if (value == null)
+            {
+                return new List<T>();
+            }
+
+            var output = value.Split(new string[] { delimiter }, StringSplitOptions.RemoveEmptyEntries);
+            return output.Select(converter).ToList();
         }
+
+       
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace elevatus_in.DTO
 {
@@ -11,7 +12,7 @@ namespace elevatus_in.DTO
         }
         public string P_USER_NAME { get; set; }
         public string P_LANGUAGE { get; set; }
-        public string P_PASSWORD { get; set; } 
+        public string P_PASSWORD { get; set; }
     }
 
     public class ValidateLoginResponse
@@ -22,6 +23,57 @@ namespace elevatus_in.DTO
         public string P_PASSWORD_EXPIRED_MSG { get; set; }
         public string P_RETURN_STATUS { get; set; }
         public string P_RETURN_MSG { get; set; }
+    }
+
+    public class ValidateOfferRequest
+    {
+        public string GetSPName()
+        {
+            return "HMG_ELEVATUS_INT_IN_PKG.VALIDATE_OFFER";
+        }
+        public RequestIdentifiers identifiers { get; set; }
+        public List<Dictionary<string, string>> body { get; set; }
+    }
+    public class RequestIdentifiers
+    {
+        public string request_uuid { get; set; }
+        public string branch_id { get; set; }
+        public string position_id { get; set; }
+        public string position_title_id { get; set; }
+        public bool is_budgeted { get; set; }
+        public string nationality_code { get; set; }
+        public string language_code { get; set; }
+
+    }
+
+    public class BodyFiled
+    {
+        public List<Dictionary<string, string>> Body { get; set; }
+    }
+
+    public class OfferResponse
+    {
+        public ResponseIdentifiers identifiers { get; set; }
+        public List<ResponseFiled> results { get; set; }
+    }
+    public class ValidateOfferResponse
+    {
+        public ResponseIdentifiers identifiers { get; set; }
+        public List<ResponseFiled> results { get; set; }
+        // public OfferResponse Result { get; set; }
+        //public string ReturnStatus { get; set; }
+        //public string ReturnMessage { get; set; }
+    }
+
+    public class ResponseIdentifiers
+    {
+        public string request_uuid { get; set; }
+    }
+    public class ResponseFiled
+    {
+        public string field { get; set; }
+        public bool is_valid { get; set; }
+        public string message { get; set; }
     }
 
     public class UpdateRequisitionRequest
@@ -40,31 +92,53 @@ namespace elevatus_in.DTO
         public string P_RETURN_MSG { get; set; }
     }
 
-    public class IsPositionVacantRequest {
+    public class IsPositionVacantRequest
+    {
         public string GetSPName()
         {
             return "HMG_ELEVATUS_INT_IN_PKG. IS_POSITION_VACANT";
         }
         public int P_POSITION_ID { get; set; }
     }
-    public class IsPositionVacantResponse {
+    public class IsPositionVacantResponse
+    {
         public string P_VACANT_POSITION_FLAG { get; set; }
     }
 
+ 
     public class CreateSecurityRequest
     {
         public string GetSPName()
         {
             return "HMG_ELEVATUS_INT_IN_PKG.CREATE_SECURITY";
         }
-        public int P_SECURITY_ID { get; set; }
-        public int P_PERSON_ID { get; set; }
-        public int P_JOB_CATGEORY_ID { get; set; }
-        public int P_BRANCH_ID { get; set; }
-        public int P_ORGANIZATION_ID { get; set; }
-        public string P_ORGANIZATION_GROUP { get; set; }
-        public int P_HIERARCHY_ID { get; set; }
-        public int P_POSITION_TITLE_ID { get; set; }
+        public List<Security> Security { get; set; }
+
+    }
+
+    public class CreateSecurityResponse
+    {
+        public string security_id { get; set; }
+        public string oracle_id { get; set; }
+        public bool return_status { get; set; }
+        public string return_msg { get; set; }
+    }
+
+    public class Security
+    {
+        public int security_id { get; set; }
+        public int person_id { get; set; }
+        public int? job_catgeory_id { get; set; }
+        public int branch_id { get; set; }
+        public int? organization_id { get; set; }
+        public string organization_group { get; set; }
+        public int? hierarchy_id { get; set; }
+        public int? position_title_id { get; set; }
+    }
+
+    public class DeleteSecurity
+    {
+        public int security_id { get; set; }
     }
 
     public class UpdateSecurityRequest
@@ -73,14 +147,7 @@ namespace elevatus_in.DTO
         {
             return "HMG_ELEVATUS_INT_IN_PKG.UPDATE_SECURITY";
         }
-        public int P_SECURITY_ID { get; set; }
-        public int P_PERSON_ID { get; set; }
-        public int P_JOB_CATGEORY_ID { get; set; }
-        public int P_BRANCH_ID { get; set; }
-        public int P_ORGANIZATION_ID { get; set; }
-        public string P_ORGANIZATION_GROUP { get; set; }
-        public int P_HIERARCHY_ID { get; set; }
-        public int P_POSITION_TITLE_ID { get; set; }
+        public List<Security> Security { get; set; }
     }
     public class DeleteSecurityRequest
     {
@@ -88,28 +155,16 @@ namespace elevatus_in.DTO
         {
             return "HMG_ELEVATUS_INT_IN_PKG.DELETE_SECURITY";
         }
-        public int P_SECURITY_ID { get; set; }
-        public int P_PERSON_ID { get; set; }
-        public int P_JOB_CATGEORY_ID { get; set; }
-        public int P_BRANCH_ID { get; set; }
-        public int P_ORGANIZATION_ID { get; set; }
-        public string P_ORGANIZATION_GROUP { get; set; }
-        public int P_HIERARCHY_ID { get; set; }
-        public int P_POSITION_TITLE_ID { get; set; }
+        public List<DeleteSecurity> Security { get; set; }
     }
 
-    public class CreateSecurityResponse
-    {
-        public string P_ORACLE_ID { get; set; }
-        public string P_RETURN_STATUS { get; set; }
-        public string P_RETURN_MSG { get; set; }
-    }
 
-    public class UpdateSecurityResponse
+    public class CrudSecurityResponse
     {
-        public string P_ORACLE_ID { get; set; }
-        public string P_RETURN_STATUS { get; set; }
-        public string P_RETURN_MSG { get; set; }
+        public string security_id { get; set; }
+        public string oracle_id { get; set; }
+        public bool return_status { get; set; }
+        public string return_msg { get; set; }
     }
     public class SecurityResponse
     {

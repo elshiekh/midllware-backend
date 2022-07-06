@@ -3,11 +3,12 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>elevatus_in</RootNamespace>
     <UserSecretsId>bb62df04-f873-46b8-bba0-bb0100571850</UserSecretsId>
+    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="FastMember" Version="1.5.0" />
+	    <PackageReference Include="Dapper" Version="2.0.35" />
 		<PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
-		<PackageReference Include="Dapper" Version="2.0.35" />
 		<PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
 		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.50" />
 		<PackageReference Include="ServiceStack.Text" Version="5.12.0" />
