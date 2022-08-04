@@ -120,11 +120,12 @@ namespace elevatus_in.Mapper
                    select new XElement("SECURITY",
                            new XElement("SECURITY_ID", sec.security_id),
                            new XElement("PERSON_ID", sec.person_id),
+                           new XElement("OPERAND", sec.operand),
                            new XElement("JOB_CATGEORY_ID", sec.job_catgeory_id),
-                          new XElement("BRANCH_ID", sec.branch_id),
+                           new XElement("BRANCH_ID", sec.branch_id),
                            new XElement("ORGANIZATION_ID", sec.organization_id),
                            new XElement("ORGANIZATION_GROUP", sec.organization_group),
-                            new XElement("HIERARCHY_ID", sec.hierarchy_id),
+                           new XElement("HIERARCHY_ID", sec.hierarchy_id),
                            new XElement("POSITION_TITLE_ID", sec.position_title_id))
            ));
 
@@ -139,6 +140,7 @@ namespace elevatus_in.Mapper
                    select new XElement("SECURITY",
                            new XElement("SECURITY_ID", sec.security_id),
                            new XElement("PERSON_ID", sec.person_id),
+                           new XElement("OPERAND", sec.operand),
                            new XElement("JOB_CATGEORY_ID", sec.job_catgeory_id),
                           new XElement("BRANCH_ID", sec.branch_id),
                            new XElement("ORGANIZATION_ID", sec.organization_id),

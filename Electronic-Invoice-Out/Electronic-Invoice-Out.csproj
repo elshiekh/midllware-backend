@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <PackageReference Include="chilkat-x64" Version="9.5.0.91" />
 	  <PackageReference Include="FastMember" Version="1.5.0" />
 	  <PackageReference Include="Dapper" Version="2.0.35" />
 	  <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
@@ -20,6 +21,39 @@
 
   <ItemGroup>
     <ProjectReference Include="..\APIMiddleware.Core\APIMiddleware.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\zatca-einvoicing-sdk-206-R3.1.1\Lib\.net\DLL\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="ChilkatDotNet47">
+      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\chilkatdotnet47-9.5.0-x64\chilkatdotnet47-9.5.0-x64\ChilkatDotNet47.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Core">
+      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\zatca-einvoicing-sdk-206-R3.1.1\Lib\.net\DLL\IKVM.OpenJDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Text">
+      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\zatca-einvoicing-sdk-206-R3.1.1\Lib\.net\DLL\IKVM.OpenJDK.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Util">
+      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\zatca-einvoicing-sdk-206-R3.1.1\Lib\.net\DLL\IKVM.OpenJDK.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.API">
+      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\zatca-einvoicing-sdk-206-R3.1.1\Lib\.net\DLL\IKVM.OpenJDK.XML.API.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.Runtime">
+      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\zatca-einvoicing-sdk-206-R3.1.1\Lib\.net\DLL\IKVM.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="saxon-he-10.8">
+      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\zatca-einvoicing-sdk-206-R3.1.1\Lib\.net\DLL\saxon-he-10.8.dll</HintPath>
+    </Reference>
+    <Reference Include="saxon-he-api-10.8">
+      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\zatca-einvoicing-sdk-206-R3.1.1\Lib\.net\DLL\saxon-he-api-10.8.dll</HintPath>
+    </Reference>
+    <Reference Include="SDKNETFrameWorkLib">
+      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\zatca-einvoicing-sdk-206-R3.1.1\Lib\.net\DLL\SDKNETFrameWorkLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

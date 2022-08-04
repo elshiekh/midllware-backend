@@ -128,6 +128,7 @@ namespace elevatus_in.DTO
     {
         public int security_id { get; set; }
         public int person_id { get; set; }
+        public string operand { get; set; }
         public int? job_catgeory_id { get; set; }
         public int branch_id { get; set; }
         public int? organization_id { get; set; }

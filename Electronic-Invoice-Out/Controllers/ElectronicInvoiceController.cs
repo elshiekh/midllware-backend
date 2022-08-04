@@ -1,14 +1,17 @@
 ﻿using Electronic_Invoice_Out.Branch;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using SDKNETFrameWorkLib.BLL;
 using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using static Electronic_Invoice_Out.Extenstion.QueryExtenstion;
 
 namespace Electronic_Invoice_Out.Controllers
 {
@@ -21,9 +24,11 @@ namespace Electronic_Invoice_Out.Controllers
     {
         #region Field
         private readonly DBOption _dbOption;
-        public ElectronicInvoiceController(DBOption dbOption)
+        private IHostingEnvironment _env;
+        public ElectronicInvoiceController(DBOption dbOption, IHostingEnvironment env)
         {
             _dbOption = dbOption;
+            _env = env;
         }
         #endregion
 
@@ -96,6 +101,111 @@ namespace Electronic_Invoice_Out.Controllers
                         return Ok(result);
                     }
                 }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+        #region GenerateEInvoiceHashing
+        [HttpPost("GenerateEInvoiceHashing")]
+        public IActionResult GenerateEInvoiceHashing()
+        {
+            try
+            {
+                var webRoot = _env.WebRootPath;
+                var xmlFilePath = System.IO.Path.Combine(webRoot, @"XMLFile\simplified_invoice_signed.xml");
+                HashingValidator obj = new HashingValidator();
+                var result = obj.GenerateEInvoiceHashing(xmlFilePath);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+        #region ValidateEInvoiceHashing
+        [HttpPost("ValidateEInvoiceHashing.{format}"), FormatFilter]
+        public IActionResult ValidateEInvoiceHashing(string xmlFilePath)
+        {
+            try
+            {
+
+                HashingValidator obj = new HashingValidator();
+                var result = obj.ValidateEInvoiceHashing(xmlFilePath);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+        #region GenerateEInvoiceQRCode
+        [HttpPost("GenerateEInvoiceQRCode.{format}"), FormatFilter]
+        public IActionResult GenerateEInvoiceQRCode(string xmlFilePath)
+        {
+            try
+            {
+                QRValidator obj = new QRValidator();
+                var result = obj.GenerateEInvoiceQRCode(xmlFilePath);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+        #region ValidateEInvoiceQRCode
+        [HttpPost("ValidateEInvoiceQRCode.{format}"), FormatFilter]
+        public IActionResult ValidateEInvoiceQRCode(string xmlFilePath)
+        {
+            try
+            {
+                QRValidator obj = new QRValidator();
+                var result = obj.ValidateEInvoiceQRCode(xmlFilePath);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+        #region ValidateEInvoice
+        [HttpPost("ValidateEInvoice.{format}"), FormatFilter]
+        public IActionResult ValidateEInvoice(string xmlFilePath, string certificateContent, string pihContent)
+        {
+            try
+            {
+                EInvoiceValidator obj = new EInvoiceValidator();
+                var result = obj.ValidateEInvoice(xmlFilePath, certificateContent, pihContent);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+        #region SignDocument
+        [HttpPost("SignDocument.{format}"), FormatFilter]
+        public IActionResult SignDocument(string xmlFilePath, string certificateContent, string privateKeyContent)
+        {
+            try
+            {
+                EInvoiceSigningLogic obj = new EInvoiceSigningLogic();
+                var result = obj.SignDocument(xmlFilePath, certificateContent, privateKeyContent);
                 return Ok(result);
             }
             catch (Exception ex)

@@ -4,6 +4,7 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -139,6 +140,15 @@ namespace Electronic_Invoice_Out.Extenstion
             return output.Select(converter).ToList();
         }
 
-       
+        public static class MyServer
+        {
+            public static string MapPath(string path)
+            {
+                return Path.Combine(
+                    (string)AppDomain.CurrentDomain.GetData("ContentRootPath"),
+                    path);
+            }
+        }
+
     }
 }
