@@ -37,9 +37,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kyriba-Out", "Kyriba-Out\Ky
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Electronic-Invoice-Out", "Electronic-Invoice-Out\Electronic-Invoice-Out.csproj", "{E52208B8-ECA6-4DC4-A28E-A5967CF15AEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UblLarsen.Ubl2", "D:\UBL\ubllarsen-master\ubllarsen-master\UblLarsen\UblLarsen.Ubl2\UblLarsen.Ubl2.csproj", "{B5BEB0F4-1D60-4079-847F-6120519E7B3B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UblLarsen.Tools", "UblLarsen.Tools\UblLarsen.Tools.csproj", "{724CA043-499C-46C3-84AF-1355C036130F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UblLarsen.Tools", "D:\UBL\ubllarsen-master\ubllarsen-master\UblLarsen\UblLarsen.Tools\UblLarsen.Tools.csproj", "{724CA043-499C-46C3-84AF-1355C036130F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UblLarsen.Ubl2", "UblLarsen.Ubl2\UblLarsen.Ubl2.csproj", "{B5BEB0F4-1D60-4079-847F-6120519E7B3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,14 +115,14 @@ Global
 		{E52208B8-ECA6-4DC4-A28E-A5967CF15AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E52208B8-ECA6-4DC4-A28E-A5967CF15AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E52208B8-ECA6-4DC4-A28E-A5967CF15AEB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B5BEB0F4-1D60-4079-847F-6120519E7B3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B5BEB0F4-1D60-4079-847F-6120519E7B3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B5BEB0F4-1D60-4079-847F-6120519E7B3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B5BEB0F4-1D60-4079-847F-6120519E7B3B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{724CA043-499C-46C3-84AF-1355C036130F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{724CA043-499C-46C3-84AF-1355C036130F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{724CA043-499C-46C3-84AF-1355C036130F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{724CA043-499C-46C3-84AF-1355C036130F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5BEB0F4-1D60-4079-847F-6120519E7B3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5BEB0F4-1D60-4079-847F-6120519E7B3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5BEB0F4-1D60-4079-847F-6120519E7B3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5BEB0F4-1D60-4079-847F-6120519E7B3B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
