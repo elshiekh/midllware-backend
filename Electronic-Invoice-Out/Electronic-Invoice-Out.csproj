@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-	  <PackageReference Include="chilkat-x64" Version="9.5.0.91" />
+	  <PackageReference Include="BouncyCastle.NetCore" Version="1.9.0" />
 	  <PackageReference Include="FastMember" Version="1.5.0" />
 	  <PackageReference Include="Dapper" Version="2.0.35" />
 	  <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
@@ -21,6 +21,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\APIMiddleware.Core\APIMiddleware.Core.csproj" />
+    <ProjectReference Include="D:\UBL\ubllarsen-master\ubllarsen-master\UblLarsen\UblLarsen.Tools\UblLarsen.Tools.csproj" />
+    <ProjectReference Include="D:\UBL\ubllarsen-master\ubllarsen-master\UblLarsen\UblLarsen.Ubl2\UblLarsen.Ubl2.csproj" />
   </ItemGroup>
 
   <ItemGroup>

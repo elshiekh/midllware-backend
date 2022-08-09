@@ -40,6 +40,7 @@ namespace Electronic_Invoice_Out
 
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IInvoiceService, InvoiceService>();
 
             services.AddSwaggerGen(c =>
             {

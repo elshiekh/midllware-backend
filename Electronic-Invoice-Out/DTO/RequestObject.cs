@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+
 namespace Electronic_Invoice_Out.DTO
 {
     public class Request

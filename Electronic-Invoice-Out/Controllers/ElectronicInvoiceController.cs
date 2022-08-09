@@ -1,4 +1,5 @@
 ﻿using Electronic_Invoice_Out.Branch;
+using Electronic_Invoice_Out.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,12 +12,14 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using static Electronic_Invoice_Out.Extenstion.QueryExtenstion;
+using UblLarsen.Ubl2;
+using UblLarsen.Ubl2.Cac;
+using UblLarsen.Ubl2.Udt;
 
 namespace Electronic_Invoice_Out.Controllers
 {
 
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [FormatFilter]
@@ -25,10 +28,12 @@ namespace Electronic_Invoice_Out.Controllers
         #region Field
         private readonly DBOption _dbOption;
         private IHostingEnvironment _env;
-        public ElectronicInvoiceController(DBOption dbOption, IHostingEnvironment env)
+        public readonly IInvoiceService _invoiceService;
+        public ElectronicInvoiceController(DBOption dbOption, IHostingEnvironment env , IInvoiceService invoiceService)
         {
             _dbOption = dbOption;
             _env = env;
+            _invoiceService = invoiceService;
         }
         #endregion
 
@@ -130,12 +135,13 @@ namespace Electronic_Invoice_Out.Controllers
         #endregion
 
         #region ValidateEInvoiceHashing
-        [HttpPost("ValidateEInvoiceHashing.{format}"), FormatFilter]
-        public IActionResult ValidateEInvoiceHashing(string xmlFilePath)
+        [HttpPost("ValidateEInvoiceHashing")]
+        public IActionResult ValidateEInvoiceHashing()
         {
             try
             {
-
+                var webRoot = _env.WebRootPath;
+                var xmlFilePath = System.IO.Path.Combine(webRoot, @"XMLFile\simplified_invoice_signed.xml");
                 HashingValidator obj = new HashingValidator();
                 var result = obj.ValidateEInvoiceHashing(xmlFilePath);
                 return Ok(result);
@@ -148,11 +154,13 @@ namespace Electronic_Invoice_Out.Controllers
         #endregion
 
         #region GenerateEInvoiceQRCode
-        [HttpPost("GenerateEInvoiceQRCode.{format}"), FormatFilter]
-        public IActionResult GenerateEInvoiceQRCode(string xmlFilePath)
+        [HttpPost("GenerateEInvoiceQRCode")]
+        public IActionResult GenerateEInvoiceQRCode()
         {
             try
             {
+                var webRoot = _env.WebRootPath;
+                var xmlFilePath = System.IO.Path.Combine(webRoot, @"XMLFile\simplified_invoice_signed.xml");
                 QRValidator obj = new QRValidator();
                 var result = obj.GenerateEInvoiceQRCode(xmlFilePath);
                 return Ok(result);
@@ -165,11 +173,13 @@ namespace Electronic_Invoice_Out.Controllers
         #endregion
 
         #region ValidateEInvoiceQRCode
-        [HttpPost("ValidateEInvoiceQRCode.{format}"), FormatFilter]
-        public IActionResult ValidateEInvoiceQRCode(string xmlFilePath)
+        [HttpPost("ValidateEInvoiceQRCode")]
+        public IActionResult ValidateEInvoiceQRCode()
         {
             try
             {
+                var webRoot = _env.WebRootPath;
+                var xmlFilePath = System.IO.Path.Combine(webRoot, @"XMLFile\simplified_invoice_signed.xml");
                 QRValidator obj = new QRValidator();
                 var result = obj.ValidateEInvoiceQRCode(xmlFilePath);
                 return Ok(result);
@@ -182,11 +192,15 @@ namespace Electronic_Invoice_Out.Controllers
         #endregion
 
         #region ValidateEInvoice
-        [HttpPost("ValidateEInvoice.{format}"), FormatFilter]
-        public IActionResult ValidateEInvoice(string xmlFilePath, string certificateContent, string pihContent)
+        [HttpPost("ValidateEInvoice")]
+        public IActionResult ValidateEInvoice()
         {
             try
             {
+                var webRoot = _env.WebRootPath;
+                var xmlFilePath = System.IO.Path.Combine(webRoot, @"XMLFile\simplified_invoice_signed.xml");
+                var certificateContent = System.IO.Path.Combine(webRoot, @"XMLFile\cert.pem");
+                var pihContent = System.IO.Path.Combine(webRoot, @"XMLFile\pih.txt");
                 EInvoiceValidator obj = new EInvoiceValidator();
                 var result = obj.ValidateEInvoice(xmlFilePath, certificateContent, pihContent);
                 return Ok(result);
@@ -199,11 +213,15 @@ namespace Electronic_Invoice_Out.Controllers
         #endregion
 
         #region SignDocument
-        [HttpPost("SignDocument.{format}"), FormatFilter]
-        public IActionResult SignDocument(string xmlFilePath, string certificateContent, string privateKeyContent)
+        [HttpPost("SignDocument")]
+        public IActionResult SignDocument()
         {
             try
             {
+                var webRoot = _env.WebRootPath;
+                var xmlFilePath = System.IO.Path.Combine(webRoot, @"XMLFile\simplified_invoice_signed.xml");
+                var certificateContent = System.IO.Path.Combine(webRoot, @"XMLFile\cert.pem");
+                var privateKeyContent = System.IO.Path.Combine(webRoot, @"XMLFile\ec-secp256k1-priv-key.pem");
                 EInvoiceSigningLogic obj = new EInvoiceSigningLogic();
                 var result = obj.SignDocument(xmlFilePath, certificateContent, privateKeyContent);
                 return Ok(result);
@@ -214,6 +232,26 @@ namespace Electronic_Invoice_Out.Controllers
             }
         }
         #endregion
+
+        #region GenerateXML 
+        [HttpPost("GenerateXML")]
+        public IActionResult GenerateXML([FromBody] Object req )
+        {
+            try
+            {
+                Func<decimal, AmountType> newAmountType = v => new AmountType { Value = v, currencyID = "SAR" };
+                var taxVAT = new TaxSchemeType { ID = "VAT" };
+
+                var obj = new InvoiceType() ;
+               var result = _invoiceService.GenerateXML(obj);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion 
 
         #region Return Exception
         private IActionResult ReturnException(Exception ex)
