@@ -253,24 +253,7 @@ namespace Electronic_Invoice_Out.Controllers
         }
         #endregion 
 
-        #region Return Exception
-        private IActionResult ReturnException(Exception ex)
-        {
-            // HttpContext.Response.ContentType = "application/json";
-            HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            return StatusCode(HttpContext.Response.StatusCode, JsonConvert.SerializeObject(new
-            {
-                error = new
-                {
-                    message = ex.Message,
-                    exception = ex.GetType().Name
-                }
-            }));
-        }
-        #endregion
-
-        #region Clearance 
-        //Clearance 
+        #region Clearance Invoice
         [HttpPost("ClearanceInvoice.{format}"), FormatFilter]
         public async Task<IActionResult> ClearanceInvoice([FromBody] InvoiceRequest obj, string acceptLanguage, string clearanceStatus )
         {
@@ -310,9 +293,8 @@ namespace Electronic_Invoice_Out.Controllers
         //Clearance 
         #endregion
 
-        #region Clearance 
-        //Reporting 
-        [HttpPost("ClearanceInvoice.{format}"), FormatFilter]
+        #region Reporting Invoice 
+        [HttpPost("ReportingInvoice.{format}"), FormatFilter]
         public async Task<IActionResult> ReportingInvoice([FromBody] InvoiceRequest obj, string acceptLanguage, string clearanceStatus)
         {
             try
@@ -350,6 +332,22 @@ namespace Electronic_Invoice_Out.Controllers
         }
 
         //Reporting 
+        #endregion
+
+        #region Return Exception
+        private IActionResult ReturnException(Exception ex)
+        {
+            // HttpContext.Response.ContentType = "application/json";
+            HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            return StatusCode(HttpContext.Response.StatusCode, JsonConvert.SerializeObject(new
+            {
+                error = new
+                {
+                    message = ex.Message,
+                    exception = ex.GetType().Name
+                }
+            }));
+        }
         #endregion
 
     }
