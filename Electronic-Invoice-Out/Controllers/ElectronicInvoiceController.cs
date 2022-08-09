@@ -268,5 +268,89 @@ namespace Electronic_Invoice_Out.Controllers
             }));
         }
         #endregion
+
+        #region Clearance 
+        //Clearance 
+        [HttpPost("ClearanceInvoice.{format}"), FormatFilter]
+        public async Task<IActionResult> ClearanceInvoice([FromBody] InvoiceRequest obj, string acceptLanguage, string clearanceStatus )
+        {
+            try
+            {
+                var result = new InvoiceResultModel();
+                var errorresult = new ErrorModel();
+                using (var client = new HttpClient())
+                {
+                    var baseAddress = new Uri(_dbOption.BaseAddress);
+                    client.Timeout = TimeSpan.FromMinutes(5);
+                    byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
+                    var request = new HttpRequestMessage(HttpMethod.Post, baseAddress + "/invoices/clearance/single");
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
+                    request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
+                    request.Headers.Add("Accept-Language", acceptLanguage);
+                    request.Headers.Add("Clearance-Status", clearanceStatus);
+                    var postObject = JsonConvert.SerializeObject(obj);
+                    request.Content = new StringContent(postObject, Encoding.UTF8, "application/json");
+                    request.Content.Headers.ContentType = new MediaTypeHeaderValue(_dbOption.JsonFormat);
+                    var response = await client.SendAsync(request);
+                    string stringData = await response.Content.ReadAsStringAsync();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        result = JsonConvert.DeserializeObject<InvoiceResultModel>(stringData);
+                        return Ok(result);
+                    }
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+
+        //Clearance 
+        #endregion
+
+        #region Clearance 
+        //Reporting 
+        [HttpPost("ClearanceInvoice.{format}"), FormatFilter]
+        public async Task<IActionResult> ReportingInvoice([FromBody] InvoiceRequest obj, string acceptLanguage, string clearanceStatus)
+        {
+            try
+            {
+                var result = new InvoiceResultModel();
+                var errorresult = new ErrorModel();
+                using (var client = new HttpClient())
+                {
+                    var baseAddress = new Uri(_dbOption.BaseAddress);
+                    client.Timeout = TimeSpan.FromMinutes(5);
+                    byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
+                    var request = new HttpRequestMessage(HttpMethod.Post, baseAddress + "/invoices/clearance/single");
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
+                    request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
+                    request.Headers.Add("Accept-Language", acceptLanguage);
+                    request.Headers.Add("Clearance-Status", clearanceStatus);
+
+                    var postObject = JsonConvert.SerializeObject(obj);
+                    request.Content = new StringContent(postObject, Encoding.UTF8, "application/json");
+                    request.Content.Headers.ContentType = new MediaTypeHeaderValue(_dbOption.JsonFormat);
+                    var response = await client.SendAsync(request);
+                    string stringData = await response.Content.ReadAsStringAsync();
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        result = JsonConvert.DeserializeObject<InvoiceResultModel>(stringData);
+                        return Ok(result);
+                    }
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+
+        //Reporting 
+        #endregion
+
     }
 }
