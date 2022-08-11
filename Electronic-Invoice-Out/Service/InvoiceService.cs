@@ -20,6 +20,13 @@ namespace Electronic_Invoice_Out.Service
             // Create an invoice using global defaults set above
             InvoiceType doc = new InvoiceType
             {
+                UBLExtensions = new UblLarsen.Ubl2.Ext.UBLExtensionType[]{ 
+                    new UblLarsen.Ubl2.Ext.UBLExtensionType{
+                        ExtensionAgencyURI = "urn:oasis:names:specification:ubl:dsig:enveloped:xades",
+                        //ExtensionContent = SignatureType{ }
+                      }
+                },
+                CustomizationID = "urn:oasis:names:specification:ubl:xpath:Invoice-2.0:sbs-1.0-draft",
                 ProfileID = "reporting:1.0",
                 ID = "SME00062",
                 UUID = "6f4d20e0-6bfe-4a80-9389-7dabe6620f12",

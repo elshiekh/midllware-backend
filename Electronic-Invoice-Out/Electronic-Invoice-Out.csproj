@@ -7,7 +7,32 @@
   </PropertyGroup>
 
   <ItemGroup>
-	  <PackageReference Include="BouncyCastle.NetCore" Version="1.9.0" />
+    <Content Remove="wwwroot\XMLFile\SampleImplicitInvoice11082022.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Lib\.net\DLL\saxon-he-api-10.8.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Lib\.net\DLL\BouncyCastle.Crypto.dll" />
+    <None Include="Lib\.net\DLL\ChilkatDotNet47.dll" />
+    <None Include="Lib\.net\DLL\IKVM.OpenJDK.Core.dll" />
+    <None Include="Lib\.net\DLL\IKVM.OpenJDK.Text.dll" />
+    <None Include="Lib\.net\DLL\IKVM.OpenJDK.Util.dll" />
+    <None Include="Lib\.net\DLL\IKVM.OpenJDK.XML.API.dll" />
+    <None Include="Lib\.net\DLL\IKVM.Runtime.dll" />
+    <None Include="Lib\.net\DLL\saxon-he-10.8.dll" />
+    <None Include="Lib\.net\DLL\saxon-he-api-10.8.dll" />
+    <None Include="Lib\.net\DLL\SDKNETFrameWorkLib.dll" />
+    <None Include="Lib\.net\DLL\SDKNETFrameWorkLib.dll.config" />
+    <None Include="Lib\.net\DLL\SDKNETFrameWorkLib.pdb" />
+    <None Include="Lib\.net\DLL\SDKNETFrameworkTest.exe.config" />
+    <None Include="wwwroot\XMLFile\SampleImplicitInvoice11082022.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="BouncyCastle" Version="1.8.9" />
 	  <PackageReference Include="FastMember" Version="1.5.0" />
 	  <PackageReference Include="Dapper" Version="2.0.35" />
 	  <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
@@ -27,34 +52,34 @@
 
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto">
-      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\zatca-einvoicing-sdk-206-R3.1.1\Lib\.net\DLL\BouncyCastle.Crypto.dll</HintPath>
+      <HintPath>Lib\.net\DLL\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="ChilkatDotNet47">
-      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\chilkatdotnet47-9.5.0-x64\chilkatdotnet47-9.5.0-x64\ChilkatDotNet47.dll</HintPath>
+      <HintPath>ChilkatDotNet47.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Core">
-      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\zatca-einvoicing-sdk-206-R3.1.1\Lib\.net\DLL\IKVM.OpenJDK.Core.dll</HintPath>
+      <HintPath>Lib\.net\DLL\IKVM.OpenJDK.Core.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Text">
-      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\zatca-einvoicing-sdk-206-R3.1.1\Lib\.net\DLL\IKVM.OpenJDK.Text.dll</HintPath>
+      <HintPath>Lib\.net\DLL\IKVM.OpenJDK.Text.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Util">
-      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\zatca-einvoicing-sdk-206-R3.1.1\Lib\.net\DLL\IKVM.OpenJDK.Util.dll</HintPath>
+      <HintPath>Lib\.net\DLL\IKVM.OpenJDK.Util.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.XML.API">
-      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\zatca-einvoicing-sdk-206-R3.1.1\Lib\.net\DLL\IKVM.OpenJDK.XML.API.dll</HintPath>
+      <HintPath>Lib\.net\DLL\IKVM.OpenJDK.XML.API.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.Runtime">
-      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\zatca-einvoicing-sdk-206-R3.1.1\Lib\.net\DLL\IKVM.Runtime.dll</HintPath>
+      <HintPath>Lib\.net\DLL\IKVM.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="saxon-he-10.8">
-      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\zatca-einvoicing-sdk-206-R3.1.1\Lib\.net\DLL\saxon-he-10.8.dll</HintPath>
+      <HintPath>Lib\.net\DLL\saxon-he-10.8.dll</HintPath>
     </Reference>
     <Reference Include="saxon-he-api-10.8">
-      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\zatca-einvoicing-sdk-206-R3.1.1\Lib\.net\DLL\saxon-he-api-10.8.dll</HintPath>
+      <HintPath>Lib\.net\DLL\saxon-he-api-10.8.dll</HintPath>
     </Reference>
     <Reference Include="SDKNETFrameWorkLib">
-      <HintPath>..\..\..\..\..\..\zatca-einvoicing-sdk-206-R3.1.1\zatca-einvoicing-sdk-206-R3.1.1\Lib\.net\DLL\SDKNETFrameWorkLib.dll</HintPath>
+      <HintPath>Lib\.net\DLL\SDKNETFrameWorkLib.dll</HintPath>
     </Reference>
   </ItemGroup>
 

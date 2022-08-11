@@ -219,7 +219,7 @@ namespace Electronic_Invoice_Out.Controllers
             try
             {
                 var webRoot = _env.WebRootPath;
-                var xmlFilePath = System.IO.Path.Combine(webRoot, @"XMLFile\simplified_invoice_signed.xml");
+                var xmlFilePath = System.IO.Path.Combine(webRoot, @"XMLFile\SampleImplicitInvoice11082022.xml");
                 var certificateContent = System.IO.Path.Combine(webRoot, @"XMLFile\cert.pem");
                 var privateKeyContent = System.IO.Path.Combine(webRoot, @"XMLFile\ec-secp256k1-priv-key.pem");
                 EInvoiceSigningLogic obj = new EInvoiceSigningLogic();

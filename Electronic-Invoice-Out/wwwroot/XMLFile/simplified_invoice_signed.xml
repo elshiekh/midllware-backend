@@ -65,7 +65,7 @@
             </sig:UBLDocumentSignatures>
         </ext:ExtensionContent>
     </ext:UBLExtension>
-</ext:UBLExtensions>
+   </ext:UBLExtensions>
     
     <cbc:ProfileID>reporting:1.0</cbc:ProfileID>
     <cbc:ID>SME00062</cbc:ID>
@@ -85,7 +85,6 @@
             <cbc:EmbeddedDocumentBinaryObject mimeCode="text/plain">NWZlY2ViNjZmZmM4NmYzOGQ5NTI3ODZjNmQ2OTZjNzljMmRiYzIzOWRkNGU5MWI0NjcyOWQ3M2EyN2ZiNTdlOQ==</cbc:EmbeddedDocumentBinaryObject>
         </cac:Attachment>
     </cac:AdditionalDocumentReference>
-    
     <cac:AdditionalDocumentReference>
         <cbc:ID>QR</cbc:ID>
         <cac:Attachment>

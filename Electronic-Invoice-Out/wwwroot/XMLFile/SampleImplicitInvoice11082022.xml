@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Invoice xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2">
+	<UBLExtensions xmlns="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2">
+		<UBLExtension>
+			<ExtensionAgencyURI>urn:oasis:names:specification:ubl:dsig:enveloped:xades</ExtensionAgencyURI>
+		</UBLExtension>
+	</UBLExtensions>
+	<cbc:CustomizationID>urn:oasis:names:specification:ubl:xpath:Invoice-2.0:sbs-1.0-draft</cbc:CustomizationID>
+	<cbc:ProfileID>reporting:1.0</cbc:ProfileID>
+	<cbc:ID>SME00062</cbc:ID>
+	<cbc:UUID>6f4d20e0-6bfe-4a80-9389-7dabe6620f12</cbc:UUID>
+	<cbc:IssueDate>2022-03-13</cbc:IssueDate>
+	<cbc:IssueTime>11:24:49.1479695+03:00</cbc:IssueTime>
+	<cbc:InvoiceTypeCode name="0211010">388</cbc:InvoiceTypeCode>
+	<cbc:DocumentCurrencyCode>SAR</cbc:DocumentCurrencyCode>
+	<cbc:TaxCurrencyCode>SAR</cbc:TaxCurrencyCode>
+	<cac:AdditionalDocumentReference>
+		<cbc:ID>ICV</cbc:ID>
+		<cbc:UUID>62</cbc:UUID>
+	</cac:AdditionalDocumentReference>
+	<cac:AdditionalDocumentReference>
+		<cbc:ID>PIH</cbc:ID>
+		<cac:Attachment>
+			<cbc:EmbeddedDocumentBinaryObject mimeCode="text/plain">NWZlY2ViNjZmZmM4NmYzOGQ5NTI3ODZjNmQ2OTZjNzljMmRiYzIzOWRkNGU5MWI0NjcyOWQ3M2EyN2ZiNTdlOQ==</cbc:EmbeddedDocumentBinaryObject>
+		</cac:Attachment>
+	</cac:AdditionalDocumentReference>
+	<cac:AdditionalDocumentReference>
+		<cbc:ID>QR</cbc:ID>
+		<cac:Attachment>
+			<cbc:EmbeddedDocumentBinaryObject mimeCode="text/plain">ARdBaG1lZCBNb2hhbWVkIEFMIEFobWFkeQIPMzAxMTIxOTcxNTAwMDAzAxQyMDIyLTAzLTEzVDE0OjQwOjQwWgQHMTEwOC45MAUFMTQ0LjkGLFFuVkVleFc0bld2NENhRTM5YS82NkpwL09YTy9ldkhROHBEbEc3d2VxLzQ9B1gwVjAQBgcqhkjOPQIBBgUrgQQACgNCAARhgwyg5oVgCEw7+y16i19nJq+vqnXVJKXCwr1rOawtjtvVv4UuGowCuEHZ2ocpujGoo1++QoN4+GmqO6LmFyfRCCEAv8K/KgKZkw7MAqiu3yuqN12A/0a8bAs9CXWI8FollMoJIHVesAI1Q4ocf4i6DJAoXnj9kQ93F5ManRi6KnmapY1O</cbc:EmbeddedDocumentBinaryObject>
+		</cac:Attachment>
+	</cac:AdditionalDocumentReference>
+	<cac:AccountingSupplierParty>
+		<cac:Party>
+			<cac:PartyName>
+				<cbc:Name>Leverandør</cbc:Name>
+			</cac:PartyName>
+			<cac:PostalAddress>
+				<cbc:Postbox>Postboks 123</cbc:Postbox>
+				<cbc:StreetName>Oslogate</cbc:StreetName>
+				<cbc:BuildingNumber>1</cbc:BuildingNumber>
+				<cbc:CityName>Oslo</cbc:CityName>
+				<cbc:PostalZone>0612</cbc:PostalZone>
+				<cac:Country>
+					<cbc:IdentificationCode>NO</cbc:IdentificationCode>
+				</cac:Country>
+			</cac:PostalAddress>
+			<cac:PartyTaxScheme>
+				<cbc:CompanyID>NO999999999MVA</cbc:CompanyID>
+				<cac:TaxScheme>
+					<cbc:ID schemeID="UN/ECE 5153" schemeAgencyID="6">VAT</cbc:ID>
+				</cac:TaxScheme>
+			</cac:PartyTaxScheme>
+			<cac:PartyLegalEntity>
+				<cbc:CompanyID>999999999</cbc:CompanyID>
+			</cac:PartyLegalEntity>
+			<cac:Contact>
+				<cbc:ID>O Hansen</cbc:ID>
+			</cac:Contact>
+		</cac:Party>
+	</cac:AccountingSupplierParty>
+	<cac:AccountingCustomerParty>
+		<cac:Party>
+			<cac:PartyIdentification>
+				<cbc:ID>456789</cbc:ID>
+			</cac:PartyIdentification>
+			<cac:PartyName>
+				<cbc:Name>Kjøper</cbc:Name>
+			</cac:PartyName>
+			<cac:PostalAddress>
+				<cbc:StreetName>Testveien</cbc:StreetName>
+				<cbc:BuildingNumber>1</cbc:BuildingNumber>
+				<cbc:CityName>Frogner</cbc:CityName>
+				<cbc:PostalZone>2012</cbc:PostalZone>
+				<cac:Country>
+					<cbc:IdentificationCode>NO</cbc:IdentificationCode>
+				</cac:Country>
+			</cac:PostalAddress>
+			<cac:PartyLegalEntity>
+				<cbc:CompanyID>NO888888888MVA</cbc:CompanyID>
+			</cac:PartyLegalEntity>
+			<cac:Contact>
+				<cbc:ID>Arne Bjarne Baluba</cbc:ID>
+			</cac:Contact>
+		</cac:Party>
+	</cac:AccountingCustomerParty>
+	<cac:Delivery>
+		<cbc:ActualDeliveryDate>2009-11-25</cbc:ActualDeliveryDate>
+		<cac:DeliveryLocation>
+			<cac:Address>
+				<cbc:StreetName>Testgata</cbc:StreetName>
+				<cbc:BuildingNumber>1</cbc:BuildingNumber>
+				<cbc:CityName>Oslo</cbc:CityName>
+				<cbc:PostalZone>0112</cbc:PostalZone>
+				<cac:Country>
+					<cbc:IdentificationCode>NO</cbc:IdentificationCode>
+				</cac:Country>
+			</cac:Address>
+		</cac:DeliveryLocation>
+	</cac:Delivery>
+	<cac:PaymentMeans>
+		<cbc:PaymentMeansCode>31</cbc:PaymentMeansCode>
+		<cbc:PaymentDueDate>2009-11-27</cbc:PaymentDueDate>
+		<cbc:PaymentID>1234561</cbc:PaymentID>
+		<cac:PayeeFinancialAccount>
+			<cbc:ID>NO9386011117947</cbc:ID>
+			<cac:FinancialInstitutionBranch>
+				<cbc:ID schemeID="BIC">DNBANOKK</cbc:ID>
+			</cac:FinancialInstitutionBranch>
+		</cac:PayeeFinancialAccount>
+	</cac:PaymentMeans>
+	<cac:AllowanceCharge>
+		<cbc:ID>1</cbc:ID>
+		<cbc:ChargeIndicator>false</cbc:ChargeIndicator>
+		<cbc:AllowanceChargeReason>discount</cbc:AllowanceChargeReason>
+		<cbc:Amount currencyID="SAR">2</cbc:Amount>
+		<cac:TaxCategory>
+			<cbc:ID schemeID="UN/ECE 5305" schemeAgencyID="6">S</cbc:ID>
+			<cbc:Percent>15</cbc:Percent>
+			<cac:TaxScheme>
+				<cbc:ID schemeID="UN/ECE 5153" schemeAgencyID="6">VAT</cbc:ID>
+			</cac:TaxScheme>
+		</cac:TaxCategory>
+	</cac:AllowanceCharge>
+	<cac:TaxTotal>
+		<cbc:TaxAmount currencyID="SAR">962.0</cbc:TaxAmount>
+		<cac:TaxSubtotal>
+			<cbc:TaxableAmount currencyID="SAR">3400.0</cbc:TaxableAmount>
+			<cbc:TaxAmount currencyID="SAR">850.0</cbc:TaxAmount>
+			<cac:TaxCategory>
+				<cbc:ID>S</cbc:ID>
+				<cbc:Percent>25.0</cbc:Percent>
+				<cac:TaxScheme>
+					<cbc:ID>VAT</cbc:ID>
+				</cac:TaxScheme>
+			</cac:TaxCategory>
+		</cac:TaxSubtotal>
+	</cac:TaxTotal>
+	<cac:TaxTotal>
+		<cbc:TaxAmount currencyID="SAR">144.9</cbc:TaxAmount>
+	</cac:TaxTotal>
+	<cac:LegalMonetaryTotal>
+		<cbc:LineExtensionAmount currencyID="SAR">4200.0</cbc:LineExtensionAmount>
+		<cbc:TaxExclusiveAmount currencyID="SAR">4200.0</cbc:TaxExclusiveAmount>
+		<cbc:TaxInclusiveAmount currencyID="SAR">5162.0</cbc:TaxInclusiveAmount>
+		<cbc:AllowanceTotalAmount currencyID="SAR">5162.0</cbc:AllowanceTotalAmount>
+		<cbc:PrepaidAmount currencyID="SAR">5162.0</cbc:PrepaidAmount>
+		<cbc:PayableAmount currencyID="SAR">5162.0</cbc:PayableAmount>
+	</cac:LegalMonetaryTotal>
+	<cac:InvoiceLine>
+		<cbc:ID>1</cbc:ID>
+		<cbc:InvoicedQuantity unitCode="NMP">2</cbc:InvoicedQuantity>
+		<cbc:LineExtensionAmount currencyID="SAR">400.0</cbc:LineExtensionAmount>
+		<cbc:AccountingCost>200500600</cbc:AccountingCost>
+		<cac:OrderLineReference>
+			<cbc:LineID>5</cbc:LineID>
+		</cac:OrderLineReference>
+		<cac:TaxTotal>
+			<cbc:TaxAmount currencyID="SAR">100.0</cbc:TaxAmount>
+		</cac:TaxTotal>
+		<cac:Item>
+			<cbc:Name>Testprodukt 1</cbc:Name>
+			<cac:SellersItemIdentification>
+				<cbc:ID>12345670</cbc:ID>
+			</cac:SellersItemIdentification>
+			<cac:ClassifiedTaxCategory>
+				<cbc:ID>S</cbc:ID>
+				<cbc:Percent>25.0</cbc:Percent>
+				<cac:TaxScheme>
+					<cbc:ID>VAT</cbc:ID>
+				</cac:TaxScheme>
+			</cac:ClassifiedTaxCategory>
+		</cac:Item>
+		<cac:Price>
+			<cbc:PriceAmount currencyID="SAR">200.0</cbc:PriceAmount>
+		</cac:Price>
+	</cac:InvoiceLine>
+</Invoice>
