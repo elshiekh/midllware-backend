@@ -116,15 +116,16 @@ namespace Electronic_Invoice_Out.Controllers
         #endregion
 
         #region GenerateEInvoiceHashing
-        [HttpPost("GenerateEInvoiceHashing")]
+        [HttpGet("GenerateEInvoiceHashing")]
         public IActionResult GenerateEInvoiceHashing()
         {
             try
             {
                 var webRoot = _env.WebRootPath;
-                var xmlFilePath = System.IO.Path.Combine(webRoot, @"XMLFile\simplified_invoice_signed.xml");
+                var xmlFilePath = System.IO.Path.Combine(webRoot, @"XMLFile\Signed6.xml");
                 HashingValidator obj = new HashingValidator();
                 var result = obj.GenerateEInvoiceHashing(xmlFilePath);
+              
                 return Ok(result);
             }
             catch (Exception ex)
@@ -160,7 +161,7 @@ namespace Electronic_Invoice_Out.Controllers
             try
             {
                 var webRoot = _env.WebRootPath;
-                var xmlFilePath = System.IO.Path.Combine(webRoot, @"XMLFile\simplified_invoice_signed.xml");
+                var xmlFilePath = System.IO.Path.Combine(webRoot, @"XMLFile\Signed6.xml");
                 QRValidator obj = new QRValidator();
                 var result = obj.GenerateEInvoiceQRCode(xmlFilePath);
                 return Ok(result);
@@ -198,9 +199,11 @@ namespace Electronic_Invoice_Out.Controllers
             try
             {
                 var webRoot = _env.WebRootPath;
-                var xmlFilePath = System.IO.Path.Combine(webRoot, @"XMLFile\simplified_invoice_signed.xml");
-                var certificateContent = System.IO.Path.Combine(webRoot, @"XMLFile\cert.pem");
-                var pihContent = System.IO.Path.Combine(webRoot, @"XMLFile\pih.txt");
+                var xmlFilePath = System.IO.Path.Combine(webRoot, @"XMLFile\Signed6.xml");
+                var certificatePath = System.IO.Path.Combine(webRoot, @"XMLFile\cert.pem");
+                var certificateContent = System.IO.File.ReadAllText(certificatePath);
+                var pihPath = System.IO.Path.Combine(webRoot, @"XMLFile\pih.txt");
+                var pihContent = System.IO.File.ReadAllText(pihPath);
                 EInvoiceValidator obj = new EInvoiceValidator();
                 var result = obj.ValidateEInvoice(xmlFilePath, certificateContent, pihContent);
                 return Ok(result);
@@ -219,9 +222,11 @@ namespace Electronic_Invoice_Out.Controllers
             try
             {
                 var webRoot = _env.WebRootPath;
-                var xmlFilePath = System.IO.Path.Combine(webRoot, @"XMLFile\SampleImplicitInvoice11082022.xml");
-                var certificateContent = System.IO.Path.Combine(webRoot, @"XMLFile\cert.pem");
-                var privateKeyContent = System.IO.Path.Combine(webRoot, @"XMLFile\ec-secp256k1-priv-key.pem");
+                var xmlFilePath = System.IO.Path.Combine(webRoot, @"XMLFile\s_invoice.xml");
+                var certificatePath = System.IO.Path.Combine(webRoot, @"XMLFile\cert.pem");
+                var certificateContent = System.IO.File.ReadAllText(certificatePath);
+                var privateKeyPath = System.IO.Path.Combine(webRoot, @"XMLFile\privatekey2022.pem");
+                var privateKeyContent = System.IO.File.ReadAllText(privateKeyPath);
                 EInvoiceSigningLogic obj = new EInvoiceSigningLogic();
                 var result = obj.SignDocument(xmlFilePath, certificateContent, privateKeyContent);
                 return Ok(result);
@@ -235,14 +240,14 @@ namespace Electronic_Invoice_Out.Controllers
 
         #region GenerateXML 
         [HttpPost("GenerateXML")]
-        public IActionResult GenerateXML([FromBody] Object req )
+        public IActionResult GenerateXML([FromBody] DTO.InvoiceModel req )
         {
             try
             {
                 Func<decimal, AmountType> newAmountType = v => new AmountType { Value = v, currencyID = "SAR" };
                 var taxVAT = new TaxSchemeType { ID = "VAT" };
 
-                var obj = new InvoiceType() ;
+                var obj = new DTO.InvoiceModel() ;
                var result = _invoiceService.GenerateXML(obj);
                 return Ok(result);
             }
@@ -251,7 +256,7 @@ namespace Electronic_Invoice_Out.Controllers
                 return ReturnException(ex);
             }
         }
-        #endregion 
+        #endregion
 
         #region Clearance Invoice
         [HttpPost("ClearanceInvoice.{format}"), FormatFilter]

@@ -257,6 +257,7 @@ namespace elevatus_out.Controllers
             try
             {
                 ConnectResponseApplicantEmployee result = new ConnectResponseApplicantEmployee();
+                ConnectEmployeeApplicant_Response result1= new ConnectEmployeeApplicant_Response();
                 using (var client = new HttpClient())
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
@@ -270,14 +271,25 @@ namespace elevatus_out.Controllers
                     request.Content.Headers.ContentType = new MediaTypeHeaderValue(_dbOption.JsonFormat);
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
-                    var data = JsonConvert.DeserializeObject<ConnectEmployeeApplicantResponse>(stringData);
-                    var issues = JsonConvert.SerializeObject(data.Reason).Replace("\"", "");
-                    issues = issues.Replace(":", " ").Replace(",", " ");
-                    result.Message = data.Identifiers.Status == "success" ? "Connect Employee With Applicant Successfully" : issues;
-                    result.Status = data.Identifiers.Status;
-                    result.RequestId = data.Identifiers.RequestId;
-                    //result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();
-                    return Ok(result);
+                    ConnectEmployeeApplicantErrorResponse errordata;
+                    ConnectEmployeeApplicant_Response data;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        data = JsonConvert.DeserializeObject<ConnectEmployeeApplicant_Response>(stringData);
+                        result.Message = "Connect Employee With Applicant Successfully";
+                        result.Status = data.Identifiers.Status;
+                        result.RequestId = data.Identifiers.RequestId;
+                        return Ok(result);
+                    }
+                    else {
+                        errordata = JsonConvert.DeserializeObject<ConnectEmployeeApplicantErrorResponse>(stringData);
+                        var issues = JsonConvert.SerializeObject(errordata.Reason).Replace("\"", "");
+                        issues = issues.Replace(":", " ").Replace(",", " ");
+                        result.Message =  issues;
+                        result.Status = errordata.Identifiers.Status;
+                        result.RequestId = errordata.Identifiers.RequestId;
+                        return BadRequest(result);
+                    }
                 }
             }
             catch (Exception ex)

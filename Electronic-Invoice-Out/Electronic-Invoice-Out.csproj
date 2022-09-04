@@ -1,13 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>Electronic_Invoice_Out</RootNamespace>
 	 <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Remove="wwwroot\XMLFile\SampleImplicitInvoice11082022.xml" />
+    <Content Remove="wwwroot\XMLFile\Signed6.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\XMLFile\Signed6.xml" />
+  </ItemGroup>
+
+  <!--<ItemGroup>
     <None Include="Lib\.net\DLL\BouncyCastle.Crypto.dll" />
     <None Include="Lib\.net\DLL\ChilkatDotNet47.dll" />
     <None Include="Lib\.net\DLL\IKVM.OpenJDK.Core.dll" />
@@ -29,7 +34,7 @@
     <None Include="Lib\.net\DLL\SDKNETFrameWorkLib.pdb" />
     <None Include="Lib\.net\DLL\SDKNETFrameworkTest.exe.config" />
     <None Include="wwwroot\XMLFile\SampleImplicitInvoice11082022.xml" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup>
 	  <PackageReference Include="BouncyCastle" Version="1.8.9" />
@@ -53,9 +58,6 @@
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto">
       <HintPath>Lib\.net\DLL\BouncyCastle.Crypto.dll</HintPath>
-    </Reference>
-    <Reference Include="ChilkatDotNet47">
-      <HintPath>ChilkatDotNet47.dll</HintPath>
     </Reference>
     <Reference Include="IKVM.OpenJDK.Core">
       <HintPath>Lib\.net\DLL\IKVM.OpenJDK.Core.dll</HintPath>

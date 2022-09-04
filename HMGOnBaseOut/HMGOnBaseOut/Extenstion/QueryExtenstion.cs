@@ -51,10 +51,19 @@ namespace HMGOnBaseOut.Extenstion
                 obj = Activator.CreateInstance<T>();
                 foreach (PropertyInfo prop in obj.GetType().GetProperties())
                 {
+                    try
+                    {
                         if (!object.Equals(dr[prop.Name], DBNull.Value))
                         {
                             prop.SetValue(obj, dr[prop.Name], null);
                         }
+                    }
+                    catch (Exception ex)
+                    {
+
+                        throw ex;
+                    }
+                        
                 
                 }
              list.Add(obj);

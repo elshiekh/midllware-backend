@@ -188,12 +188,25 @@ namespace elevatus_out.Employee
     {
         public string system_id { get; set; }
         public string applicant_id { get; set; }
+        public string status { get; set; }
+        public string meesage { get; set; }
     }
-    public class ConnectEmployeeApplicantResponse
+    public class ConnectEmployeeApplicantErrorResponse
     {
         public Identifiers Identifiers { get; set; }
         public IntegrateAccountConnectEmployeeApplicant IntegrateAccount { get; set; }
-        public List<Reason> Reason { get; set; }
+        public List<ConnectEmployeeApplicantReason> Reason { get; set; }
+    }
+
+    public class ConnectEmployeeApplicant_Response
+    {
+        public Identifiers Identifiers { get; set; }
+        public IntegrateAccountConnectEmployeeApplicant IntegrateAccount { get; set; }
+    }
+
+    public class ConnectEmployeeApplicantReason
+    {
+        public string message { get; set; }
     }
     public class IntegrateAccountConnectEmployeeApplicant
     {
