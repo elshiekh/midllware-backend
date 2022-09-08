@@ -18,7 +18,7 @@ namespace ePharmacy_In.Service
         private List<User> _users = new List<User>
         {
             //----DEVELOPMENT--------
-             new User { Id = 1, FirstName = "ePharmacyIn", LastName = "User", Username = "ePharmacyIn", Password = "1234" }
+             new User { Id = 1, FirstName = "e-PharmacyIn", LastName = "User", Username = "e-PharmacyIn", Password = "mU898W4X[V" }
             //----PRODUCTION--------
             //new User { Id = 1, FirstName = "elevatusIn", LastName = "User", Username = "elevatusIn", Password = "mK865W7X]V" }
         };
