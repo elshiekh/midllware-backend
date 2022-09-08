@@ -64,7 +64,7 @@ namespace APIMiddleware.Core.Entities
         public string RowVersion { get; set; }
 
         [Column("CREATION_DATE")]
-        public DateTime? Creation_Date { get; set; }
+        public DateTime Creation_Date { get; set; }
 
         [Column("CREATED_BY")]
         public string Created_By { get; set; }

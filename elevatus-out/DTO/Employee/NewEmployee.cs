@@ -71,6 +71,16 @@ namespace elevatus_out.Employee
         public Paginate Paginate { get; set; }
     }
 
+    public class EmployeeConnectIdentifiers
+    {
+        public string Id { get; set; }
+        public string RequestId { get; set; }
+        public string ApplicationId { get; set; }
+        public string Action { get; set; }
+        public string Status { get; set; }
+        public int StatusCode { get; set; }
+    }
+
     public class IdentifierDeleteResponse
     {
         public string RequestId { get; set; }
@@ -200,7 +210,7 @@ namespace elevatus_out.Employee
 
     public class ConnectEmployeeApplicant_Response
     {
-        public Identifiers Identifiers { get; set; }
+        public EmployeeConnectIdentifiers Identifiers { get; set; }
         public IntegrateAccountConnectEmployeeApplicant IntegrateAccount { get; set; }
     }
 
@@ -214,7 +224,8 @@ namespace elevatus_out.Employee
     }
     public class ExtraDataConnectEmployeeApplicant
     {
-        public bool Type { get; set; }
+        public bool Status { get; set; }
+        public string Message { get; set; }
     }
 
     public class ConnectResponseApplicantEmployee

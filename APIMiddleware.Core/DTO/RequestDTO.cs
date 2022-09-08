@@ -29,7 +29,7 @@ namespace APIMiddleware.Core.DTO
         public string RowVersion { get; set; }
         public string RequestStart { get; set; }
         public string ResponseFinish { get; set; }
-        public DateTime? Creation_Date { get; set; }
+        public DateTime Creation_Date { get; set; }
         public string Created_By { get; set; }
         public DateTime? Last_Update_Date { get; set; }
         public string Last_Updated_By { get; set; }
