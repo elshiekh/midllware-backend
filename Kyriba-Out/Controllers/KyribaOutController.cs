@@ -9,16 +9,13 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using Xunit;
 
 namespace Kyriba_Out.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [FormatFilter]
@@ -57,7 +54,7 @@ namespace Kyriba_Out.Controllers
                 var input = fileInbytes.FileInBase64;
                 if (fileInbytes.Staus)
                 {
-                    var publicKey = System.IO.File.ReadAllBytes("Resources/Acceptance DB63F5F673F4DC03.asc");
+                    var publicKey = System.IO.File.ReadAllBytes("Resources/Production D62973B5B871EBFF.asc");
                     var pgp = new Pgp();
                     var encrBytes = pgp.Encrypt(input, publicKey);
                     //System.IO.File.WriteAllBytes(@"C:/inetpub/wwwroot/Services/kyriba-out/EncryptedFiles/" + model.fileName +"."+ model.fileExtension, encrBytes);
@@ -121,10 +118,10 @@ namespace Kyriba_Out.Controllers
                     using (var memoryStream = new MemoryStream())
                     {
                         responseStream?.CopyTo(memoryStream);
-                        //var privateKey = System.IO.File.OpenRead("Resources/private-cloud2022.key");
-                        //var decrypted = Pgp.Decrypt(memoryStream.ToArray(), privateKey, "Cloud@2022");
-                        //var fileStream = Convert.ToBase64String(decrypted);
-                        var fileStream = Convert.ToBase64String(memoryStream.ToArray());
+                        var privateKey = System.IO.File.OpenRead("Resources/private-cloud2022-Prod.key");
+                        var decrypted = Pgp.Decrypt(memoryStream.ToArray(), privateKey, "Cloud@2022");
+                        var fileStream = Convert.ToBase64String(decrypted);
+                        //var fileStream = Convert.ToBase64String(memoryStream.ToArray());
                         var newFile = new FileResponse() { fileName = file.Name, fileBase64 = fileStream, LastModified = file.LastModified.ToString("dd/MM/yyyy HH:mm:ss") };
                         fileResponse.Add(newFile);
                         result.Files = fileResponse;
