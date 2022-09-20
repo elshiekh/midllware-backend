@@ -57,7 +57,7 @@ namespace ePharmacy_Out.Controllers
                 // if integration retrun time out generate new token
                 // if it null generate new one
                 var token = await GenerateToken();
-
+                
 
                 using (var client = new HttpClient())
                 {
