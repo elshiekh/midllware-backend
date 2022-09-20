@@ -6,6 +6,8 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Electronic_Invoice_Out.DTO;
+using System.Xml.Linq;
+using System.Text;
 
 namespace Electronic_Invoice_Out.Helper
 {
@@ -105,5 +107,29 @@ namespace Electronic_Invoice_Out.Helper
             }
             return list;
         }
+        public static string FormatXml(string xml)
+        {
+            try
+            {
+                XDocument doc = XDocument.Parse(xml);
+                return doc.ToString();
+            }
+            catch (Exception)
+            {
+                return xml;
+            }
+        }
+
+        public static string EncodeTo64(string toEncode)
+
+        {
+            byte[] toEncodeAsBytes = Encoding.ASCII.GetBytes(toEncode);
+
+            string returnValue= Convert.ToBase64String(toEncodeAsBytes);
+
+            return returnValue;
+
+        }
+
     }
 }

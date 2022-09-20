@@ -19,7 +19,7 @@ namespace Electronic_Invoice_Out
     public class Startup
     {
         //MW
-        WebAPIProject properties = new WebAPIProject() { Id = 214, Code = 214, Name = "ElectronicInvoiceOut", UserName = "ElectronicInvoiceOut" };
+        WebAPIProject properties = new WebAPIProject() { Id = 214, Code = 214, Name = "EInvoiceOut", UserName = "EInvoiceOut" };
 
         public Startup(IConfiguration configuration)
         {
@@ -45,7 +45,7 @@ namespace Electronic_Invoice_Out
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Electronic Invoice Out WebAPI", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "E-Invoice Out WebAPI", Version = "v1" });
                 c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -128,7 +128,7 @@ namespace Electronic_Invoice_Out
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Electronic Invoice Out WebAPI");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "E-Invoice Out WebAPI");
                 c.DefaultModelsExpandDepth(-1);
             });
         }

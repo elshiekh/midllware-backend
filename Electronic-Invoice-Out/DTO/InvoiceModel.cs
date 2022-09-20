@@ -184,4 +184,12 @@ namespace Electronic_Invoice_Out.DTO
 
         public string SingedXML { get; set; }
     }
+
+
+    public class InvoiceResult {
+
+        public string invoice { get; set; }
+        public string  InvoiceHash { get; set; }
+        public string QrCode { get; set; }
+    }
 }

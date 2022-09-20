@@ -45,5 +45,39 @@ namespace UblLarsen.Tools
                 xs.Serialize(writer, doc, doc.Xmlns);
             }
         }
+
+
+        public static string  GenerateXML(T doc)
+        {
+           var xml= SaveAsXMl(doc);
+            return xml;
+        }
+        public static string SaveAsXMl(T doc)
+        {
+            XmlSerializer xsSubmit = new XmlSerializer(typeof(T));
+            var xml = "";
+
+            using (var sww = new StringWriter())
+            {
+                using (XmlWriter writer = XmlWriter.Create(sww))
+                {
+                    xsSubmit.Serialize(writer, doc);
+                    xml = sww.ToString(); 
+                }
+            }
+            return xml;
+        }
+        public static string Serialize(T obj)
+        {
+            XmlSerializer xsSubmit = new XmlSerializer(typeof(T));
+            using (var sww = new StringWriter())
+            {
+                using (XmlTextWriter writer = new XmlTextWriter(sww) { Formatting = Formatting.Indented })
+                {
+                    xsSubmit.Serialize(writer, obj);
+                    return sww.ToString();
+                }
+            }
+        }
     }
 }

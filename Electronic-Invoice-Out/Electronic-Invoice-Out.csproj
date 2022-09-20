@@ -12,10 +12,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="s_invoice.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Lib\.net\DLL\saxon-he-api-10.8.xml" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\XMLFile\NewSigned.xml" />
     <None Include="wwwroot\XMLFile\Signed6.xml" />
   </ItemGroup>
 
