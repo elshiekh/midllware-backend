@@ -3,8 +3,8 @@
 namespace ePharmacy_Out.OnHand
 {
 
-    #region New-Branch
-    public class BranchRequest
+    #region DailyBatch
+    public class DailyBatchRequest
     {
         public int oracle_id { get; set; }
         public string item_code { get; set; }
@@ -13,141 +13,35 @@ namespace ePharmacy_Out.OnHand
         public int onhand_qty { get; set; }
     }
 
-    //public class Translate
-    //{
-    //    public TranslateArabic ar { get; set; }
-    //    public TranslateEnglish en { get; set; }
-    //}
-
-    //public class TranslateArabic
-    //{
-    //    public string system_name { get; set; }
-    //}
-
-    //public class TranslateEnglish
-    //{
-    //    public string system_name { get; set; }
-    //}
-
-    //public class DeleteBranchRequest
-    //{
-    //    public List<string> system_id { get; set; }
-    //}
-
-
 
     // Response --------
-    public class NewBranchResponse
+    public class DailyBatchResponse
     {
-        public Identifiers Identifiers { get; set; }
-        public IntegrateAccountBranch IntegrateAccount { get; set; }
-        public List<Reason> Reason { get; set; }
+        public List<ResponseDailyBatch> items_onhand { get; set; }
     }
-
-    //public class UpdateBranchResponse
-    //{
-    //    public Identifiers Identifiers { get; set; }
-    //    public IntegrateAccountBranch IntegrateAccount { get; set; }
-    //    public List<Reason> Reason { get; set; }
-    //}
-
-    //public class DeleteBranchResponse
-    //{
-    //    public IdentifierDeleteResponse Identifiers { get; set; }
-    //}
 
     #endregion
 
 
-    #region GET-BRANCH-RESPONSE
-    //public class GetBranchRequest { }
-    //public class GetBranchResponse
-    //{
-    //    public Identifiers Identifiers { get; set; }
-    //    public IntegrateAccount IntegrateAccount { get; set; }
-    //}
 
-    public class Identifiers
+    #region GET-ITEM-RESPONSE
+    public class ResponseDailyBatch
     {
-        public string RequestId { get; set; }
-        public string ApplicationId { get; set; }
-        public string Status { get; set; }
-        public string StatusCode { get; set; }
-        public Paginate Paginate { get; set; }
+        public int oracle_id { get; set; }
+        public string epharmacy_id { get; set; }
+        public string return_status { get; set; }
+        public string return_message { get; set; }
     }
+    #endregion
 
-    //public class IdentifierDeleteResponse
-    //{
-    //    public string RequestId { get; set; }
-    //    public string ApplicationId { get; set; }
-    //    public List<IdentifierDeleteResponseAction> Action { get; set; }
-    //    public string Status { get; set; }
-    //    public string StatusCode { get; set; }
-    //}
-    //public class IdentifierDeleteResponseAction
-    //{
-    //    public string System_Id { get; set; }
-    //    public string Status { get; set; }
-    //}
 
-    public class Paginate
+
+    #region Token-RESPONSE
+    public class TokenResponse
     {
-        public string Page { get; set; }
-        public string Limit { get; set; }
-        public string Total { get; set; }
+        public string id { get; set; }
+        public string auth_token { get; set; }
+        public int expires_in { get; set; }
     }
-
-    //public class IntegrateAccount
-    //{
-    //    public List<ExtraData> ExtraData { get; set; }
-    //}
-
-    public class IntegrateAccountBranch
-    {
-        public ExtraData ExtraData { get; set; }
-    }
-
-    public class ExtraData
-    {
-        public int SystemId { get; set; }
-        public string SystemNameAr { get; set; }
-        public string SystemNameEn { get; set; }
-        public string SystemPayrollId { get; set; }
-        public string SystemBusinessGroupId { get; set; }
-        public bool SystemStatus { get; set; }
-        public bool CanDelete { get; set; }
-    }
-
-    public class Reason
-    {
-        public string Filed { get; set; }
-        public string Type { get; set; }
-        public string error { get; set; }
-    }
-
-    public class NewResponseBranch
-    {
-        public string Status { get; set; }
-        public string Message { get; set; }
-        public string Reasons { get; set; }
-        public string RequestId { get; set; }
-    }
-
-    //public class UpdateResponseBranch
-    //{
-    //    public string Status { get; set; }
-    //    public string Message { get; set; }
-    //    public string Reasons { get; set; }
-    //    public string RequestId { get; set; }
-    //}
-
-    //public class DeleteResponseBranch
-    //{
-    //    public string Status { get; set; }
-    //    public string Message { get; set; }
-    //    public string Reasons { get; set; }
-    //    public string RequestId { get; set; }
-    //}
-
     #endregion
 }
