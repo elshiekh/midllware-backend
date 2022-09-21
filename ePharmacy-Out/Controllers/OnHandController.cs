@@ -64,8 +64,10 @@ namespace ePharmacy_Out.Controllers
                     byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
                     var request = new HttpRequestMessage(HttpMethod.Post, "https://hmgpharmacyapi.hmg.com/api/product/daily_batch_inventory");
 
+
                     request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
+
 
                     var postObject = JsonConvert.SerializeObject(obj);
 
