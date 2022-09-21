@@ -41,7 +41,6 @@ namespace ePharmacy_Out.Controllers
         }
         #endregion
 
-
         #region DailyBatch
         [HttpPost("DailyBatch.{format}"), FormatFilter]
         public async Task<IActionResult> DailyBatch([FromBody] List<DailyBatchRequest> obj)
@@ -81,10 +80,6 @@ namespace ePharmacy_Out.Controllers
                     var data = JsonConvert.DeserializeObject<DailyBatchResponse>(stringData);
 
 
-                    ////ObjectToXML
-                    //var XMLdata = data.ToXMLResponceDailyBatch();
-
-
                     return Ok(data);
                 }
             }
@@ -94,7 +89,6 @@ namespace ePharmacy_Out.Controllers
             }
         }
         #endregion
-
 
         #region Return Exception
         private IActionResult ReturnException(Exception ex)

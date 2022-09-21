@@ -79,11 +79,7 @@ namespace ePharmacy_Out.Controllers
                     var data = JsonConvert.DeserializeObject<CategoryResponse>(stringData);
 
 
-                    ////ObjectToXML
-                    //var XMLdata = data.ToXMLResponceCategory();
-
-
-                    return Content(XMLdata, "application/xml");
+                    return Ok(data);
                 }
             }
             catch (Exception ex)
@@ -128,11 +124,6 @@ namespace ePharmacy_Out.Controllers
                     string stringData = await response.Content.ReadAsStringAsync();
 
                     var data = JsonConvert.DeserializeObject<CategoryResponse>(stringData);
-
-
-                    ////ObjectToXML
-                    //var XMLdata = data.ToXMLResponceItem();
-                    //return Content(XMLdata, "application/xml");
 
                     return Ok(data);
                 }
