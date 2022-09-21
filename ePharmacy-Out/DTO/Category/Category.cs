@@ -21,7 +21,7 @@ namespace ePharmacy_Out.Category
     // Response --------
     public class CategoryResponse
     {
-        public List<ResponseCategory> items { get; set; }
+        public List<ResponseCategory> categories { get; set; }
     }
     #endregion
 

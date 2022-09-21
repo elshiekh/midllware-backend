@@ -36,7 +36,7 @@ namespace ePharmacy_Out.Mapper
             //ObjectToXML
             XDocument P_INV_TRX_SER_TBL = new XDocument(new XDeclaration("1.0", "UTF - 8", "yes"),
             new XElement("CATEGORYLIST",
-            from Item in data.items
+            from Item in data.categories
             select
                      new XElement("CATEGORY",
                             new XElement("ORACLE_ID", Item.oracle_id),
