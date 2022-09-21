@@ -4,7 +4,7 @@ namespace ePharmacy_Out.Category
 {
 
     #region New-Category
-    public class CategoryRequest
+    public class CreateCategoryRequest
     {
         public int oracle_id { get; set; }
         public int category_id { get; set; }
@@ -21,10 +21,23 @@ namespace ePharmacy_Out.Category
     // Response --------
     public class CategoryResponse
     {
-        public List<ResponseCategory> items { get; set; }
+        public List<ResponseCategory> categories { get; set; }
     }
     #endregion
 
+
+    #region Update-Category
+
+    public class UpdateCategoryRequest
+    {
+        public int oracle_id { get; set; }
+        public int category_id { get; set; }
+        public string category_name_us { get; set; }
+        public string category_name_ar { get; set; }
+        public bool enabled_flag { get; set; }
+        public int category_parent_id { get; set; }
+    }
+    #endregion
 
 
     #region GET-CATEGORY-RESPONSE

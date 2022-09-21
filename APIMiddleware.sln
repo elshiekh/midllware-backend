@@ -43,7 +43,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UblLarsen.Ubl2", "UblLarsen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ePharmacy-In", "ePharmacy-In\ePharmacy-In.csproj", "{5374D032-0BC4-4D10-A6B6-7C905A6181E6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ePharmacy-Out", "ePharmacy-Out\ePharmacy-Out.csproj", "{6930055B-480D-485E-B727-6A91B86CC4B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ePharmacy-Out", "ePharmacy-Out\ePharmacy-Out.csproj", "{157D5423-5764-487D-8AD0-BEC53E6B2BC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -131,10 +131,10 @@ Global
 		{5374D032-0BC4-4D10-A6B6-7C905A6181E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5374D032-0BC4-4D10-A6B6-7C905A6181E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5374D032-0BC4-4D10-A6B6-7C905A6181E6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6930055B-480D-485E-B727-6A91B86CC4B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6930055B-480D-485E-B727-6A91B86CC4B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6930055B-480D-485E-B727-6A91B86CC4B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6930055B-480D-485E-B727-6A91B86CC4B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{157D5423-5764-487D-8AD0-BEC53E6B2BC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{157D5423-5764-487D-8AD0-BEC53E6B2BC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{157D5423-5764-487D-8AD0-BEC53E6B2BC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{157D5423-5764-487D-8AD0-BEC53E6B2BC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

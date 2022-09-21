@@ -44,7 +44,7 @@ namespace ePharmacy_Out.Controllers
 
         #region CreateCategory
         [HttpPost("CreateCategory.{format}"), FormatFilter]
-        public async Task<IActionResult> CreateCategory([FromBody] List<CategoryRequest> obj)
+        public async Task<IActionResult> CreateCategory([FromBody] List<CreateCategoryRequest> obj)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace ePharmacy_Out.Controllers
 
         #region UpdateCategory
         [HttpPost("UpdateCategory.{format}"), FormatFilter]
-        public async Task<IActionResult> UpdateCategory([FromBody] List<CategoryRequest> obj)
+        public async Task<IActionResult> UpdateCategory([FromBody] List<UpdateCategoryRequest> obj)
         {
             try
             {
@@ -131,7 +131,8 @@ namespace ePharmacy_Out.Controllers
 
 
                     //ObjectToXML
-                    //var XMLdata = data.ToXMLResponceCategory();
+                    var XMLdata = data.ToXMLResponceCategory();
+
 
                     return Ok(data);
                 }
