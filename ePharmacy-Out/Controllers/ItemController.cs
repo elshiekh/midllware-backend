@@ -17,7 +17,7 @@ using ePharmacy_Out.Mapper;
 
 namespace ePharmacy_Out.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [FormatFilter]

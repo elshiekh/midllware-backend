@@ -81,11 +81,11 @@ namespace ePharmacy_Out.Controllers
                     var data = JsonConvert.DeserializeObject<DailyBatchResponse>(stringData);
 
 
-                    //ObjectToXML
-                    var XMLdata = data.ToXMLResponceDailyBatch();
+                    ////ObjectToXML
+                    //var XMLdata = data.ToXMLResponceDailyBatch();
 
 
-                    return Content(XMLdata, "application/xml");
+                    return Ok(data);
                 }
             }
             catch (Exception ex)
