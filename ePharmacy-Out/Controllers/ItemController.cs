@@ -81,10 +81,11 @@ namespace ePharmacy_Out.Controllers
 
                     var data = JsonConvert.DeserializeObject<ItemResponse>(stringData);
 
-                    //ObjectToXML
-                    var XMLdata = data.ToXMLResponceItem();
+                    ////ObjectToXML
+                    //var XMLdata = data.ToXMLResponceItem();
+                    //return Content(XMLdata, "application/xml");
 
-                    return Content(XMLdata, "application/xml");
+                    return Ok(data);
                 }
             }
             catch (Exception ex)
@@ -131,11 +132,11 @@ namespace ePharmacy_Out.Controllers
                     var data = JsonConvert.DeserializeObject<ItemResponse>(stringData);
 
 
-                    //ObjectToXML
-                    var XMLdata = data.ToXMLResponceItem();
+                    ////ObjectToXML
+                    //var XMLdata = data.ToXMLResponceItem();
+                    //return Content(XMLdata, "application/xml");
 
-
-                    return Content(XMLdata, "application/xml");
+                    return Ok(data);
                 }
             }
             catch (Exception ex)
