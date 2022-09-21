@@ -83,7 +83,7 @@ namespace ePharmacy_Out.Controllers
                     var XMLdata = data.ToXMLResponceCategory();
 
 
-                    return Ok(XMLdata);
+                    return Content(XMLdata, "application/xml");
                 }
             }
             catch (Exception ex)
@@ -134,7 +134,7 @@ namespace ePharmacy_Out.Controllers
                     var XMLdata = data.ToXMLResponceCategory();
 
 
-                    return Ok(XMLdata);
+                    return Content(XMLdata, "application/xml");
                 }
             }
             catch (Exception ex)

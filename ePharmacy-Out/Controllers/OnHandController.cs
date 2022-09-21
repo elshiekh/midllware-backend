@@ -85,7 +85,7 @@ namespace ePharmacy_Out.Controllers
                     var XMLdata = data.ToXMLResponceDailyBatch();
 
 
-                    return Ok(XMLdata);
+                    return Content(XMLdata, "application/xml");
                 }
             }
             catch (Exception ex)
