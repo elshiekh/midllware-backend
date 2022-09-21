@@ -17,7 +17,7 @@ using ePharmacy_Out.Mapper;
 
 namespace ePharmacy_Out.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [FormatFilter]
@@ -83,10 +83,10 @@ namespace ePharmacy_Out.Controllers
 
 
                     //ObjectToXML
-                    var XMLdata = data.ToXMLResponceItem();
+                    //var XMLdata = data.ToXMLResponceItem();
 
 
-                    return Ok(XMLdata);
+                    return Ok(data);
                 }
             }
             catch (Exception ex)
@@ -134,10 +134,10 @@ namespace ePharmacy_Out.Controllers
 
 
                     //ObjectToXML
-                    var XMLdata = data.ToXMLResponceItem();
+                    //var XMLdata = data.ToXMLResponceItem();
 
 
-                    return Ok(XMLdata);
+                    return Ok(data);
                 }
             }
             catch (Exception ex)
