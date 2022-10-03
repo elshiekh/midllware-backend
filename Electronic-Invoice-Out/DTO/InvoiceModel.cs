@@ -14,7 +14,7 @@ namespace Electronic_Invoice_Out.DTO
         public InvoiceTypeCode InvoiceTypeCode { get; set; }
         public string DocumentCurrencyCode { get; set; } = "SAR";
         public string TaxCurrencyCode { get; set; } = "SAR";
-        public int ICVUUID { get; set; } = 62;
+        public string ICVUUID { get; set; } = "62";
         public string PIHValue { get; set; } = "NWZlY2ViNjZmZmM4NmYzOGQ5NTI3ODZjNmQ2OTZjNzljMmRiYzIzOWRkNGU5MWI0NjcyOWQ3M2EyN2ZiNTdlOQ==";
         public AccountingSupplier AccountingSupplier { get; set; }
         public AccountingCustomer AccountingCustomer { get; set; }
@@ -24,7 +24,9 @@ namespace Electronic_Invoice_Out.DTO
         public LegalMonetaryTotal LegalMonetaryTotal { get; set; }
         public TaxTotal TaxTotal { get; set; }
         public TaxTotals TaxTotals { get; set; }
-        public InvoiceLine InvoiceLine { get; set; }
+        //public InvoiceLine InvoiceLine { get; set; }
+
+        public List<InvoiceLine> InvoiceLine { get; set; }
 
         //public DocumentReferenceType[] AdditionalDocumentReference { get; set; }
         //public SupplierPartyType AccountingSupplierParty { get; set; }
@@ -58,8 +60,8 @@ namespace Electronic_Invoice_Out.DTO
 
     public class PartyTaxScheme
     {
-        public int CompanyID { get; set; }
-        public int TaxScheme { get; set; }
+        public string CompanyID { get; set; }
+        public string TaxScheme { get; set; }
     }
 
     public class PartyLegalEntity
@@ -82,7 +84,7 @@ namespace Electronic_Invoice_Out.DTO
     public class Delivery
     {
         public DateTime ActualDeliveryDate { get; set; }
-        public DateTime LatestDeliveryDate { get; set; }
+        public DateTime? LatestDeliveryDate { get; set; }
     }
 
     public class PaymentMeans
@@ -95,17 +97,20 @@ namespace Electronic_Invoice_Out.DTO
         public string ID { get; set; }
         public bool ChargeIndicator { get; set; }
         public string AllowanceChargeReason { get; set; }
-        public int Amount { get; set; }
+        public decimal Amount { get; set; }
+        public string TaxCategoryID { get; set; }
+        public decimal TaxCategoryPercent { get; set; }
+        public string TaxCategoryTaxSchemeID { get; set; }
     }
 
     public class LegalMonetaryTotal
     {
-        public int LineExtensionAmount { get; set; }
-        public int TaxExclusiveAmount { get; set; }
-        public int TaxInclusiveAmount { get; set; }
-        public int AllowanceTotalAmount { get; set; }
-        public int PrepaidAmount { get; set; }
-        public int PayableAmount { get; set; }
+        public decimal LineExtensionAmount { get; set; }
+        public decimal TaxExclusiveAmount { get; set; }
+        public decimal TaxInclusiveAmount { get; set; }
+        public decimal AllowanceTotalAmount { get; set; }
+        public decimal PrepaidAmount { get; set; }
+        public decimal PayableAmount { get; set; }
     }
 
     public class TaxTotal
@@ -127,8 +132,8 @@ namespace Electronic_Invoice_Out.DTO
     }
     public class TaxCategory
     {
-        public int ID { get; set; }
-        public int Percent { get; set; }
+        public string ID { get; set; }
+        public decimal Percent { get; set; }
         public string TaxSchemeID { get; set; }
     }
 
@@ -138,6 +143,17 @@ namespace Electronic_Invoice_Out.DTO
         public decimal InvoicedQuantity { get; set; }
         public decimal LineExtensionAmount { get; set; }
         public InvoiceLineTaxTotal InvoiceLineTaxTotal { get; set; }
+        public ItemModel Item { get; set; }
+        public PriceModel Price { get; set; }
+    }
+    public class ItemModel  {
+        public string  Name { get; set; }
+        public string SellersItemIdentification { get; set; }
+        public TaxCategory ClassifiedTaxCategory { get; set; }
+    }
+    public class PriceModel {
+        public decimal PriceAmount { get; set; }
+        public AllowanceCharge AllowanceCharge { get; set; }
     }
     public class InvoiceLineTaxTotal
     {
@@ -154,7 +170,7 @@ namespace Electronic_Invoice_Out.DTO
     {
         public bool ChargeIndicator { get; set; }
         public string AllowanceChargeReason { get; set; }
-        public int Amount { get; set; }
+        public decimal Amount { get; set; }
     }
 
     public class InvoiceLineItem
@@ -166,7 +182,7 @@ namespace Electronic_Invoice_Out.DTO
     public class ClassifiedTaxCategory
     {
         public int ID { get; set; }
-        public int Percent { get; set; }
+        public decimal Percent { get; set; }
         public int TaxSchemeID { get; set; }
     }
 
@@ -191,5 +207,7 @@ namespace Electronic_Invoice_Out.DTO
         public string invoice { get; set; }
         public string  InvoiceHash { get; set; }
         public string QrCode { get; set; }
+        public string Status { get; set; }
+        public string Message { get; set; }
     }
 }

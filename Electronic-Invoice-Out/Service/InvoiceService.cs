@@ -3,6 +3,7 @@ using Electronic_Invoice_Out.Helper;
 using Microsoft.AspNetCore.Hosting;
 using SDKNETFrameWorkLib.BLL;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UblLarsen.Tools;
 using UblLarsen.Ubl2;
@@ -25,56 +26,102 @@ namespace Electronic_Invoice_Out.Service
         public InvoiceResult GenerateXML(InvoiceModel obj)
         {
             var result = new InvoiceResult();
-            Func<decimal, AmountType> newAmountType = v => new AmountType { Value = v, currencyID = "SAR" };
-            var taxVAT = new TaxSchemeType { ID = "VAT" };
-            InvoiceType doc = new InvoiceType 
+            var invoiceLineList = new List<InvoiceLineType>();
+            if (obj.InvoiceLine != null)
+            {
+                foreach (var invl in obj.InvoiceLine)
+                {
+                    invoiceLineList.Add(new InvoiceLineType
+                    {
+                        ID = invl.ID.ToString(), // "1",
+                        InvoicedQuantity = new QuantityType { unitCode = "PCE", Value = invl.InvoicedQuantity },
+                        LineExtensionAmount = new AmountType { currencyID = "SAR", Value = invl.LineExtensionAmount },
+                        TaxTotal = new TaxTotalType[]
+                            {
+                            new TaxTotalType { TaxAmount = new AmountType { currencyID = "SAR", Value = invl.InvoiceLineTaxTotal.TaxAmount },
+                            RoundingAmount = new AmountType { currencyID = "SAR", Value = invl.InvoiceLineTaxTotal.RoundingAmount }
+                        }
+                            },
+                        Item = new ItemType
+                        {
+                            Name = invl.Item.Name,
+                            SellersItemIdentification = new ItemIdentificationType { ID = invl.Item.SellersItemIdentification },
+                            ClassifiedTaxCategory = new TaxCategoryType[]
+                                {
+                                new TaxCategoryType
+                                {
+                                 ID = invl.Item.ClassifiedTaxCategory.ID.ToString(),
+                                 Percent = invl.Item.ClassifiedTaxCategory.Percent,
+                                 TaxScheme = new TaxSchemeType
+                                 {
+                                    ID = new IdentifierType {  Value = invl.Item.ClassifiedTaxCategory.TaxSchemeID }
+                                 }
+                               }
+                                }
+                        },
+                        Price = new PriceType
+                        {
+                            PriceAmount = new AmountType { currencyID = "SAR", Value = invl.Price.PriceAmount },
+                            AllowanceCharge = new AllowanceChargeType[] { new AllowanceChargeType{
+                                ChargeIndicator =invl.Price.AllowanceCharge.ChargeIndicator,
+                                AllowanceChargeReason = new TextType [] { new TextType { Value = invl.Price.AllowanceCharge.AllowanceChargeReason } },
+                                Amount =  new AmountType { currencyID = "SAR", Value = invl.Price.AllowanceCharge.Amount }
+                               }
+                            }
+                        }
+                    });
+                }
+            }
+            var invoiceArray = invoiceLineList.ToArray();
+            InvoiceType doc = new InvoiceType
             {
                 UBLExtensions = new UblLarsen.Ubl2.Ext.UBLExtensionType[] { new UblLarsen.Ubl2.Ext.UBLExtensionType { } },
-                ProfileID = "reporting:1.0",
-                ID = "SME00062",
-                UUID = "6f4d20e0-6bfe-4a80-9389-7dabe6620f12",
-                IssueDate = new DateTime(2022, 03, 13),
-                IssueTime = DateTime.Now,
-                InvoiceTypeCode = new CodeType { name = "0211010", Value = "388" },
-                DocumentCurrencyCode = "SAR",
-                TaxCurrencyCode = "SAR",
+                ProfileID = obj.ProfileID, // "reporting:1.0",
+                ID = obj.InvoiceID, // "SME00062",
+                UUID = obj.UUID, // "6f4d20e0-6bfe-4a80-9389-7dabe6620f12",
+                IssueDate = obj.IssueDate, // new DateTime(2022, 03, 13),
+                IssueTime = obj.IssueTime, // DateTime.Now,
+                InvoiceTypeCode = new CodeType { name = obj.InvoiceTypeCode.Name, Value = obj.InvoiceTypeCode.Value },
+                // InvoiceTypeCode = new CodeType { name =  "0211010", Value = "388" },
+                DocumentCurrencyCode = obj.DocumentCurrencyCode, //"SAR",
+                TaxCurrencyCode = obj.TaxCurrencyCode, //"SAR",
                 AdditionalDocumentReference = new DocumentReferenceType[] {
-                    new DocumentReferenceType { ID = "ICV", UUID = "62" },
-                    new DocumentReferenceType { ID = "PIH", Attachment = new AttachmentType { EmbeddedDocumentBinaryObject = new BinaryObjectType { mimeCode = "text/plain", Value = System.Convert.FromBase64String("NWZlY2ViNjZmZmM4NmYzOGQ5NTI3ODZjNmQ2OTZjNzljMmRiYzIzOWRkNGU5MWI0NjcyOWQ3M2EyN2ZiNTdlOQ==") } } },
+                    new DocumentReferenceType { ID = "ICV", UUID = obj.ICVUUID }, // UUID = "62"
+                    new DocumentReferenceType { ID = "PIH", Attachment = new AttachmentType { EmbeddedDocumentBinaryObject = new BinaryObjectType { mimeCode = "text/plain", Value = (String.IsNullOrEmpty(obj.PIHValue)) ? Convert.FromBase64String(obj.PIHValue):null } } },
                 },
                 AccountingSupplierParty = new SupplierPartyType
                 {
                     Party = new PartyType
                     {
-                        PartyIdentification = new PartyIdentificationType[] { new PartyIdentificationType { ID = new IdentifierType { schemeID = "CRN", Value = "1010384104" } } },
+                        PartyIdentification = new PartyIdentificationType[] { new PartyIdentificationType { ID = new IdentifierType { schemeID = "CRN", Value = obj.AccountingSupplier.PartyIdentification.ToString() } } },
                         PostalAddress = new AddressType
                         {
-                            StreetName = "test",
-                            BuildingNumber = "3454",
-                            PlotIdentification = "1234",
-                            CitySubdivisionName = "fgff",
-                            CityName = "Riyadh",
-                            PostalZone = "12345",
-                            CountrySubentity = "test",
-                            Country = new CountryType { IdentificationCode = "SA" },
+                            StreetName = obj.AccountingSupplier.PostalAddress.StreetName.ToString(), // "test",
+                            BuildingNumber = obj.AccountingSupplier.PostalAddress.BuildingNumber.ToString(), // "3454",
+                            PlotIdentification = obj.AccountingSupplier.PostalAddress.PlotIdentification.ToString(), // "1234",
+                            CitySubdivisionName = obj.AccountingSupplier.PostalAddress.CitySubdivisionName.ToString(), // "fgff",
+                            CityName = obj.AccountingSupplier.PostalAddress.CityName.ToString(), // "Riyadh",
+                            PostalZone = obj.AccountingSupplier.PostalAddress.PostalZone.ToString(), // "12345",
+                            CountrySubentity = obj.AccountingSupplier.PostalAddress.CountrySubentity.ToString(), // "test",
+                            Country = new CountryType { IdentificationCode = obj.AccountingSupplier.PostalAddress.CountryCode.ToString() }, // "SA"
                         },
                         PartyTaxScheme = new PartyTaxSchemeType[]
                         {
                             new PartyTaxSchemeType
                             {
-                                CompanyID = "300094611410003",
+                                CompanyID = obj.AccountingSupplier.PartyTaxScheme.CompanyID.ToString(), // "300094611410003",
                                 TaxScheme = new TaxSchemeType
                                 {
                                     ID = new IdentifierType
                                     {
-                                        Value = "VAT"
+                                        Value = obj.AccountingSupplier.PartyTaxScheme.TaxScheme.ToString(), // "VAT"
                                     }
                                 }
                             }
                         },
                         PartyLegalEntity = new PartyLegalEntityType[]
                         {
-                            new PartyLegalEntityType { RegistrationName = "Ahmed Mohamed AL Ahmady" }
+                            new PartyLegalEntityType { RegistrationName = obj.AccountingSupplier.PartyLegalEntity.RegistrationName } // "Ahmed Mohamed AL Ahmady"
                         }
                     }
                 },
@@ -82,18 +129,18 @@ namespace Electronic_Invoice_Out.Service
                 {
                     Party = new PartyType
                     {
-                        PartyIdentification =  new PartyIdentificationType[] { new PartyIdentificationType { ID = new IdentifierType { schemeID="NAT" , Value= "2345" } } } ,
+                        PartyIdentification = new PartyIdentificationType[] { new PartyIdentificationType { ID = new IdentifierType { schemeID = "NAT", Value = obj.AccountingCustomer.PartyIdentification.ToString() } } }, // 2345
                         PostalAddress = new AddressType
                         {
-                            StreetName = "baaoun",
-                            AdditionalStreetName = "sdsd",
-                            BuildingNumber = "3353",
-                            PlotIdentification = "3434",
-                            CitySubdivisionName = "fgff",
-                            CityName = "Dhurma",
-                            PostalZone = "34534",
-                            CountrySubentity = "ulhk",
-                            Country = new CountryType { IdentificationCode = "SA" }
+                            StreetName = obj.AccountingCustomer.PostalAddress.StreetName, // "baaoun",
+                            AdditionalStreetName = obj.AccountingCustomer.PostalAddress.StreetName, // "sdsd",
+                            BuildingNumber = obj.AccountingCustomer.PostalAddress.BuildingNumber, // "3353",
+                            PlotIdentification = obj.AccountingCustomer.PostalAddress.PlotIdentification, // "3434",
+                            CitySubdivisionName = obj.AccountingCustomer.PostalAddress.CitySubdivisionName, // "fgff",
+                            CityName = obj.AccountingCustomer.PostalAddress.CityName, // "Dhurma",
+                            PostalZone = obj.AccountingCustomer.PostalAddress.PostalZone, // "34534",
+                            CountrySubentity = obj.AccountingCustomer.PostalAddress.CountrySubentity, // "ulhk",
+                            Country = new CountryType { IdentificationCode = obj.AccountingCustomer.PostalAddress.CountryCode } // "SA"
                         },
                         PartyTaxScheme = new PartyTaxSchemeType[]
                         {
@@ -101,13 +148,13 @@ namespace Electronic_Invoice_Out.Service
                             {
                                 TaxScheme = new TaxSchemeType
                                 {
-                                    ID = new IdentifierType { Value = "VAT" }
+                                    ID = new IdentifierType { Value = obj.AccountingCustomer.PartyTaxScheme.TaxScheme.ToString() } // "VAT"
                                 }
                             }
                         },
                         PartyLegalEntity = new PartyLegalEntityType[]
                         {
-                            new PartyLegalEntityType { RegistrationName = "sdsa" }
+                            new PartyLegalEntityType { RegistrationName = obj.AccountingCustomer.PartyLegalEntity.RegistrationName.ToString() } // sdsa
                         }
                     }
                 },
@@ -115,29 +162,30 @@ namespace Electronic_Invoice_Out.Service
                 {
                     new DeliveryType
                     {
-                        ActualDeliveryDate = new DateTime(2022, 03, 13),
-                        LatestDeliveryDate = new DateTime(2022, 03, 15),
+                        ActualDeliveryDate = obj.Delivery.ActualDeliveryDate,
+                        LatestDeliveryDate = obj.Delivery.LatestDeliveryDate,
                     }
                 },
                 PaymentMeans = new PaymentMeansType[]
                 {
                     new PaymentMeansType
                     {
-                        PaymentMeansCode = "10",
+                        PaymentMeansCode = obj.PaymentMeans.Code // 10 
                     }
                 },
                 AllowanceCharge = new AllowanceChargeType[] {
                     new AllowanceChargeType {
-                        ID = "1", ChargeIndicator = false,
-                        AllowanceChargeReason = new TextType[] { "discount" },
-                        Amount = new AmountType { currencyID = "SAR", Value = 2 },
+                        ID =  obj.AllowanceCharge.ID,  //  "1", 
+                        ChargeIndicator = obj.AllowanceCharge.ChargeIndicator,
+                        AllowanceChargeReason = new TextType[] { obj.AllowanceCharge.AllowanceChargeReason.ToString() }, // discount
+                        Amount = new AmountType { currencyID = "SAR", Value = obj.AllowanceCharge.Amount },
                         TaxCategory = new TaxCategoryType[] {
                             new TaxCategoryType {
-                                ID = new IdentifierType { schemeAgencyID = "6", schemeID = "UN/ECE 5305", Value = "S" },
-                                Percent = 15,
+                                ID = new IdentifierType { schemeAgencyID = "6", schemeID = "UN/ECE 5305", Value = obj.AllowanceCharge.TaxCategoryID }, // Value = "S"
+                                Percent =  obj.AllowanceCharge.TaxCategoryPercent , // 15,
                                 TaxScheme = new TaxSchemeType
                                 {
-                                    ID = new IdentifierType { schemeID = "UN/ECE 5153", schemeAgencyID = "6", Value = "VAT" }
+                                    ID = new IdentifierType { schemeID = "UN/ECE 5153", schemeAgencyID = "6", Value = obj.AllowanceCharge.TaxCategoryTaxSchemeID } // Value = "VAT"
                                 }
                             }
                         }
@@ -147,74 +195,38 @@ namespace Electronic_Invoice_Out.Service
                 {
                     new TaxTotalType
                     {
-                        TaxAmount = new AmountType { currencyID = "SAR", Value = 144 },
+                        TaxAmount = new AmountType { currencyID = "SAR", Value = obj.TaxTotal.TaxAmount },
                         TaxSubtotal = new TaxSubtotalType[]
                         {
                             new TaxSubtotalType
                             {
-                                TaxableAmount = new AmountType { currencyID = "SAR", Value = 966 },
-                                TaxAmount = new AmountType { currencyID = "SAR", Value = 144 },
+                                TaxableAmount = new AmountType { currencyID = "SAR", Value =  obj.TaxTotal.TaxSubtotal.TaxableAmount },
+                                TaxAmount = new AmountType { currencyID = "SAR", Value = obj.TaxTotal.TaxSubtotal.TaxAmount },
                                 TaxCategory = new TaxCategoryType
                                 {
-                                    ID = new IdentifierType { schemeAgencyID = "6", schemeID = "UN/ECE 5305", Value = "S" },
-                                    Percent = 15,
+                                    ID = new IdentifierType { schemeAgencyID = "6", schemeID = "UN/ECE 5305", Value = obj.TaxTotal.TaxSubtotal.TaxCategory.ID.ToString() },
+                                    Percent = obj.TaxTotal.TaxSubtotal.TaxCategory.Percent,
                                     TaxScheme = new TaxSchemeType {
-                                        ID = new IdentifierType { schemeAgencyID = "6", schemeID = "UN/ECE 5153", Value = "VAT" } }
+                                        ID = new IdentifierType { schemeAgencyID = "6", schemeID = "UN/ECE 5153", Value = obj.TaxTotal.TaxSubtotal.TaxCategory.TaxSchemeID } }
                                 }
                             }
                         }
-                    }
+                    },
+                    new TaxTotalType
+                    {
+                        TaxAmount = new AmountType { currencyID = "SAR", Value = obj.TaxTotals.TaxAmount },
+                    },
                 },
                 LegalMonetaryTotal = new MonetaryTotalType
                 {
-                    LineExtensionAmount = new AmountType { currencyID = "SAR", Value = 966 },
-                    TaxExclusiveAmount = new AmountType { currencyID = "SAR", Value = 964 },
-                    TaxInclusiveAmount = new AmountType { currencyID = "SAR", Value = 1108 },
-                    AllowanceTotalAmount = new AmountType { currencyID = "SAR", Value = 2 },
-                    PrepaidAmount = new AmountType { currencyID = "SAR", Value = 0 },
-                    PayableAmount = new AmountType { currencyID = "SAR", Value = 1108 },
+                    LineExtensionAmount = new AmountType { currencyID = "SAR", Value = obj.LegalMonetaryTotal.LineExtensionAmount },
+                    TaxExclusiveAmount = new AmountType { currencyID = "SAR", Value = obj.LegalMonetaryTotal.TaxExclusiveAmount },
+                    TaxInclusiveAmount = new AmountType { currencyID = "SAR", Value = obj.LegalMonetaryTotal.TaxInclusiveAmount },
+                    AllowanceTotalAmount = new AmountType { currencyID = "SAR", Value = obj.LegalMonetaryTotal.AllowanceTotalAmount },
+                    PrepaidAmount = new AmountType { currencyID = "SAR", Value = obj.LegalMonetaryTotal.PrepaidAmount },
+                    PayableAmount = new AmountType { currencyID = "SAR", Value = obj.LegalMonetaryTotal.PayableAmount },
                 },
-                InvoiceLine = new InvoiceLineType[]
-                {
-                    new InvoiceLineType
-                    {
-                        ID = "1",
-                        InvoicedQuantity = new  QuantityType { unitCode="PCE", Value=44 },
-                        LineExtensionAmount = new AmountType { currencyID = "SAR", Value = 966 },
-                        TaxTotal = new TaxTotalType[]
-                        {
-                            new TaxTotalType { TaxAmount = new AmountType { currencyID = "SAR", Value = 144 },
-                            RoundingAmount = new AmountType { currencyID = "SAR", Value = 144 }
-                        }
-                        },
-                        Item = new ItemType
-                        {
-                            Name = "dsd",
-                            SellersItemIdentification = new ItemIdentificationType { ID = "12345670" },
-                            ClassifiedTaxCategory = new TaxCategoryType[]
-                            {
-                                new TaxCategoryType
-                                {
-                                 ID = "S" ,
-                                 Percent = 25.0M,
-                                 TaxScheme = new TaxSchemeType
-                                 {
-                                    ID = new IdentifierType {  Value = "VAT" }
-                                 }
-                               }
-                            }
-                        },
-                        Price = new PriceType {
-                            PriceAmount = new AmountType { currencyID = "SAR", Value = 144 },
-                            AllowanceCharge = new AllowanceChargeType [] { new AllowanceChargeType{
-                                ChargeIndicator = false,
-                                AllowanceChargeReason = new TextType [] { new TextType { Value = "discount" } },
-                                Amount =  new AmountType { currencyID = "SAR", Value = 2 }
-                               }
-                            }
-                        }
-                    }
-                }
+                InvoiceLine = invoiceArray
             };
 
             string filename = "SampleImplicitInvoice" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".xml";
@@ -257,7 +269,16 @@ namespace Electronic_Invoice_Out.Service
                 {
                     File.Delete(signxmlFilePath);
                 }
+                result.Status = "SUCCESS";
+                result.Message = "Invoice Generated Successfully";
             }
+            else
+            {
+                result.Message = "Invoice not Generated Successfully";
+                result.Status = "ERROR";
+            }
+
+
             return result;
         }
     }

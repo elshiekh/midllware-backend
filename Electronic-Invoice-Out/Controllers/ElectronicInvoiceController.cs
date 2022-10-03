@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Electronic_Invoice_Out.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [FormatFilter]
