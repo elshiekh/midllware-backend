@@ -3,7 +3,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>elevatus_in</RootNamespace>
     <UserSecretsId>bb62df04-f873-46b8-bba0-bb0100571850</UserSecretsId>
-    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="FastMember" Version="1.5.0" />

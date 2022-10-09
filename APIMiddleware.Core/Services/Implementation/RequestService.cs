@@ -1,7 +1,6 @@
 ﻿using APIMiddleware.Core.DBContext;
-using APIMiddleware.Core.Entities;
 using APIMiddleware.Core.DTO;
-using APIMiddleware.Core.Enum;
+using APIMiddleware.Core.Entities;
 using APIMiddleware.Core.Extenstion;
 using APIMiddleware.Core.Filter;
 using APIMiddleware.Core.Services.Interface;
@@ -277,12 +276,12 @@ namespace APIMiddleware.Core.Services.Implementation
                     ProjectName = request.Project.ProjectName,
                     ProjectId = request.ProjectId,
                     RequestGuid = request.RequestGuid,
-                    RequestTime = request.RequestTime,
+                    RequestTime = request.Creation_Date,
                     RequestDate = request.RequestTime,
-                    RequestStart = request.RequestTime.ToString("MM/dd/yyyy HH:mm:ss"),
-                    ResponseFinish = request.RequestTime.AddMilliseconds(request.ElapsedMilliseconds).ToString("MM/dd/yyyy HH:mm:ss"),
-                    Date = request.RequestTime.ToString("dd/MM/yyyy"),
-                    Time = request.RequestTime.ToString("HH:mm"),
+                    RequestStart = request.Creation_Date.ToString("MM/dd/yyyy HH:mm:ss"),
+                    ResponseFinish = request.Creation_Date.AddMilliseconds(request.ElapsedMilliseconds).ToString("MM/dd/yyyy HH:mm:ss"),
+                    Date = request.Creation_Date.ToString("dd/MM/yyyy"),
+                    Time = request.Creation_Date.ToString("HH:mm"),
                     ElapsedMilliseconds = request.ElapsedMilliseconds,
                     ResponseCode = request.ResponseCode,
                     RequestMethod = request.RequestMethod,
@@ -301,7 +300,7 @@ namespace APIMiddleware.Core.Services.Implementation
                     RequestStatus = request.RequestStatus,
                     UserName = request.UserName,
                     RowVersion = request.RowVersion
-                }).OrderByDescending(s => s.RequestTime).ToListAsync();
+                }).OrderByDescending(s => s.Creation_Date).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -387,12 +386,12 @@ namespace APIMiddleware.Core.Services.Implementation
                     ProjectName = request.Project.ProjectName,
                     ProjectId = request.ProjectId,
                     RequestGuid = request.RequestGuid,
-                    RequestTime = request.RequestTime,
-                    RequestDate = request.RequestTime,
-                    RequestStart = request.RequestTime.ToString("MM/dd/yyyy HH:mm:ss"),
-                    ResponseFinish = request.RequestTime.AddMilliseconds(request.ElapsedMilliseconds).ToString("MM/dd/yyyy HH:mm:ss"),
-                    Date = request.RequestTime.ToString("dd/MM/yyyy"),
-                    Time = request.RequestTime.ToString("HH:mm"),
+                    RequestTime = request.Creation_Date,
+                    RequestDate = request.Creation_Date,
+                    RequestStart = request.Creation_Date.ToString("MM/dd/yyyy HH:mm:ss"),
+                    ResponseFinish = request.Creation_Date.AddMilliseconds(request.ElapsedMilliseconds).ToString("MM/dd/yyyy HH:mm:ss"),
+                    Date = request.Creation_Date.ToString("dd/MM/yyyy"),
+                    Time = request.Creation_Date.ToString("HH:mm"),
                     ElapsedMilliseconds = request.ElapsedMilliseconds,
                     ResponseCode = request.ResponseCode,
                     RequestMethod = request.RequestMethod,
@@ -409,7 +408,7 @@ namespace APIMiddleware.Core.Services.Implementation
                     RequestFormat = request.RequestFormat,
                     ResponseFormat = request.ResponseFormat,
                     RequestFunction = request.RequestFunction,
-                    RequestStatus = request.RequestStatus =="S"? "Success":"Failure"
+                    RequestStatus = request.ResponseCode == 200 ? "Success":"Failure"
                 };
             }
             catch (Exception)

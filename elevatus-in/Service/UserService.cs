@@ -18,9 +18,9 @@ namespace elevatus_in.Service
         private List<User> _users = new List<User>
         {
             //----DEVELOPMENT--------
-             new User { Id = 1, FirstName = "elevatusIn", LastName = "User", Username = "elevatusIn", Password = "mK96WX]V" }
+            // new User { Id = 1, FirstName = "elevatusIn", LastName = "User", Username = "elevatusIn", Password = "mK96WX]V" }
             //----PRODUCTION--------
-            //new User { Id = 1, FirstName = "elevatusIn", LastName = "User", Username = "elevatusIn", Password = "mK865W7X]V" }
+            new User { Id = 1, FirstName = "elevatusIn", LastName = "User", Username = "elevatusIn", Password = "mK865W7X]V" }
         };
 
         public async Task<User> Authenticate(string username, string password)
