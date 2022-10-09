@@ -256,6 +256,53 @@ namespace Mowadhafi_In.Controllers
         #endregion
 
 
+        #region Get Employees
+        [HttpPost("GetEmployees.{format}")]
+        public async Task<IActionResult> GetEmployees(string P_LANGUAGE)
+        {
+            try
+            {
+                GetEmployeesRequest request = new GetEmployeesRequest();
+
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = request.GetSPName();
+                OracleConnection conn = new OracleConnection(_dbOption.DbConnection);
+                conn.Open();
+
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                //Bind the Ref cursor to the PL / SQL stored procedure
+                cmd.Parameters.Add(new OracleParameter("P_LANGUAGE", OracleDbType.Varchar2)).Value = P_LANGUAGE;
+                cmd.Parameters.Add("P_EMPLOYEES", OracleDbType.RefCursor, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, ParameterDirection.Output);
+
+                //OracleDataAdapter ad = new OracleDataAdapter(cmd);
+                //DataTable dt = new DataTable();
+                //ad.Fill(dt);
+
+                OracleDataReader reader = cmd.ExecuteReader();
+
+                List<GetEmployeesResponce> PayrollsList = new List<GetEmployeesResponce>();
+                PayrollsList = QueryExtenstion.DataReaderMapToList<GetEmployeesResponce>(reader);
+
+                reader.Close();
+
+                conn.Close();
+                conn.Dispose();
+
+                return Ok(PayrollsList);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
 
         #region Return Exception
         private IActionResult ReturnException(Exception ex)

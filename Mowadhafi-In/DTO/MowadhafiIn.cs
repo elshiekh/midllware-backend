@@ -108,4 +108,24 @@ namespace Mowadhafi_In.DTO
     }
 
     #endregion
+
+
+    // Get Employees
+    #region Get Employees
+    public class GetEmployeesRequest
+    {
+        public string GetSPName()
+        {
+            return "HMG_MOD_INT_IN_PKG.GET_EMPLOYEES";
+        }
+        public string P_LANGUAGE { get; set; }
+    }
+
+    public class GetEmployeesResponce
+    {
+        public string EMPLOYEE_NUMBER { get; set; }
+        public string EMPLOYEE_NAME { get; set; }
+    }
+
+    #endregion
 }
