@@ -85,6 +85,7 @@ namespace Electronic_Invoice_Out.Service
                 // InvoiceTypeCode = new CodeType { name =  "0211010", Value = "388" },
                 DocumentCurrencyCode = obj.DocumentCurrencyCode, //"SAR",
                 TaxCurrencyCode = obj.TaxCurrencyCode, //"SAR",
+                LineCountNumeric =obj.LineCountNumeric, // 2,
                 AdditionalDocumentReference = new DocumentReferenceType[] {
                     new DocumentReferenceType { ID = "ICV", UUID = obj.ICVUUID }, // UUID = "62"
                     new DocumentReferenceType { ID = "PIH", Attachment = new AttachmentType { EmbeddedDocumentBinaryObject = new BinaryObjectType { mimeCode = "text/plain", Value = (String.IsNullOrEmpty(obj.PIHValue)) ? Convert.FromBase64String(obj.PIHValue):null } } },
