@@ -210,11 +210,11 @@ namespace Mowadhafi_In.Controllers
 
         #region Get InsallmentPeriods
         [HttpPost("GetInsallmentPeriods.{format}")]
-        public async Task<IActionResult> GetInsallmentPeriods(string P_LANGUAGE)
+        public async Task<IActionResult> GetInstallmentPeriod(string P_LANGUAGE)
         {
             try
             {
-                GetInsallmentPeriodsRequest request = new GetInsallmentPeriodsRequest();
+                GetInstallmentPeriodRequest request = new GetInstallmentPeriodRequest();
 
                 // Command text for getting the REF Cursor as OUT parameter
                 string cmdTxt1 = request.GetSPName();
@@ -238,8 +238,8 @@ namespace Mowadhafi_In.Controllers
 
                 OracleDataReader reader = cmd.ExecuteReader();
 
-                List<GetInsallmentPeriodsResponce> InsallmentPeriodsList = new List<GetInsallmentPeriodsResponce>();
-                InsallmentPeriodsList = QueryExtenstion.DataReaderMapToList<GetInsallmentPeriodsResponce>(reader);
+                List<GetInstallmentPeriodResponce> InstallmentPeriodList = new List<GetInstallmentPeriodResponce>();
+                InstallmentPeriodList = QueryExtenstion.DataReaderMapToList<GetInstallmentPeriodResponce>(reader);
 
                 reader.Close();
 

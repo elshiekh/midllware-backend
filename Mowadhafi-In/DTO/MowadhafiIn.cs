@@ -91,17 +91,17 @@ namespace Mowadhafi_In.DTO
 
 
     // Get PayInsallmentPeriodsrolls
-    #region Get InsallmentPeriods
-    public class GetInsallmentPeriodsRequest
+    #region Get InstallmentPeriod
+    public class GetInstallmentPeriodRequest
     {
         public string GetSPName()
-        {
-            return "HMG_MOD_INT_IN_PKG.GET_INSALLMENT_PERIODS";
+        {   
+            return "HMG_MOD_INT_IN_PKG.GET_INSTALLMENT_PERIOD";
         }
         public string P_LANGUAGE { get; set; }
     }
 
-    public class GetInsallmentPeriodsResponce
+    public class GetInstallmentPeriodResponce
     {
         public string PERIOD_NAME { get; set; }
         public string PERIOD_DATE { get; set; }
