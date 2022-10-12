@@ -246,7 +246,7 @@ namespace Mowadhafi_In.Controllers
                 conn.Close();
                 conn.Dispose();
 
-                return Ok(InsallmentPeriodsList);
+                return Ok(InstallmentPeriodList);
             }
             catch (Exception ex)
             {
