@@ -47,9 +47,9 @@ namespace UblLarsen.Tools
         }
 
 
-        public static string  GenerateXML(T doc)
+        public static string GenerateXML(T doc)
         {
-           var xml= SaveAsXMl(doc);
+            var xml = SaveAsXMl(doc);
             return xml;
         }
         public static string SaveAsXMl(T doc)
@@ -62,7 +62,7 @@ namespace UblLarsen.Tools
                 using (XmlWriter writer = XmlWriter.Create(sww))
                 {
                     xsSubmit.Serialize(writer, doc);
-                    xml = sww.ToString(); 
+                    xml = sww.ToString();
                 }
             }
             return xml;

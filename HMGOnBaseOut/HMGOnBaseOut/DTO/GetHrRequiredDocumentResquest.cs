@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.Serialization;
 
 namespace HMGOnBaseOut.DTO
 {
@@ -31,7 +28,7 @@ namespace HMGOnBaseOut.DTO
         public string EMPLOYEE_ORGANIZATION { get; set; }
         //[IgnoreDataMember]
         public string REQUIRED_DOCUMENT { get; set; }
-       // public List<ROW> REQUIRED_DOCUMENTS { get; set; }
+        // public List<ROW> REQUIRED_DOCUMENTS { get; set; }
     }
 
     public class ROW

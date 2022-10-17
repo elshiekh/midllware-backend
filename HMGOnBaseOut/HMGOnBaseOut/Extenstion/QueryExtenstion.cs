@@ -6,13 +6,11 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-using System.Xml.Serialization;
 //using Devart.Data.Oracle;
 
 namespace HMGOnBaseOut.Extenstion
@@ -63,10 +61,10 @@ namespace HMGOnBaseOut.Extenstion
 
                         throw ex;
                     }
-                        
-                
+
+
                 }
-             list.Add(obj);
+                list.Add(obj);
             }
             return list;
         }
@@ -103,7 +101,7 @@ namespace HMGOnBaseOut.Extenstion
                         {
                             throw ex;
                         }
-                        
+
                     }
                     list.Add(obj);
                 }
@@ -112,7 +110,7 @@ namespace HMGOnBaseOut.Extenstion
             {
                 throw ex;
             }
-          
+
             var countNumber = count;
 
             return list;
@@ -185,7 +183,7 @@ namespace HMGOnBaseOut.Extenstion
 
                 throw ex;
             }
-         
+
 
         }
 

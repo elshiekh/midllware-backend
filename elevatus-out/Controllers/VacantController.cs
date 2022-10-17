@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace elevatus_out.Controllers
 {
-    
+
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
@@ -29,7 +29,7 @@ namespace elevatus_out.Controllers
 
         #region GetVacant
         [HttpPost("GetVacants.{format}"), FormatFilter]
-        public async Task<IActionResult> GetVacants(int limit = 30, int page = 1 ,[FromBody]GetVacantRequest obj=null)
+        public async Task<IActionResult> GetVacants(int limit = 30, int page = 1, [FromBody] GetVacantRequest obj = null)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace elevatus_out.Controllers
                 newObj.system_new_position = item.system_new_position;
                 newObj.system_number_ocpbfp = item.system_number_ocpbfp;
                 newObj.system_number_ocpbft = item.system_number_ocpbft;
-                newObj.employee_person_id = !String.IsNullOrEmpty(item.employee_person_id)? item.employee_person_id.Split(',') : null;
+                newObj.employee_person_id = !String.IsNullOrEmpty(item.employee_person_id) ? item.employee_person_id.Split(',') : null;
                 objList.Add(newObj);
             }
         }

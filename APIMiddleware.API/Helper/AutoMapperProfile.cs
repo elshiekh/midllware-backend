@@ -1,6 +1,6 @@
-﻿using AutoMapper;
+﻿using APIMiddleware.Core.DTO;
 using APIMiddleware.Core.Entities;
-using APIMiddleware.Core.DTO;
+using AutoMapper;
 
 namespace APIMiddleware.API.Helper
 {

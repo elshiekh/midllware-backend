@@ -1,9 +1,9 @@
 ﻿
+using HMGOnBaseOut.DTO;
+using HMGOnBaseOut.Helper;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HMGOnBaseOut.DTO;
-using HMGOnBaseOut.Helper;
 
 namespace HMGOnBaseOut.Service
 {

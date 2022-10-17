@@ -32,8 +32,8 @@ namespace Electronic_Invoice_Out
         public void ConfigureServices(IServiceCollection services)
         {
             //MW
-             services.RegsiterAPIMiddlewareConfiguration(Configuration);
-             services.AddControllers().AddXmlSerializerFormatters();
+            services.RegsiterAPIMiddlewareConfiguration(Configuration);
+            services.AddControllers().AddXmlSerializerFormatters();
 
             // configure basic authentication 
             services.AddAuthentication("BasicAuthentication")
@@ -72,10 +72,10 @@ namespace Electronic_Invoice_Out
 
             Action<DBOption> mduOptions = (opt =>
             { // ELEVATUS-DEV -------- ELEVATUS-PROD
-              opt.BaseAddress= Configuration["ELECTRONIC-INVOICE-DEV:BaseAddress"];
-              opt.JsonFormat= Configuration["ELECTRONIC-INVOICE-DEV:JsonFormat"];
-              opt.UserName = Configuration["ELECTRONIC-INVOICE-DEV:UserName"];
-              opt.Password = Configuration["ELECTRONIC-INVOICE-DEV:Password"];
+                opt.BaseAddress = Configuration["ELECTRONIC-INVOICE-DEV:BaseAddress"];
+                opt.JsonFormat = Configuration["ELECTRONIC-INVOICE-DEV:JsonFormat"];
+                opt.UserName = Configuration["ELECTRONIC-INVOICE-DEV:UserName"];
+                opt.Password = Configuration["ELECTRONIC-INVOICE-DEV:Password"];
             });
             services.Configure(mduOptions);
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<DBOption>>().Value);

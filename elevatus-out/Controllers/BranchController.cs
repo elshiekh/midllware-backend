@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace elevatus_out.Controllers
 {
-    
+
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]

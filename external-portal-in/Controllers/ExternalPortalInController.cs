@@ -25,7 +25,7 @@ namespace external_portal_in.Controllers
             _dbOption = dbOption;
         }
         #endregion
-       
+
         #region GetOperatingUnits
         [HttpGet("GetOperatingUnits.{format}")]
         public IActionResult GetOperatingUnits()
@@ -76,9 +76,9 @@ namespace external_portal_in.Controllers
             {
                 OracleConnection conn = new OracleConnection(_dbOption.DbConection);
                 IDataParameter[] parameters = new IDataParameter[3];
-               
+
                 parameters[0] = new OracleParameter("P_ORG_ID", OracleDbType.Int32, 25, ParameterDirection.Input, false, 0, 0, "P_ORG_ID", DataRowVersion.Current, request.P_ORG_ID); // 
-                parameters[1] = new OracleParameter("P_PO_NUMBER", OracleDbType.Varchar2,25 , ParameterDirection.Input,false, 0, 0, "P_PO_NUMBER", DataRowVersion.Current, request.P_PO_NUMBER);   //
+                parameters[1] = new OracleParameter("P_PO_NUMBER", OracleDbType.Varchar2, 25, ParameterDirection.Input, false, 0, 0, "P_PO_NUMBER", DataRowVersion.Current, request.P_PO_NUMBER);   //
                 // Outputs
                 parameters[2] = new OracleParameter("P_FOUND_FLAG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
 

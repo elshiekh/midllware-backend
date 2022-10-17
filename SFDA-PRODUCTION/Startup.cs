@@ -16,7 +16,7 @@ namespace SFDA_PRODUCTION
     public class Startup
     {
         //WebAPIProject properties = new WebAPIProject() { RequestId = 203, Name = "SFDA" };
-        WebAPIProject properties = new WebAPIProject() { Id = 203, Code = 203, Name = "SFDA" , UserName = "SFDA" };
+        WebAPIProject properties = new WebAPIProject() { Id = 203, Code = 203, Name = "SFDA", UserName = "SFDA" };
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -59,10 +59,10 @@ namespace SFDA_PRODUCTION
         {
             if (env.IsDevelopment()) { app.UseDeveloperExceptionPage(); }
 
-         app.Use(async (context, next) => { context.Request.EnableBuffering(); await next(); });
+            app.Use(async (context, next) => { context.Request.EnableBuffering(); await next(); });
 
             //MW
-           app.UseMiddleware<ApiLogging>(properties);
+            app.UseMiddleware<ApiLogging>(properties);
 
             //app.UseHttpsRedirection();
             app.UseRouting();
@@ -72,7 +72,8 @@ namespace SFDA_PRODUCTION
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
             app.UseSwagger();
-            app.UseSwaggerUI(c => {
+            app.UseSwaggerUI(c =>
+            {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "SFDA PROJECT");
                 c.DefaultModelsExpandDepth(-1);
             });

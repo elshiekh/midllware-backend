@@ -1,6 +1,6 @@
 ﻿using APIMiddleware.Core.DBContext;
-using APIMiddleware.Core.Entities;
 using APIMiddleware.Core.DTO;
+using APIMiddleware.Core.Entities;
 using APIMiddleware.Core.Services.Interface;
 using APIMiddleware.Notification.Services;
 using Microsoft.EntityFrameworkCore;
@@ -58,7 +58,7 @@ namespace APIMiddleware.Core.Services.Implementation
         {
             try
             {
-              var projects =  await _dbContext.Projects.ToListAsync();
+                var projects = await _dbContext.Projects.ToListAsync();
                 return projects.Select(project => new ProjectDTO
                 {
                     ProjectId = project.ProjectId,
@@ -84,8 +84,8 @@ namespace APIMiddleware.Core.Services.Implementation
         {
             try
             {
-                var functions = _dbContext.Functions.Where(x=>x.ProjectId == projectId).Include(x => x.Project);
-                return  functions.Select(function => new FunctionDTO
+                var functions = _dbContext.Functions.Where(x => x.ProjectId == projectId).Include(x => x.Project);
+                return functions.Select(function => new FunctionDTO
                 {
                     FunctionId = function.FunctionId,
                     FunctionName = function.FunctionName,
@@ -110,7 +110,7 @@ namespace APIMiddleware.Core.Services.Implementation
         {
             try
             {
-                return  await _dbContext.Projects.CountAsync();
+                return await _dbContext.Projects.CountAsync();
             }
             catch (Exception)
             {
@@ -135,6 +135,6 @@ namespace APIMiddleware.Core.Services.Implementation
                 throw;
             }
         }
-     
+
     }
 }

@@ -1,6 +1,6 @@
-﻿using MohemmOut.DTO;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MohemmOut.DTO;
 using MohemmOut.Service;
 using System.Threading.Tasks;
 
@@ -17,7 +17,7 @@ namespace HMGOnBaseOut.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody]AuthenticateModel model)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateModel model)
         {
             var user = await _userService.Authenticate(model.Username, model.Password);
 

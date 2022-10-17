@@ -27,7 +27,7 @@ namespace elevatus_out.Vacant
         public string system_new_position { get; set; }
         public string system_number_ocpbfp { get; set; }
         public string system_number_ocpbft { get; set; }
-        public string []  employee_person_id { get; set; }
+        public string[] employee_person_id { get; set; }
     }
     public class DeleteVacantRequest
     {
@@ -46,7 +46,8 @@ namespace elevatus_out.Vacant
         public IntegrateAccountVacant IntegrateAccount { get; set; }
         public List<Reason> Reason { get; set; }
     }
-    public class DeleteVacantResponse {
+    public class DeleteVacantResponse
+    {
         public IdentifierDeleteResponse Identifiers { get; set; }
     }
     #endregion
@@ -57,7 +58,8 @@ namespace elevatus_out.Vacant
     {
         public string system_branch_id { get; set; }
     }
-    public class GetVacantResponse {
+    public class GetVacantResponse
+    {
         public Identifiers Identifiers { get; set; }
         public IntegrateAccount IntegrateAccount { get; set; }
     }
@@ -90,7 +92,8 @@ namespace elevatus_out.Vacant
         public string Limit { get; set; }
         public string Total { get; set; }
     }
-    public class IntegrateAccount {
+    public class IntegrateAccount
+    {
         public List<ExtraData> ExtraData { get; set; }
     }
 
@@ -118,8 +121,8 @@ namespace elevatus_out.Vacant
         public string error { get; set; }
     }
 
-    public class Parent {}
-  
+    public class Parent { }
+
     public class CreateResponseVacant
     {
         public string Status { get; set; }

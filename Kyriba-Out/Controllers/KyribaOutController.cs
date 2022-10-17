@@ -1,7 +1,6 @@
 ﻿using Kyriba_Out.DTO;
 using Kyriba_Out.Helper;
 using Kyriba_Out.PGB;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -61,7 +60,7 @@ namespace Kyriba_Out.Controllers
                     //Upload the 'fileContents' byte array 
                     using (Stream requestStream = request.GetRequestStream())
                     {
-                         requestStream.Write(encrBytes, 0, encrBytes.Length);
+                        requestStream.Write(encrBytes, 0, encrBytes.Length);
                         //requestStream.Write(input, 0, input.Length);
                     }
                     //Get the response
@@ -137,7 +136,7 @@ namespace Kyriba_Out.Controllers
             }
         }
         #endregion
-        
+
         #region Delete File
         [HttpDelete("DeleteFile.{format}"), FormatFilter]
         public IActionResult DeleteFile(string fileName)
@@ -219,44 +218,44 @@ namespace Kyriba_Out.Controllers
             string[] yearFormats = new[] { "MMM dd yyyy", "MMM d yyyy" };
             FtpWebResponse response = (FtpWebResponse)ftpRequest.GetResponse();
             using (Stream responseStream = response.GetResponseStream())
+            {
+                using (StreamReader reader = new StreamReader(responseStream))
                 {
-                    using (StreamReader reader = new StreamReader(responseStream))
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
                     {
-                        string line;
-                        while ((line = reader.ReadLine()) != null)
+                        Match match = regex.Match(line);
+                        //string permissions = match.Groups[1].Value;
+                        //int inode = int.Parse(match.Groups[2].Value, culture);
+                        //string owner = match.Groups[3].Value;
+                        //string group = match.Groups[4].Value;
+                        //long size = long.Parse(match.Groups[5].Value, culture);
+                        string s = Regex.Replace(match.Groups[6].Value, @"\s+", " ");
+                        string[] formats = (s.IndexOf(':') >= 0) ? hourMinFormats : yearFormats;
+                        var modified = DateTime.ParseExact(s, formats, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal);
+                        string name = match.Groups[7].Value;
+                        FTPItem item = new FTPItem
                         {
-                            Match match = regex.Match(line);
-                            //string permissions = match.Groups[1].Value;
-                            //int inode = int.Parse(match.Groups[2].Value, culture);
-                            //string owner = match.Groups[3].Value;
-                            //string group = match.Groups[4].Value;
-                            //long size = long.Parse(match.Groups[5].Value, culture);
-                            string s = Regex.Replace(match.Groups[6].Value, @"\s+", " ");
-                            string[] formats = (s.IndexOf(':') >= 0) ? hourMinFormats : yearFormats;
-                            var modified = DateTime.ParseExact(s, formats, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal);
-                            string name = match.Groups[7].Value;
-                            FTPItem item = new FTPItem
-                            {
-                                //Permissions = match.Groups[1].Value,
-                                //Size = int.Parse(match.Groups[5].Value, culture),
-                                LastModified = DateTime.ParseExact(s, formats, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal),
-                                Name = match.Groups[7].Value,
-                                //FullPath = $"{ftpRequest.RequestUri}/{match.Groups[8].Value.Replace(" ", "%20")}",
-                            };
-                            if (match.Groups[1].Value == "d")
-                            {
-                                FTPDirectory dir = new FTPDirectory(item);
-                                dir.SubItems = new Lazy<List<FTPItem>>(() => RetrieveDirectoryListingsFromFTP(dir.FullPath));
-                                results.Add(dir);
-                            }
-                            else
-                            {
-                                FTPFile file = new FTPFile(item);
-                                results.Add(file);
-                            }
+                            //Permissions = match.Groups[1].Value,
+                            //Size = int.Parse(match.Groups[5].Value, culture),
+                            LastModified = DateTime.ParseExact(s, formats, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal),
+                            Name = match.Groups[7].Value,
+                            //FullPath = $"{ftpRequest.RequestUri}/{match.Groups[8].Value.Replace(" ", "%20")}",
+                        };
+                        if (match.Groups[1].Value == "d")
+                        {
+                            FTPDirectory dir = new FTPDirectory(item);
+                            dir.SubItems = new Lazy<List<FTPItem>>(() => RetrieveDirectoryListingsFromFTP(dir.FullPath));
+                            results.Add(dir);
+                        }
+                        else
+                        {
+                            FTPFile file = new FTPFile(item);
+                            results.Add(file);
                         }
                     }
                 }
+            }
             response.Close();
 
             return results;

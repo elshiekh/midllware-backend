@@ -23,7 +23,7 @@ namespace Vida.Helper
             ILoggerFactory logger,
             UrlEncoder encoder,
             ISystemClock clock,
-            IUserService userService): base(options, logger, encoder, clock)
+            IUserService userService) : base(options, logger, encoder, clock)
         {
             _userService = userService;
         }

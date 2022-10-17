@@ -17,7 +17,7 @@ namespace APIMiddleware.API.Controllers
         }
 
         [HttpGet]
-        public  IActionResult SystemSetting()
+        public IActionResult SystemSetting()
         {
             var model = _systemPreferenceService.InitiateSystemPreferenceDTO();
             var systemPreference = new SystemPreferenceModel
@@ -63,8 +63,8 @@ namespace APIMiddleware.API.Controllers
                     EmailSmtpServer = model.EmailSmtpServer,
                 };
 
-            var IsUpdated= _systemPreferenceService.UpdateSystemPreference(dto);
-              result = new SystemPreferenceResponse
+                var IsUpdated = _systemPreferenceService.UpdateSystemPreference(dto);
+                result = new SystemPreferenceResponse
                 {
                     data = model,
                     Status = "success",

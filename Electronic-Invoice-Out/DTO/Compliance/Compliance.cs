@@ -36,17 +36,20 @@ namespace Electronic_Invoice_Out.Branch
     public class ComplianceInvoiceResult
     {
         public ValidationResults validationResults { get; set; }
-        public List<WarningModel> warningMessages { get; set; }
-        public List<ErrorModel> errorMessages { get; set; }
-        public string status { get; set; }
+
         public string reportingStatus { get; set; }
         public string clearanceStatus { get; set; }
         public string qrSellertStatus { get; set; }
         public string qrBuyertStatus { get; set; }
     }
 
-    public class ValidationResults {
-        public ValidationInfoMessage infoMessages { get; set; }
+    public class ValidationResults
+    {
+        public List<ValidationInfoMessage> infoMessages { get; set; }
+        public List<WarningModel> warningMessages { get; set; }
+        public List<ErrorModel> errorMessages { get; set; }
+        public string status { get; set; }
+        // public ValidationInfoMessage infoMessages { get; set; }
     }
 
     public class ValidationInfoMessage
@@ -73,8 +76,9 @@ namespace Electronic_Invoice_Out.Branch
         public List<ErrorModel> errors { get; set; }
     }
 
-    public class ProductionCSIDRenewalRequest { public string csr { get; set; }  }
-    public class ProductionCSIDRenewalResponse {
+    public class ProductionCSIDRenewalRequest { public string csr { get; set; } }
+    public class ProductionCSIDRenewalResponse
+    {
         public string RequestID { get; set; }
         public string TokenType { get; set; }
         public string DispositionMessage { get; set; }
@@ -85,15 +89,19 @@ namespace Electronic_Invoice_Out.Branch
 
     public class ErrorModel
     {
-        public string category { get; set; }
+        public string type { get; set; }
         public string code { get; set; }
+        public string category { get; set; }
         public string message { get; set; }
+        public string status { get; set; }
     }
     public class WarningModel
     {
-        public string category { get; set; }
+        public string type { get; set; }
         public string code { get; set; }
+        public string category { get; set; }
         public string message { get; set; }
+        public string status { get; set; }
     }
     public class InfoModel
     {

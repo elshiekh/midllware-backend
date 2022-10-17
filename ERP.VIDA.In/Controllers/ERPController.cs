@@ -5,9 +5,7 @@ using Newtonsoft.Json;
 using Oracle.ManagedDataAccess.Client;
 using Oracle.ManagedDataAccess.Types;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Vida.DTO;
@@ -16,7 +14,7 @@ using Vida.Mapper;
 
 namespace Vida.Controllers
 {
-     [Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ERPController : ControllerBase

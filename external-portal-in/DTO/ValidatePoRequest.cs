@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace external_portal_in.DTO
+﻿namespace external_portal_in.DTO
 {
     public class ValidatePoRequest
     {

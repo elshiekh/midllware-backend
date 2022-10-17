@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -12,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace elevatus_out.Controllers
 {
-    
+
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
@@ -73,7 +72,7 @@ namespace elevatus_out.Controllers
                     var request = new HttpRequestMessage(HttpMethod.Post, baseAddress + "api/v1/service/hierarchy");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
-                    obj.system_parent_id = (obj.system_parent_id ==0) ? null: obj.system_parent_id; 
+                    obj.system_parent_id = (obj.system_parent_id == 0) ? null : obj.system_parent_id;
                     var postObject = JsonConvert.SerializeObject(obj);
                     request.Content = new StringContent(postObject, Encoding.UTF8, "application/json");
                     request.Content.Headers.ContentType = new MediaTypeHeaderValue(_dbOption.JsonFormat);
@@ -108,7 +107,7 @@ namespace elevatus_out.Controllers
                     var baseAddress = new Uri(_dbOption.BaseAddress);
                     client.Timeout = TimeSpan.FromMinutes(5);
                     byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
-                    var request = new HttpRequestMessage(HttpMethod.Put, baseAddress+ "api/v1/service/hierarchy");
+                    var request = new HttpRequestMessage(HttpMethod.Put, baseAddress + "api/v1/service/hierarchy");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
                     var postObject = JsonConvert.SerializeObject(obj);
@@ -145,7 +144,7 @@ namespace elevatus_out.Controllers
                     var baseAddress = new Uri(_dbOption.BaseAddress);
                     client.Timeout = TimeSpan.FromMinutes(5);
                     byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
-                    var request = new HttpRequestMessage(HttpMethod.Delete, baseAddress+ "api/v1/service/hierarchy");
+                    var request = new HttpRequestMessage(HttpMethod.Delete, baseAddress + "api/v1/service/hierarchy");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
                     var postObject = JsonConvert.SerializeObject(obj);

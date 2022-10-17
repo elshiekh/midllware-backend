@@ -27,20 +27,22 @@ namespace elevatus_out.Level
         public IntegrateAccountLevel IntegrateAccount { get; set; }
         public List<Reason> Reason { get; set; }
     }
-    public class DeleteLevelResponse {
-       public IdentifierDeleteResponse Identifiers { get; set; }
+    public class DeleteLevelResponse
+    {
+        public IdentifierDeleteResponse Identifiers { get; set; }
     }
 
 
- 
+
     public class GetLevelRequest { }
-    public class GetLevelResponse {
+    public class GetLevelResponse
+    {
         public Identifiers Identifiers { get; set; }
         public IntegrateAccount IntegrateAccount { get; set; }
     }
     public class Identifiers
     {
-        public string  RequestId { get; set; }
+        public string RequestId { get; set; }
         public string ApplicationId { get; set; }
         public string Status { get; set; }
         public string StatusCode { get; set; }
@@ -66,7 +68,8 @@ namespace elevatus_out.Level
         public string Limit { get; set; }
         public string Total { get; set; }
     }
-    public class IntegrateAccount {
+    public class IntegrateAccount
+    {
         public List<ExtraData> ExtraData { get; set; }
     }
 
@@ -74,12 +77,13 @@ namespace elevatus_out.Level
     {
         public ExtraData ExtraData { get; set; }
     }
-    public class ExtraData {
+    public class ExtraData
+    {
         public string SystemId { get; set; }
         public string SystemNameEn { get; set; }
         public string SystemNameAr { get; set; }
         public bool SystemStatus { get; set; }
-        public bool  CanDelete { get; set; }
+        public bool CanDelete { get; set; }
     }
     public class Reason
     {
@@ -87,7 +91,7 @@ namespace elevatus_out.Level
         public string Type { get; set; }
         public string error { get; set; }
     }
-   
+
     public class TranslateLevel
     {
         public TranslateLevelArabic ar { get; set; }

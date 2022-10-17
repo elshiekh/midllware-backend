@@ -1,3 +1,4 @@
+using APIMiddleware.API.Helper;
 using APIMiddleware.Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -5,10 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using APIMiddleware.API.Helper;
-using Microsoft.IdentityModel.Tokens;
 
 namespace APIMiddleware.API
 {
@@ -73,15 +73,16 @@ namespace APIMiddleware.API
             //.AllowAnyMethod());
 
             // global cors policy
-             app.UseCors(x => x
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .SetIsOriginAllowed(origin => true) // allow any origin
-                .AllowCredentials()); // allow credentials
+            app.UseCors(x => x
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .SetIsOriginAllowed(origin => true) // allow any origin
+               .AllowCredentials()); // allow credentials
 
             //  app.UseAuthorization();
             app.UseSwagger();
-            app.UseSwaggerUI(c => {
+            app.UseSwaggerUI(c =>
+            {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "MiddleWare");
                 c.DefaultModelsExpandDepth(-1);
             });

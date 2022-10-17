@@ -16,13 +16,13 @@ namespace APIMiddleware.API.Controllers
             _dashboardService = dashboardService;
             _logger = logger;
         }
-   
+
         [HttpGet("GetDashBoardDetails")]
         public IActionResult GetDashBoardDetails()
         {
             var result = _dashboardService.GetDashBoardDetails();
             return Ok(result);
         }
-      
+
     }
 }

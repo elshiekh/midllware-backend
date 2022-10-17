@@ -36,7 +36,8 @@ namespace Vida.DTO
         public List<SERIAL> SERIAL { get; set; }
     }
 
-    public class SERIAL { 
+    public class SERIAL
+    {
         public string SFDA_BARCODE { get; set; }
         public string GTIN { get; set; }
         public string SERIAL_NUMBER { get; set; }

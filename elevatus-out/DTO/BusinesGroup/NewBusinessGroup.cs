@@ -29,7 +29,8 @@ namespace elevatus_out.BusinesGroup
         public IntegrateAccountBusinesGroup IntegrateAccount { get; set; }
         public List<Reason> Reason { get; set; }
     }
-    public class DeleteBusinesGroupResponse {
+    public class DeleteBusinesGroupResponse
+    {
         public IdentifierDeleteResponse Identifiers { get; set; }
     }
     #endregion
@@ -39,7 +40,8 @@ namespace elevatus_out.BusinesGroup
     public class GetBusinesGroupRequest
     {
     }
-    public class GetBusinesGroupResponse {
+    public class GetBusinesGroupResponse
+    {
         public Identifiers Identifiers { get; set; }
         public IntegrateAccount IntegrateAccount { get; set; }
     }
@@ -71,7 +73,8 @@ namespace elevatus_out.BusinesGroup
         public string Limit { get; set; }
         public string Total { get; set; }
     }
-    public class IntegrateAccount {
+    public class IntegrateAccount
+    {
         public List<ExtraData> ExtraData { get; set; }
     }
 
@@ -95,8 +98,8 @@ namespace elevatus_out.BusinesGroup
         public string error { get; set; }
     }
 
-    public class Parent {}
-  
+    public class Parent { }
+
     public class CreateResponseBusinesGroup
     {
         public string Status { get; set; }

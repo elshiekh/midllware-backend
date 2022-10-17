@@ -22,14 +22,14 @@ namespace HmgOnBaseIn.Controllers
     public class OnBaseInController : ControllerBase
     {
         #region Field
-          private readonly DBOption _dbOption;
-          //private readonly IMemoryCache _mCache;
+        private readonly DBOption _dbOption;
+        //private readonly IMemoryCache _mCache;
 
-         public OnBaseInController(DBOption dbOption)
-         {
+        public OnBaseInController(DBOption dbOption)
+        {
             _dbOption = dbOption;
             //_mCache = mCache;
-         }
+        }
         #endregion
 
         #region GetSuppliers
@@ -55,7 +55,7 @@ namespace HmgOnBaseIn.Controllers
                 supplierList = QueryExtenstion.DataReaderMapToList<GetSuppliersResponse>(reader);
 
                 reader.Close();
-                
+
                 conn.Close();
                 conn.Dispose();
 
@@ -629,7 +629,7 @@ namespace HmgOnBaseIn.Controllers
             {
                 try
                 {
-                   conn.Open();
+                    conn.Open();
                     var isSuccess = await command.ExecuteNonQueryAsync();
                     var result = new SetHrRequiredDocErrorsResponse()
                     {

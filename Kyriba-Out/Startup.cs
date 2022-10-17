@@ -31,8 +31,8 @@ namespace Kyriba_Out
         public void ConfigureServices(IServiceCollection services)
         {
             //MW
-             services.RegsiterAPIMiddlewareConfiguration(Configuration);
-             services.AddControllers().AddXmlSerializerFormatters();
+            services.RegsiterAPIMiddlewareConfiguration(Configuration);
+            services.AddControllers().AddXmlSerializerFormatters();
 
             // configure basic authentication 
             services.AddAuthentication("BasicAuthentication")

@@ -35,7 +35,8 @@ namespace elevatus_out.Hierarchy
         public IntegrateAccountHierarchy IntegrateAccount { get; set; }
         public List<Reason> Reason { get; set; }
     }
-    public class DeleteHierarchyResponse {
+    public class DeleteHierarchyResponse
+    {
         public IdentifierDeleteResponse Identifiers { get; set; }
     }
     #endregion
@@ -45,7 +46,8 @@ namespace elevatus_out.Hierarchy
     {
         public string system_branch_id { get; set; }
     }
-    public class GetHierarchyResponse {
+    public class GetHierarchyResponse
+    {
         public Identifiers Identifiers { get; set; }
         public IntegrateAccount IntegrateAccount { get; set; }
     }
@@ -78,7 +80,8 @@ namespace elevatus_out.Hierarchy
         public string Limit { get; set; }
         public string Total { get; set; }
     }
-    public class IntegrateAccount {
+    public class IntegrateAccount
+    {
         public List<ExtraData> ExtraData { get; set; }
     }
 
@@ -106,7 +109,7 @@ namespace elevatus_out.Hierarchy
         public string error { get; set; }
     }
 
-    public class Parent {}
+    public class Parent { }
 
     public class TranslateHierarchy
     {

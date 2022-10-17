@@ -1,13 +1,13 @@
-﻿using System;
-using System.Data;
+﻿using Electronic_Invoice_Out.DTO;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
-using System.Xml;
-using System.Xml.Serialization;
-using Electronic_Invoice_Out.DTO;
-using System.Xml.Linq;
 using System.Text;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace Electronic_Invoice_Out.Helper
 {
@@ -63,7 +63,7 @@ namespace Electronic_Invoice_Out.Helper
             // Creates a stream whose backing store is memory. 
             using (MemoryStream xmlStream = new MemoryStream())
             {
-                xmlSerializer.Serialize(xmlStream, YourClassObject,ns);
+                xmlSerializer.Serialize(xmlStream, YourClassObject, ns);
                 xmlStream.Position = 0;
                 //Loads the XML document from the specified string.
                 xmlDoc.Load(xmlStream);
@@ -125,7 +125,7 @@ namespace Electronic_Invoice_Out.Helper
         {
             byte[] toEncodeAsBytes = Encoding.ASCII.GetBytes(toEncode);
 
-            string returnValue= Convert.ToBase64String(toEncodeAsBytes);
+            string returnValue = Convert.ToBase64String(toEncodeAsBytes);
 
             return returnValue;
 

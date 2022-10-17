@@ -17,7 +17,7 @@ namespace Vida
     public class Startup
     {
         //MW
-        WebAPIProject properties = new WebAPIProject() { Id = 204, Code= 204, Name = "VIDA In", UserName = "vidauser101" };
+        WebAPIProject properties = new WebAPIProject() { Id = 204, Code = 204, Name = "VIDA In", UserName = "vidauser101" };
 
         public Startup(IConfiguration configuration)
         {
@@ -44,7 +44,7 @@ namespace Vida
             });
             services.Configure(mduOptions);
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<DBOption>>().Value);
-         
+
             //MW
             services.RegsiterAPIMiddlewareConfiguration(Configuration);
         }

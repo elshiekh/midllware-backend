@@ -9,7 +9,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace Electronic_Invoice_Out.Extenstion
 {
@@ -61,7 +60,7 @@ namespace Electronic_Invoice_Out.Extenstion
                 {
                     throw ex;
                 }
-               
+
             }
             return list;
         }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml.Serialization;
+﻿using System.Collections.Generic;
 
 namespace elevatus_in.DTO
 {
@@ -105,7 +103,7 @@ namespace elevatus_in.DTO
         public string P_VACANT_POSITION_FLAG { get; set; }
     }
 
- 
+
     public class CreateSecurityRequest
     {
         public string GetSPName()
@@ -301,7 +299,7 @@ namespace elevatus_in.DTO
         public int EMPLOYEE_SHARE { get; set; }
         public int NO_OF_INSTALLMENT { get; set; }
 
-        public int TICKET_ENTITLEMENT { get; set; }
+        public string TICKET_ENTITLEMENT { get; set; }
         public int ANNUAL_VAC_DAYS { get; set; }
         public string REC_RECOVERY_PERIOD { get; set; }
         public int CASH_ADVNACE_AMOUNT { get; set; }

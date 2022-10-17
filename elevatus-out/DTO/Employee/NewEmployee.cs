@@ -144,7 +144,7 @@ namespace elevatus_out.Employee
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
-        public string  RequestId { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class ResponseEmployeeType

@@ -13,7 +13,7 @@ namespace Promotions_Portal_In.DTO
         public string P_JOURNAL_CATEGORY { get; set; } = null;
         public DateTime? P_ACCOUNTING_DATE { get; set; } = DateTime.Now;
         public decimal? P_LINE_AMOUNT { get; set; } = null;
-        public string  P_REVENUE_CATEGORY { get; set; } = null;
+        public string P_REVENUE_CATEGORY { get; set; } = null;
     }
 
     public class InsertGlJournalsIntoSTGResponse

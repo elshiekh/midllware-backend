@@ -257,7 +257,7 @@ namespace elevatus_out.Controllers
             try
             {
                 ConnectResponseApplicantEmployee result = new ConnectResponseApplicantEmployee();
-                ConnectEmployeeApplicant_Response result1= new ConnectEmployeeApplicant_Response();
+                ConnectEmployeeApplicant_Response result1 = new ConnectEmployeeApplicant_Response();
                 using (var client = new HttpClient())
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
@@ -281,11 +281,12 @@ namespace elevatus_out.Controllers
                         result.RequestId = data.Identifiers.RequestId;
                         return Ok(result);
                     }
-                    else {
+                    else
+                    {
                         errordata = JsonConvert.DeserializeObject<ConnectEmployeeApplicantErrorResponse>(stringData);
                         var issues = JsonConvert.SerializeObject(errordata.Reason).Replace("\"", "");
                         issues = issues.Replace(":", " ").Replace(",", " ");
-                        result.Message =  issues;
+                        result.Message = issues;
                         result.Status = errordata.Identifiers.Status;
                         result.RequestId = errordata.Identifiers.RequestId;
                         return BadRequest(result);

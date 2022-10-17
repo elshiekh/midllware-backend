@@ -8,7 +8,8 @@ namespace HMGOnBaseIn.DTO
         public string RequiredDoc { get; set; }
     }
 
-    public class Condition {
+    public class Condition
+    {
         public string Name { get; set; }
         public string Value { get; set; }
         public List<string> ExceptionValues { get; set; }

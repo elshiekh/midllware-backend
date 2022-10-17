@@ -23,7 +23,7 @@ namespace Electronic_Invoice_Out.Controllers
         #region Field
         private readonly DBOption _dbOption;
         public readonly IInvoiceService _invoiceService;
-        public EInvoiceController(DBOption dbOption,IInvoiceService invoiceService)
+        public EInvoiceController(DBOption dbOption, IInvoiceService invoiceService)
         {
             _dbOption = dbOption;
             _invoiceService = invoiceService;
@@ -31,6 +31,7 @@ namespace Electronic_Invoice_Out.Controllers
         #endregion
 
         #region ComplianceCSID
+        [AllowAnonymous]
         [HttpPost("Compliance-CSID.{format}"), FormatFilter]
         public async Task<IActionResult> ComplianceCSID([FromBody] CsrRequest obj, string otp, string acceptVersion)
         {
@@ -142,7 +143,7 @@ namespace Electronic_Invoice_Out.Controllers
                     var baseAddress = new Uri(_dbOption.BaseAddress);
                     client.Timeout = TimeSpan.FromMinutes(5);
                     byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
-                    var request = new HttpRequestMessage(HttpMethod.Post, baseAddress + "/invoices/clearance/single");
+                    var request = new HttpRequestMessage(HttpMethod.Post, baseAddress + "/invoices/reporting/single");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
                     request.Headers.Add("accept-language", acceptLanguage);
@@ -338,7 +339,7 @@ namespace Electronic_Invoice_Out.Controllers
         }
         #endregion
 
-        #region GenerateXML 
+        #region GenerateSimplifyXML 
         [HttpPost("GenerateXML.{format}"), FormatFilter]
         public IActionResult GenerateXML([FromBody] InvoiceModel model)
         {
@@ -353,6 +354,22 @@ namespace Electronic_Invoice_Out.Controllers
             }
         }
         #endregion
+
+        //#region GenerateStandardXML 
+        //[HttpPost("GenerateStandardXML.{format}"), FormatFilter]
+        //public IActionResult GenerateStandardXML([FromBody] InvoiceStandardModel model)
+        //{
+        //    try
+        //    {
+        //        var result = _invoiceService.GenerateStandardXML(model);
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return ReturnException(ex);
+        //    }
+        //}
+        //#endregion
 
         #region Return Exception
         private IActionResult ReturnException(Exception ex)

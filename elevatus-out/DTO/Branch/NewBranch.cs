@@ -14,7 +14,8 @@ namespace elevatus_out.Branch
         public string system_business_group_id { get; set; }
     }
 
-    public class Translate {
+    public class Translate
+    {
         public TranslateArabic ar { get; set; }
         public TranslateEnglish en { get; set; }
     }
@@ -53,7 +54,8 @@ namespace elevatus_out.Branch
 
     #region GET-BRANCH-RESPONSE
     public class GetBranchRequest { }
-    public class GetBranchResponse {
+    public class GetBranchResponse
+    {
         public Identifiers Identifiers { get; set; }
         public IntegrateAccount IntegrateAccount { get; set; }
     }
@@ -74,7 +76,8 @@ namespace elevatus_out.Branch
         public string Status { get; set; }
         public string StatusCode { get; set; }
     }
-    public class IdentifierDeleteResponseAction {
+    public class IdentifierDeleteResponseAction
+    {
         public string System_Id { get; set; }
         public string Status { get; set; }
     }
@@ -84,7 +87,8 @@ namespace elevatus_out.Branch
         public string Limit { get; set; }
         public string Total { get; set; }
     }
-    public class IntegrateAccount {
+    public class IntegrateAccount
+    {
         public List<ExtraData> ExtraData { get; set; }
     }
 
@@ -92,14 +96,15 @@ namespace elevatus_out.Branch
     {
         public ExtraData ExtraData { get; set; }
     }
-    public class ExtraData {
+    public class ExtraData
+    {
         public int SystemId { get; set; }
         public string SystemNameAr { get; set; }
         public string SystemNameEn { get; set; }
         public string SystemPayrollId { get; set; }
         public string SystemBusinessGroupId { get; set; }
         public bool SystemStatus { get; set; }
-        public bool  CanDelete { get; set; }
+        public bool CanDelete { get; set; }
     }
     public class Reason
     {

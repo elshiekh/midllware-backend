@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace UblLarsen.Ubl2
 {
@@ -93,7 +92,7 @@ namespace UblLarsen.Ubl2
             ["AttachedDocument"] = typeof(AttachedDocumentType),
             ["ApplicationResponse"] = typeof(ApplicationResponseType)
         };
-            //= typeof(UblBaseDocumentType).GetCustomAttributes(typeof(XmlIncludeAttribute), false)
-            //.Cast<XmlIncludeAttribute>().Where(a => a.Type.Name.EndsWith("Type")).ToDictionary(key => key.Type.Name.Substring(0, key.Type.Name.Length - 4), val => val.Type);
+        //= typeof(UblBaseDocumentType).GetCustomAttributes(typeof(XmlIncludeAttribute), false)
+        //.Cast<XmlIncludeAttribute>().Where(a => a.Type.Name.EndsWith("Type")).ToDictionary(key => key.Type.Name.Substring(0, key.Type.Name.Length - 4), val => val.Type);
     }
 }

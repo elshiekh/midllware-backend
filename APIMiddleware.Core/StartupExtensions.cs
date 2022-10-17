@@ -3,7 +3,6 @@ using APIMiddleware.Core.Services.Interface;
 using APIMiddleware.Notification;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using AutoMapper;
 
 namespace APIMiddleware.Core
 {

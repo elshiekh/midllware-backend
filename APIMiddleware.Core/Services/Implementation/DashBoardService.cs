@@ -12,7 +12,8 @@ namespace APIMiddleware.Core.Services.Implementation
     {
         private readonly APIMiddlewareContext _dbContext;
 
-        public DashBoardService() {
+        public DashBoardService()
+        {
             _dbContext = new APIMiddlewareContext();
         }
 
@@ -20,9 +21,9 @@ namespace APIMiddleware.Core.Services.Implementation
         {
             try
             {
-                var dashboardDetails =  _dbContext.Requests.Include(x => x.Project);
+                var dashboardDetails = _dbContext.Requests.Include(x => x.Project);
                 var model = new DashBoardDTO();
-                model.Sfda_Total =  dashboardDetails.Where(x=>x.ProjectId == (int)GenericEnum.ProjectCode.SFDA).Count();
+                model.Sfda_Total = dashboardDetails.Where(x => x.ProjectId == (int)GenericEnum.ProjectCode.SFDA).Count();
                 model.Sfda_Success = dashboardDetails.Where(x => x.ProjectId == (int)GenericEnum.ProjectCode.SFDA && x.ResponseCode == (int)GenericEnum.RequestStatus.Success).Count();
                 model.Sfda_Fail = dashboardDetails.Where(x => x.ProjectId == (int)GenericEnum.ProjectCode.SFDA && x.ResponseCode == (int)GenericEnum.RequestStatus.Fail).Count();
 

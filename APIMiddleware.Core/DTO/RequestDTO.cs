@@ -13,7 +13,7 @@ namespace APIMiddleware.Core.DTO
         public string Date { get; set; }
         public string Time { get; set; }
         public long ElapsedMilliseconds { get; set; }
-       // public int RequestStatus { get; set; }
+        // public int RequestStatus { get; set; }
         public int ResponseCode { get; set; }
         public string RequestMethod { get; set; }
         public string RequestFunction { get; set; }
@@ -24,7 +24,7 @@ namespace APIMiddleware.Core.DTO
         public byte[] ResponseBody { get; set; }
         public byte[] RequestBody { get; set; }
         public string RequestStatus { get; set; }
-        public string  IP_Address { get; set; }
+        public string IP_Address { get; set; }
         public string UserName { get; set; }
         public string RowVersion { get; set; }
         public string RequestStart { get; set; }

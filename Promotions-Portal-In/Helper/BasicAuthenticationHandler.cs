@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Promotions_Portal_In.DTO;
+using Promotions_Portal_In.Service;
 using System;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Promotions_Portal_In.DTO;
-using Promotions_Portal_In.Service;
 
 namespace Promotions_Portal_In.Helper
 {
@@ -22,7 +22,7 @@ namespace Promotions_Portal_In.Helper
             ILoggerFactory logger,
             UrlEncoder encoder,
             ISystemClock clock,
-            IUserService userService): base(options, logger, encoder, clock)
+            IUserService userService) : base(options, logger, encoder, clock)
         {
             _userService = userService;
         }

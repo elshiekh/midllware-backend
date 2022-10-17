@@ -78,7 +78,7 @@ namespace elevatus_out.Controllers
                     var data = JsonConvert.DeserializeObject<NewLevelResponse>(stringData);
                     var issues = JsonConvert.SerializeObject(data.Reason).Replace("\"", "");
                     issues = issues.Replace(":", " ").Replace(",", " ");
-                    result.Message = data.Identifiers.Status == "success" ? "Added Level Successfully" : issues; 
+                    result.Message = data.Identifiers.Status == "success" ? "Added Level Successfully" : issues;
                     result.Status = data.Identifiers.Status;
                     result.RequestId = data.Identifiers.RequestId;
                     //result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();

@@ -53,14 +53,16 @@ namespace HMGOnBaseOut.DTO
         public string SUPERVISOR_NAME { get; set; }
     }
 
-    public class GetHrEmployeeInfoResquest {
+    public class GetHrEmployeeInfoResquest
+    {
         public string GetSPName()
         {
             return "HMG_ONBASE_INT_IN_PKG.GET_EMPLOYEE_DETAILS";
         }
         public GetHrEmployeeInfoResponse response { get; set; }
     }
-    public class GetHrEmployeeInfoResponse {
+    public class GetHrEmployeeInfoResponse
+    {
         public string EMPLOYEE_NUMBER { get; set; }
         public string ASSIGNMENT_NUMBER { get; set; }
         public string FULL_NAME { get; set; }

@@ -33,13 +33,13 @@ namespace Promotions_Portal_In.Controllers
             {
                 OracleConnection conn = new OracleConnection(_dbOption.DbConection);
                 IDataParameter[] parameters = new IDataParameter[9];
-               
+
                 parameters[0] = new OracleParameter("P_PROMOTION_PACKAGE_ID", OracleDbType.Int32, 25, ParameterDirection.Input, false, 0, 0, "P_PROMOTION_PACKAGE_ID", DataRowVersion.Current, request.P_PROMOTION_PACKAGE_ID); // 
-                parameters[1] = new OracleParameter("P_BATCH_NUMBER",OracleDbType.Varchar2,25 , ParameterDirection.Input,false, 0, 0, "P_BATCH_NUMBER", DataRowVersion.Current, request.P_BATCH_NUMBER);   //
-                parameters[2] = new OracleParameter("P_JOURNAL_CATEGORY",OracleDbType.Varchar2, 25, ParameterDirection.Input, false, 0, 0, "P_JOURNAL_CATEGORY", DataRowVersion.Current, request.P_JOURNAL_CATEGORY); //
-                parameters[3] = new OracleParameter("P_ACCOUNTING_DATE",OracleDbType.Date, 25, ParameterDirection.Input, false, 0, 0, "P_ACCOUNTING_DATE", DataRowVersion.Current, request.P_ACCOUNTING_DATE); //
+                parameters[1] = new OracleParameter("P_BATCH_NUMBER", OracleDbType.Varchar2, 25, ParameterDirection.Input, false, 0, 0, "P_BATCH_NUMBER", DataRowVersion.Current, request.P_BATCH_NUMBER);   //
+                parameters[2] = new OracleParameter("P_JOURNAL_CATEGORY", OracleDbType.Varchar2, 25, ParameterDirection.Input, false, 0, 0, "P_JOURNAL_CATEGORY", DataRowVersion.Current, request.P_JOURNAL_CATEGORY); //
+                parameters[3] = new OracleParameter("P_ACCOUNTING_DATE", OracleDbType.Date, 25, ParameterDirection.Input, false, 0, 0, "P_ACCOUNTING_DATE", DataRowVersion.Current, request.P_ACCOUNTING_DATE); //
                 parameters[4] = new OracleParameter("P_LINE_AMOUNT", OracleDbType.Double, 25, ParameterDirection.Input, false, 0, 0, "P_LINE_AMOUNT", DataRowVersion.Current, request.P_LINE_AMOUNT); //
-                parameters[5] = new OracleParameter("P_REVENUE_CATEGORY",OracleDbType.Varchar2, 25, ParameterDirection.Input, false, 0, 0, "P_REVENUE_CATEGORY", DataRowVersion.Current, request.P_REVENUE_CATEGORY);
+                parameters[5] = new OracleParameter("P_REVENUE_CATEGORY", OracleDbType.Varchar2, 25, ParameterDirection.Input, false, 0, 0, "P_REVENUE_CATEGORY", DataRowVersion.Current, request.P_REVENUE_CATEGORY);
 
                 // Outputs
                 parameters[6] = new OracleParameter("P_ORACLE_ID", OracleDbType.Int64, ParameterDirection.Output);

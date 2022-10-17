@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace elevatus_out.Controllers
 {
-    
+
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
@@ -28,7 +28,7 @@ namespace elevatus_out.Controllers
 
         #region GetPosition
         [HttpPost("GetPositions.{format}"), FormatFilter]
-        public async Task<IActionResult> GetPositions([FromBody] GetPositionRequest obj = null,int limit = 30, int page = 1)
+        public async Task<IActionResult> GetPositions([FromBody] GetPositionRequest obj = null, int limit = 30, int page = 1)
         {
             try
             {
@@ -108,7 +108,7 @@ namespace elevatus_out.Controllers
                     var baseAddress = new Uri(_dbOption.BaseAddress);
                     client.Timeout = TimeSpan.FromMinutes(5);
                     byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
-                    var request = new HttpRequestMessage(HttpMethod.Put, baseAddress+ "api/v1/service/positions");
+                    var request = new HttpRequestMessage(HttpMethod.Put, baseAddress + "api/v1/service/positions");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
                     var postObject = JsonConvert.SerializeObject(obj);
@@ -145,7 +145,7 @@ namespace elevatus_out.Controllers
                     var baseAddress = new Uri(_dbOption.BaseAddress);
                     client.Timeout = TimeSpan.FromMinutes(5);
                     byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
-                    var request = new HttpRequestMessage(HttpMethod.Delete, baseAddress+ "api/v1/service/positions");
+                    var request = new HttpRequestMessage(HttpMethod.Delete, baseAddress + "api/v1/service/positions");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
                     var postObject = JsonConvert.SerializeObject(obj);
