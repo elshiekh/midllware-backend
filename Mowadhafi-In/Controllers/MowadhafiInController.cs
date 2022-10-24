@@ -10,6 +10,8 @@ using System.Net;
 using Newtonsoft.Json;
 using Mowadhafi_In.DTO;
 using System.Collections.Generic;
+using Mowadhafi_In.Mapper;
+using System.Net.Http;
 
 namespace Mowadhafi_In.Controllers
 {
@@ -48,9 +50,9 @@ namespace Mowadhafi_In.Controllers
 
                 //Bind the Ref cursor to the PL / SQL stored procedure
                 cmd.Parameters.Add(new OracleParameter("P_LANGUAGE", OracleDbType.Varchar2)).Value = P_LANGUAGE;
-                cmd.Parameters.Add("P_PROFESSIONS", OracleDbType.RefCursor, ParameterDirection.Output);
-                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, ParameterDirection.Output);
-                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, ParameterDirection.Output);
+                cmd.Parameters.Add("P_PROFESSIONS", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
 
                 OracleDataReader reader = cmd.ExecuteReader();
 
@@ -92,9 +94,9 @@ namespace Mowadhafi_In.Controllers
 
                 //Bind the Ref cursor to the PL / SQL stored procedure
                 cmd.Parameters.Add(new OracleParameter("P_LANGUAGE", OracleDbType.Varchar2)).Value = P_LANGUAGE;
-                cmd.Parameters.Add("P_REASONS", OracleDbType.RefCursor, ParameterDirection.Output);
-                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, ParameterDirection.Output);
-                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, ParameterDirection.Output);
+                cmd.Parameters.Add("P_REASONS", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
 
                 OracleDataReader reader = cmd.ExecuteReader();
 
@@ -136,9 +138,9 @@ namespace Mowadhafi_In.Controllers
 
                 //Bind the Ref cursor to the PL / SQL stored procedure
                 cmd.Parameters.Add(new OracleParameter("P_LANGUAGE", OracleDbType.Varchar2)).Value = P_LANGUAGE;
-                cmd.Parameters.Add("P_EMPLOYER", OracleDbType.RefCursor, ParameterDirection.Output);
-                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, ParameterDirection.Output);
-                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, ParameterDirection.Output);
+                cmd.Parameters.Add("P_EMPLOYERS", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
 
                 OracleDataReader reader = cmd.ExecuteReader();
 
@@ -180,9 +182,9 @@ namespace Mowadhafi_In.Controllers
 
                 //Bind the Ref cursor to the PL / SQL stored procedure
                 cmd.Parameters.Add(new OracleParameter("P_LANGUAGE", OracleDbType.Varchar2)).Value = P_LANGUAGE;
-                cmd.Parameters.Add("P_PAYROLLS", OracleDbType.RefCursor, ParameterDirection.Output);
-                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, ParameterDirection.Output);
-                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, ParameterDirection.Output);
+                cmd.Parameters.Add("P_PAYROLLS", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
 
                 //OracleDataAdapter ad = new OracleDataAdapter(cmd);
                 //DataTable dt = new DataTable();
@@ -210,11 +212,11 @@ namespace Mowadhafi_In.Controllers
 
         #region Get InsallmentPeriods
         [HttpPost("GetInsallmentPeriods.{format}")]
-        public async Task<IActionResult> GetInstallmentPeriod(string P_LANGUAGE)
+        public async Task<IActionResult> GetInstallmentPeriods(string P_LANGUAGE)
         {
             try
             {
-                GetInstallmentPeriodRequest request = new GetInstallmentPeriodRequest();
+                GetInstallmentPeriodsRequest request = new GetInstallmentPeriodsRequest();
 
                 // Command text for getting the REF Cursor as OUT parameter
                 string cmdTxt1 = request.GetSPName();
@@ -228,9 +230,9 @@ namespace Mowadhafi_In.Controllers
 
                 //Bind the Ref cursor to the PL / SQL stored procedure
                 cmd.Parameters.Add(new OracleParameter("P_LANGUAGE", OracleDbType.Varchar2)).Value = P_LANGUAGE;
-                cmd.Parameters.Add("P_INSALLMENT_PERIODS", OracleDbType.RefCursor, ParameterDirection.Output);
-                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, ParameterDirection.Output);
-                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, ParameterDirection.Output);
+                cmd.Parameters.Add("P_INSALLMENT_PERIODS", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
 
                 //OracleDataAdapter ad = new OracleDataAdapter(cmd);
                 //DataTable dt = new DataTable();
@@ -238,15 +240,15 @@ namespace Mowadhafi_In.Controllers
 
                 OracleDataReader reader = cmd.ExecuteReader();
 
-                List<GetInstallmentPeriodResponce> InstallmentPeriodList = new List<GetInstallmentPeriodResponce>();
-                InstallmentPeriodList = QueryExtenstion.DataReaderMapToList<GetInstallmentPeriodResponce>(reader);
+                List<GetInstallmentPeriodsResponce> InstallmentPeriodsList = new List<GetInstallmentPeriodsResponce>();
+                InstallmentPeriodsList = QueryExtenstion.DataReaderMapToList<GetInstallmentPeriodsResponce>(reader);
 
                 reader.Close();
 
                 conn.Close();
                 conn.Dispose();
 
-                return Ok(InstallmentPeriodList);
+                return Ok(InstallmentPeriodsList);
             }
             catch (Exception ex)
             {
@@ -256,13 +258,13 @@ namespace Mowadhafi_In.Controllers
         #endregion
 
 
-        #region Get Employees
-        [HttpPost("GetEmployees.{format}")]
-        public async Task<IActionResult> GetEmployees(string P_LANGUAGE)
+        #region Get Months
+        [HttpPost("GetMonths.{format}")]
+        public async Task<IActionResult> GetMonths(string P_LANGUAGE)
         {
             try
             {
-                GetEmployeesRequest request = new GetEmployeesRequest();
+                GetMonthsRequest request = new GetMonthsRequest();
 
                 // Command text for getting the REF Cursor as OUT parameter
                 string cmdTxt1 = request.GetSPName();
@@ -276,9 +278,9 @@ namespace Mowadhafi_In.Controllers
 
                 //Bind the Ref cursor to the PL / SQL stored procedure
                 cmd.Parameters.Add(new OracleParameter("P_LANGUAGE", OracleDbType.Varchar2)).Value = P_LANGUAGE;
-                cmd.Parameters.Add("P_EMPLOYEES", OracleDbType.RefCursor, ParameterDirection.Output);
-                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, ParameterDirection.Output);
-                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, ParameterDirection.Output);
+                cmd.Parameters.Add("P_MONTHS", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
 
                 //OracleDataAdapter ad = new OracleDataAdapter(cmd);
                 //DataTable dt = new DataTable();
@@ -286,15 +288,155 @@ namespace Mowadhafi_In.Controllers
 
                 OracleDataReader reader = cmd.ExecuteReader();
 
-                List<GetEmployeesResponce> PayrollsList = new List<GetEmployeesResponce>();
-                PayrollsList = QueryExtenstion.DataReaderMapToList<GetEmployeesResponce>(reader);
+                List<GetMonthsResponce> MonthsList = new List<GetMonthsResponce>();
+                MonthsList = QueryExtenstion.DataReaderMapToList<GetMonthsResponce>(reader);
 
                 reader.Close();
 
                 conn.Close();
                 conn.Dispose();
 
-                return Ok(PayrollsList);
+                return Ok(MonthsList);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+
+        #region Get EmployeesDetails
+        [HttpPost("GetEmployeesDetails.{format}")]
+        public async Task<IActionResult> GetEmployeesDetails(string P_LANGUAGE)
+        {
+            try
+            {
+                GetEmployeesDetailsRequest request = new GetEmployeesDetailsRequest();
+
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = request.GetSPName();
+                OracleConnection conn = new OracleConnection(_dbOption.DbConnection);
+                conn.Open();
+
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                //Bind the Ref cursor to the PL / SQL stored procedure
+                cmd.Parameters.Add(new OracleParameter("P_LANGUAGE", OracleDbType.Varchar2)).Value = P_LANGUAGE;
+                cmd.Parameters.Add("P_EMPLOYEES_DETAILS", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+
+                OracleDataReader reader = cmd.ExecuteReader();
+
+                List<GetEmployeesDetailsResponce> EmployeesDetailsList = new List<GetEmployeesDetailsResponce>();
+                EmployeesDetailsList = QueryExtenstion.DataReaderMapToList<GetEmployeesDetailsResponce>(reader);
+
+                reader.Close();
+
+                conn.Close();
+                conn.Dispose();
+
+                return Ok(EmployeesDetailsList);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+
+        #region Get TransactionStatuses
+        [HttpPost("GetTransactionStatuses.{format}")]
+        public async Task<IActionResult> GetTransactionStatuses([FromBody] GetTransactionStatusesRequest requestList)
+        {
+            try
+            {
+                GetTransactionStatusesRequest request = new GetTransactionStatusesRequest();
+
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = request.GetSPName();
+                OracleConnection conn = new OracleConnection(_dbOption.DbConnection);
+                conn.Open();
+
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                //Bind the Ref cursor to the PL / SQL stored procedure
+                cmd.Parameters.Add(new OracleParameter("P_TRANSACTION_REFERENCES", OracleDbType.XmlType, ParameterDirection.Input)).Value = requestList.ToXMLTransactionStatuses();
+                cmd.Parameters.Add("P_TRANSACTION_STATUSES", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+
+                //OracleDataAdapter ad = new OracleDataAdapter(cmd);
+                //DataTable dt = new DataTable();
+                //ad.Fill(dt);
+
+                OracleDataReader reader = cmd.ExecuteReader();
+
+                List<GetTransactionStatusesResponce> TransactionStatusesList = new List<GetTransactionStatusesResponce>();
+                TransactionStatusesList = QueryExtenstion.DataReaderMapToList<GetTransactionStatusesResponce>(reader);
+
+                reader.Close();
+
+                conn.Close();
+                conn.Dispose();
+
+                return Ok(TransactionStatusesList);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+
+        #region Insert TransactionDetails
+        [HttpPost("InsertTransactionDetails.{format}")]
+        public async Task<IActionResult> InsertTransactionDetails([FromBody] InsertTransactionDetailsRequest requestList)
+        {
+            try
+            {
+                InsertTransactionDetailsRequest request = new InsertTransactionDetailsRequest();
+
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = request.GetSPName();
+                OracleConnection conn = new OracleConnection(_dbOption.DbConnection);
+                conn.Open();
+
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                //Bind the Ref cursor to the PL / SQL stored procedure
+                cmd.Parameters.Add(new OracleParameter("P_TRANSACTION_DETAILS", OracleDbType.XmlType, ParameterDirection.Input)).Value = requestList.ToXMLTransactionDetails();
+                cmd.Parameters.Add("P_TRANSACTION_DETAILS_RESP", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+
+                //OracleDataAdapter ad = new OracleDataAdapter(cmd);
+                //DataTable dt = new DataTable();
+                //ad.Fill(dt);
+
+                OracleDataReader reader = cmd.ExecuteReader();
+
+                List<InsertTransactionDetailsResponce> InsertTransactionDetailsList = new List<InsertTransactionDetailsResponce>();
+                InsertTransactionDetailsList = QueryExtenstion.DataReaderMapToList<InsertTransactionDetailsResponce>(reader);
+
+                reader.Close();
+
+                conn.Close();
+                conn.Dispose();
+
+                return Ok(InsertTransactionDetailsList);
             }
             catch (Exception ex)
             {

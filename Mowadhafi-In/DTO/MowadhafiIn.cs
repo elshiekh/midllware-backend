@@ -56,15 +56,15 @@ namespace Mowadhafi_In.DTO
     {
         public string GetSPName()
         {
-            return "HMG_MOD_INT_IN_PKG.GET_EMPLOYER";
+            return "HMG_MOD_INT_IN_PKG.GET_EMPLOYERS";
         }
         public string P_LANGUAGE { get; set; }
     }
 
     public class GetEmployersResponce
     {
-        public string EMPLOYER { get; set; }
         public long EMPLOYER_ID { get; set; }
+        public string EMPLOYER_NAME { get; set; }
     }
 
     #endregion
@@ -91,17 +91,17 @@ namespace Mowadhafi_In.DTO
 
 
     // Get PayInsallmentPeriodsrolls
-    #region Get InstallmentPeriod
-    public class GetInstallmentPeriodRequest
+    #region Get InstallmentPeriods
+    public class GetInstallmentPeriodsRequest
     {
         public string GetSPName()
         {   
-            return "HMG_MOD_INT_IN_PKG.GET_INSTALLMENT_PERIOD";
+            return "HMG_MOD_INT_IN_PKG.GET_INSTALLMENT_PERIODS";
         }
         public string P_LANGUAGE { get; set; }
     }
 
-    public class GetInstallmentPeriodResponce
+    public class GetInstallmentPeriodsResponce
     {
         public string PERIOD_NAME { get; set; }
         public string PERIOD_DATE { get; set; }
@@ -110,22 +110,128 @@ namespace Mowadhafi_In.DTO
     #endregion
 
 
-    // Get Employees
-    #region Get Employees
-    public class GetEmployeesRequest
+    // Get Months
+    #region Get Months
+    public class GetMonthsRequest
     {
         public string GetSPName()
         {
-            return "HMG_MOD_INT_IN_PKG.GET_EMPLOYEES";
+            return "HMG_MOD_INT_IN_PKG.GET_MONTHS";
         }
         public string P_LANGUAGE { get; set; }
     }
 
-    public class GetEmployeesResponce
+    public class GetMonthsResponce
     {
-        public string EMPLOYEE_NUMBER { get; set; }
-        public string EMPLOYEE_NAME { get; set; }
+        public string MONTH { get; set; }
     }
 
     #endregion
+
+
+    // Get EmployeesDetails
+    #region Get EmployeesDetails
+    public class GetEmployeesDetailsRequest
+    {
+        public string GetSPName()
+        {
+            return "HMG_MOD_INT_IN_PKG.GET_EMPLOYEES_DETAILS";
+        }
+        public string P_LANGUAGE { get; set; }
+    }
+
+    public class GetEmployeesDetailsResponce
+    {
+        public string EMPLOYEE_NUMBER { get; set; }
+        public string EMPLOYEE_NAME { get; set; }
+        public string EMAIL_ADDRESS { get; set; }
+        public string EMPLOYEE_MOBILE_NUMBER { get; set; }
+        public string EMPLOYER { get; set; }
+        public string PAYROLL_CODE { get; set; }
+        public string IQAMA_NUMBER { get; set; }
+        public string IQAMA_PROFESSION_ID { get; set; }
+        public string IQAMA_PROFESSION { get; set; }
+        public string IQAMA_ISSUE_DATE { get; set; }
+        public string IQAMA_EXPIRY_DATE { get; set; }
+        public string LABOUR_CARD_NUMBER { get; set; }
+        public string LABOUR_PROFESSION_ID { get; set; }
+        public string LABOUR_PROFESSION { get; set; }
+        public string LABOUR_ISSUE_DATE { get; set; }
+        public string LABOUR_EXPIRY_DATE { get; set; }
+    }
+
+    #endregion
+
+
+    // Get TransactionStatuses
+    #region Get TransactionStatuses
+    public class GetTransactionStatusesRequest
+    {
+        public string GetSPName()
+        {
+            return "HMG_MOD_INT_IN_PKG.GET_TRANSACTION_STATUSES";
+        }
+        public List<TransactionStatusesRequest> TransactionReferences { get; set; }
+    }
+
+    public class TransactionStatusesRequest
+    {
+        public string EserviceID { get; set; }
+        public string TransactionType { get; set; }
+    }
+
+    public class GetTransactionStatusesResponce
+    {
+        public string eservice_id { get; set; }
+        public string transaction_type { get; set; }
+        public string return_status { get; set; }
+        public string return_message { get; set; }
+    }
+    #endregion
+
+
+    // Insert TransactionDetails
+    #region Get TransactionStatuses
+    public class InsertTransactionDetailsRequest
+    {
+        public string GetSPName()
+        {
+            return "HMG_MOD_INT_IN_PKG.INSERT_TRANSACTION_DETAILS";
+        }
+        public List<TransactionDetailsRequest> TransactionDetails { get; set; }
+    }
+
+    public class TransactionDetailsRequest
+    {
+        public string EserviceID { get; set; }
+        public string TransactionType { get; set; }
+        public string EmployeeNumber { get; set; }
+        public string EmployeeName { get; set; }
+        public string IqamaNumber { get; set; }
+        public string Month { get; set; }
+        public string ReasonCode { get; set; }
+        public string ProfessionID { get; set; }
+        public string Profession { get; set; }
+        public DateTime IssueDate { get; set; }
+        public DateTime ExpiryDate { get; set; }
+        public string CardNumber { get; set; }
+        public string CardFees { get; set; }
+        public string PenaltyAmount { get; set; }
+        public string CompanyCharges { get; set; }
+        public string EmployeeCharges { get; set; }
+        public string NoOfInstallments { get; set; }
+        public string InstallmentPeriod { get; set; }
+        public string SadadNumber { get; set; }
+    }
+
+    public class InsertTransactionDetailsResponce
+    {
+        public string eservice_id { get; set; }
+        public string Transaction_Type { get; set; }
+        public string return_status { get; set; }
+        public string return_message { get; set; }
+    }
+
+    #endregion
+
 }
