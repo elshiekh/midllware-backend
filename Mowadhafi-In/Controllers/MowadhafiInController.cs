@@ -308,7 +308,7 @@ namespace Mowadhafi_In.Controllers
 
         #region Get EmployeesDetails
         [HttpPost("GetEmployeesDetails.{format}")]
-        public async Task<IActionResult> GetEmployeesDetails(string P_LANGUAGE)
+        public async Task<IActionResult> GetEmployeesDetails(string P_EMPLOYEE_NUMBER)
         {
             try
             {
@@ -325,7 +325,7 @@ namespace Mowadhafi_In.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 //Bind the Ref cursor to the PL / SQL stored procedure
-                cmd.Parameters.Add(new OracleParameter("P_LANGUAGE", OracleDbType.Varchar2)).Value = P_LANGUAGE;
+                cmd.Parameters.Add(new OracleParameter("P_EMPLOYEE_NUMBER", OracleDbType.Varchar2)).Value = P_EMPLOYEE_NUMBER;
                 cmd.Parameters.Add("P_EMPLOYEES_DETAILS", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
                 cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
                 cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
