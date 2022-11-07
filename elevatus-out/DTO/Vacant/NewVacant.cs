@@ -7,6 +7,7 @@ namespace elevatus_out.Vacant
     public class VacantRequestObj
     {
         //public string system_id { get; set; }
+        public string oracle_id { get; set; }
         public string system_position_id { get; set; }
         public int system_branch_id { get; set; }
         public string system_overlap_start { get; set; }
@@ -16,9 +17,11 @@ namespace elevatus_out.Vacant
         public string system_number_ocpbfp { get; set; }
         public string system_number_ocpbft { get; set; }
         public string employee_person_id { get; set; }
+        public string num_of_requisition { get; set; }
     }
     public class VacantRequest
     {
+        public string oracle_id { get; set; }
         public string system_position_id { get; set; }
         public int system_branch_id { get; set; }
         public string system_overlap_start { get; set; }
@@ -28,10 +31,13 @@ namespace elevatus_out.Vacant
         public string system_number_ocpbfp { get; set; }
         public string system_number_ocpbft { get; set; }
         public string[] employee_person_id { get; set; }
+        public string num_of_requisition { get; set; }
     }
     public class DeleteVacantRequest
     {
-        public List<string> system_id { get; set; }
+        public string oracle_id { get; set; }
+        public int system_branch_id { get; set; }
+        public string system_position_id { get; set; }
     }
     // Response --------
     public class NewVacantResponse
@@ -46,9 +52,12 @@ namespace elevatus_out.Vacant
         public IntegrateAccountVacant IntegrateAccount { get; set; }
         public List<Reason> Reason { get; set; }
     }
+
     public class DeleteVacantResponse
     {
-        public IdentifierDeleteResponse Identifiers { get; set; }
+        public Identifiers Identifiers { get; set; }
+        public IntegrateDeleteAccountVacant IntegrateAccount { get; set; }
+        public List<Reason> Reason { get; set; }
     }
     #endregion
 
@@ -97,9 +106,14 @@ namespace elevatus_out.Vacant
         public List<ExtraData> ExtraData { get; set; }
     }
 
+    public class IntegrateDeleteAccountVacant
+    {
+        public List<ExtraDeleteVacantResponse> ExtraData { get; set; }
+    }
+
     public class IntegrateAccountVacant
     {
-        public List<ExtraData> ExtraData { get; set; }
+        public List<ExtraDataUpdateVacant> ExtraData { get; set; }
     }
     public class ExtraData
     {
@@ -121,6 +135,14 @@ namespace elevatus_out.Vacant
         public string error { get; set; }
     }
 
+    public class ExtraDataUpdateVacant {
+
+        public string oracle_id { get; set; }
+        public string status { get; set; }
+        public string message { get; set; }
+        public string requestId { get; set; }
+    }
+
     public class Parent { }
 
     public class CreateResponseVacant
@@ -139,12 +161,13 @@ namespace elevatus_out.Vacant
         public string RequestId { get; set; }
     }
 
-    public class DeleteResponseVacant
+    public class ExtraDeleteVacantResponse
     {
-        public string Status { get; set; }
-        public string Message { get; set; }
-        public string Reasons { get; set; }
-        public string RequestId { get; set; }
+        public string oracle_id { get; set; }
+        public string status { get; set; }
+        public string message { get; set; }
+        public string reasons { get; set; }
+        public string requestId { get; set; }
     }
     #endregion
 }

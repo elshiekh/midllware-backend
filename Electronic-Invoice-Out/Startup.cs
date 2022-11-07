@@ -74,8 +74,8 @@ namespace Electronic_Invoice_Out
             { // ELEVATUS-DEV -------- ELEVATUS-PROD
                 opt.BaseAddress = Configuration["ELECTRONIC-INVOICE-DEV:BaseAddress"];
                 opt.JsonFormat = Configuration["ELECTRONIC-INVOICE-DEV:JsonFormat"];
-                opt.UserName = Configuration["ELECTRONIC-INVOICE-DEV:UserName"];
-                opt.Password = Configuration["ELECTRONIC-INVOICE-DEV:Password"];
+                opt.UserName = Configuration["ELECTRONIC-INVOICE-DEV:HMG:UserName"];
+                opt.Password = Configuration["ELECTRONIC-INVOICE-DEV:HMG:Password"];
             });
             services.Configure(mduOptions);
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<DBOption>>().Value);

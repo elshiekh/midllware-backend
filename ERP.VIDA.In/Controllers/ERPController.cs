@@ -34,7 +34,6 @@ namespace Vida.Controllers
             OracleConnection conn = new OracleConnection(_dbOption.DbConnection);
 
             IDataParameter[] parameters = new IDataParameter[15];
-
             // Inputs
             parameters[0] = new OracleParameter("@P_VIDA_ID", OracleDbType.Int32, request.P_VIDA_ID, ParameterDirection.Input);
             parameters[1] = new OracleParameter("@P_ORGANIZATION_CODE", OracleDbType.NVarchar2, request.P_ORGANIZATION_CODE, ParameterDirection.Input);

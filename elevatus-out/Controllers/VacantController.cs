@@ -12,8 +12,7 @@ using System.Threading.Tasks;
 
 namespace elevatus_out.Controllers
 {
-
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [FormatFilter]
@@ -66,7 +65,7 @@ namespace elevatus_out.Controllers
             {
                 List<VacantRequest> objList = new List<VacantRequest>();
                 RemappingNewObject(obj, objList);
-                UpdateResponseVacant result = new UpdateResponseVacant();
+                List<ExtraDataUpdateVacant> result = new List<ExtraDataUpdateVacant>();
                 using (var client = new HttpClient())
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
@@ -81,11 +80,16 @@ namespace elevatus_out.Controllers
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
                     var data = JsonConvert.DeserializeObject<UpdateVacantResponse>(stringData);
-                    var issues = JsonConvert.SerializeObject(data.Reason).Replace("\"", "");
-                    issues = issues.Replace(":", " ").Replace(",", " ");
-                    result.Message = data.Identifiers.Status == "success" ? "Updated Vacant Successfully" : issues;
-                    result.Status = data.Identifiers.Status;
-                    result.RequestId = data.Identifiers.RequestId;
+                    foreach (var item in data.IntegrateAccount.ExtraData)
+                    {
+                        item.requestId = data.Identifiers.RequestId;
+                    }
+                    result = data.IntegrateAccount.ExtraData;
+                    //var issues = JsonConvert.SerializeObject(data.Reason).Replace("\"", "");
+                    //issues = issues.Replace(":", " ").Replace(",", " ");
+                    //result.Message = data.Identifiers.Status == "success" ? "Updated Vacant Successfully" : issues;
+                    //result.Status = data.Identifiers.Status;
+                    //result.RequestId = data.Identifiers.RequestId;
                     //result.Reasons = JsonConvert.SerializeObject(data.Reason).ToString();
                     return Ok(result);
                 }
@@ -101,6 +105,7 @@ namespace elevatus_out.Controllers
             foreach (var item in obj)
             {
                 VacantRequest newObj = new VacantRequest();
+                newObj.oracle_id = item.oracle_id;
                 newObj.system_position_id = item.system_position_id;
                 newObj.system_branch_id = item.system_branch_id;
                 newObj.system_overlap_start = item.system_overlap_start;
@@ -109,8 +114,47 @@ namespace elevatus_out.Controllers
                 newObj.system_new_position = item.system_new_position;
                 newObj.system_number_ocpbfp = item.system_number_ocpbfp;
                 newObj.system_number_ocpbft = item.system_number_ocpbft;
+                newObj.system_number_ocpbft = item.system_number_ocpbft;
+                newObj.num_of_requisition = item.num_of_requisition;
                 newObj.employee_person_id = !String.IsNullOrEmpty(item.employee_person_id) ? item.employee_person_id.Split(',') : null;
                 objList.Add(newObj);
+            }
+        }
+        #endregion
+
+        #region DeleteVacant
+        [HttpPost("DeleteVacant.{format}"), FormatFilter]
+        public async Task<IActionResult> DeleteVacant([FromBody] List<DeleteVacantRequest> obj)
+        {
+            try
+            {
+                List<ExtraDeleteVacantResponse> result = new List<ExtraDeleteVacantResponse>();
+                using (var client = new HttpClient())
+                {
+                    var baseAddress = new Uri(_dbOption.BaseAddress);
+                    client.Timeout = TimeSpan.FromMinutes(5);
+                    byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
+                    var request = new HttpRequestMessage(HttpMethod.Delete, baseAddress + "api/v1/service/vacant");
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
+                    request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
+                    var postObject = JsonConvert.SerializeObject(obj);
+                    request.Content = new StringContent(postObject, Encoding.UTF8, "application/json");
+                    request.Content.Headers.ContentType = new MediaTypeHeaderValue(_dbOption.JsonFormat);
+                    var response = await client.SendAsync(request);
+                    string stringData = await response.Content.ReadAsStringAsync();
+                    var data = JsonConvert.DeserializeObject<DeleteVacantResponse>(stringData);
+                    foreach (var item in data.IntegrateAccount.ExtraData)
+                    {
+                        item.requestId = data.Identifiers.RequestId;
+                    }
+                    result = data.IntegrateAccount.ExtraData;
+
+                    return Ok(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
             }
         }
         #endregion

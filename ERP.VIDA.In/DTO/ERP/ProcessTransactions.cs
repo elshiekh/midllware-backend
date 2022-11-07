@@ -41,5 +41,7 @@ namespace Vida.DTO
         public string SFDA_BARCODE { get; set; }
         public string GTIN { get; set; }
         public string SERIAL_NUMBER { get; set; }
+        public string MFG_BATCH_NUMBER { get; set; }
+        public string EXPIRATION_DATE { get; set; }
     }
 }

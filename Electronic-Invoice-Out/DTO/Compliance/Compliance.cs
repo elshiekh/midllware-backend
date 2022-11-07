@@ -95,6 +95,12 @@ namespace Electronic_Invoice_Out.Branch
         public string message { get; set; }
         public string status { get; set; }
     }
+
+    public class CSRErrorModel
+    {
+        public string code { get; set; }
+        public string message { get; set; }
+    }
     public class WarningModel
     {
         public string type { get; set; }
@@ -131,6 +137,6 @@ namespace Electronic_Invoice_Out.Branch
 
     public class BadRequestErrorModel
     {
-        public List<ErrorModel> errors { get; set; }
+        public List<CSRErrorModel> errors { get; set; }
     }
 }

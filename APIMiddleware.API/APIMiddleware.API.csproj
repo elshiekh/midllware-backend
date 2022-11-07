@@ -9,8 +9,8 @@
   <ItemGroup>
     <ProjectReference Include="..\APIMiddleware.Core\APIMiddleware.Core.csproj" />
     <ProjectReference Include="..\APIMiddleware.Web\APIMiddleware.Web.csproj" />
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+	  <PackageReference Include="AutoMapper" Version="12.0.0" />
+	  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />

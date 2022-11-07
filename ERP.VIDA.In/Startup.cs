@@ -36,7 +36,32 @@ namespace Vida
             services.AddControllers().AddXmlDataContractSerializerFormatters();
             services.AddAuthentication("BasicAuthentication").AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
             services.AddScoped<IUserService, UserService>();
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "VIDA IN WebAPI", Version = "v1" }); c.CustomSchemaIds(type => type.ToString()); });
+            services.AddSwaggerGen(c => { 
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VIDA IN WebAPI", Version = "v1" });
+                c.CustomSchemaIds(type => type.ToString());
+                c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "basic",
+                    In = ParameterLocation.Header,
+                    Description = "Basic Authorization header using the Bearer scheme."
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "basic"
+                                }
+                            },
+                            new string[] {}
+                    }
+                });
+            });
             Action<DBOption> mduOptions = (opt =>
             {
                 opt.DbConnection = Configuration["ConnectionStrings:ERPConn"];
@@ -63,7 +88,10 @@ namespace Vida
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
             app.UseSwagger();
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "SFDA WebAPI"); });
+            app.UseSwaggerUI(c => { 
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "VIDA IN WebAPI");
+                c.DefaultModelsExpandDepth(-1);
+            });
 
             // global cors policy
             app.UseCors(x => x

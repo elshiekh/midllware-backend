@@ -19,6 +19,7 @@ namespace UblLarsen.Tools
 
         public static void Save(string filename, T doc)
         {
+         
             using (StreamWriter sw = File.CreateText(filename))
             {
                 Save(sw.BaseStream, doc);

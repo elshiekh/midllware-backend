@@ -293,14 +293,14 @@ namespace elevatus_in.DTO
         public string PASS_PLACE_OF_ISSUE { get; set; }
         public string RECRUITMENT_AGENCY { get; set; }
 
-        public int TICKET_EXPENSE { get; set; }
-        public int VISA_EXPENSE { get; set; }
-        public int EMPLOYER_SHARE { get; set; }
-        public int EMPLOYEE_SHARE { get; set; }
-        public int NO_OF_INSTALLMENT { get; set; }
+        public int? TICKET_EXPENSE { get; set; }
+        public int? VISA_EXPENSE { get; set; }
+        public int? EMPLOYER_SHARE { get; set; }
+        public int? EMPLOYEE_SHARE { get; set; }
+        public int? NO_OF_INSTALLMENT { get; set; }
 
         public string TICKET_ENTITLEMENT { get; set; }
-        public int ANNUAL_VAC_DAYS { get; set; }
+        public int? ANNUAL_VAC_DAYS { get; set; }
         public string REC_RECOVERY_PERIOD { get; set; }
         public int CASH_ADVNACE_AMOUNT { get; set; }
         public string CASH_COMMENTS { get; set; }

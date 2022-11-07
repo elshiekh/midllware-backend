@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Electronic_Invoice_Out.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [FormatFilter]
@@ -86,8 +86,12 @@ namespace Electronic_Invoice_Out.Controllers
         {
             try
             {
-                var result = new InvoiceResultModel();
+                var result = new ComplianceInvoiceResult();
                 var errorresult = new ErrorModel();
+                HttpClientHandler httpClientHandler = new HttpClientHandler()
+                {
+                    Credentials = new NetworkCredential(_dbOption.UserName, _dbOption.Password)
+                };
                 using (var client = new HttpClient())
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
@@ -119,7 +123,7 @@ namespace Electronic_Invoice_Out.Controllers
                         return Unauthorized(unauthResult);
                     }
 
-                    result = JsonConvert.DeserializeObject<InvoiceResultModel>(stringData);
+                    result = JsonConvert.DeserializeObject<ComplianceInvoiceResult>(stringData);
                     return Ok(result);
                 }
             }
@@ -136,9 +140,13 @@ namespace Electronic_Invoice_Out.Controllers
         {
             try
             {
-                var result = new InvoiceResultModel();
+                var result = new ComplianceInvoiceResult();
                 var errorresult = new ErrorModel();
-                using (var client = new HttpClient())
+                HttpClientHandler httpClientHandler = new HttpClientHandler()
+                {
+                    Credentials = new NetworkCredential(_dbOption.UserName, _dbOption.Password)
+                };
+                using (var client = new HttpClient(httpClientHandler))
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
                     client.Timeout = TimeSpan.FromMinutes(5);
@@ -167,7 +175,7 @@ namespace Electronic_Invoice_Out.Controllers
                     }
                     if (response.StatusCode == HttpStatusCode.BadRequest)
                     {
-                        var badRequestErrorResult = JsonConvert.DeserializeObject<InvoiceResultModel>(stringData);
+                        var badRequestErrorResult = JsonConvert.DeserializeObject<ComplianceInvoiceResult>(stringData);
                         return BadRequest(badRequestErrorResult);
                     }
                     if (response.StatusCode == HttpStatusCode.Unauthorized)
@@ -176,7 +184,7 @@ namespace Electronic_Invoice_Out.Controllers
                         return Unauthorized(unauthResult);
                     }
 
-                    result = JsonConvert.DeserializeObject<InvoiceResultModel>(stringData);
+                    result = JsonConvert.DeserializeObject<ComplianceInvoiceResult>(stringData);
                     return Ok(result);
 
                 }
@@ -191,13 +199,17 @@ namespace Electronic_Invoice_Out.Controllers
 
         #region Clearance
         [HttpPost("Clearance.{format}"), FormatFilter]
-        public async Task<IActionResult> Clearance([FromBody] InvoiceRequest obj, string acceptLanguage, string clearanceStatus)
+        public async Task<IActionResult> Clearance([FromBody] InvoiceRequest obj, string acceptLanguage, string clearanceStatus, string acceptVersion)
         {
             try
             {
                 var result = new InvoiceResultModel();
                 var errorresult = new ErrorModel();
-                using (var client = new HttpClient())
+                HttpClientHandler httpClientHandler = new HttpClientHandler()
+                {
+                    Credentials = new NetworkCredential(_dbOption.UserName, _dbOption.Password)
+                };
+                using (var client = new HttpClient(httpClientHandler))
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
                     client.Timeout = TimeSpan.FromMinutes(5);
@@ -207,6 +219,7 @@ namespace Electronic_Invoice_Out.Controllers
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
                     request.Headers.Add("Accept-Language", acceptLanguage);
                     request.Headers.Add("Clearance-Status", clearanceStatus);
+                    request.Headers.Add("Accept-Version", acceptVersion);
                     var postObject = JsonConvert.SerializeObject(obj);
                     request.Content = new StringContent(postObject, Encoding.UTF8, "application/json");
                     request.Content.Headers.ContentType = new MediaTypeHeaderValue(_dbOption.JsonFormat);
@@ -219,7 +232,7 @@ namespace Electronic_Invoice_Out.Controllers
                     }
                     if (response.StatusCode == HttpStatusCode.BadRequest)
                     {
-                        var badRequestErrorResult = JsonConvert.DeserializeObject<BadRequestErrorModel>(stringData);
+                        var badRequestErrorResult = JsonConvert.DeserializeObject<ComplianceInvoiceResult>(stringData);
                         return BadRequest(badRequestErrorResult);
                     }
                     if (response.StatusCode == HttpStatusCode.Unauthorized)
@@ -339,7 +352,7 @@ namespace Electronic_Invoice_Out.Controllers
         }
         #endregion
 
-        #region GenerateSimplifyXML 
+        #region GenerateXML 
         [HttpPost("GenerateXML.{format}"), FormatFilter]
         public IActionResult GenerateXML([FromBody] InvoiceModel model)
         {
@@ -354,22 +367,6 @@ namespace Electronic_Invoice_Out.Controllers
             }
         }
         #endregion
-
-        //#region GenerateStandardXML 
-        //[HttpPost("GenerateStandardXML.{format}"), FormatFilter]
-        //public IActionResult GenerateStandardXML([FromBody] InvoiceStandardModel model)
-        //{
-        //    try
-        //    {
-        //        var result = _invoiceService.GenerateStandardXML(model);
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return ReturnException(ex);
-        //    }
-        //}
-        //#endregion
 
         #region Return Exception
         private IActionResult ReturnException(Exception ex)
@@ -386,5 +383,6 @@ namespace Electronic_Invoice_Out.Controllers
             }));
         }
         #endregion
+        
     }
 }

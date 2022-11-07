@@ -42,6 +42,29 @@ namespace SFDA
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SFDA PROJECT", Version = "v1" });
                 c.CustomSchemaIds(type => type.ToString());
+                c.CustomSchemaIds(type => type.ToString());
+                c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "basic",
+                    In = ParameterLocation.Header,
+                    Description = "Basic Authorization header using the Bearer scheme."
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "basic"
+                                }
+                            },
+                            new string[] {}
+                    }
+                });
             });
 
             // If using IIS:
