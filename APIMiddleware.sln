@@ -47,13 +47,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ePharmacy-Out", "ePharmacy-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mowadhafi-In", "Mowadhafi-In\Mowadhafi-In.csproj", "{90817861-5C4E-4A72-A994-D9EA7F0B33C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fusion-In", "fusion-in\fusion-In\fusion-In.csproj", "{7066DA76-95E9-4390-9D2E-82C68CF94C04}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fusion-Out", "fusion-Out\fusion-Out\fusion-Out.csproj", "{935A9011-B5B0-4AF4-B57B-1667A55BB724}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vida-plus-In", "vida-plus-In\vida-plus-In\vida-plus-In.csproj", "{4D9D5031-8140-4973-85D3-7E96FD20B91B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vida-plus-Out", "vida-plus-Out\vida-plus-Out\vida-plus-Out.csproj", "{B2C9B831-E7F9-48AA-B1CC-D1969259F5E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vida-plus-In", "vida-plus-In\vida-plus-In.csproj", "{509156DA-6DDE-4533-B3C8-8B6169EA68B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -149,22 +143,10 @@ Global
 		{90817861-5C4E-4A72-A994-D9EA7F0B33C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90817861-5C4E-4A72-A994-D9EA7F0B33C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90817861-5C4E-4A72-A994-D9EA7F0B33C1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7066DA76-95E9-4390-9D2E-82C68CF94C04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7066DA76-95E9-4390-9D2E-82C68CF94C04}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7066DA76-95E9-4390-9D2E-82C68CF94C04}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7066DA76-95E9-4390-9D2E-82C68CF94C04}.Release|Any CPU.Build.0 = Release|Any CPU
-		{935A9011-B5B0-4AF4-B57B-1667A55BB724}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{935A9011-B5B0-4AF4-B57B-1667A55BB724}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{935A9011-B5B0-4AF4-B57B-1667A55BB724}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{935A9011-B5B0-4AF4-B57B-1667A55BB724}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4D9D5031-8140-4973-85D3-7E96FD20B91B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4D9D5031-8140-4973-85D3-7E96FD20B91B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4D9D5031-8140-4973-85D3-7E96FD20B91B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4D9D5031-8140-4973-85D3-7E96FD20B91B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B2C9B831-E7F9-48AA-B1CC-D1969259F5E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2C9B831-E7F9-48AA-B1CC-D1969259F5E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B2C9B831-E7F9-48AA-B1CC-D1969259F5E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B2C9B831-E7F9-48AA-B1CC-D1969259F5E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{509156DA-6DDE-4533-B3C8-8B6169EA68B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{509156DA-6DDE-4533-B3C8-8B6169EA68B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{509156DA-6DDE-4533-B3C8-8B6169EA68B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{509156DA-6DDE-4533-B3C8-8B6169EA68B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
