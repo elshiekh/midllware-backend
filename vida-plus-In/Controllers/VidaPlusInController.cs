@@ -94,108 +94,6 @@ namespace vida_plus_In.Controllers
         #endregion
 
 
-        //InsertStageData
-        #region InsertStageData
-        [HttpPost("InsertStageData.{format}")]
-        public async Task<IActionResult> InsertStageData([FromBody] InsertStageDataRequest requestList)
-        {
-            try
-            {
-                //requestList.InsertStageDate = requestList.InsertStageDate.Da.ToString("yyyy-MM-dd");
-                InsertStageDataRequest request = new InsertStageDataRequest();
-
-                // Command text for getting the REF Cursor as OUT parameter
-                string cmdTxt1 = request.GetSPName();
-                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
-                conn.Open();
-
-                // Create the command object for executing cmdTxt1 and cmdTxt2
-                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
-
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                //Bind the Ref cursor to the PL / SQL stored procedure
-                cmd.Parameters.Add(new OracleParameter("P_STAGES_TRANSACTION_DETAILS", OracleDbType.XmlType, ParameterDirection.Input)).Value = requestList.ToXMLInsertStageData();
-
-                cmd.Parameters.Add("P_STAGES_TRANSACTION_STATUS", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
-                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
-                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
-
-                //OracleDataAdapter ad = new OracleDataAdapter(cmd);
-                //DataTable dt = new DataTable();
-                //ad.Fill(dt);
-
-                OracleDataReader reader = cmd.ExecuteReader();
-
-                List<InsertStageDataResponce> InsertStageDataList = new List<InsertStageDataResponce>();
-                InsertStageDataList = QueryExtenstion.DataReaderMapToList<InsertStageDataResponce>(reader);
-
-                reader.Close();
-
-                conn.Close();
-                conn.Dispose();
-
-                return Ok(InsertStageDataList);
-            }
-            catch (Exception ex)
-            {
-                return ReturnException(ex);
-            }
-        }
-        #endregion
-
-
-        //InsertStageDataOffer
-        #region InsertStageDataOffer
-        [HttpPost("InsertStageDataOffer.{format}")]
-        public async Task<IActionResult> InsertStageDataOffer([FromBody] InsertStageDataOfferRequest requestList)
-        {
-            try
-            {
-                InsertStageDataOfferRequest request = new InsertStageDataOfferRequest();
-
-                // Command text for getting the REF Cursor as OUT parameter
-                string cmdTxt1 = request.GetSPName();
-                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
-                conn.Open();
-
-                // Create the command object for executing cmdTxt1 and cmdTxt2
-                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
-
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                //Bind the Ref cursor to the PL / SQL stored procedure
-                cmd.Parameters.Add(new OracleParameter("P_STAGES_TRANSACTION_DETAILS", OracleDbType.XmlType, ParameterDirection.Input)).Value = requestList.ToXMLInsertStageDataOffer();
-
-
-                cmd.Parameters.Add("P_STAGE_TRANSACTION_STATUS", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
-                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
-                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
-
-                //OracleDataAdapter ad = new OracleDataAdapter(cmd);
-                //DataTable dt = new DataTable();
-                //ad.Fill(dt);
-
-                OracleDataReader reader = cmd.ExecuteReader();
-
-                List<InsertStageDataOfferResponce> InsertStageDataOfferList = new List<InsertStageDataOfferResponce>();
-                InsertStageDataOfferList = QueryExtenstion.DataReaderMapToList<InsertStageDataOfferResponce>(reader);
-
-                reader.Close();
-
-                conn.Close();
-                conn.Dispose();
-
-                return Ok(InsertStageDataOfferList);
-            }
-            catch (Exception ex)
-            {
-                return ReturnException(ex);
-            }
-        }
-        #endregion
-
-
         //InsertArCustIntoStg
         #region InsertArCustIntoStg
         [HttpPost("InsertArCustIntoStg.{format}")]
@@ -297,6 +195,260 @@ namespace vida_plus_In.Controllers
         }
         #endregion
 
+
+        //InsertStageData
+        #region InsertStageData
+        [HttpPost("InsertGlJournalsIntoStg.{format}")]
+        public async Task<IActionResult> InsertGlJournalsIntoStg([FromBody] InsertGlJournalsIntoStgRequest requestList)
+        {
+            try
+            {
+                //requestList.InsertStageDate = requestList.InsertStageDate.Da.ToString("yyyy-MM-dd");
+                InsertGlJournalsIntoStgRequest request = new InsertGlJournalsIntoStgRequest();
+
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = request.GetSPName();
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                conn.Open();
+
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                //Bind the Ref cursor to the PL / SQL stored procedure
+                cmd.Parameters.Add(new OracleParameter("P_STAGES_TRANSACTION_DETAILS", OracleDbType.XmlType, ParameterDirection.Input)).Value = requestList.ToXMLInsertGlJournalsIntoStg();
+
+                cmd.Parameters.Add("P_STAGES_TRANSACTION_STATUS", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+
+                //OracleDataAdapter ad = new OracleDataAdapter(cmd);
+                //DataTable dt = new DataTable();
+                //ad.Fill(dt);
+
+                OracleDataReader reader = cmd.ExecuteReader();
+
+                List<InsertGlJournalsIntoStgResponce> InsertGlJournalsIntoStgList = new List<InsertGlJournalsIntoStgResponce>();
+                InsertGlJournalsIntoStgList = QueryExtenstion.DataReaderMapToList<InsertGlJournalsIntoStgResponce>(reader);
+
+                reader.Close();
+
+                conn.Close();
+                conn.Dispose();
+
+                return Ok(InsertGlJournalsIntoStgList);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+
+        //InsertOffersIntoStg
+        #region InsertOffersIntoStg
+        [HttpPost("InsertOffersIntoStg.{format}")]
+        public async Task<IActionResult> InsertOffersIntoStg([FromBody] InsertOffersIntoStgRequest requestList)
+        {
+            try
+            {
+                InsertOffersIntoStgRequest request = new InsertOffersIntoStgRequest();
+
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = request.GetSPName();
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                conn.Open();
+
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                //Bind the Ref cursor to the PL / SQL stored procedure
+                cmd.Parameters.Add(new OracleParameter("P_STAGES_TRANSACTION_DETAILS", OracleDbType.XmlType, ParameterDirection.Input)).Value = requestList.ToXMLInsertOffersIntoStg();
+
+
+                cmd.Parameters.Add("P_STAGES_TRANSACTION_STATUS", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+
+                //OracleDataAdapter ad = new OracleDataAdapter(cmd);
+                //DataTable dt = new DataTable();
+                //ad.Fill(dt);
+
+                OracleDataReader reader = cmd.ExecuteReader();
+
+                List<InsertOffersIntoStgResponce> InsertOffersIntoStgList = new List<InsertOffersIntoStgResponce>();
+                InsertOffersIntoStgList = QueryExtenstion.DataReaderMapToList<InsertOffersIntoStgResponce>(reader);
+
+                reader.Close();
+
+                conn.Close();
+                conn.Dispose();
+
+                return Ok(InsertOffersIntoStgList);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+
+        //InsertApInvIntoStg
+        #region InsertApInvIntoStg
+        [HttpPost("InsertApInvIntoStg.{format}")]
+        public async Task<IActionResult> InsertApInvIntoStg([FromBody] InsertApInvIntoStgRequest requestList)
+        {
+            try
+            {
+                InsertApInvIntoStgRequest request = new InsertApInvIntoStgRequest();
+
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = request.GetSPName();
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                conn.Open();
+
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                //Bind the Ref cursor to the PL / SQL stored procedure
+                cmd.Parameters.Add(new OracleParameter("P_STAGE_AP_TRANSACTION_DETAILS", OracleDbType.XmlType, ParameterDirection.Input)).Value = requestList.ToXMLInsertApInvIntoStg();
+
+
+                cmd.Parameters.Add("P_STAGE_AP_TRANSACTION_STATUS", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+
+                //OracleDataAdapter ad = new OracleDataAdapter(cmd);
+                //DataTable dt = new DataTable();
+                //ad.Fill(dt);
+
+                OracleDataReader reader = cmd.ExecuteReader();
+
+                List<InsertApInvIntoStgResponce> InsertApInvIntoStgList = new List<InsertApInvIntoStgResponce>();
+                InsertApInvIntoStgList = QueryExtenstion.DataReaderMapToList<InsertApInvIntoStgResponce>(reader);
+
+                reader.Close();
+
+                conn.Close();
+                conn.Dispose();
+
+                return Ok(InsertApInvIntoStgList);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+
+        //AjajiInsertArInvIntoStg
+        #region InsertArInvIntoStg
+        [HttpPost("AjajiInsertArInvIntoStg.{format}")]
+        public async Task<IActionResult> AjajiInsertArInvIntoStg([FromBody] AjajiInsertArInvIntoStgRequest requestList)
+        {
+            try
+            {
+                AjajiInsertArInvIntoStgRequest request = new AjajiInsertArInvIntoStgRequest();
+
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = request.GetSPName();
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                conn.Open();
+
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                //Bind the Ref cursor to the PL / SQL stored procedure
+                cmd.Parameters.Add(new OracleParameter("P_STAGES_TRANSACTION_DETAILS", OracleDbType.XmlType, ParameterDirection.Input)).Value = requestList.ToXMLAjajiInsertArInvIntoStg();
+
+
+                cmd.Parameters.Add("P_STAGES_TRANSACTION_STATUS", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+
+                //OracleDataAdapter ad = new OracleDataAdapter(cmd);
+                //DataTable dt = new DataTable();
+                //ad.Fill(dt);
+
+                OracleDataReader reader = cmd.ExecuteReader();
+
+                List<AjajiInsertArInvIntoStgResponce> AjajiInsertArInvIntoStgList = new List<AjajiInsertArInvIntoStgResponce>();
+                AjajiInsertArInvIntoStgList = QueryExtenstion.DataReaderMapToList<AjajiInsertArInvIntoStgResponce>(reader);
+
+                reader.Close();
+
+                conn.Close();
+                conn.Dispose();
+
+                return Ok(AjajiInsertArInvIntoStgList);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+
+        //InsertArRecIntoStg
+        #region InsertArRecIntoStg
+        [HttpPost("InsertArRecIntoStg.{format}")]
+        public async Task<IActionResult> InsertArRecIntoStg([FromBody] InsertArRecIntoStgRequest requestList)
+        {
+            try
+            {
+                InsertArRecIntoStgRequest request = new InsertArRecIntoStgRequest();
+
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = request.GetSPName();
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                conn.Open();
+
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                //Bind the Ref cursor to the PL / SQL stored procedure
+                cmd.Parameters.Add(new OracleParameter("P_STAGES_TRANSACTION_DETAILS", OracleDbType.XmlType, ParameterDirection.Input)).Value = requestList.ToXMLInsertArRecIntoStg();
+
+
+                cmd.Parameters.Add("P_STAGES_TRANSACTION_STATUS", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+
+                //OracleDataAdapter ad = new OracleDataAdapter(cmd);
+                //DataTable dt = new DataTable();
+                //ad.Fill(dt);
+
+                OracleDataReader reader = cmd.ExecuteReader();
+
+                List<InsertArRecIntoStgResponce> InsertArRecIntoStgList = new List<InsertArRecIntoStgResponce>();
+                InsertArRecIntoStgList = QueryExtenstion.DataReaderMapToList<InsertArRecIntoStgResponce>(reader);
+
+                reader.Close();
+
+                conn.Close();
+                conn.Dispose();
+
+                return Ok(InsertArRecIntoStgList);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
 
 
         #region Return Exception
