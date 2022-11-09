@@ -6,12 +6,12 @@ namespace vida_plus_In.Mapper
 {
     public static class ObjectToXML
     {
-
+        //ToXMLserials
         public static string ToXMLserials(this Serials Serials)
         {
             XDocument P_INV_TRX_SER_TBL = new XDocument(new XDeclaration("1.0", "UTF - 8", "yes"),
             new XElement("SERIALLIST",
-                    from serial in Serials.trxSerials
+                    from serial in Serials.trx_serials
                     select new XElement("SERIAL",
                             new XElement("GTIN", serial.gtin),
                             new XElement("SERIAL_NUMBER", serial.serial_number),
@@ -23,7 +23,7 @@ namespace vida_plus_In.Mapper
         }
 
 
-
+        //ToXMLInsertStageData
         public static string ToXMLInsertStageData(this InsertStageDataRequest InsertStageDate)
         {
             XDocument P_INV_TRX_SER_TBL = new XDocument(new XDeclaration("1.0", "UTF - 8", "yes"),
@@ -48,7 +48,7 @@ namespace vida_plus_In.Mapper
         }
 
 
-
+        //ToXMLInsertStageDataOffer
         public static string ToXMLInsertStageDataOffer(this InsertStageDataOfferRequest InsertStageDate)
         {
             XDocument P_INV_TRX_SER_TBL = new XDocument(new XDeclaration("1.0", "UTF - 8", "yes"),
@@ -70,6 +70,48 @@ namespace vida_plus_In.Mapper
             return P_INV_TRX_SER_TBL.ToString();
         }
 
+
+        //ToXMLInsertArCustIntoStg
+        public static string ToXMLInsertArCustIntoStg(this InsertArCustIntoStgRequest InsertArCustIntoStg)
+        {
+            XDocument P_INV_TRX_SER_TBL = new XDocument(new XDeclaration("1.0", "UTF - 8", "yes"),
+            new XElement("CUSTLIST",
+                    from serial in InsertArCustIntoStg.InsertArCustIntoStg
+                    select new XElement("CUST",
+                            new XElement("vidaplus_id", serial.vidaplus_id),
+                            new XElement("his_customer_number", serial.his_customer_number),
+                            new XElement("his_customer_name", serial.his_customer_name),
+                            new XElement("his_customer_category", serial.his_customer_category))
+            ));
+
+            return P_INV_TRX_SER_TBL.ToString();
+        }
+
+
+        //ToXMLInsertArInvIntoStg
+        public static string ToXMLInsertArInvIntoStg(this InsertArInvIntoStgRequest InsertArInvIntoStg)
+        {
+            XDocument P_INV_TRX_SER_TBL = new XDocument(new XDeclaration("1.0", "UTF - 8", "yes"),
+            new XElement("ARINVOICES",
+                    from serial in InsertArInvIntoStg.InsertArInvIntoStg
+                    select new XElement("INVOICE",
+                            new XElement("vidaplus_id", serial.vidaplus_id),
+                            new XElement("operating_unit_code", serial.operating_unit_code),
+                            new XElement("batch_source", serial.batch_source),
+                            new XElement("batch_number", serial.his_customer_number),
+                            new XElement("transaction_type_name", serial.transaction_type_name),
+                            new XElement("his_customer_number", serial.his_customer_number),
+                            new XElement("invoice_date", serial.invoice_date.ToString("yyyy-MM-dd")),
+                            new XElement("line_amount", serial.line_amount),
+                            new XElement("currency_code", serial.currency_code),
+                            new XElement("segment2", serial.segment2),
+                            new XElement("segment4", serial.segment4),
+                            new XElement("memo_line_name", serial.memo_line_name),
+                            new XElement("segment6", serial.segment6))
+            ));
+
+            return P_INV_TRX_SER_TBL.ToString();
+        }
 
     }
 }

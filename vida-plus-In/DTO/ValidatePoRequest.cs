@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 namespace vida_plus_In.DTO
 {
 
-
+    //ProcessTransaction
     #region ProcessTransaction
     public class ProcessTransactionRequest
     {
@@ -15,22 +15,22 @@ namespace vida_plus_In.DTO
             return "HMG_VP_INV_INT_IN_PKG.PROCESS_TRANSACTIONS";
         }
         public int vidaPlus_id { get; set; }
-        public string organaization_code { get; set; }
-        public string subinventory_code { get; set; }
-        public string transaction_type { get; set; }
-        public DateTime transaction_date { get; set; }
-        public int transaction_quantity { get; set; }
-        public string lot_number { get; set; }
-        public string cost_center { get; set; }
-        public string transaction_referance { get; set; }
-        public int line_number { get; set; }
         public string item_code { get; set; }
-        public Serials trx_serials_xml { get; set; }
+        public string lot_number { get; set; }
+        public int transaction_quantity { get; set; }
+        public string transaction_reference { get; set; }
+        public int line_number { get; set; }
+        public string transaction_type_name { get; set; }
+        public DateTime transaction_date { get; set; }
+        public string organization_code { get; set; }
+        public string subinventory_code { get; set; }
+        public string cost_center { get; set; }
+        public Serials trx_serials { get; set; }
     }
 
     public class Serials
     { 
-        public List<trxSerials> trxSerials { get; set; }
+        public List<trxSerials> trx_serials { get; set; }
     }
 
     public class trxSerials
@@ -43,14 +43,14 @@ namespace vida_plus_In.DTO
 
     public class ProcessTransactionsResponce
     {
-        public decimal P_ORACLE_ID { get; set; }
+        public Int64 P_ORACLE_ID { get; set; }
         public string P_RESPONSE_STATUS { get; set; }
         public string P_RESPONSE_MSG { get; set; }
     }
     #endregion
 
 
-
+    //InsertStageData
     #region InsertStageData
     public class InsertStageDataRequest
     {
@@ -88,7 +88,7 @@ namespace vida_plus_In.DTO
     #endregion
 
 
-
+    //InsertStageDateOffer
     #region InsertStageDateOffer
     public class InsertStageDataOfferRequest
     {
@@ -115,6 +115,75 @@ namespace vida_plus_In.DTO
 
 
     public class InsertStageDataOfferResponce
+    {
+        public decimal oracle_id { get; set; }
+        public decimal vidaplus_id { get; set; }
+        public string response_status { get; set; }
+        public string response_msg { get; set; }
+    }
+    #endregion
+
+
+    //InsertArCustIntoStg
+    #region InsertArCustIntoStg
+    public class InsertArCustIntoStgRequest
+    {
+        public string GetSPName()
+        {
+            return "HMG_VP_AR_CUST_INT_IN_PKG.INSERT_AR_CUST_INTO_STG";
+        }
+        public List<InsertArCustIntoStgRequestData> InsertArCustIntoStg { get; set; }
+    }
+
+    public class InsertArCustIntoStgRequestData
+    {
+        public int vidaplus_id { get; set; }
+        public string his_customer_number { get; set; }
+        public string his_customer_name { get; set; }
+        public string his_customer_category { get; set; }
+    }
+
+
+    public class InsertArCustIntoStgResponce
+    {
+        public decimal oracle_id { get; set; }
+        public decimal vidaplus_id { get; set; }
+        public string response_status { get; set; }
+        public string response_msg { get; set; }
+    }
+    #endregion
+
+
+    //InsertArInvIntoStg
+    #region InsertArInvIntoStg
+    public class InsertArInvIntoStgRequest
+    {
+        public string GetSPName()
+        {
+            return "HMG_VP_AR_INV_INT_IN_PKG.INSERT_AR_INV_INTO_STG";
+        }
+        public List<InsertArInvIntoStgRequestData> InsertArInvIntoStg { get; set; }
+    }
+
+    public class InsertArInvIntoStgRequestData
+    {
+        public int vidaplus_id { get; set; }
+        public string operating_unit_code { get; set; }
+        public string batch_source { get; set; }
+        public string batch_number { get; set; }
+        public string transaction_type_name { get; set; }
+        public string his_customer_number { get; set; }
+        public DateTime invoice_date { get; set; }
+        public string line_amount { get; set; }
+        public string currency_code { get; set; }
+        public string segment2 { get; set; }
+        public string segment4 { get; set; }
+        public string memo_line_name { get; set; }
+        public string segment6 { get; set; }
+    }
+
+
+    public class InsertArInvIntoStgResponce
     {
         public decimal oracle_id { get; set; }
         public decimal vidaplus_id { get; set; }

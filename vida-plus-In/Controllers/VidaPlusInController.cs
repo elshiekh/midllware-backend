@@ -13,6 +13,7 @@ using vida_plus_In.DTO;
 using vida_plus_In.Mapper;
 using vida_plus_In.Extenstion;
 using Oracle.ManagedDataAccess.Types;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace vida_plus_In.Controllers
 {
@@ -31,6 +32,8 @@ namespace vida_plus_In.Controllers
         #endregion
 
 
+
+        //ProcessTransaction
         #region ProcessTransaction
         [HttpPost("ProcessTransaction.{format}")]
         public async Task<IActionResult> ProcessTransaction([FromBody] ProcessTransactionRequest requestList)
@@ -51,38 +54,37 @@ namespace vida_plus_In.Controllers
 
                 //Bind the Ref cursor to the PL / SQL stored procedure
                 cmd.Parameters.Add(new OracleParameter("P_VIDAPLUS_ID", OracleDbType.Int64, ParameterDirection.Input)).Value = requestList.vidaPlus_id;
-                cmd.Parameters.Add(new OracleParameter("P_ORGANIZATION_CODE", OracleDbType.NVarchar2, ParameterDirection.Input)).Value = requestList.organaization_code;
+                cmd.Parameters.Add(new OracleParameter("P_ORGANIZATION_CODE", OracleDbType.NVarchar2, ParameterDirection.Input)).Value = requestList.organization_code;
                 cmd.Parameters.Add(new OracleParameter("P_SUBINVENTORY_CODE", OracleDbType.NVarchar2, ParameterDirection.Input)).Value = requestList.subinventory_code;
-                cmd.Parameters.Add(new OracleParameter("P_TRANSACTION_TYPE_NAME", OracleDbType.NVarchar2, ParameterDirection.Input)).Value = requestList.transaction_type;
+                cmd.Parameters.Add(new OracleParameter("P_TRANSACTION_TYPE_NAME", OracleDbType.NVarchar2, ParameterDirection.Input)).Value = requestList.transaction_type_name;
                 cmd.Parameters.Add(new OracleParameter("P_TRANSACTION_DATE", OracleDbType.Date, ParameterDirection.Input)).Value = requestList.transaction_date;
                 cmd.Parameters.Add(new OracleParameter("P_TRANSACTION_QUANTITY", OracleDbType.Int64, ParameterDirection.Input)).Value = requestList.transaction_quantity;
                 cmd.Parameters.Add(new OracleParameter("P_LOT_NUMBER", OracleDbType.NVarchar2, ParameterDirection.Input)).Value = requestList.lot_number;
                 cmd.Parameters.Add(new OracleParameter("P_COST_CENTER", OracleDbType.NVarchar2, ParameterDirection.Input)).Value = requestList.cost_center;
-                cmd.Parameters.Add(new OracleParameter("P_TRANSACTION_REFERENCE", OracleDbType.NVarchar2, ParameterDirection.Input)).Value = requestList.transaction_referance;
+                cmd.Parameters.Add(new OracleParameter("P_TRANSACTION_REFERENCE", OracleDbType.NVarchar2, ParameterDirection.Input)).Value = requestList.transaction_reference;
                 cmd.Parameters.Add(new OracleParameter("P_LINE_NUMBER", OracleDbType.Int64, ParameterDirection.Input)).Value = requestList.line_number;
                 cmd.Parameters.Add(new OracleParameter("P_ITEM_CODE", OracleDbType.NVarchar2, ParameterDirection.Input)).Value = requestList.item_code;
-                cmd.Parameters.Add(new OracleParameter("P_TRX_SERIALS_XML", OracleDbType.XmlType, ParameterDirection.Input)).Value = requestList.trx_serials_xml.ToXMLserials();
+                cmd.Parameters.Add(new OracleParameter("P_TRX_SERIALS_XML", OracleDbType.XmlType, ParameterDirection.Input)).Value = requestList.trx_serials.ToXMLserials();
 
 
                 cmd.Parameters.Add("P_ORACLE_ID", OracleDbType.Int64, 32767, null, ParameterDirection.Output);
                 cmd.Parameters.Add("P_RESPONSE_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
                 cmd.Parameters.Add("P_RESPONSE_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
 
-                OracleDataAdapter ad = new OracleDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                ad.Fill(dt);
+                
+                var isSuccess = await cmd.ExecuteNonQueryAsync();
 
-                OracleDataReader reader = cmd.ExecuteReader();
-
-                List<ProcessTransactionsResponce> InsertTransactionDetailsList = new List<ProcessTransactionsResponce>();
-                InsertTransactionDetailsList = QueryExtenstion.DataReaderMapToList<ProcessTransactionsResponce>(reader);
-
-                reader.Close();
+                var result = new ProcessTransactionsResponce()
+                {
+                    P_ORACLE_ID = Convert.ToInt64(((OracleDecimal)cmd.Parameters["P_ORACLE_ID"].Value).Value),
+                    P_RESPONSE_STATUS = cmd.Parameters["P_RESPONSE_STATUS"].Value.ToString(),
+                    P_RESPONSE_MSG = cmd.Parameters["P_RESPONSE_MSG"].Value.ToString()
+                };
 
                 conn.Close();
                 conn.Dispose();
 
-                return Ok(InsertTransactionDetailsList);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -92,6 +94,7 @@ namespace vida_plus_In.Controllers
         #endregion
 
 
+        //InsertStageData
         #region InsertStageData
         [HttpPost("InsertStageData.{format}")]
         public async Task<IActionResult> InsertStageData([FromBody] InsertStageDataRequest requestList)
@@ -142,6 +145,7 @@ namespace vida_plus_In.Controllers
         #endregion
 
 
+        //InsertStageDataOffer
         #region InsertStageDataOffer
         [HttpPost("InsertStageDataOffer.{format}")]
         public async Task<IActionResult> InsertStageDataOffer([FromBody] InsertStageDataOfferRequest requestList)
@@ -191,6 +195,107 @@ namespace vida_plus_In.Controllers
         }
         #endregion
 
+
+        //InsertArCustIntoStg
+        #region InsertArCustIntoStg
+        [HttpPost("InsertArCustIntoStg.{format}")]
+        public async Task<IActionResult> InsertArCustIntoStg([FromBody] InsertArCustIntoStgRequest requestList)
+        {
+            try
+            {
+                InsertArCustIntoStgRequest request = new InsertArCustIntoStgRequest();
+
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = request.GetSPName();
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                conn.Open();
+
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                //Bind the Ref cursor to the PL / SQL stored procedure
+                cmd.Parameters.Add(new OracleParameter("P_STAGES_TRANSACTION_DETAILS", OracleDbType.XmlType, ParameterDirection.Input)).Value = requestList.ToXMLInsertArCustIntoStg();
+
+
+                cmd.Parameters.Add("P_STAGES_TRANSACTION_STATUS", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+
+                //OracleDataAdapter ad = new OracleDataAdapter(cmd);
+                //DataTable dt = new DataTable();
+                //ad.Fill(dt);
+
+                OracleDataReader reader = cmd.ExecuteReader();
+
+                List<InsertArCustIntoStgResponce> InsertArCustIntoStgList = new List<InsertArCustIntoStgResponce>();
+                InsertArCustIntoStgList = QueryExtenstion.DataReaderMapToList<InsertArCustIntoStgResponce>(reader);
+
+                reader.Close();
+
+                conn.Close();
+                conn.Dispose();
+
+                return Ok(InsertArCustIntoStgList);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+
+        //InsertArInvIntoStg
+        #region InsertArInvIntoStg
+        [HttpPost("InsertArInvIntoStg.{format}")]
+        public async Task<IActionResult> InsertArInvIntoStg([FromBody] InsertArInvIntoStgRequest requestList)
+        {
+            try
+            {
+                InsertArInvIntoStgRequest request = new InsertArInvIntoStgRequest();
+
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = request.GetSPName();
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                conn.Open();
+
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                //Bind the Ref cursor to the PL / SQL stored procedure
+                cmd.Parameters.Add(new OracleParameter("P_STAGES_TRANSACTION_DETAILS", OracleDbType.XmlType, ParameterDirection.Input)).Value = requestList.ToXMLInsertArInvIntoStg();
+
+
+                cmd.Parameters.Add("P_STAGES_TRANSACTION_STATUS", OracleDbType.RefCursor, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+
+                //OracleDataAdapter ad = new OracleDataAdapter(cmd);
+                //DataTable dt = new DataTable();
+                //ad.Fill(dt);
+
+                OracleDataReader reader = cmd.ExecuteReader();
+
+                List<InsertArInvIntoStgResponce> InsertArInvIntoStgList = new List<InsertArInvIntoStgResponce>();
+                InsertArInvIntoStgList = QueryExtenstion.DataReaderMapToList<InsertArInvIntoStgResponce>(reader);
+
+                reader.Close();
+
+                conn.Close();
+                conn.Dispose();
+
+                return Ok(InsertArInvIntoStgList);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
 
 
 
