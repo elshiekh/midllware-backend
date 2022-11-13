@@ -100,7 +100,7 @@ namespace vida_plus_In.DTO
         public string transaction_type_name { get; set; }
         public string his_customer_number { get; set; }
         public DateTime invoice_date { get; set; }
-        public string line_amount { get; set; }
+        public int line_amount { get; set; }
         public string currency_code { get; set; }
         public string segment2 { get; set; }
         public string segment4 { get; set; }
@@ -171,7 +171,7 @@ namespace vida_plus_In.DTO
     public class InsertOffersIntoStgRequestData
     {
         public int vidaplus_id { get; set; }
-        public string oparating_unit_code { get; set; }
+        public string operating_unit_code { get; set; }
         public string offer_type { get; set; }
         public string Lot_Number { get; set; }
         public int offer_qty { get; set; }
@@ -207,7 +207,7 @@ namespace vida_plus_In.DTO
     public class InsertApInvIntoStgRequestData
     {
         public int vidaplus_id { get; set; }
-        public string oparating_unit_code { get; set; }
+        public string operating_unit_code { get; set; }
         public string invoice_number { get; set; }
         public DateTime invoice_date { get; set; }
         public string invoice_currency_code { get; set; }
@@ -252,7 +252,7 @@ namespace vida_plus_In.DTO
         public string currency_code { get; set; }
         public string segment2 { get; set; }
         public string segment4 { get; set; }
-        public string memo_line_name { get; set; }
+        public string memo_line { get; set; }
         public string segment6 { get; set; }
         public string branch_operation_unit_code { get; set; }
     }
@@ -288,7 +288,7 @@ namespace vida_plus_In.DTO
         public int check_number { get; set; }
         public int receipt_amount { get; set; }
         public DateTime receipt_date { get; set; }
-        public int his_customer_number { get; set; }
+        public string his_customer_number { get; set; }
     }
 
 

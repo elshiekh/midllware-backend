@@ -99,13 +99,13 @@ namespace vida_plus_In.Mapper
                     from serial in InsertOffersIntoStg.InsertOffersIntoStg
                     select new XElement("VP_OFFERS_REC",
                             new XElement("VIDAPLUS_ID", serial.vidaplus_id),
-                            new XElement("OPARATING_UNIT_CODE", serial.oparating_unit_code),
+                            new XElement("OPERATING_UNIT_CODE", serial.operating_unit_code),
                             new XElement("OFFER_TYPE", serial.offer_type),
                             new XElement("LOT_NUMBER", serial.Lot_Number),
                             new XElement("OFFER_QTY", serial.offer_qty),
                             new XElement("INVOICE_DATE", serial.invoice_date.ToString("yyyy-MM-dd")),
                             new XElement("DISCOUNT_PERCENTAGE", serial.discount_percentage),
-                            new XElement("INVOICE_NUMBER", serial.invoice_date),
+                            new XElement("INVOICE_NUMBER", serial.invoice_number),
                             new XElement("ORGANIZATION_CODE", serial.organaization_code),
                             new XElement("SUBINVENTORY_CODE", serial.subinventory_code))
             ));
@@ -122,7 +122,7 @@ namespace vida_plus_In.Mapper
                     from serial in InsertApInvIntoStg.InsertApInvIntoStg
                     select new XElement("VP_AP_REC",
                             new XElement("VIDAPLUS_ID", serial.vidaplus_id),
-                            new XElement("OPARATING_UNIT_CODE", serial.oparating_unit_code),
+                            new XElement("OPERATING_UNIT_CODE", serial.operating_unit_code),
                             new XElement("INVOICE_NUMBER", serial.invoice_number),
                             new XElement("INVOICE_DATE", serial.invoice_date.ToString("yyyy-MM-dd")),
                             new XElement("INVOICE_CURRENCY_CODE", serial.invoice_currency_code),
@@ -144,9 +144,9 @@ namespace vida_plus_In.Mapper
                     from serial in AjajiInsertArInvIntoStg.AjajiInsertArInvIntoStg
                     select new XElement("VPLUS_REC",
                             new XElement("VIDAPLUS_ID", serial.vidaplus_id),
-                            new XElement("OPARATING_UNIT_CODE", serial.operating_unit_code),
+                            new XElement("OPERATING_UNIT_CODE", serial.operating_unit_code),
                             new XElement("BATCH_SOURCE", serial.batch_source),
-                            new XElement("BATCH_NUMBER", serial.his_customer_number),
+                            new XElement("BATCH_NUMBER", serial.batch_number),
                             new XElement("TRANSACTION_TYPE_NAME", serial.transaction_type_name),
                             new XElement("HIS_CUSTOMER_NUMBER", serial.his_customer_number),
                             new XElement("INVOICE_DATE", serial.invoice_date.ToString("yyyy-MM-dd")),
@@ -154,7 +154,7 @@ namespace vida_plus_In.Mapper
                             new XElement("CURRENCY_CODE", serial.currency_code),
                             new XElement("SEGMENT2", serial.segment2),
                             new XElement("SEGMENT4", serial.segment4),
-                            new XElement("MEMO_LINE", serial.memo_line_name),
+                            new XElement("MEMO_LINE", serial.memo_line),
                             new XElement("SEGMENT6", serial.segment6),
                             new XElement("BRANCH_OPERATING_UNIT_CODE", serial.branch_operation_unit_code))
             ));
@@ -171,7 +171,7 @@ namespace vida_plus_In.Mapper
                     from serial in InsertArRecIntoStg.InsertArRecIntoStg
                     select new XElement("VPLUS_REC",
                             new XElement("VIDAPLUS_ID", serial.vidaplus_id),
-                            new XElement("OPARATING_UNIT_CODE", serial.operating_unit_code),
+                            new XElement("OPERATING_UNIT_CODE", serial.operating_unit_code),
                             new XElement("PAYMENT_METHOD_NAME", serial.payment_method_name),
                             new XElement("RECEIPT_NUMBER", serial.receipt_number),
                             new XElement("CHECK_NUMBER", serial.check_number),
