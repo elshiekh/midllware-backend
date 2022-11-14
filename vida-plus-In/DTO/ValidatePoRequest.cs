@@ -138,6 +138,7 @@ namespace vida_plus_In.DTO
         public string currency_code { get; set; }
         public string journal_category_name { get; set; }
         public string journal_source_name { get; set; }
+        public string operating_unit_code { get; set; }
         public string segment2 { get; set; }
         public string segment4 { get; set; }
         public string segment6 { get; set; }

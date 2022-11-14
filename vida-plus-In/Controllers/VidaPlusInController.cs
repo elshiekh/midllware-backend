@@ -196,8 +196,8 @@ namespace vida_plus_In.Controllers
         #endregion
 
 
-        //InsertStageData
-        #region InsertStageData
+        //InsertGlJournalsIntoStg
+        #region InsertGlJournalsIntoStg
         [HttpPost("InsertGlJournalsIntoStg.{format}")]
         public async Task<IActionResult> InsertGlJournalsIntoStg([FromBody] InsertGlJournalsIntoStgRequest requestList)
         {

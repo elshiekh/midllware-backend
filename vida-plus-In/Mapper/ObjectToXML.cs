@@ -79,6 +79,7 @@ namespace vida_plus_In.Mapper
                             new XElement("CURRENCY_CODE", serial.currency_code),
                             new XElement("JOURNAL_CATEGORY_NAME", serial.journal_category_name),
                             new XElement("JOURNAL_SOURCE_NAME", serial.journal_source_name),
+                            new XElement("OPERATING_UNIT_CODE", serial.operating_unit_code),
                             new XElement("SEGMENT2", serial.segment2),
                             new XElement("SEGMENT4", serial.segment4),
                             new XElement("SEGMENT6", serial.segment6),
