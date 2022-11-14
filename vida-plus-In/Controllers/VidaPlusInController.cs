@@ -350,7 +350,7 @@ namespace vida_plus_In.Controllers
 
 
         //AjajiInsertArInvIntoStg
-        #region InsertArInvIntoStg
+        #region AjajiInsertArInvIntoStg
         [HttpPost("AjajiInsertArInvIntoStg.{format}")]
         public async Task<IActionResult> AjajiInsertArInvIntoStg([FromBody] AjajiInsertArInvIntoStgRequest requestList)
         {
