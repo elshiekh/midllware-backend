@@ -451,6 +451,57 @@ namespace vida_plus_In.Controllers
         #endregion
 
 
+        //GetEmployeeDetails
+        #region Get EmployeeDetails
+        [HttpPost("GetEmployeeDetails.{format}")]
+        public async Task<IActionResult> GetEmployeeDetails(string EMPLOYEE_NUMBER)
+        {
+            try
+            {
+                GetEmployeeDetailsRequest request = new GetEmployeeDetailsRequest();
+
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = request.GetSPName();
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                conn.Open();
+
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                //Bind the Ref cursor to the PL / SQL stored procedure
+                cmd.Parameters.Add(new OracleParameter("P_EMPLOYEE_NUMBER", OracleDbType.Varchar2)).Value = EMPLOYEE_NUMBER;
+                cmd.Parameters.Add("P_EMPLOYEE_INFORMATION", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+
+
+                OracleDataReader reader = cmd.ExecuteReader();
+
+                var EmployeeDetailsList = new GetEmployeeDetailsResponce()
+                {
+                    P_EMPLOYEE_INFORMATION = cmd.Parameters["P_EMPLOYEE_INFORMATION"].Value.ToString(),
+                    P_RETURN_STATUS = cmd.Parameters["P_RETURN_STATUS"].Value.ToString(),
+                    P_RETURN_MSG = cmd.Parameters["P_RETURN_MSG"].Value.ToString(),
+                };
+
+
+                reader.Close();
+
+                conn.Close();
+                conn.Dispose();
+
+                return Ok(EmployeeDetailsList);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+
         #region Return Exception
         private IActionResult ReturnException(Exception ex)
         {

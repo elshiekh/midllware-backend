@@ -269,8 +269,8 @@ namespace vida_plus_In.DTO
     #endregion
 
 
-    //InsertArRecIntoStg
-    #region InsertArRecIntoStg
+    //GetEmployeeDetails
+    #region GetEmployeeDetails
     public class InsertArRecIntoStgRequest
     {
         public string GetSPName()
@@ -302,4 +302,23 @@ namespace vida_plus_In.DTO
     }
     #endregion
 
+
+
+    //GetEmployeeDetails
+    #region Get EmployeeDetails
+    public class GetEmployeeDetailsRequest
+    {
+        public string GetSPName()
+        {
+            return "HMG_VP_EMP_INFO_PKG.GET_EMPLOYEE_DETAILS";
+        }
+    }
+
+    public class GetEmployeeDetailsResponce
+    {
+        public string P_EMPLOYEE_INFORMATION { get; set; }
+        public string P_RETURN_STATUS { get; set; }
+        public string P_RETURN_MSG { get; set; }
+    }
+    #endregion
 }
