@@ -44,7 +44,7 @@ namespace Electronic_Invoice_Out.Helper
 
         private HttpClient CreateClient()
         {
-            byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
+            byte[] cred = Encoding.UTF8.GetBytes(_dbOption.HMGUserName + ":" + _dbOption.HMGPassword);
             var client = new HttpClient();
             client.BaseAddress = new Uri(_dbOption.BaseAddress);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));

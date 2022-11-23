@@ -1,4 +1,9 @@
-﻿namespace Electronic_Invoice_Out.Extenstion
+﻿using java.util;
+using jdk.@internal.org.objectweb.asm.tree.analysis;
+using System.ComponentModel;
+using System.Runtime.Serialization;
+
+namespace Electronic_Invoice_Out.Extenstion
 {
     internal class Params
     {
@@ -97,5 +102,15 @@
         public static string Embeded_UBL_XAdESv_XSD_PATH = "SDKNETFrameWorkLib.Data.xsd.common.UBL-XAdESv141-2.1.xsd";
 
         public static string Embeded_UBL_Xmldsig_Core_XSD_PATH = "SDKNETFrameWorkLib.Data.xsd.common.UBL-xmldsig-core-schema-2.1.xsd";
+    }
+
+    public enum Company
+    {
+        [field: Description("HMG")]
+        HMG=1,
+        [field: Description("CS")]
+        CS=2,
+        [field: Description("FM")]
+        FM=3
     }
 }

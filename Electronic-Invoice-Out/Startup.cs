@@ -6,13 +6,14 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Text.Json.Serialization;
+using static Electronic_Invoice_Out.Extenstion.QueryExtenstion;
 
 namespace Electronic_Invoice_Out
 {
@@ -34,6 +35,8 @@ namespace Electronic_Invoice_Out
             //MW
             services.RegsiterAPIMiddlewareConfiguration(Configuration);
             services.AddControllers().AddXmlSerializerFormatters();
+            services.AddControllers().AddJsonOptions(options =>
+             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
             // configure basic authentication 
             services.AddAuthentication("BasicAuthentication")
@@ -68,36 +71,52 @@ namespace Electronic_Invoice_Out
                             new string[] {}
                     }
                 });
+                c.DescribeAllEnumsAsStrings();
             });
 
             Action<DBOption> mduOptions = (opt =>
             { // ELEVATUS-DEV -------- ELEVATUS-PROD
                 opt.BaseAddress = Configuration["ELECTRONIC-INVOICE-DEV:BaseAddress"];
                 opt.JsonFormat = Configuration["ELECTRONIC-INVOICE-DEV:JsonFormat"];
-                opt.UserName = Configuration["ELECTRONIC-INVOICE-DEV:HMG:UserName"];
-                opt.Password = Configuration["ELECTRONIC-INVOICE-DEV:HMG:Password"];
+                // HMG PCSID-UserName
+                opt.HMGUserName = Configuration["ELECTRONIC-INVOICE-DEV:HMG:UserName"];
+                opt.HMGPassword = Configuration["ELECTRONIC-INVOICE-DEV:HMG:Password"];
+                opt.PCSID_HMGUserName = Configuration["ELECTRONIC-INVOICE-DEV:HMG:PCSID-UserName"];
+                opt.PCSID_HMGPassword = Configuration["ELECTRONIC-INVOICE-DEV:HMG:PCSID-Password"];
+                // CS
+                opt.CSUserName = Configuration["ELECTRONIC-INVOICE-DEV:CS:UserName"];
+                opt.CSPassword = Configuration["ELECTRONIC-INVOICE-DEV:CS:Password"];
+                // FM
+                opt.FMUserName = Configuration["ELECTRONIC-INVOICE-DEV:FM:UserName"];
+                opt.FMPassword = Configuration["ELECTRONIC-INVOICE-DEV:FM:Password"];
             });
             services.Configure(mduOptions);
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<DBOption>>().Value);
-            services.Configure<IISServerOptions>(options =>
-            {
-                options.MaxRequestBodySize = int.MaxValue;
-            });
-            services.Configure<KestrelServerOptions>(options =>
-            {
-                options.Limits.MaxRequestBodySize = int.MaxValue; // if don't set default value is: 30 MB
-            });
+            //services.Configure<FormOptions>(o =>  // currently all set to max, configure it to your needs!
+            //{
+            //    o.ValueLengthLimit = int.MaxValue;
+            //    o.MultipartBodyLengthLimit = long.MaxValue; // <-- !!! long.MaxValue
+            //    o.MultipartBoundaryLengthLimit = int.MaxValue;
+            //    o.MultipartHeadersCountLimit = int.MaxValue;
+            //    o.MultipartHeadersLengthLimit = int.MaxValue;
+            //});
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.Use(async (context, next) => { context.Request.EnableBuffering(); await next(); });
-
+         
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            //app.Use(async (context, next) =>
+            //{
+            //    context.Features.Get<IHttpMaxRequestBodySizeFeature>().MaxRequestBodySize = null; // unlimited I guess
+            //    await next.Invoke();
+            //});
 
             //MW
             app.UseMiddleware<ApiLogging>(properties);

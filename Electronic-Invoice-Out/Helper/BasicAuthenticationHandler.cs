@@ -53,7 +53,7 @@ namespace Electronic_Invoice_Out.Helper
             }
 
             if (user == null)
-                return AuthenticateResult.Fail("Invalid Username or Password");
+                return AuthenticateResult.Fail("Invalid Username or HMGPassword");
 
             var claims = new[] {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),

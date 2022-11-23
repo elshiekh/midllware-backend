@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper.Configuration.Annotations;
+using Electronic_Invoice_Out.Extenstion;
+using Electronic_Invoice_Out.Helper;
+using Newtonsoft.Json.Converters;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Electronic_Invoice_Out.Branch
 {
@@ -25,6 +31,24 @@ namespace Electronic_Invoice_Out.Branch
         public string invoice { get; set; }
 
     }
+    public class ComplianceInvoiceQuery
+    {
+        public string  Language { get; set; }
+        public string Version { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public Company Company { get; set; }
+    }
+
+    public class InvoiceQuery
+    {
+        public string AcceptLanguage { get; set; }
+        public string ClearanceStatus { get; set; }
+        public string AcceptVersion { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public Company Company { get; set; }
+    }
     public class InvoiceResultModel
     {
         public string invoiceHash { get; set; }
@@ -41,6 +65,23 @@ namespace Electronic_Invoice_Out.Branch
         public string clearanceStatus { get; set; }
         public string qrSellertStatus { get; set; }
         public string qrBuyertStatus { get; set; }
+    }
+
+
+    public class ReportingResult
+    {
+        public ValidationResults validationResults { get; set; }
+
+        public string reportingStatus { get; set; }
+        public string QR { get; set; }
+    }
+
+    public class ClearanceResult
+    {
+        public ValidationResults validationResults { get; set; }
+        public string clearanceStatus { get; set; }
+        public string clearedInvoice { get; set; }
+        public string QR { get; set; }
     }
 
     public class ValidationResults

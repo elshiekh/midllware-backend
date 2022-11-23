@@ -1,5 +1,6 @@
 ﻿using APIMiddleware.Core.DTO;
 using APIMiddleware.Core.Extenstion;
+using APIMiddleware.Core.Filter;
 using APIMiddleware.Core.Services.Interface;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -102,14 +103,16 @@ namespace APIMiddleware.Core
         {
             try
             {
-                var buffer = new byte[Convert.ToInt32(request.ContentLength)];
-                await request.Body.ReadAsync(buffer, 0, buffer.Length);
-                var bodyAsText = Encoding.UTF8.GetString(buffer);
+                //var buffer = new byte[Convert.ToInt64(request.ContentLength)];
+                //await request.Body.ReadAsync(buffer, 0, buffer.Length);
+                //var bodyAsText = Encoding.UTF8.GetString(buffer);
+                //request.Body.Seek(0, SeekOrigin.Begin);
                 request.Body.Seek(0, SeekOrigin.Begin);
-
+                var bodyAsText = await new StreamReader(request.Body).ReadToEndAsync();
+                request.Body.Seek(0, SeekOrigin.Begin);
                 return bodyAsText;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 throw;
             }

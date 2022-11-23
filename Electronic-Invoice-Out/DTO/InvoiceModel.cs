@@ -14,8 +14,7 @@ namespace Electronic_Invoice_Out.DTO
         public string DocumentCurrencyCode { get; set; } = "SAR";
         public string TaxCurrencyCode { get; set; } = "SAR";
 
-
-        //public int LineCountNumeric { get; set; } = 2;
+        public int LineCountNumeric { get; set; } = 2;
         public string ICVUUID { get; set; } = "62";
         public string PIHValue { get; set; } = "NWZlY2ViNjZmZmM4NmYzOGQ5NTI3ODZjNmQ2OTZjNzljMmRiYzIzOWRkNGU5MWI0NjcyOWQ3M2EyN2ZiNTdlOQ==";
         public AccountingSupplier AccountingSupplier { get; set; }

@@ -104,10 +104,28 @@ namespace APIMiddleware.API.Controllers
             if (request.RequestBody != null)
             {
                 byte[] bytes = request?.RequestBody;
+                string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
                 var output = new FileContentResult(bytes, "application/octet-stream");
                 output.FileDownloadName = request.RequestGuid + ".txt";
 
                 return Ok(output);
+            }
+
+            return null;
+        }
+
+        [HttpGet("GETFILE/{id}")]
+        public async Task<ActionResult> GETFILE(int id)
+        {
+            var request = await _requestService.GetRequestsDetails(id);
+            if (request.RequestBody != null)
+            {
+                byte[] bytes = request?.RequestBody;
+                string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+                var output = new FileContentResult(bytes, "application/octet-stream");
+                output.FileDownloadName = request.RequestGuid + ".txt";
+
+                return File(output.FileContents,output.ContentType, output.FileDownloadName);
             }
 
             return null;

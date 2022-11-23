@@ -199,7 +199,7 @@ namespace elevatus_out.Employee
         public string system_id { get; set; }
         public string applicant_id { get; set; }
         public string status { get; set; }
-        public string meesage { get; set; }
+        public string message { get; set; }
     }
     public class ConnectEmployeeApplicantErrorResponse
     {

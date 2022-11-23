@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace elevatus_out.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [FormatFilter]

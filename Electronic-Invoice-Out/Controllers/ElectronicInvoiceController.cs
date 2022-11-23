@@ -1,11 +1,15 @@
 ﻿using Electronic_Invoice_Out.Branch;
 using Electronic_Invoice_Out.DTO;
+using Electronic_Invoice_Out.Extenstion;
+using Electronic_Invoice_Out.Helper;
 using Electronic_Invoice_Out.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using System.Diagnostics.Metrics;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -23,9 +27,11 @@ namespace Electronic_Invoice_Out.Controllers
         #region Field
         private readonly DBOption _dbOption;
         public readonly IInvoiceService _invoiceService;
-        public EInvoiceController(DBOption dbOption, IInvoiceService invoiceService)
+        private readonly ILogger<EInvoiceController> _logger;
+        public EInvoiceController(DBOption dbOption, IInvoiceService invoiceService, ILogger<EInvoiceController> logger)
         {
             _dbOption = dbOption;
+            _logger = logger;
             _invoiceService = invoiceService;
         }
         #endregion
@@ -81,27 +87,27 @@ namespace Electronic_Invoice_Out.Controllers
         #endregion
 
         #region Compliance Invoice
+        [DisableRequestSizeLimit]
         [HttpPost("ComplianceInvoice.{format}"), FormatFilter]
-        public async Task<IActionResult> ComplianceInvoice([FromBody] InvoiceRequest obj, string acceptLanguage, string acceptVersion)
+        public async Task<IActionResult> ComplianceInvoice([FromBody] InvoiceRequest obj, [FromQuery] ComplianceInvoiceQuery parmas)
         {
             try
             {
                 var result = new ComplianceInvoiceResult();
                 var errorresult = new ErrorModel();
-                HttpClientHandler httpClientHandler = new HttpClientHandler()
-                {
-                    Credentials = new NetworkCredential(_dbOption.UserName, _dbOption.Password)
-                };
+                var username = ""; var password = "";
+                SetComplianceAuthentication(parmas, ref username, ref password);
                 using (var client = new HttpClient())
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
                     client.Timeout = TimeSpan.FromMinutes(5);
-                    byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
+                    byte[] cred = Encoding.UTF8.GetBytes(username + ":" + password);
                     var request = new HttpRequestMessage(HttpMethod.Post, baseAddress + "compliance/invoices");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
-                    request.Headers.Add("Accept-Language", acceptLanguage);
-                    request.Headers.Add("Accept-Version", acceptVersion);
+                    var c = parmas.Company.ToString();
+                    request.Headers.Add("Accept-Language", parmas.Language);
+                    request.Headers.Add("Accept-Version", parmas.Version);
                     var postObject = JsonConvert.SerializeObject(obj);
                     request.Content = new StringContent(postObject, Encoding.UTF8, "application/json");
                     request.Content.Headers.ContentType = new MediaTypeHeaderValue(_dbOption.JsonFormat);
@@ -122,9 +128,11 @@ namespace Electronic_Invoice_Out.Controllers
                         var unauthResult = JsonConvert.DeserializeObject<UnauthorizedModel>(stringData);
                         return Unauthorized(unauthResult);
                     }
-
-                    result = JsonConvert.DeserializeObject<ComplianceInvoiceResult>(stringData);
-                    return Ok(result);
+                    else
+                    {
+                        result = JsonConvert.DeserializeObject<ComplianceInvoiceResult>(stringData);
+                        return Ok(result);
+                    }
                 }
             }
             catch (Exception ex)
@@ -136,27 +144,29 @@ namespace Electronic_Invoice_Out.Controllers
 
         #region Reporting 
         [HttpPost("Reporting.{format}"), FormatFilter]
-        public async Task<IActionResult> Reporting([FromBody] InvoiceRequest obj, string acceptLanguage, string clearanceStatus, string acceptVersion)
+        public async Task<IActionResult> Reporting([FromBody] InvoiceRequest obj, [FromQuery] InvoiceQuery parmas)
         {
             try
             {
-                var result = new ComplianceInvoiceResult();
+                var result = new ReportingResult();
                 var errorresult = new ErrorModel();
+                var username = ""; var password = "";
+                SetAuthentication(parmas, ref username, ref password);
                 HttpClientHandler httpClientHandler = new HttpClientHandler()
                 {
-                    Credentials = new NetworkCredential(_dbOption.UserName, _dbOption.Password)
+                    Credentials = new NetworkCredential(username, password)
                 };
                 using (var client = new HttpClient(httpClientHandler))
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
                     client.Timeout = TimeSpan.FromMinutes(5);
-                    byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
+                    byte[] cred = Encoding.UTF8.GetBytes(username + ":" + password);
                     var request = new HttpRequestMessage(HttpMethod.Post, baseAddress + "/invoices/reporting/single");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
-                    request.Headers.Add("accept-language", acceptLanguage);
-                    request.Headers.Add("Clearance-Status", clearanceStatus);
-                    request.Headers.Add("Accept-Version", acceptVersion);
+                    request.Headers.Add("accept-language", parmas.AcceptLanguage);
+                    request.Headers.Add("Clearance-Status", parmas.ClearanceStatus);
+                    request.Headers.Add("Accept-Version", parmas.AcceptVersion);
 
                     var postObject = JsonConvert.SerializeObject(obj);
                     request.Content = new StringContent(postObject, Encoding.UTF8, "application/json");
@@ -165,17 +175,17 @@ namespace Electronic_Invoice_Out.Controllers
                     string stringData = await response.Content.ReadAsStringAsync();
                     if (response.StatusCode == HttpStatusCode.Accepted)
                     {
-                        var acceptedResult = JsonConvert.DeserializeObject<InvoiceResultModel>(stringData);
-                        return StatusCode(500, acceptedResult);
+                        var acceptedResult = JsonConvert.DeserializeObject<ReportingResult>(stringData);
+                        return StatusCode((int)HttpStatusCode.Accepted, acceptedResult);
                     }
                     if (response.StatusCode == HttpStatusCode.InternalServerError)
                     {
                         var internalServalErrorResult = JsonConvert.DeserializeObject<InternalServerErrorModel>(stringData);
-                        return StatusCode(500, internalServalErrorResult);
+                        return StatusCode((int)HttpStatusCode.InternalServerError, internalServalErrorResult);
                     }
                     if (response.StatusCode == HttpStatusCode.BadRequest)
                     {
-                        var badRequestErrorResult = JsonConvert.DeserializeObject<ComplianceInvoiceResult>(stringData);
+                        var badRequestErrorResult = JsonConvert.DeserializeObject<ReportingResult>(stringData);
                         return BadRequest(badRequestErrorResult);
                     }
                     if (response.StatusCode == HttpStatusCode.Unauthorized)
@@ -183,12 +193,13 @@ namespace Electronic_Invoice_Out.Controllers
                         var unauthResult = JsonConvert.DeserializeObject<UnauthorizedModel>(stringData);
                         return Unauthorized(unauthResult);
                     }
-
-                    result = JsonConvert.DeserializeObject<ComplianceInvoiceResult>(stringData);
-                    return Ok(result);
-
+                    else
+                    {
+                        result = JsonConvert.DeserializeObject<ReportingResult>(stringData);
+                        result.QR = ExtensionMethods.GetQR(obj.invoice);
+                        return Ok(result);
+                    }
                 }
-                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -199,40 +210,52 @@ namespace Electronic_Invoice_Out.Controllers
 
         #region Clearance
         [HttpPost("Clearance.{format}"), FormatFilter]
-        public async Task<IActionResult> Clearance([FromBody] InvoiceRequest obj, string acceptLanguage, string clearanceStatus, string acceptVersion)
+        public async Task<IActionResult> Clearance([FromBody] InvoiceRequest obj, [FromQuery] InvoiceQuery parmas)
         {
             try
             {
-                var result = new InvoiceResultModel();
+                var result = new ClearanceResult();
                 var errorresult = new ErrorModel();
+                var username = ""; var password = "";
+                SetAuthentication(parmas, ref username, ref password);
                 HttpClientHandler httpClientHandler = new HttpClientHandler()
                 {
-                    Credentials = new NetworkCredential(_dbOption.UserName, _dbOption.Password)
+                    Credentials = new NetworkCredential(username, password)
                 };
                 using (var client = new HttpClient(httpClientHandler))
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
                     client.Timeout = TimeSpan.FromMinutes(5);
-                    byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
+                    byte[] cred = Encoding.UTF8.GetBytes(username + ":" + password);
                     var request = new HttpRequestMessage(HttpMethod.Post, baseAddress + "/invoices/clearance/single");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
-                    request.Headers.Add("Accept-Language", acceptLanguage);
-                    request.Headers.Add("Clearance-Status", clearanceStatus);
-                    request.Headers.Add("Accept-Version", acceptVersion);
+                    request.Headers.Add("Accept-Language", parmas.AcceptLanguage);
+                    request.Headers.Add("Clearance-Status", parmas.ClearanceStatus);
+                    request.Headers.Add("Accept-Version", parmas.AcceptVersion);
                     var postObject = JsonConvert.SerializeObject(obj);
                     request.Content = new StringContent(postObject, Encoding.UTF8, "application/json");
                     request.Content.Headers.ContentType = new MediaTypeHeaderValue(_dbOption.JsonFormat);
                     var response = await client.SendAsync(request);
                     string stringData = await response.Content.ReadAsStringAsync();
+                    if (response.StatusCode == HttpStatusCode.Accepted)
+                    {
+                        var acceptedResult = JsonConvert.DeserializeObject<ClearanceResult>(stringData);
+                        return StatusCode((int)HttpStatusCode.Accepted, acceptedResult);
+                    }
                     if (response.StatusCode == HttpStatusCode.InternalServerError)
                     {
                         var internalServalErrorResult = JsonConvert.DeserializeObject<InternalServerErrorModel>(stringData);
-                        return StatusCode(500, internalServalErrorResult);
+                        return StatusCode((int)HttpStatusCode.InternalServerError, internalServalErrorResult);
+                    }
+                    if (response.StatusCode == HttpStatusCode.RedirectMethod)
+                    {
+                        var infoErrorResult = JsonConvert.DeserializeObject<InfoModel>(stringData);
+                        return StatusCode((int)HttpStatusCode.RedirectMethod, infoErrorResult);
                     }
                     if (response.StatusCode == HttpStatusCode.BadRequest)
                     {
-                        var badRequestErrorResult = JsonConvert.DeserializeObject<ComplianceInvoiceResult>(stringData);
+                        var badRequestErrorResult = JsonConvert.DeserializeObject<ClearanceResult>(stringData);
                         return BadRequest(badRequestErrorResult);
                     }
                     if (response.StatusCode == HttpStatusCode.Unauthorized)
@@ -240,9 +263,12 @@ namespace Electronic_Invoice_Out.Controllers
                         var unauthResult = JsonConvert.DeserializeObject<UnauthorizedModel>(stringData);
                         return Unauthorized(unauthResult);
                     }
-
-                    result = JsonConvert.DeserializeObject<InvoiceResultModel>(stringData);
-                    return Ok(result);
+                    else
+                    {
+                        result = JsonConvert.DeserializeObject<ClearanceResult>(stringData);
+                        result.QR = ExtensionMethods.GetQR(result.clearedInvoice);
+                        return Ok(result);
+                    }
                 }
             }
             catch (Exception ex)
@@ -264,7 +290,7 @@ namespace Electronic_Invoice_Out.Controllers
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
                     client.Timeout = TimeSpan.FromMinutes(5);
-                    byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
+                    byte[] cred = Encoding.UTF8.GetBytes(_dbOption.HMGUserName + ":" + _dbOption.HMGPassword);
                     var request = new HttpRequestMessage(HttpMethod.Post, baseAddress + "/production/csids");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
@@ -313,8 +339,8 @@ namespace Electronic_Invoice_Out.Controllers
                 {
                     var baseAddress = new Uri(_dbOption.BaseAddress);
                     client.Timeout = TimeSpan.FromMinutes(5);
-                    byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
-                    var request = new HttpRequestMessage(HttpMethod.Post, baseAddress + "/invoices/clearance/single");
+                    byte[] cred = Encoding.UTF8.GetBytes(_dbOption.HMGUserName + ":" + _dbOption.HMGPassword);
+                    var request = new HttpRequestMessage(HttpMethod.Post, baseAddress + "/production/csids");
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
                     request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
                     request.Headers.Add("OTP", otp);
@@ -382,7 +408,18 @@ namespace Electronic_Invoice_Out.Controllers
                 }
             }));
         }
+        private void SetComplianceAuthentication(ComplianceInvoiceQuery parmas, ref string username, ref string password)
+        {
+            if (parmas.Company.ToString() == ExtensionMethods.GetEnumDescription(Company.HMG)) { username = _dbOption.HMGUserName; password = _dbOption.HMGPassword; }
+            if (parmas.Company.ToString() == ExtensionMethods.GetEnumDescription(Company.FM)) { username = _dbOption.FMUserName; password = _dbOption.FMPassword; }
+            if (parmas.Company.ToString() == ExtensionMethods.GetEnumDescription(Company.CS)) { username = _dbOption.CSUserName; password = _dbOption.CSPassword; }
+        }
+        private void SetAuthentication(InvoiceQuery parmas, ref string username, ref string password)
+        {
+            if (parmas.Company.ToString() == ExtensionMethods.GetEnumDescription(Company.HMG)) { username = _dbOption.PCSID_HMGUserName; password = _dbOption.PCSID_HMGPassword; }
+            if (parmas.Company.ToString() == ExtensionMethods.GetEnumDescription(Company.FM)) { username = _dbOption.FMUserName; password = _dbOption.FMPassword; }
+            if (parmas.Company.ToString() == ExtensionMethods.GetEnumDescription(Company.CS)) { username = _dbOption.CSUserName; password = _dbOption.CSPassword; }
+        }
         #endregion
-        
     }
 }

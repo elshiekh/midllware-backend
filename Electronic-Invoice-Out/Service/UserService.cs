@@ -18,7 +18,7 @@ namespace Electronic_Invoice_Out.Service
         private List<User> _users = new List<User>
         {
             // DEV 
-            // new User { Id = 1, FirstName = "elevatusOut", LastName = "User", Username = "elevatusOut", Password = "mR79WX]FV" }
+            // new User { Id = 1, FirstName = "elevatusOut", LastName = "User", Username = "elevatusOut", HMGPassword = "mR79WX]FV" }
            // PROD 
             new User { Id = 1, FirstName = "electronic-Invoice-out", LastName = "User", Username = "e-Invoice", Password = "nfgYQbnyk" }
         };

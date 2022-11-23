@@ -2,19 +2,13 @@
 using Electronic_Invoice_Out.Extenstion;
 using Electronic_Invoice_Out.Helper;
 using Microsoft.AspNetCore.Hosting;
-using net.sf.saxon.expr;
-using Org.BouncyCastle.Asn1.X509;
-using Org.BouncyCastle.Crypto.Macs;
-using SDKNETFrameWorkLib.BLL;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.XPath;
 using UblLarsen.Tools;
 using UblLarsen.Ubl2;
 using UblLarsen.Ubl2.Cac;
@@ -22,6 +16,7 @@ using UblLarsen.Ubl2.Udt;
 
 namespace Electronic_Invoice_Out.Service
 {
+ 
     public interface IInvoiceService
     {
         InvoiceResult GenerateXML(InvoiceModel obj);
@@ -29,6 +24,8 @@ namespace Electronic_Invoice_Out.Service
     }
     public class InvoiceService : IInvoiceService
     {
+        string QR_CODE_XPATH = "/*[local-name() = 'Invoice']/*[local-name() = 'AdditionalDocumentReference' and *[local-name()='ID' and .='QR']]";
+        string SIGNATURE_XPATH = "*[local-name()='Invoice']//*[local-name()='Signature' and *[local-name()='ID'] and *[local-name()='SignatureMethod']]";
         private IHostingEnvironment _env;
         public InvoiceService(IHostingEnvironment env)
         {
@@ -75,7 +72,7 @@ namespace Electronic_Invoice_Out.Service
                         Price = new PriceType
                         {
                             PriceAmount = new AmountType { currencyID = "SAR", Value = invl.Price.PriceAmount },
-                            AllowanceCharge = new AllowanceChargeType[] { new AllowanceChargeType{
+                            AllowanceCharge = ((obj.InvoiceTypeCode.Name == GenericTypes.Simplify && obj.InvoiceTypeCode.Value == GenericTypes.Credit) || (obj.InvoiceTypeCode.Name == GenericTypes.Simplify && obj.InvoiceTypeCode.Value == GenericTypes.Debit)) ? null : new AllowanceChargeType[] { new AllowanceChargeType{
                                 ChargeIndicator =invl.Price.AllowanceCharge.ChargeIndicator,
                                 AllowanceChargeReason = new TextType [] { new TextType { Value = invl.Price.AllowanceCharge.AllowanceChargeReason } },
                                 Amount =  new AmountType { currencyID = "SAR", Value = Convert.ToDecimal(invl.Price.AllowanceCharge.Amount) }
@@ -99,8 +96,11 @@ namespace Electronic_Invoice_Out.Service
                 // InvoiceTypeCode = new CodeType { name =  "0211010", Value = "388" },
                 DocumentCurrencyCode = obj.DocumentCurrencyCode, //"SAR",
                 TaxCurrencyCode = obj.TaxCurrencyCode, //"SAR",
-
-                // LineCountNumeric = obj.LineCountNumeric, // 2,
+                LineCountNumeric =(obj.InvoiceTypeCode.Name ==GenericTypes.Standard && obj.InvoiceTypeCode.Value == "388") ? obj.LineCountNumeric : null, // 2,
+                BillingReference = (obj.InvoiceTypeCode.Value ==GenericTypes.Credit || obj.InvoiceTypeCode.Value ==GenericTypes.Debit) ? new BillingReferenceType[]
+                {
+                   new BillingReferenceType{ InvoiceDocumentReference = new DocumentReferenceType { ID = billingrefrence } }
+                } : null,
                 AdditionalDocumentReference = new DocumentReferenceType[] {
                     new DocumentReferenceType { ID = "ICV", UUID = obj.ICVUUID }, // UUID = "62"
                     new DocumentReferenceType { ID = "PIH", Attachment = new AttachmentType { EmbeddedDocumentBinaryObject = new BinaryObjectType { mimeCode = "text/plain", Value = (!String.IsNullOrEmpty(obj.PIHValue)) ? Convert.FromBase64String(obj.PIHValue) : null } } },
@@ -145,20 +145,20 @@ namespace Electronic_Invoice_Out.Service
                 {
                     Party = new PartyType
                     {
-                        PartyIdentification = new PartyIdentificationType[] { new PartyIdentificationType { ID = new IdentifierType { schemeID = "NAT", Value = obj.AccountingCustomer.PartyIdentification } } }, // 2345
+                        PartyIdentification = ((obj.InvoiceTypeCode.Name == GenericTypes.Standard && obj.InvoiceTypeCode.Value == GenericTypes.Credit) || (obj.InvoiceTypeCode.Name == GenericTypes.Standard && obj.InvoiceTypeCode.Value == GenericTypes.Debit)) ? null : new PartyIdentificationType[] { new PartyIdentificationType { ID = new IdentifierType { schemeID = "NAT", Value = obj.AccountingCustomer.PartyIdentification } } }, // 2345
                         PostalAddress = new AddressType
                         {
                             StreetName = obj.AccountingCustomer.PostalAddress.StreetName, // "baaoun",
-                            AdditionalStreetName = obj.AccountingCustomer.PostalAddress.AdditionalStreetName, // "sdsd",
+                            AdditionalStreetName = (( obj.InvoiceTypeCode.Value == GenericTypes.Credit)|| (obj.InvoiceTypeCode.Value == GenericTypes.Debit))? null :  obj.AccountingCustomer.PostalAddress.AdditionalStreetName, // "sdsd",
                             BuildingNumber = obj.AccountingCustomer.PostalAddress.BuildingNumber, // "3353",
                             PlotIdentification = obj.AccountingCustomer.PostalAddress.PlotIdentification, // "3434",
                             CitySubdivisionName = obj.AccountingCustomer.PostalAddress.CitySubdivisionName, // "fgff",
                             CityName = obj.AccountingCustomer.PostalAddress.CityName, // "Dhurma",
                             PostalZone = obj.AccountingCustomer.PostalAddress.PostalZone, // "34534",
-                            CountrySubentity = obj.AccountingCustomer.PostalAddress.CountrySubentity, // "ulhk",
+                            CountrySubentity = ((obj.InvoiceTypeCode.Name == GenericTypes.Standard && obj.InvoiceTypeCode.Value == GenericTypes.Credit) || (obj.InvoiceTypeCode.Name == GenericTypes.Standard && obj.InvoiceTypeCode.Value == GenericTypes.Debit)) ? null : obj.AccountingCustomer.PostalAddress.CountrySubentity, // "ulhk",
                             Country = new CountryType { IdentificationCode = obj.AccountingCustomer.PostalAddress.CountryCode }, // "SA"
                         },
-                        PartyTaxScheme = new PartyTaxSchemeType[]
+                        PartyTaxScheme = ((obj.InvoiceTypeCode.Name == GenericTypes.Simplify && obj.InvoiceTypeCode.Value == GenericTypes.Credit) || (obj.InvoiceTypeCode.Name == GenericTypes.Simplify && obj.InvoiceTypeCode.Value == GenericTypes.Debit)) ? null : new PartyTaxSchemeType[]
                         {
                             new PartyTaxSchemeType
                             {
@@ -179,7 +179,7 @@ namespace Electronic_Invoice_Out.Service
                     new DeliveryType
                     {
                         ActualDeliveryDate = obj.Delivery.ActualDeliveryDate,
-                        LatestDeliveryDate = obj.Delivery.LatestDeliveryDate,
+                        LatestDeliveryDate = ((  obj.InvoiceTypeCode.Value == GenericTypes.Credit)|| ( obj.InvoiceTypeCode.Value == GenericTypes.Debit))? null : obj.Delivery.LatestDeliveryDate,
                     }
                 },
                 PaymentMeans = new PaymentMeansType[]
@@ -187,12 +187,12 @@ namespace Electronic_Invoice_Out.Service
                     new PaymentMeansType
                     {
                         PaymentMeansCode = obj.PaymentMeans.Code, // 10 
-                        InstructionNote = new TextType[]  { new TextType { Value = obj.PaymentMeans.InstructionNote } }
+                        InstructionNote = ((obj.InvoiceTypeCode.Value == GenericTypes.Credit)|| (obj.InvoiceTypeCode.Value == GenericTypes.Debit))?(new TextType[]  { new TextType { Value = obj.PaymentMeans.InstructionNote }}): null
                     }                    
                 },
-                AllowanceCharge = new AllowanceChargeType[] {
+                AllowanceCharge = ((obj.InvoiceTypeCode.Name == GenericTypes.Simplify && obj.InvoiceTypeCode.Value == GenericTypes.Credit) || (obj.InvoiceTypeCode.Name == GenericTypes.Simplify && obj.InvoiceTypeCode.Value == GenericTypes.Debit)) ? null : new AllowanceChargeType[] {
                     new AllowanceChargeType {
-                        ID =  obj.AllowanceCharge.ID,  //  "1", 
+                        ID =  ((obj.InvoiceTypeCode.Name == GenericTypes.Standard && obj.InvoiceTypeCode.Value == GenericTypes.Credit) || (obj.InvoiceTypeCode.Name == GenericTypes.Standard && obj.InvoiceTypeCode.Value == GenericTypes.Debit)) ? null : obj.AllowanceCharge.ID,  //  "1", 
                         ChargeIndicator = obj.AllowanceCharge.ChargeIndicator,
                         AllowanceChargeReason = new TextType[] { obj.AllowanceCharge.AllowanceChargeReason.ToString() }, // discount
                         Amount = new AmountType { currencyID = "SAR", Value = Convert.ToDecimal(obj.AllowanceCharge.Amount) },
@@ -223,8 +223,8 @@ namespace Electronic_Invoice_Out.Service
                                 {
                                     ID = new IdentifierType {  schemeID = "UN/ECE 5305", schemeAgencyID = "6", Value = obj.TaxTotal.TaxSubtotal.TaxCategory.ID.ToString() },
                                     Percent =Convert.ToDecimal( obj.TaxTotal.TaxSubtotal.TaxCategory.Percent),
-                                   // TaxExemptionReasonCode = (obj.InvoiceTypeCode.Value == "381" ||obj.InvoiceTypeCode.Value == "383") ? obj.TaxTotal.TaxSubtotal.TaxCategory.TaxExemptionReasonCode : null,
-                                   // TaxExemptionReason = new TextType[] { new TextType {Value = (obj.InvoiceTypeCode.Value == "381" || obj.InvoiceTypeCode.Value == "383") ? obj.TaxTotal.TaxSubtotal.TaxCategory.TaxExemptionReason : null } } ,
+                                    TaxExemptionReasonCode = (( obj.InvoiceTypeCode.Name == GenericTypes.Simplify && obj.InvoiceTypeCode.Value == GenericTypes.Credit)|| (obj.InvoiceTypeCode.Name == GenericTypes.Simplify && obj.InvoiceTypeCode.Value == GenericTypes.Debit))? obj.TaxTotal.TaxSubtotal.TaxCategory.TaxExemptionReasonCode :null,
+                                    TaxExemptionReason = ((obj.InvoiceTypeCode.Name == GenericTypes.Simplify && obj.InvoiceTypeCode.Value == GenericTypes.Credit) || (obj.InvoiceTypeCode.Name == GenericTypes.Simplify && obj.InvoiceTypeCode.Value == GenericTypes.Debit)) ?  new TextType[] { new TextType {Value =  obj.TaxTotal.TaxSubtotal.TaxCategory.TaxExemptionReason } }: null ,
                                     TaxScheme = new TaxSchemeType {
                                     ID = new IdentifierType { schemeID = "UN/ECE 5153" , schemeAgencyID = "6", Value = obj.TaxTotal.TaxSubtotal.TaxCategory.TaxSchemeID } }
                                 }
@@ -241,20 +241,14 @@ namespace Electronic_Invoice_Out.Service
                     LineExtensionAmount = new AmountType { currencyID = "SAR", Value = Math.Round(Convert.ToDecimal(obj.LegalMonetaryTotal.LineExtensionAmount), 2) },
                     TaxExclusiveAmount = new AmountType { currencyID = "SAR", Value = Math.Round(Convert.ToDecimal(obj.LegalMonetaryTotal.TaxExclusiveAmount), 2) },
                     TaxInclusiveAmount = new AmountType { currencyID = "SAR", Value = Math.Round(Convert.ToDecimal(obj.LegalMonetaryTotal.TaxInclusiveAmount), 2) },
-                    AllowanceTotalAmount = new AmountType { currencyID = "SAR", Value = Math.Round(Convert.ToDecimal(obj.LegalMonetaryTotal.AllowanceTotalAmount), 2) },
-                    PrepaidAmount = new AmountType { currencyID = "SAR", Value = Math.Round(Convert.ToDecimal(obj.LegalMonetaryTotal.PrepaidAmount), 2) },
+                    AllowanceTotalAmount = ((obj.InvoiceTypeCode.Name == GenericTypes.Simplify && obj.InvoiceTypeCode.Value == GenericTypes.Credit) || (obj.InvoiceTypeCode.Name == GenericTypes.Simplify && obj.InvoiceTypeCode.Value == GenericTypes.Debit)) ? null : new AmountType { currencyID = "SAR", Value = Math.Round(Convert.ToDecimal(obj.LegalMonetaryTotal.AllowanceTotalAmount), 2) },
+                    PrepaidAmount = ((obj.InvoiceTypeCode.Name == GenericTypes.Simplify && obj.InvoiceTypeCode.Value == GenericTypes.Credit) || (obj.InvoiceTypeCode.Name == GenericTypes.Simplify && obj.InvoiceTypeCode.Value == GenericTypes.Debit)) ? null : new AmountType { currencyID = "SAR", Value = Math.Round(Convert.ToDecimal(obj.LegalMonetaryTotal.PrepaidAmount), 2) },
                     PayableAmount = new AmountType { currencyID = "SAR", Value = Math.Round(Convert.ToDecimal(obj.LegalMonetaryTotal.PayableAmount), 2) },
                 },
                 InvoiceLine = invoiceArray
             };
-            if (doc.InvoiceTypeCode == "381" || doc.InvoiceTypeCode == "383")
-            {
-                doc.BillingReference = new BillingReferenceType[]
-                {
-                   new BillingReferenceType{ InvoiceDocumentReference = new DocumentReferenceType { ID = billingrefrence } }
-                };
-             }
-            string path = @"C:\companies\hmg\zatca-einvoicing-sdk-230-R3.1.6\Apps\";
+            
+            string path = @"C:\companies\hmg\zatca-einvoicing-sdk-231-R3.1.7\Apps\";
             string filename = "Invoice-"+ doc.InvoiceTypeCode.name +"-" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".xml";
             var generatedXml  = path + filename;
             UblDoc<InvoiceType>.Save(generatedXml, doc);
@@ -281,8 +275,9 @@ namespace Electronic_Invoice_Out.Service
                     p.Kill();
 
             var pathSignInvoice = path + "sign-" + filename;
-            var signInvoice = File.ReadAllText(pathSignInvoice);
-
+     
+            var invoicehash = "";
+            var invoiceQr = "";
             //var webRoot = _env.WebRootPath;
             //string currentDirectory = Directory.GetCurrentDirectory();
 
@@ -307,8 +302,19 @@ namespace Electronic_Invoice_Out.Service
             xmlDocument.Load(pathSignInvoice);
 
             //-------------------------------------
-            var invoicehash= GetNodeInnerText(xmlDocument, Params.Hash_XPATH);
-            var invoiceQr= GetNodeInnerText(xmlDocument, Params.QR_CODE_XPATH);
+            invoicehash= GetNodeInnerText(xmlDocument, Params.Hash_XPATH);
+            invoiceQr= GetNodeInnerText(xmlDocument, Params.QR_CODE_XPATH);
+
+            //if (obj.InvoiceTypeCode.Name == GenericTypes.Standard) {
+            //     var document = XDocument.Parse(xmlDocument.InnerXml);
+            //    var signatureElement = document.XPathSelectElement(SIGNATURE_XPATH);
+            //    signatureElement.Remove();
+            //    var qrelement = document.XPathSelectElement(QR_CODE_XPATH);
+            //    qrelement.Remove();
+            //    document.Save(pathSignInvoice);
+            //}
+            var signInvoice = File.ReadAllText(pathSignInvoice);
+
             //var hashingFunction = new HashingValidator();
             //var invoicehash = hashingFunction.GenerateEInvoiceHashing(signxmlFilePath).ResultedValue;
             //var qrFunction = new QRValidator();
@@ -324,7 +330,7 @@ namespace Electronic_Invoice_Out.Service
             //var invoiceValidator = new EInvoiceValidator();
             //var isvalid = invoiceValidator.ValidateEInvoice(signxmlFilePath, certificateContent, pIHContent);
 
-          //  var xmlInvoice = ExtensionMethods.FormatXml(signxml.ResultedValue);
+            //  var xmlInvoice = ExtensionMethods.FormatXml(signxml.ResultedValue);
 
             result.Invoice = ExtensionMethods.EncodeTo64(signInvoice);
             result.InvoiceHash = invoicehash;
@@ -377,6 +383,22 @@ namespace Electronic_Invoice_Out.Service
             }
         }
 
+       
+
+    }
+
+    public static class GenericTypes
+    {
+        public const string Standard= "0111010";
+        public const string Simplify= "0211010";
+        public const string Invoice= "388";
+        public const string Credit= "381";
+        public const string Debit= "383";
+        //01 : standard
+        //02 : simplified
+        //383 : debit
+        //381 : credit
+        //388: invoice
     }
 }
 
