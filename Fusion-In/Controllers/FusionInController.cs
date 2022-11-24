@@ -138,7 +138,7 @@ namespace Fusion_In.Controllers
         //InsertAwardData
         #region InsertAwardData
         [HttpPost("InsertAwardData.{format}")]
-        public async Task<IActionResult> InsertAwardData(string BUYER_PAYLOAD)
+        public async Task<IActionResult> InsertAwardData(string AWARD_PAYLOAD)
         {
             try
             {
@@ -155,7 +155,7 @@ namespace Fusion_In.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 //Bind the Ref cursor to the PL / SQL stored procedure
-                cmd.Parameters.Add(new OracleParameter("P_AWARD_PAYLOAD", OracleDbType.Varchar2)).Value = BUYER_PAYLOAD;
+                cmd.Parameters.Add(new OracleParameter("P_AWARD_PAYLOAD", OracleDbType.Varchar2)).Value = AWARD_PAYLOAD;
                 cmd.Parameters.Add("P_TRANSACTION_ID", OracleDbType.Int64, 32767, null, ParameterDirection.Output);
                 cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
                 cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
