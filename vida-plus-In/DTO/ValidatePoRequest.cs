@@ -269,8 +269,8 @@ namespace vida_plus_In.DTO
     #endregion
 
 
-    //GetEmployeeDetails
-    #region GetEmployeeDetails
+    //InsertArRecIntoStgRequest
+    #region InsertArRecIntoStgRequest
     public class InsertArRecIntoStgRequest
     {
         public string GetSPName()
@@ -303,7 +303,6 @@ namespace vida_plus_In.DTO
     #endregion
 
 
-
     //GetEmployeeDetails
     #region Get EmployeeDetails
     public class GetEmployeeDetailsRequest
@@ -321,4 +320,57 @@ namespace vida_plus_In.DTO
         public string P_RETURN_MSG { get; set; }
     }
     #endregion
+
+
+    //InsertDeduction
+    #region InsertDeduction
+    public class InsertDeductionRequest
+    {
+        public string GetSPName()
+        {
+            return "HMG_VP_SAL_DED_INT_IN_PKG.INSERT_DEDUCTION";
+        }
+        public int VidaPlusId { get; set; }
+        public string transaction_type { get; set; }
+        public DateTime transaction_date { get; set; }
+        public string employee_number { get; set; }
+        public int patient_civil_id { get; set; }
+        public string invoice_number { get; set; }
+        public int invoice_amount { get; set; }
+        public int patient_id { get; set; }
+        public string patient_name { get; set; }
+        public string his_user { get; set; }
+        public string his_project { get; set; }
+    }
+
+    public class InsertDeductionResponce
+    {
+        public decimal ORACLE_ID { get; set; }
+        public string RESPONSE_STATUS { get; set; }
+        public string RESPONSE_MSG { get; set; }
+    }
+    #endregion
+
+
+    //ValidateDeduction
+    #region ValidateDeduction
+    public class ValidateDeductionRequest
+    {
+        public string GetSPName()
+        {
+            return "HMG_VP_SAL_DED_INT_IN_PKG.VALIDATE_DEDUCTION";
+        }
+        public string employee_number { get; set; }
+        public DateTime transaction_date { get; set; }
+        public int invoice_amount { get; set; }
+        public int patient_civil_id { get; set; }
+    }
+
+    public class ValidateDeductionResponce
+    {
+        public string RESPONSE_STATUS { get; set; }
+        public string RESPONSE_MSG { get; set; }
+    }
+    #endregion
+
 }

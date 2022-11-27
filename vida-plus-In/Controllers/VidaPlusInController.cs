@@ -502,6 +502,118 @@ namespace vida_plus_In.Controllers
         #endregion
 
 
+        //InsertDeduction
+        #region InsertDeduction
+        [HttpPost("InsertDeduction.{format}")]
+        public async Task<IActionResult> InsertDeduction([FromBody] InsertDeductionRequest requestList)
+        {
+            try
+            {
+                InsertDeductionRequest request = new InsertDeductionRequest();
+
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = request.GetSPName();
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                conn.Open();
+
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                //Bind the Ref cursor to the PL / SQL stored procedure
+                cmd.Parameters.Add(new OracleParameter("P_VIDAPLUS_ID", OracleDbType.Int64, ParameterDirection.Input)).Value = requestList.VidaPlusId;
+                cmd.Parameters.Add(new OracleParameter("P_TRANSACTION_TYPE", OracleDbType.Varchar2, ParameterDirection.Input)).Value = requestList.transaction_type;
+                cmd.Parameters.Add(new OracleParameter("P_TRANSACTION_DATE", OracleDbType.Date, ParameterDirection.Input)).Value = requestList.transaction_date;
+                cmd.Parameters.Add(new OracleParameter("P_EMPLOYEE_NUMBER", OracleDbType.Varchar2, ParameterDirection.Input)).Value = requestList.employee_number;
+                cmd.Parameters.Add(new OracleParameter("P_PATIENT_CIVIL_ID", OracleDbType.Int64, ParameterDirection.Input)).Value = requestList.patient_civil_id;
+                cmd.Parameters.Add(new OracleParameter("P_INVOICE_NUMBER", OracleDbType.Varchar2, ParameterDirection.Input)).Value = requestList.invoice_number;
+                cmd.Parameters.Add(new OracleParameter("P_INVOICE_AMOUNT", OracleDbType.Int64, ParameterDirection.Input)).Value = requestList.invoice_amount;
+                cmd.Parameters.Add(new OracleParameter("P_PATIENT_ID", OracleDbType.Int64, ParameterDirection.Input)).Value = requestList.patient_id;
+                cmd.Parameters.Add(new OracleParameter("P_PATIENT_NAME", OracleDbType.Varchar2, ParameterDirection.Input)).Value = requestList.patient_name;
+                cmd.Parameters.Add(new OracleParameter("P_HIS_USER", OracleDbType.Varchar2, ParameterDirection.Input)).Value = requestList.his_user;
+                cmd.Parameters.Add(new OracleParameter("P_HIS_PROJECT", OracleDbType.Varchar2, ParameterDirection.Input)).Value = requestList.his_project;
+
+
+                cmd.Parameters.Add("ORACLE_ID", OracleDbType.Int64, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("RESPONSE_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("RESPONSE_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+
+
+                var isSuccess = await cmd.ExecuteNonQueryAsync();
+
+                var result = new InsertDeductionResponce()
+                {
+                    ORACLE_ID = Convert.ToDecimal(((OracleDecimal)cmd.Parameters["ORACLE_ID"].Value).Value),
+                    RESPONSE_STATUS = cmd.Parameters["RESPONSE_STATUS"].Value.ToString(),
+                    RESPONSE_MSG = cmd.Parameters["RESPONSE_MSG"].Value.ToString()
+                };
+
+                conn.Close();
+                conn.Dispose();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+
+        //ValidateDeduction
+        #region ValidateDeduction
+        [HttpPost("ValidateDeduction.{format}")]
+        public async Task<IActionResult> ValidateDeduction([FromBody] ValidateDeductionRequest requestList)
+        {
+            try
+            {
+                ValidateDeductionRequest request = new ValidateDeductionRequest();
+
+                // Command text for getting the REF Cursor as OUT parameter
+                string cmdTxt1 = request.GetSPName();
+                OracleConnection conn = new OracleConnection(_dbOption.DbConection);
+                conn.Open();
+
+                // Create the command object for executing cmdTxt1 and cmdTxt2
+                OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                //Bind the Ref cursor to the PL / SQL stored procedure
+                cmd.Parameters.Add(new OracleParameter("P_EMPLOYEE_NUMBER", OracleDbType.Varchar2, ParameterDirection.Input)).Value = requestList.employee_number;
+                cmd.Parameters.Add(new OracleParameter("P_TRANSACTION_DATE", OracleDbType.Date, ParameterDirection.Input)).Value = requestList.transaction_date;
+                cmd.Parameters.Add(new OracleParameter("P_INVOICE_AMOUNT", OracleDbType.Int64, ParameterDirection.Input)).Value = requestList.invoice_amount;
+                cmd.Parameters.Add(new OracleParameter("P_PATIENT_CIVIL_ID", OracleDbType.Int64, ParameterDirection.Input)).Value = requestList.patient_civil_id;
+
+
+                cmd.Parameters.Add("RESPONSE_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("RESPONSE_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+
+
+                var isSuccess = await cmd.ExecuteNonQueryAsync();
+
+                var result = new ValidateDeductionResponce()
+                {
+                    RESPONSE_STATUS = cmd.Parameters["RESPONSE_STATUS"].Value.ToString(),
+                    RESPONSE_MSG = cmd.Parameters["RESPONSE_MSG"].Value.ToString()
+                };
+
+                conn.Close();
+                conn.Dispose();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+
+
         #region Return Exception
         private IActionResult ReturnException(Exception ex)
         {
