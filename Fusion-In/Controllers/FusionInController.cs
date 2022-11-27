@@ -13,7 +13,6 @@ using Fusion_In.DTO;
 using Fusion_In.Mapper;
 using Fusion_In.Extenstion;
 using Oracle.ManagedDataAccess.Types;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Fusion_In.Controllers
 {
@@ -36,11 +35,11 @@ namespace Fusion_In.Controllers
         //InsertSupplierData
         #region InsertSupplierData
         [HttpPost("InsertSupplierData.{format}")]
-        public async Task<IActionResult> InsertSupplierData(string SUPPLIER_PAYLOAD)
+        public async Task<IActionResult> InsertSupplierData(InsertSupplierDataRequest request)
         {
             try
             {
-                InsertSupplierDataRequest request = new InsertSupplierDataRequest();
+                //InsertSupplierDataRequest request = new InsertSupplierDataRequest();
 
                 // Command text for getting the REF Cursor as OUT parameter
                 string cmdTxt1 = request.GetSPName();
@@ -53,7 +52,7 @@ namespace Fusion_In.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 //Bind the Ref cursor to the PL / SQL stored procedure
-                cmd.Parameters.Add(new OracleParameter("P_SUPPLIER_PAYLOAD", OracleDbType.Varchar2)).Value = SUPPLIER_PAYLOAD;
+                cmd.Parameters.Add(new OracleParameter("P_SUPPLIER_PAYLOAD", OracleDbType.Varchar2)).Value = request.SupplierPayload;
                 cmd.Parameters.Add("P_TRANSACTION_ID", OracleDbType.Int64, 32767, null, ParameterDirection.Output);
                 cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
                 cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
@@ -87,11 +86,11 @@ namespace Fusion_In.Controllers
         //InsertBuyerData
         #region InsertBuyerData
         [HttpPost("InsertBuyerData.{format}")]
-        public async Task<IActionResult> InsertBuyerData(string BUYER_PAYLOAD)
+        public async Task<IActionResult> InsertBuyerData(InsertBuyerDataRequest request)
         {
             try
             {
-                InsertBuyerDataRequest request = new InsertBuyerDataRequest();
+                //InsertBuyerDataRequest request = new InsertBuyerDataRequest();
 
                 // Command text for getting the REF Cursor as OUT parameter
                 string cmdTxt1 = request.GetSPName();
@@ -104,7 +103,7 @@ namespace Fusion_In.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 //Bind the Ref cursor to the PL / SQL stored procedure
-                cmd.Parameters.Add(new OracleParameter("P_BUYER_PAYLOAD", OracleDbType.Varchar2)).Value = BUYER_PAYLOAD;
+                cmd.Parameters.Add(new OracleParameter("P_BUYER_PAYLOAD", OracleDbType.Varchar2)).Value = request.BuyerPayload;
                 cmd.Parameters.Add("P_TRANSACTION_ID", OracleDbType.Int64, 32767, null, ParameterDirection.Output);
                 cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
                 cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
@@ -138,11 +137,11 @@ namespace Fusion_In.Controllers
         //InsertAwardData
         #region InsertAwardData
         [HttpPost("InsertAwardData.{format}")]
-        public async Task<IActionResult> InsertAwardData(string AWARD_PAYLOAD)
+        public async Task<IActionResult> InsertAwardData(InsertAwardDataRequest request)
         {
             try
             {
-                InsertAwardDataRequest request = new InsertAwardDataRequest();
+                //InsertAwardDataRequest request = new InsertAwardDataRequest();
 
                 // Command text for getting the REF Cursor as OUT parameter
                 string cmdTxt1 = request.GetSPName();
@@ -155,7 +154,7 @@ namespace Fusion_In.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 //Bind the Ref cursor to the PL / SQL stored procedure
-                cmd.Parameters.Add(new OracleParameter("P_AWARD_PAYLOAD", OracleDbType.Varchar2)).Value = AWARD_PAYLOAD;
+                cmd.Parameters.Add(new OracleParameter("P_AWARD_PAYLOAD", OracleDbType.Varchar2)).Value = request.AwardPayload;
                 cmd.Parameters.Add("P_TRANSACTION_ID", OracleDbType.Int64, 32767, null, ParameterDirection.Output);
                 cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
                 cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
