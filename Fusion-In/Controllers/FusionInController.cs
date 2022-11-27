@@ -52,7 +52,7 @@ namespace Fusion_In.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 //Bind the Ref cursor to the PL / SQL stored procedure
-                cmd.Parameters.Add(new OracleParameter("P_SUPPLIER_PAYLOAD", OracleDbType.Varchar2)).Value = request.SupplierPayload;
+                cmd.Parameters.Add(new OracleParameter("P_SUPPLIER_PAYLOAD", OracleDbType.Clob)).Value = request.SupplierPayload;
                 cmd.Parameters.Add("P_TRANSACTION_ID", OracleDbType.Int64, 32767, null, ParameterDirection.Output);
                 cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
                 cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
