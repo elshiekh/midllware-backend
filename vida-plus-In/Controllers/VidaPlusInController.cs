@@ -535,18 +535,18 @@ namespace vida_plus_In.Controllers
                 cmd.Parameters.Add(new OracleParameter("P_HIS_PROJECT", OracleDbType.Varchar2, ParameterDirection.Input)).Value = requestList.his_project;
 
 
-                cmd.Parameters.Add("ORACLE_ID", OracleDbType.Int64, 32767, null, ParameterDirection.Output);
-                cmd.Parameters.Add("RESPONSE_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
-                cmd.Parameters.Add("RESPONSE_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_ORACLE_ID", OracleDbType.Int64, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RESPONSE_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RESPONSE_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
 
 
                 var isSuccess = await cmd.ExecuteNonQueryAsync();
 
                 var result = new InsertDeductionResponce()
                 {
-                    ORACLE_ID = Convert.ToDecimal(((OracleDecimal)cmd.Parameters["ORACLE_ID"].Value).Value),
-                    RESPONSE_STATUS = cmd.Parameters["RESPONSE_STATUS"].Value.ToString(),
-                    RESPONSE_MSG = cmd.Parameters["RESPONSE_MSG"].Value.ToString()
+                    ORACLE_ID = Convert.ToDecimal(((OracleDecimal)cmd.Parameters["P_ORACLE_ID"].Value).Value),
+                    RESPONSE_STATUS = cmd.Parameters["P_RESPONSE_STATUS"].Value.ToString(),
+                    RESPONSE_MSG = cmd.Parameters["P_RESPONSE_MSG"].Value.ToString()
                 };
 
                 conn.Close();
@@ -588,16 +588,16 @@ namespace vida_plus_In.Controllers
                 cmd.Parameters.Add(new OracleParameter("P_PATIENT_CIVIL_ID", OracleDbType.Int64, ParameterDirection.Input)).Value = requestList.patient_civil_id;
 
 
-                cmd.Parameters.Add("RESPONSE_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
-                cmd.Parameters.Add("RESPONSE_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RESPONSE_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_RESPONSE_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
 
 
                 var isSuccess = await cmd.ExecuteNonQueryAsync();
 
                 var result = new ValidateDeductionResponce()
                 {
-                    RESPONSE_STATUS = cmd.Parameters["RESPONSE_STATUS"].Value.ToString(),
-                    RESPONSE_MSG = cmd.Parameters["RESPONSE_MSG"].Value.ToString()
+                    RESPONSE_STATUS = cmd.Parameters["P_RESPONSE_STATUS"].Value.ToString(),
+                    RESPONSE_MSG = cmd.Parameters["P_RESPONSE_MSG"].Value.ToString()
                 };
 
                 conn.Close();
