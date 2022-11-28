@@ -472,7 +472,7 @@ namespace vida_plus_In.Controllers
 
                 //Bind the Ref cursor to the PL / SQL stored procedure
                 cmd.Parameters.Add(new OracleParameter("P_EMPLOYEE_NUMBER", OracleDbType.Varchar2)).Value = EMPLOYEE_NUMBER;
-                cmd.Parameters.Add("P_EMPLOYEE_INFORMATION", OracleDbType.Clob, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_EMPLOYEE_INFORMATION", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
                 cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
                 cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
 
