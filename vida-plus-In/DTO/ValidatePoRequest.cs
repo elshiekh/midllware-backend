@@ -303,17 +303,17 @@ namespace vida_plus_In.DTO
     #endregion
 
 
-    //GetEmployeeDetails
-    #region Get EmployeeDetails
-    public class GetEmployeeDetailsRequest
+    //GetEmployeeInfo
+    #region Get EmployeeInfo
+    public class GetEmployeeInfoRequest
     {
         public string GetSPName()
         {
-            return "HMG_VP_EMP_INFO_PKG.GET_EMPLOYEE_DETAILS";
+            return "HMG_VP_EMP_INT_IN_PKG.GET_EMPLOYEE_INFO";
         }
     }
 
-    public class GetEmployeeDetailsResponce
+    public class GetEmployeeInfoResponce
     {
         public string P_EMPLOYEE_INFORMATION { get; set; }
         public string P_RETURN_STATUS { get; set; }

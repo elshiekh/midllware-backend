@@ -451,14 +451,14 @@ namespace vida_plus_In.Controllers
         #endregion
 
 
-        //GetEmployeeDetails
-        #region Get EmployeeDetails
-        [HttpPost("GetEmployeeDetails.{format}")]
-        public async Task<IActionResult> GetEmployeeDetails(string EMPLOYEE_NUMBER)
+        //GetEmployeeInfo
+        #region Get EmployeeInfo
+        [HttpPost("GetEmployeeInfo.{format}")]
+        public async Task<IActionResult> GetEmployeeInfo(string EMPLOYEE_NUMBER)
         {
             try
             {
-                GetEmployeeDetailsRequest request = new GetEmployeeDetailsRequest();
+                GetEmployeeInfoRequest request = new GetEmployeeInfoRequest();
 
                 // Command text for getting the REF Cursor as OUT parameter
                 string cmdTxt1 = request.GetSPName();
@@ -472,14 +472,14 @@ namespace vida_plus_In.Controllers
 
                 //Bind the Ref cursor to the PL / SQL stored procedure
                 cmd.Parameters.Add(new OracleParameter("P_EMPLOYEE_NUMBER", OracleDbType.Varchar2)).Value = EMPLOYEE_NUMBER;
-                cmd.Parameters.Add("P_EMPLOYEE_INFORMATION", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
+                cmd.Parameters.Add("P_EMPLOYEE_INFORMATION", OracleDbType.Clob, 32767, null, ParameterDirection.Output);
                 cmd.Parameters.Add("P_RETURN_STATUS", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
                 cmd.Parameters.Add("P_RETURN_MSG", OracleDbType.Varchar2, 32767, null, ParameterDirection.Output);
 
 
                 OracleDataReader reader = cmd.ExecuteReader();
 
-                var EmployeeDetailsList = new GetEmployeeDetailsResponce()
+                var EmployeeDetailsList = new GetEmployeeInfoResponce()
                 {
                     P_EMPLOYEE_INFORMATION = cmd.Parameters["P_EMPLOYEE_INFORMATION"].Value.ToString(),
                     P_RETURN_STATUS = cmd.Parameters["P_RETURN_STATUS"].Value.ToString(),
