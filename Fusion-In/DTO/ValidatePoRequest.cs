@@ -14,13 +14,12 @@ namespace Fusion_In.DTO
         {
             return "HMG_SUPP_FUSION_INT_IN_PKG.INSERT_SUPPLIER_DATA";
         }
-        public string transaction_id { get; set; }
+        public int transaction_id { get; set; }
         public string SupplierPayload { get; set; }
     }
 
     public class InsertSupplierDataResponce
     {
-        public Int64? P_TRANSACTION_ID { get; set; }
         public string P_RETURN_STATUS { get; set; }
         public string P_RETURN_MSG { get; set; }
     }
@@ -35,13 +34,12 @@ namespace Fusion_In.DTO
         {
             return "HMG_BUYER_FUSION_INT_IN_PKG.INSERT_BUYER_DATA";
         }
-        public string transaction_id { get; set; }
+        public int transaction_id { get; set; }
         public string BuyerPayload { get; set; }
     }
 
     public class InsertBuyerDataResponce
     {
-        public Int64? P_TRANSACTION_ID { get; set; }
         public string P_RETURN_STATUS { get; set; }
         public string P_RETURN_MSG { get; set; }
     }
@@ -56,14 +54,13 @@ namespace Fusion_In.DTO
         {
             return "HMG_AWARD_FUSION_INT_IN_PKG.INSERT_AWARD_DATA";
         }
-        public string transaction_id { get; set; }
+        public int transaction_id { get; set; }
         public string AwardPayload { get; set; }
     }
 }
 
     public class InsertAwardDataResponce
     {
-        public Int64? P_TRANSACTION_ID { get; set; }
         public string P_RETURN_STATUS { get; set; }
         public string P_RETURN_MSG { get; set; }
     }
