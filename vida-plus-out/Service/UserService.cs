@@ -18,9 +18,9 @@ namespace vida_plus_out.Service
         private List<User> _users = new List<User>
         {
             // DEV 
-             new User { Id = 1, FirstName = "vida_plus_out", LastName = "User", Username = "vida_plus_out", Password = "1234ePh" }
+             new User { Id = 1, FirstName = "VidaPlusOut", LastName = "User", Username = "VidaPlusOut", Password = "1234V+o" }
            // PROD 
-            //new User { Id = 1, FirstName = "vida_plus_out", LastName = "User", Username = "vida_plus_out", Password = "nS6YQV(UZ" }
+            //new User { Id = 1, FirstName = "VidaPlusOut", LastName = "User", Username = "VidaPlusOut", Password = "1234V+o" }
         };
 
         public async Task<User> Authenticate(string username, string password)
