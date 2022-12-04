@@ -518,7 +518,7 @@ namespace vida_plus_In.Controllers
 
                 // Create the command object for executing cmdTxt1 and cmdTxt2
                 OracleCommand cmd = new OracleCommand(cmdTxt1, conn);
-
+                 
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 //Bind the Ref cursor to the PL / SQL stored procedure

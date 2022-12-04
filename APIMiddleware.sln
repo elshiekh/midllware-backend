@@ -49,6 +49,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mowadhafi-In", "Mowadhafi-I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vida-plus-In", "vida-plus-In\vida-plus-In.csproj", "{509156DA-6DDE-4533-B3C8-8B6169EA68B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vida-plus-out", "vida-plus-out\vida-plus-out.csproj", "{B1F584BB-368D-447A-9182-139A2FD44E62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -147,6 +149,10 @@ Global
 		{509156DA-6DDE-4533-B3C8-8B6169EA68B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{509156DA-6DDE-4533-B3C8-8B6169EA68B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{509156DA-6DDE-4533-B3C8-8B6169EA68B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1F584BB-368D-447A-9182-139A2FD44E62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1F584BB-368D-447A-9182-139A2FD44E62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1F584BB-368D-447A-9182-139A2FD44E62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1F584BB-368D-447A-9182-139A2FD44E62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
