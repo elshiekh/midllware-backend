@@ -36,6 +36,7 @@ namespace vida_plus_out.Item
     // Response --------
     public class ItemResponse
     {
+        public string oracleID { get; set; }
         public string vidaplusId { get; set; }
         public string responseStatus { get; set; }
         public string responseMsg { get; set; }

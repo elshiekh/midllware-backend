@@ -59,7 +59,9 @@ namespace vida_plus_out.Controllers
 
                 string stringData = await response.Content.ReadAsStringAsync();
 
-                var data = JsonConvert.DeserializeObject<ItemResponse>(stringData);
+                //var data = JsonConvert.DeserializeObject<ItemResponse>(stringData);
+
+                var data = JsonConvert.DeserializeObject<List<ItemResponse>>(stringData);
 
                 return Ok(data);
             }
