@@ -1,4 +1,4 @@
-﻿using vida_plus_out.Item;
+﻿using vida_plus_out.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,20 +21,20 @@ namespace vida_plus_out.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [FormatFilter]
-    public class ItemController : ControllerBase
+    public class UserController : ControllerBase
     {
         #region Field
         private readonly DBOption _dbOption;
-        public ItemController(DBOption dbOption)
+        public UserController(DBOption dbOption)
         {
             _dbOption = dbOption;
         }
         #endregion
 
 
-        #region InsertItem
-        [HttpPost("InsertItem.{format}"), FormatFilter]
-        public async Task<IActionResult> InsertItem([FromBody] List<ItemRequest> obj)
+        #region ActivateUser
+        [HttpPost("ActivateUser.{format}"), FormatFilter]
+        public async Task<IActionResult> ActivateUser([FromBody] List<ActivateUserRequest> obj)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace vida_plus_out.Controllers
                 client.Timeout = TimeSpan.FromMinutes(5);
 
                 byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
-                var request = new HttpRequestMessage(HttpMethod.Post, "http://10.201.206.47:7014/api/erp/v1/scm/item-insert");
+                var request = new HttpRequestMessage(HttpMethod.Post, "http://10.201.206.47:7014/api/erp/v1/hcm/activate-user");
 
 
                 request.Headers.Authorization = new BasicAuthenticationHeaderValue("oracleErp", "123");
@@ -59,7 +59,46 @@ namespace vida_plus_out.Controllers
 
                 string stringData = await response.Content.ReadAsStringAsync();
 
-                var data = JsonConvert.DeserializeObject<List<ItemResponse>>(stringData);
+                var data = JsonConvert.DeserializeObject<ActivateUserResponse>(stringData);
+
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                return ReturnException(ex);
+            }
+        }
+        #endregion
+
+
+        #region UpdateUser
+        [HttpPost("UpdateUser.{format}"), FormatFilter]
+        public async Task<IActionResult> UpdateUser([FromBody] List<UpdateUserRequest> obj)
+        {
+            try
+            {
+                var client = new HttpClient();
+
+                var baseAddress = new Uri(_dbOption.BaseAddress);
+                client.Timeout = TimeSpan.FromMinutes(5);
+
+                byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
+                var request = new HttpRequestMessage(HttpMethod.Post, "http://10.201.206.47:7014/api/erp/v1/hcm/update-user");
+
+
+                request.Headers.Authorization = new BasicAuthenticationHeaderValue("oracleErp", "123");
+                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
+
+                var postObject = JsonConvert.SerializeObject(obj);
+
+                request.Content = new StringContent(postObject, Encoding.UTF8, "application/json");
+                request.Content.Headers.ContentType = new MediaTypeHeaderValue(_dbOption.JsonFormat);
+
+                var response = await client.SendAsync(request);
+
+                string stringData = await response.Content.ReadAsStringAsync();
+
+                var data = JsonConvert.DeserializeObject<UpdateUserResponse>(stringData);
 
                 return Ok(data);
             }
