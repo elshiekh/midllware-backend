@@ -34,7 +34,7 @@ namespace vida_plus_out.Controllers
 
         #region ActivateUser
         [HttpPost("ActivateUser.{format}"), FormatFilter]
-        public async Task<IActionResult> ActivateUser([FromBody] List<ActivateUserRequest> obj)
+        public async Task<IActionResult> ActivateUser([FromBody] ActivateUserRequest obj)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace vida_plus_out.Controllers
 
         #region UpdateUser
         [HttpPost("UpdateUser.{format}"), FormatFilter]
-        public async Task<IActionResult> UpdateUser([FromBody] List<UpdateUserRequest> obj)
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRequest obj)
         {
             try
             {

@@ -1,4 +1,4 @@
-﻿using vida_plus_out.Inventory;
+﻿using vida_plus_out.Leave;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,20 +21,20 @@ namespace vida_plus_out.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [FormatFilter]
-    public class InventoryController : ControllerBase
+    public class LeaveController : ControllerBase
     {
         #region Field
         private readonly DBOption _dbOption;
-        public InventoryController(DBOption dbOption)
+        public LeaveController(DBOption dbOption)
         {
             _dbOption = dbOption;
         }
         #endregion
 
 
-        #region InsertInventory
-        [HttpPost("InsertInventory.{format}"), FormatFilter]
-        public async Task<IActionResult> InsertInventory([FromBody] InsertInventoryRequest obj)
+        #region LeaveReplacement
+        [HttpPost("LeaveReplacement.{format}"), FormatFilter]
+        public async Task<IActionResult> LeaveReplacement([FromBody] LeaveReplacementRequest obj)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace vida_plus_out.Controllers
                 client.Timeout = TimeSpan.FromMinutes(5);
 
                 byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
-                var request = new HttpRequestMessage(HttpMethod.Post, "http://10.201.206.47:7014/api/erp/v1/scm/inventory-insert");
+                var request = new HttpRequestMessage(HttpMethod.Post, "http://10.201.206.47:7014/api/erp/v1/hcm/leave-replacement");
 
 
                 request.Headers.Authorization = new BasicAuthenticationHeaderValue("oracleErp", "123");
@@ -59,46 +59,7 @@ namespace vida_plus_out.Controllers
 
                 string stringData = await response.Content.ReadAsStringAsync();
 
-                var data = JsonConvert.DeserializeObject<InsertInventoryResponse>(stringData);
-
-                return Ok(data);
-            }
-            catch (Exception ex)
-            {
-                return ReturnException(ex);
-            }
-        }
-        #endregion
-
-
-        #region UpdateInventory
-        [HttpPost("UpdateInventory.{format}"), FormatFilter]
-        public async Task<IActionResult> UpdateInventory([FromBody] UpdateInventoryRequest obj)
-        {
-            try
-            {
-                var client = new HttpClient();
-
-                var baseAddress = new Uri(_dbOption.BaseAddress);
-                client.Timeout = TimeSpan.FromMinutes(5);
-
-                byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
-                var request = new HttpRequestMessage(HttpMethod.Post, "http://10.201.206.47:7014/api/erp/v1/scm/inventory-update");
-
-
-                request.Headers.Authorization = new BasicAuthenticationHeaderValue("oracleErp", "123");
-                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
-
-                var postObject = JsonConvert.SerializeObject(obj);
-
-                request.Content = new StringContent(postObject, Encoding.UTF8, "application/json");
-                request.Content.Headers.ContentType = new MediaTypeHeaderValue(_dbOption.JsonFormat);
-
-                var response = await client.SendAsync(request);
-
-                string stringData = await response.Content.ReadAsStringAsync();
-
-                var data = JsonConvert.DeserializeObject<UpdateInventoryResponse>(stringData);
+                var data = JsonConvert.DeserializeObject<LeaveReplacementResponse>(stringData);
 
                 return Ok(data);
             }

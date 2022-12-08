@@ -34,7 +34,7 @@ namespace vida_plus_out.Controllers
 
         #region ArReceipts
         [HttpPost("ArReceipts.{format}"), FormatFilter]
-        public async Task<IActionResult> ArReceipts([FromBody] List<ArReceiptsRequest> obj)
+        public async Task<IActionResult> ArReceipts([FromBody] ArReceiptsRequest obj)
         {
             try
             {
