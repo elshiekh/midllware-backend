@@ -363,7 +363,7 @@ namespace vida_plus_In.DTO
         public string employee_number { get; set; }
         public DateTime transaction_date { get; set; }
         public int invoice_amount { get; set; }
-        public int patient_civil_id { get; set; }
+        public string patient_civil_id { get; set; }
     }
 
     public class ValidateDeductionResponce
