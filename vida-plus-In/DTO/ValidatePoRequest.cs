@@ -330,7 +330,7 @@ namespace vida_plus_In.DTO
         {
             return "HMG_VP_SAL_DED_INT_IN_PKG.INSERT_DEDUCTION";
         }
-        public int VidaPlusId { get; set; }
+        public string VidaPlusId { get; set; }
         public string transaction_type { get; set; }
         public DateTime transaction_date { get; set; }
         public string employee_number { get; set; }

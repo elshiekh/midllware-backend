@@ -522,7 +522,7 @@ namespace vida_plus_In.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 //Bind the Ref cursor to the PL / SQL stored procedure
-                cmd.Parameters.Add(new OracleParameter("P_VIDAPLUS_ID", OracleDbType.Int64, ParameterDirection.Input)).Value = requestList.VidaPlusId;
+                cmd.Parameters.Add(new OracleParameter("P_VIDAPLUS_ID", OracleDbType.Varchar2, ParameterDirection.Input)).Value = requestList.VidaPlusId;
                 cmd.Parameters.Add(new OracleParameter("P_TRANSACTION_TYPE", OracleDbType.Varchar2, ParameterDirection.Input)).Value = requestList.transaction_type;
                 cmd.Parameters.Add(new OracleParameter("P_TRANSACTION_DATE", OracleDbType.Date, ParameterDirection.Input)).Value = requestList.transaction_date;
                 cmd.Parameters.Add(new OracleParameter("P_EMPLOYEE_NUMBER", OracleDbType.Varchar2, ParameterDirection.Input)).Value = requestList.employee_number;
