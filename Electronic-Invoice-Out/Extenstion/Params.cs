@@ -111,6 +111,8 @@ namespace Electronic_Invoice_Out.Extenstion
         [field: Description("CS")]
         CS=2,
         [field: Description("FM")]
-        FM=3
+        FM=3,
+        [field: Description("TASW")]
+        TASW=4
     }
 }

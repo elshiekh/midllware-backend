@@ -61,7 +61,7 @@ namespace APIMiddleware.Core
                 var requestContentType = httpContext.Request.ContentType;
                 var responseContentType = httpContext.Response.ContentType;
 
-                _requestService.AddRequest(new DTO.RequestDTO()
+                _requestService.AddRequest(new RequestDTO()
                 {
                     ProjectId = _options.Id,
                     RequestGuid = Guid.NewGuid().ToString(),
@@ -114,7 +114,7 @@ namespace APIMiddleware.Core
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 

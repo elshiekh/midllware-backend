@@ -86,9 +86,18 @@ namespace Electronic_Invoice_Out
                 // CS
                 opt.CSUserName = Configuration["ELECTRONIC-INVOICE-DEV:CS:UserName"];
                 opt.CSPassword = Configuration["ELECTRONIC-INVOICE-DEV:CS:Password"];
+                opt.PCSID_CSUserName = Configuration["ELECTRONIC-INVOICE-DEV:CS:PCSID-UserName"];
+                opt.PCSID_CSPassword = Configuration["ELECTRONIC-INVOICE-DEV:CS:PCSID-Password"];
                 // FM
                 opt.FMUserName = Configuration["ELECTRONIC-INVOICE-DEV:FM:UserName"];
                 opt.FMPassword = Configuration["ELECTRONIC-INVOICE-DEV:FM:Password"];
+                opt.PCSID_FMUserName = Configuration["ELECTRONIC-INVOICE-DEV:FM:PCSID-UserName"];
+                opt.PCSID_FMPassword = Configuration["ELECTRONIC-INVOICE-DEV:FM:PCSID-Password"];
+                // TASW
+                opt.TASWUserName = Configuration["ELECTRONIC-INVOICE-DEV:TASW:UserName"];
+                opt.TASWPassword = Configuration["ELECTRONIC-INVOICE-DEV:TASW:Password"];
+                opt.PCSID_TASWUserName = Configuration["ELECTRONIC-INVOICE-DEV:TASW:PCSID-UserName"];
+                opt.PCSID_TASWPassword = Configuration["ELECTRONIC-INVOICE-DEV:TASW:PCSID-Password"];
             });
             services.Configure(mduOptions);
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<DBOption>>().Value);

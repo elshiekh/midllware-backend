@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
-using System.Diagnostics.Metrics;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -18,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Electronic_Invoice_Out.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [FormatFilter]
@@ -380,11 +379,11 @@ namespace Electronic_Invoice_Out.Controllers
 
         #region GenerateXML 
         [HttpPost("GenerateXML.{format}"), FormatFilter]
-        public IActionResult GenerateXML([FromBody] InvoiceModel model)
+        public IActionResult GenerateXML([FromBody] InvoiceModel model , [FromQuery] Company Company)
         {
             try
             {
-                var result = _invoiceService.GenerateXML(model);
+                var result = _invoiceService.GenerateXML(model,Company);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -413,12 +412,14 @@ namespace Electronic_Invoice_Out.Controllers
             if (parmas.Company.ToString() == ExtensionMethods.GetEnumDescription(Company.HMG)) { username = _dbOption.HMGUserName; password = _dbOption.HMGPassword; }
             if (parmas.Company.ToString() == ExtensionMethods.GetEnumDescription(Company.FM)) { username = _dbOption.FMUserName; password = _dbOption.FMPassword; }
             if (parmas.Company.ToString() == ExtensionMethods.GetEnumDescription(Company.CS)) { username = _dbOption.CSUserName; password = _dbOption.CSPassword; }
+            if (parmas.Company.ToString() == ExtensionMethods.GetEnumDescription(Company.TASW)) { username = _dbOption.TASWUserName; password = _dbOption.TASWPassword;}
         }
         private void SetAuthentication(InvoiceQuery parmas, ref string username, ref string password)
         {
             if (parmas.Company.ToString() == ExtensionMethods.GetEnumDescription(Company.HMG)) { username = _dbOption.PCSID_HMGUserName; password = _dbOption.PCSID_HMGPassword; }
-            if (parmas.Company.ToString() == ExtensionMethods.GetEnumDescription(Company.FM)) { username = _dbOption.FMUserName; password = _dbOption.FMPassword; }
-            if (parmas.Company.ToString() == ExtensionMethods.GetEnumDescription(Company.CS)) { username = _dbOption.CSUserName; password = _dbOption.CSPassword; }
+            if (parmas.Company.ToString() == ExtensionMethods.GetEnumDescription(Company.FM)) { username = _dbOption.PCSID_FMUserName; password = _dbOption.PCSID_FMPassword; }
+            if (parmas.Company.ToString() == ExtensionMethods.GetEnumDescription(Company.CS)) { username = _dbOption.PCSID_CSUserName; password = _dbOption.PCSID_CSPassword; }
+            if (parmas.Company.ToString() == ExtensionMethods.GetEnumDescription(Company.TASW)) { username = _dbOption.PCSID_TASWUserName; password = _dbOption.PCSID_TASWPassword; }
         }
         #endregion
     }

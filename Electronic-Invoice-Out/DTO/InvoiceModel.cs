@@ -83,6 +83,7 @@ namespace Electronic_Invoice_Out.DTO
     public class AccountingSupplier
     {
         public string PartyIdentification { get; set; } = "454634645645654";
+        public string PartyIdentificationCode { get; set; } = "CRN";
         public SupplierPostalAddress PostalAddress { get; set; }
         public PartyTaxScheme PartyTaxScheme { get; set; }
         public PartyLegalEntity PartyLegalEntity { get; set; }
@@ -91,6 +92,7 @@ namespace Electronic_Invoice_Out.DTO
     public class AccountingCustomer
     {
         public string PartyIdentification { get; set; }
+        public string PartyIdentificationCode { get; set; } = "NAT";
         public CustomerPostalAddress PostalAddress { get; set; }
         public CustomerPartyTaxScheme PartyTaxScheme { get; set; }
         public PartyLegalEntity PartyLegalEntity { get; set; }

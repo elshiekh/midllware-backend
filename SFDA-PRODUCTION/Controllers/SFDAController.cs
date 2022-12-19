@@ -15,6 +15,7 @@ using ExportCancelProductionService;
 using ExportProductionService;
 using ImportCancelProductionService;
 using ImportProductionService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PackageDownloadProductionService;
@@ -35,7 +36,7 @@ using TransferProductionService;
 
 namespace SFDA_PRODUCTION.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     public class SFDAController : ControllerBase
     {

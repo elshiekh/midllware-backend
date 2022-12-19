@@ -19,7 +19,7 @@ namespace Electronic_Invoice_Out.Service
  
     public interface IInvoiceService
     {
-        InvoiceResult GenerateXML(InvoiceModel obj);
+        InvoiceResult GenerateXML(InvoiceModel obj , Company Company);
         //InvoiceResult GenerateStandardXML(InvoiceStandardModel obj);
     }
     public class InvoiceService : IInvoiceService
@@ -31,7 +31,7 @@ namespace Electronic_Invoice_Out.Service
         {
             _env = env;
         }
-        public InvoiceResult GenerateXML(InvoiceModel obj)
+        public InvoiceResult GenerateXML(InvoiceModel obj, Company Company)
         {
 
             var cc = Convert.ToDecimal(obj.AllowanceCharge.Amount);
@@ -83,7 +83,7 @@ namespace Electronic_Invoice_Out.Service
                 }
             }
             var invoiceArray = invoiceLineList.ToArray();
-            var billingrefrence = "Invoice Number: "+ obj.InvoiceID + " Invoice Issue Date: " + obj.IssueDate;
+            var billingrefrence = "Invoice Number: " + obj.InvoiceID + " Invoice Issue Date: " + obj.IssueDate;
             InvoiceType doc = new InvoiceType
             {
                 UBLExtensions = new UblLarsen.Ubl2.Ext.UBLExtensionType[] { new UblLarsen.Ubl2.Ext.UBLExtensionType { } },
@@ -93,10 +93,10 @@ namespace Electronic_Invoice_Out.Service
                 IssueDate = obj.IssueDate, // new DateTime(2022, 03, 13),
                 IssueTime = obj.IssueTime, // DateTime.Now,
                 InvoiceTypeCode = new CodeType { name = obj.InvoiceTypeCode.Name, Value = obj.InvoiceTypeCode.Value },
-                // InvoiceTypeCode = new CodeType { name =  "0211010", Value = "388" },
+                // InvoiceTypeCode = new CodeType { name =  "0211010", Value = GenericTypes.Invoice },
                 DocumentCurrencyCode = obj.DocumentCurrencyCode, //"SAR",
                 TaxCurrencyCode = obj.TaxCurrencyCode, //"SAR",
-                LineCountNumeric =(obj.InvoiceTypeCode.Name ==GenericTypes.Standard && obj.InvoiceTypeCode.Value == "388") ? obj.LineCountNumeric : null, // 2,
+                LineCountNumeric = (obj.InvoiceTypeCode.Name == GenericTypes.Standard && (obj.InvoiceTypeCode.Value == GenericTypes.Invoice || obj.InvoiceTypeCode.Value == GenericTypes.Prepayment)) ? obj.LineCountNumeric : null, // 2,
                 BillingReference = (obj.InvoiceTypeCode.Value ==GenericTypes.Credit || obj.InvoiceTypeCode.Value ==GenericTypes.Debit) ? new BillingReferenceType[]
                 {
                    new BillingReferenceType{ InvoiceDocumentReference = new DocumentReferenceType { ID = billingrefrence } }
@@ -109,7 +109,7 @@ namespace Electronic_Invoice_Out.Service
                 {
                     Party = new PartyType
                     {
-                        PartyIdentification = new PartyIdentificationType[] { new PartyIdentificationType { ID = new IdentifierType { schemeID = "CRN", Value = obj.AccountingSupplier.PartyIdentification } } },
+                        PartyIdentification = new PartyIdentificationType[] { new PartyIdentificationType { ID = new IdentifierType { schemeID = obj.AccountingSupplier.PartyIdentificationCode, Value = obj.AccountingSupplier.PartyIdentification } } },
                         PostalAddress = new AddressType
                         {
                             StreetName = obj.AccountingSupplier.PostalAddress.StreetName.ToString(), // "test",
@@ -145,7 +145,7 @@ namespace Electronic_Invoice_Out.Service
                 {
                     Party = new PartyType
                     {
-                        PartyIdentification = ((obj.InvoiceTypeCode.Name == GenericTypes.Standard && obj.InvoiceTypeCode.Value == GenericTypes.Credit) || (obj.InvoiceTypeCode.Name == GenericTypes.Standard && obj.InvoiceTypeCode.Value == GenericTypes.Debit)) ? null : new PartyIdentificationType[] { new PartyIdentificationType { ID = new IdentifierType { schemeID = "NAT", Value = obj.AccountingCustomer.PartyIdentification } } }, // 2345
+                        PartyIdentification = ((obj.InvoiceTypeCode.Name == GenericTypes.Standard && obj.InvoiceTypeCode.Value == GenericTypes.Credit) || (obj.InvoiceTypeCode.Name == GenericTypes.Standard && obj.InvoiceTypeCode.Value == GenericTypes.Debit)) ? null : new PartyIdentificationType[] { new PartyIdentificationType { ID = new IdentifierType { schemeID = obj.AccountingCustomer.PartyIdentificationCode, Value = obj.AccountingCustomer.PartyIdentification } } }, // 2345
                         PostalAddress = new AddressType
                         {
                             StreetName = obj.AccountingCustomer.PostalAddress.StreetName, // "baaoun",
@@ -247,8 +247,9 @@ namespace Electronic_Invoice_Out.Service
                 },
                 InvoiceLine = invoiceArray
             };
-            
-            string path = @"C:\companies\hmg\zatca-einvoicing-sdk-231-R3.1.7\Apps\";
+
+            string path = @"C:\companies\"+ Company + @"\zatca-einvoicing-sdk-231-R3.1.7\Apps\";
+            //string path = @"C:\companies\hmg\zatca-einvoicing-sdk-231-R3.1.7\Apps\";
             string filename = "Invoice-"+ doc.InvoiceTypeCode.name +"-" + DateTime.Now.ToString("ddMMyyyyHHmmss") + ".xml";
             var generatedXml  = path + filename;
             UblDoc<InvoiceType>.Save(generatedXml, doc);
@@ -356,7 +357,6 @@ namespace Electronic_Invoice_Out.Service
                 result.Status = "ERROR";
             }
 
-
             return result;
         }
 
@@ -386,7 +386,6 @@ namespace Electronic_Invoice_Out.Service
        
 
     }
-
     public static class GenericTypes
     {
         public const string Standard= "0111010";
@@ -394,6 +393,7 @@ namespace Electronic_Invoice_Out.Service
         public const string Invoice= "388";
         public const string Credit= "381";
         public const string Debit= "383";
+        public const string Prepayment = "386";
         //01 : standard
         //02 : simplified
         //383 : debit

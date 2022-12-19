@@ -124,9 +124,8 @@ namespace Electronic_Invoice_Out.Helper
         }
 
         public static string EncodeTo64(string toEncode)
-
         {
-            byte[] toEncodeAsBytes = Encoding.ASCII.GetBytes(toEncode);
+            byte[] toEncodeAsBytes = Encoding.UTF8.GetBytes(toEncode);
 
             string returnValue = Convert.ToBase64String(toEncodeAsBytes);
 

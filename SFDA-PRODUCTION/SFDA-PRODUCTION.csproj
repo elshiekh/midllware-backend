@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>SFDA_PRODUCTION</RootNamespace>
     <UserSecretsId>f92ee6a4-7996-46d3-8ecc-9c5e1359a408</UserSecretsId>
+	<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
 
 	<ItemGroup>
