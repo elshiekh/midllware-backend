@@ -132,7 +132,7 @@ namespace vida_plus_In.DTO
 
     public class InsertGlJournalsIntoStgRequestData
     {
-        public Int64 vidaplus_id { get; set; }
+        public string vidaplus_id { get; set; }
         public string batch_number { get; set; }
         public DateTime accounting_date { get; set; }
         public string currency_code { get; set; }
@@ -151,7 +151,7 @@ namespace vida_plus_In.DTO
     public class InsertGlJournalsIntoStgResponce
     {
         public decimal oracle_id { get; set; }
-        public decimal vidaplus_id { get; set; }
+        public string vidaplus_id { get; set; }
         public string response_status { get; set; }
         public string response_msg { get; set; }
     }
@@ -171,7 +171,7 @@ namespace vida_plus_In.DTO
 
     public class InsertOffersIntoStgRequestData
     {
-        public int vidaplus_id { get; set; }
+        public string vidaplus_id { get; set; }
         public string operating_unit_code { get; set; }
         public string offer_type { get; set; }
         public string Lot_Number { get; set; }
@@ -187,7 +187,7 @@ namespace vida_plus_In.DTO
     public class InsertOffersIntoStgResponce
     {
         public decimal oracle_id { get; set; }
-        public decimal vidaplus_id { get; set; }
+        public string vidaplus_id { get; set; }
         public string response_status { get; set; }
         public string response_msg { get; set; }
     }
@@ -207,7 +207,7 @@ namespace vida_plus_In.DTO
 
     public class InsertApInvIntoStgRequestData
     {
-        public int vidaplus_id { get; set; }
+        public string vidaplus_id { get; set; }
         public string operating_unit_code { get; set; }
         public string invoice_number { get; set; }
         public DateTime invoice_date { get; set; }
@@ -222,7 +222,7 @@ namespace vida_plus_In.DTO
     public class InsertApInvIntoStgResponce
     {
         public decimal oracle_id { get; set; }
-        public decimal vidaplus_id { get; set; }
+        public string vidaplus_id { get; set; }
         public string response_status { get; set; }
         public string response_msg { get; set; }
     }
@@ -282,7 +282,7 @@ namespace vida_plus_In.DTO
 
     public class InsertArRecIntoStgRequestData
     {
-        public int vidaplus_id { get; set; }
+        public string vidaplus_id { get; set; }
         public string operating_unit_code { get; set; }
         public string payment_method_name { get; set; }
         public string receipt_number { get; set; }
@@ -296,7 +296,7 @@ namespace vida_plus_In.DTO
     public class InsertArRecIntoStgResponce
     {
         public decimal oracle_id { get; set; }
-        public decimal vidaplus_id { get; set; }
+        public string vidaplus_id { get; set; }
         public string response_status { get; set; }
         public string response_msg { get; set; }
     }
