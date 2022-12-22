@@ -10,7 +10,7 @@ namespace vida_plus_out.Inventory
         public string transactionId { get; set; }
         public string itemCode { get; set; }
         public string organizationCode { get; set; }
-        public string subinventoryCode { get; set; }
+        public string subinventory_code { get; set; }
         public string transactionDate { get; set; }
         public string transactionQuantity { get; set; }
         public string lotNumber { get; set; }

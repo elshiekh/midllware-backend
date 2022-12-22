@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using vida_plus_out.Mapper;
+using APIMiddleware.Core.Extenstion;
 
 namespace vida_plus_out.Controllers
 {
@@ -50,7 +51,13 @@ namespace vida_plus_out.Controllers
                 request.Headers.Authorization = new BasicAuthenticationHeaderValue("oracleErp", "123");
                 request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
 
+
+                //obj.leaveStartDate.ToString("dd-MM-yy");
+                //obj.leaveEndDate.ToString("dd-MM-yy");
+
+
                 var postObject = JsonConvert.SerializeObject(obj);
+
 
                 request.Content = new StringContent(postObject, Encoding.UTF8, "application/json");
                 request.Content.Headers.ContentType = new MediaTypeHeaderValue(_dbOption.JsonFormat);
