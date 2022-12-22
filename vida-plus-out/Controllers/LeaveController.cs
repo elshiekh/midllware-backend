@@ -52,8 +52,8 @@ namespace vida_plus_out.Controllers
                 request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(_dbOption.JsonFormat));
 
 
-                //obj.leaveStartDate.ToString("dd-MM-yy");
-                //obj.leaveEndDate.ToString("dd-MM-yy");
+                obj.leaveStartDate= DateTime.Parse(obj.leaveStartDate).ToString("dd-MMM-yy");
+                obj.leaveEndDate = DateTime.Parse(obj.leaveEndDate).ToString("dd-MMM-yy");
 
 
                 var postObject = JsonConvert.SerializeObject(obj);

@@ -10,16 +10,8 @@ namespace vida_plus_out.Leave
     {
         public string oracleId { get; set; }
         public string employeeNumber { get; set; }
-
-
-        //[DisplayFormat(DataFormatString = "{dd-MM-yy}")]
-        public DateTime leaveStartDate { get; set; }
-
-
-        //[DisplayFormat(DataFormatString = "{dd-MM-yy}")]
-        public DateTime leaveEndDate { get; set; }
-
-
+        public string leaveStartDate { get; set; }
+        public string leaveEndDate { get; set; }
         public string replacementEmployeeNumber { get; set; }
     }
 
