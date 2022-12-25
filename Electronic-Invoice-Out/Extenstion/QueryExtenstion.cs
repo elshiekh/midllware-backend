@@ -1,18 +1,15 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Oracle.ManagedDataAccess.Client;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace Electronic_Invoice_Out.Extenstion
 {
@@ -64,7 +61,7 @@ namespace Electronic_Invoice_Out.Extenstion
                 {
                     throw ex;
                 }
-
+               
             }
             return list;
         }
@@ -152,8 +149,6 @@ namespace Electronic_Invoice_Out.Extenstion
                     path);
             }
         }
-
-        
 
     }
 }

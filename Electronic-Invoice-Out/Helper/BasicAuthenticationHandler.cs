@@ -22,7 +22,7 @@ namespace Electronic_Invoice_Out.Helper
             ILoggerFactory logger,
             UrlEncoder encoder,
             ISystemClock clock,
-            IUserService userService) : base(options, logger, encoder, clock)
+            IUserService userService): base(options, logger, encoder, clock)
         {
             _userService = userService;
         }
@@ -53,7 +53,7 @@ namespace Electronic_Invoice_Out.Helper
             }
 
             if (user == null)
-                return AuthenticateResult.Fail("Invalid Username or HMGPassword");
+                return AuthenticateResult.Fail("Invalid Username or Password");
 
             var claims = new[] {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),

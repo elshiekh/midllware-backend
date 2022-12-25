@@ -1,16 +1,11 @@
-﻿using Electronic_Invoice_Out.DTO;
-using Electronic_Invoice_Out.Extenstion;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
+using Electronic_Invoice_Out.DTO;
 
 namespace Electronic_Invoice_Out.Helper
 {
@@ -66,7 +61,7 @@ namespace Electronic_Invoice_Out.Helper
             // Creates a stream whose backing store is memory. 
             using (MemoryStream xmlStream = new MemoryStream())
             {
-                xmlSerializer.Serialize(xmlStream, YourClassObject, ns);
+                xmlSerializer.Serialize(xmlStream, YourClassObject,ns);
                 xmlStream.Position = 0;
                 //Loads the XML document from the specified string.
                 xmlDoc.Load(xmlStream);
@@ -110,73 +105,5 @@ namespace Electronic_Invoice_Out.Helper
             }
             return list;
         }
-        public static string FormatXml(string xml)
-        {
-            try
-            {
-                XDocument doc = XDocument.Parse(xml);
-                return doc.ToString();
-            }
-            catch (Exception)
-            {
-                return xml;
-            }
-        }
-
-        public static string EncodeTo64(string toEncode)
-        {
-            byte[] toEncodeAsBytes = Encoding.UTF8.GetBytes(toEncode);
-
-            string returnValue = Convert.ToBase64String(toEncodeAsBytes);
-
-            return returnValue;
-
-        }
-
-        public static string GetEnumDescription(Enum value)
-        {
-            // Get the Description attribute value for the enum value
-            FieldInfo fi = value.GetType().GetField(value.ToString());
-            DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
-
-            if (attributes.Length > 0)
-                return attributes[0].Description;
-            else
-                return value.ToString();
-        }
-
-        public static string GetQR(string invoice)
-        {
-            string decodedString = DecodeBase64(invoice);
-            // Create the XmlDocument.
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(decodedString);
-            var invoiceQr = GetNodeInnerText(doc, Params.QR_CODE_XPATH);
-            return invoiceQr;
-        }
-        public static string GetNodeInnerText(XmlDocument doc, string xPath)
-        {
-            XmlNamespaceManager xmlNamespaceManager = new XmlNamespaceManager(doc.NameTable);
-            xmlNamespaceManager.AddNamespace("cac", "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2");
-            xmlNamespaceManager.AddNamespace("cbc", "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2");
-            xmlNamespaceManager.AddNamespace("ext", "urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2");
-            XmlNode xmlNode = doc.SelectSingleNode(xPath, xmlNamespaceManager);
-            if (xmlNode != null)
-            {
-                return xmlNode.InnerText;
-            }
-
-            return "";
-        }
-
-        public static string DecodeBase64(string value)
-        {
-            if (string.IsNullOrEmpty(value))
-                return string.Empty;
-            var valueBytes = Convert.FromBase64String(value);
-            var valuestring = Encoding.UTF8.GetString(valueBytes);
-            return valuestring;
-        }
-
     }
 }

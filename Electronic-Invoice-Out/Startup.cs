@@ -12,15 +12,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Text.Json.Serialization;
-using static Electronic_Invoice_Out.Extenstion.QueryExtenstion;
 
 namespace Electronic_Invoice_Out
 {
     public class Startup
     {
         //MW
-        WebAPIProject properties = new WebAPIProject() { Id = 214, Code = 214, Name = "EInvoiceOut", UserName = "EInvoiceOut" };
+        WebAPIProject properties = new WebAPIProject() { Id = 214, Code = 214, Name = "ElectronicInvoiceOut", UserName = "ElectronicInvoiceOut" };
 
         public Startup(IConfiguration configuration)
         {
@@ -33,10 +31,8 @@ namespace Electronic_Invoice_Out
         public void ConfigureServices(IServiceCollection services)
         {
             //MW
-            services.RegsiterAPIMiddlewareConfiguration(Configuration);
-            services.AddControllers().AddXmlSerializerFormatters();
-            services.AddControllers().AddJsonOptions(options =>
-             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+             services.RegsiterAPIMiddlewareConfiguration(Configuration);
+             services.AddControllers().AddXmlSerializerFormatters();
 
             // configure basic authentication 
             services.AddAuthentication("BasicAuthentication")
@@ -48,7 +44,7 @@ namespace Electronic_Invoice_Out
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "E-Invoice Out WebAPI", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Electronic Invoice Out WebAPI", Version = "v1" });
                 c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -71,61 +67,28 @@ namespace Electronic_Invoice_Out
                             new string[] {}
                     }
                 });
-                c.DescribeAllEnumsAsStrings();
             });
 
             Action<DBOption> mduOptions = (opt =>
             { // ELEVATUS-DEV -------- ELEVATUS-PROD
-                opt.BaseAddress = Configuration["ELECTRONIC-INVOICE-DEV:BaseAddress"];
-                opt.JsonFormat = Configuration["ELECTRONIC-INVOICE-DEV:JsonFormat"];
-                // HMG PCSID-UserName
-                opt.HMGUserName = Configuration["ELECTRONIC-INVOICE-DEV:HMG:UserName"];
-                opt.HMGPassword = Configuration["ELECTRONIC-INVOICE-DEV:HMG:Password"];
-                opt.PCSID_HMGUserName = Configuration["ELECTRONIC-INVOICE-DEV:HMG:PCSID-UserName"];
-                opt.PCSID_HMGPassword = Configuration["ELECTRONIC-INVOICE-DEV:HMG:PCSID-Password"];
-                // CS
-                opt.CSUserName = Configuration["ELECTRONIC-INVOICE-DEV:CS:UserName"];
-                opt.CSPassword = Configuration["ELECTRONIC-INVOICE-DEV:CS:Password"];
-                opt.PCSID_CSUserName = Configuration["ELECTRONIC-INVOICE-DEV:CS:PCSID-UserName"];
-                opt.PCSID_CSPassword = Configuration["ELECTRONIC-INVOICE-DEV:CS:PCSID-Password"];
-                // FM
-                opt.FMUserName = Configuration["ELECTRONIC-INVOICE-DEV:FM:UserName"];
-                opt.FMPassword = Configuration["ELECTRONIC-INVOICE-DEV:FM:Password"];
-                opt.PCSID_FMUserName = Configuration["ELECTRONIC-INVOICE-DEV:FM:PCSID-UserName"];
-                opt.PCSID_FMPassword = Configuration["ELECTRONIC-INVOICE-DEV:FM:PCSID-Password"];
-                // TASW
-                opt.TASWUserName = Configuration["ELECTRONIC-INVOICE-DEV:TASW:UserName"];
-                opt.TASWPassword = Configuration["ELECTRONIC-INVOICE-DEV:TASW:Password"];
-                opt.PCSID_TASWUserName = Configuration["ELECTRONIC-INVOICE-DEV:TASW:PCSID-UserName"];
-                opt.PCSID_TASWPassword = Configuration["ELECTRONIC-INVOICE-DEV:TASW:PCSID-Password"];
+              opt.BaseAddress= Configuration["ELECTRONIC-INVOICE-DEV:BaseAddress"];
+              opt.JsonFormat= Configuration["ELECTRONIC-INVOICE-DEV:JsonFormat"];
+              opt.UserName = Configuration["ELECTRONIC-INVOICE-DEV:UserName"];
+              opt.Password = Configuration["ELECTRONIC-INVOICE-DEV:Password"];
             });
             services.Configure(mduOptions);
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<DBOption>>().Value);
-            //services.Configure<FormOptions>(o =>  // currently all set to max, configure it to your needs!
-            //{
-            //    o.ValueLengthLimit = int.MaxValue;
-            //    o.MultipartBodyLengthLimit = long.MaxValue; // <-- !!! long.MaxValue
-            //    o.MultipartBoundaryLengthLimit = int.MaxValue;
-            //    o.MultipartHeadersCountLimit = int.MaxValue;
-            //    o.MultipartHeadersLengthLimit = int.MaxValue;
-            //});
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.Use(async (context, next) => { context.Request.EnableBuffering(); await next(); });
-         
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            //app.Use(async (context, next) =>
-            //{
-            //    context.Features.Get<IHttpMaxRequestBodySizeFeature>().MaxRequestBodySize = null; // unlimited I guess
-            //    await next.Invoke();
-            //});
 
             //MW
             app.UseMiddleware<ApiLogging>(properties);
@@ -156,7 +119,7 @@ namespace Electronic_Invoice_Out
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "E-Invoice Out WebAPI");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Electronic Invoice Out WebAPI");
                 c.DefaultModelsExpandDepth(-1);
             });
         }
