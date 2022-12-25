@@ -2,7 +2,6 @@
 using Org.BouncyCastle.Bcpg.OpenPgp;
 using System;
 using System.IO;
-using System.Linq;
 
 namespace Kyriba_Out.PGB
 {

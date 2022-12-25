@@ -7,7 +7,7 @@ namespace Vida.DTO.Vida
     public class SCMInventoryRequest
     {
         public INVStock INVStock { get; set; }
-        public List<Serials_ROW>  Serials { get; set; }   // ScmSerials
+        public List<Serials_ROW> Serials { get; set; }   // ScmSerials
     }
 
     public class SCMInventoryResponse

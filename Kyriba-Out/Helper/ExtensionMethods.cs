@@ -1,12 +1,11 @@
-﻿using System;
-using System.Data;
+﻿using Kyriba_Out.DTO;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
-using Kyriba_Out.DTO;
-using System.Text;
 
 namespace Kyriba_Out.Helper
 {

@@ -42,7 +42,7 @@ namespace APIMiddleware.Web.Controllers
 
             if (!string.IsNullOrEmpty(searchBy))
             {
-                result =  result.Where(r => r.ProjectName != null && r.ProjectName.ToUpper().Contains(searchBy.ToUpper()) ||
+                result = result.Where(r => r.ProjectName != null && r.ProjectName.ToUpper().Contains(searchBy.ToUpper()) ||
                                            r.RequestUrl != null && r.RequestUrl.ToUpper().Contains(searchBy.ToUpper()) ||
                                            r.RequestMethod != null && r.RequestMethod.ToUpper().Contains(searchBy.ToUpper()) ||
                                            r.RequestDate != null && r.RequestDate.ToString("dd/MM/yyyy").Contains(searchBy) ||

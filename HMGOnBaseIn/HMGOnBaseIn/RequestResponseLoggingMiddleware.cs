@@ -56,7 +56,8 @@ namespace HMGOnBaseIn
             } while (readChunkLength > 0);
             return textWriter.ToString();
         }
-        private async Task LogResponse(HttpContext context) {
+        private async Task LogResponse(HttpContext context)
+        {
             var originalBodyStream = context.Response.Body;
             await using var responseBody = _recyclableMemoryStreamManager.GetStream();
             context.Response.Body = responseBody;

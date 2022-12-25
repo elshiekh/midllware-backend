@@ -1,6 +1,6 @@
 ﻿using APIMiddleware.Core.DBContext;
-using APIMiddleware.Core.Entities;
 using APIMiddleware.Core.DTO;
+using APIMiddleware.Core.Entities;
 using APIMiddleware.Core.Services.Interface;
 using APIMiddleware.Notification.Services;
 using Microsoft.EntityFrameworkCore;
@@ -60,7 +60,7 @@ namespace APIMiddleware.Core.Services.Implementation
         {
             try
             {
-                var functions = _dbContext.Functions.Include(x=>x.Project);
+                var functions = _dbContext.Functions.Include(x => x.Project);
                 return await functions.Select(function => new FunctionDTO
                 {
                     FunctionId = function.FunctionId,
@@ -86,7 +86,7 @@ namespace APIMiddleware.Core.Services.Implementation
         {
             try
             {
-                var functions = _dbContext.Functions.Where(x=>x.ProjectId == projectId).Include(x => x.Project);
+                var functions = _dbContext.Functions.Where(x => x.ProjectId == projectId).Include(x => x.Project);
                 return await functions.Select(function => new FunctionDTO
                 {
                     FunctionId = function.FunctionId,

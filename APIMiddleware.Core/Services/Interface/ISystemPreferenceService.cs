@@ -1,5 +1,5 @@
-﻿using APIMiddleware.Core.Entities;
-using APIMiddleware.Core.DTO;
+﻿using APIMiddleware.Core.DTO;
+using APIMiddleware.Core.Entities;
 using APIMiddleware.Notification.Models;
 
 namespace APIMiddleware.Core.Services.Interface

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Promotions_Portal_In.DTO;
+using Promotions_Portal_In.Helper;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Promotions_Portal_In.DTO;
-using Promotions_Portal_In.Helper;
 
 namespace Promotions_Portal_In.Service
 {

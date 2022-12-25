@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using elevatus_in.DTO;
+using System.Linq;
 using System.Xml.Linq;
-using elevatus_in.DTO;
 
 namespace elevatus_in.Mapper
 {
@@ -154,12 +154,12 @@ namespace elevatus_in.Mapper
 
         public static string ToXMLDeleteSeurity(this DeleteSecurityRequest security)
         {
-           XDocument P_INV_TRX_SER_TBL = new XDocument(new XDeclaration("1.0", "UTF - 8", "yes"),
-           new XElement("SECURITYLIST",
-                   from sec in security.Security
-                   select new XElement("SECURITY",
-                           new XElement("SECURITY_ID", sec.security_id))
-           ));
+            XDocument P_INV_TRX_SER_TBL = new XDocument(new XDeclaration("1.0", "UTF - 8", "yes"),
+            new XElement("SECURITYLIST",
+                    from sec in security.Security
+                    select new XElement("SECURITY",
+                            new XElement("SECURITY_ID", sec.security_id))
+            ));
 
             return P_INV_TRX_SER_TBL.ToString();
         }

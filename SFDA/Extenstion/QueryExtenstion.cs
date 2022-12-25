@@ -1,19 +1,7 @@
-﻿using SFDA;
+﻿using ICSharpCode.SharpZipLib.Zip;
 using SFDA.DTO;
-using Microsoft.Extensions.Caching.Memory;
-using Newtonsoft.Json;
-using Oracle.ManagedDataAccess.Client;
-using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using ICSharpCode.SharpZipLib.Zip;
 //using Devart.Data.Oracle;
 
 namespace SFDA.Extenstion

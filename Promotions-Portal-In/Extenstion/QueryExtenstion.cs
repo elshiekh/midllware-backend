@@ -9,7 +9,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
-using System.Xml.Linq;
 //using Devart.Data.Oracle;
 
 namespace Promotions_Portal_In.Extenstion
@@ -48,13 +47,13 @@ namespace Promotions_Portal_In.Extenstion
                 obj = Activator.CreateInstance<T>();
                 foreach (PropertyInfo prop in obj.GetType().GetProperties())
                 {
-                        if (!object.Equals(dr[prop.Name], DBNull.Value))
-                        {
-                            prop.SetValue(obj, dr[prop.Name], null);
-                        }
-                
+                    if (!object.Equals(dr[prop.Name], DBNull.Value))
+                    {
+                        prop.SetValue(obj, dr[prop.Name], null);
+                    }
+
                 }
-             list.Add(obj);
+                list.Add(obj);
             }
             return list;
         }

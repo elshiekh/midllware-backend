@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using external_portal_in.DTO;
+using external_portal_in.Service;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -9,8 +11,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using external_portal_in.DTO;
-using external_portal_in.Service;
 
 namespace external_portal_in.Helper
 {
@@ -22,7 +22,7 @@ namespace external_portal_in.Helper
             ILoggerFactory logger,
             UrlEncoder encoder,
             ISystemClock clock,
-            IUserService userService): base(options, logger, encoder, clock)
+            IUserService userService) : base(options, logger, encoder, clock)
         {
             _userService = userService;
         }

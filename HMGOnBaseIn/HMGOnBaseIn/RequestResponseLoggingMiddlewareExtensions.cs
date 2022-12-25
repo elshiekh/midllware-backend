@@ -2,7 +2,7 @@
 
 namespace HMGOnBaseIn
 {
-    public static  class RequestResponseLoggingMiddlewareExtensions
+    public static class RequestResponseLoggingMiddlewareExtensions
     {
         public static IApplicationBuilder UseRequestResponseLogging(this IApplicationBuilder builder)
         {

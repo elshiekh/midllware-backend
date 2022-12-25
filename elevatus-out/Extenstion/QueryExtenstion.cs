@@ -59,7 +59,7 @@ namespace elevatus_out.Extenstion
                 {
                     throw ex;
                 }
-               
+
             }
             return list;
         }

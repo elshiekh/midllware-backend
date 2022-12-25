@@ -1,7 +1,7 @@
-﻿using Promotions_Portal_In.DTO;
-using Promotions_Portal_In.Service;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Promotions_Portal_In.DTO;
+using Promotions_Portal_In.Service;
 using System.Threading.Tasks;
 
 namespace Promotions_Portal_In.Controllers
@@ -17,7 +17,7 @@ namespace Promotions_Portal_In.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody]AuthenticateModel model)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateModel model)
         {
             var user = await _userService.Authenticate(model.Username, model.Password);
 

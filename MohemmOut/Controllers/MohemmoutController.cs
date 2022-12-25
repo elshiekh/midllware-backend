@@ -50,7 +50,8 @@ namespace Mohemmout.Controllers
                             successResult.ErrorMessage = null;
                             result = successResult;
                         }
-                        else {
+                        else
+                        {
                             successResult = JsonConvert.DeserializeObject<SendNotificationResponse>(apiResponse);
                             successResult.MessageStatus = nameof(Enum.ResponseCode.E);
                             result = successResult;

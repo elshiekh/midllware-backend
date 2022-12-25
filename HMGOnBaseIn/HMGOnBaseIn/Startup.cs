@@ -18,7 +18,7 @@ namespace HMGOnBaseIn
     public class Startup
     {
         //MW
-       // WebAPIProject properties = new WebAPIProject() { RequestId = 7, Code = 7, Name = "HMGOnBaseIn", UserName = "HmgOnBase" };
+        // WebAPIProject properties = new WebAPIProject() { RequestId = 7, Code = 7, Name = "HMGOnBaseIn", UserName = "HmgOnBase" };
         WebAPIProject properties = new WebAPIProject() { Id = 207, Code = 207, Name = "onBaseOut", UserName = "onbaseout" };
         public Startup(IConfiguration configuration)
         {
@@ -44,7 +44,7 @@ namespace HMGOnBaseIn
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ECM OnBase Out", Version = "v1" });
             });
 
-          
+
             Action<DBOption> mduOptions = (opt =>
             {
                 opt.DbConection = Configuration["ConnectionStrings:ERPConn"];
@@ -65,9 +65,9 @@ namespace HMGOnBaseIn
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env )
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-           app.Use(async (context, next) => { context.Request.EnableBuffering(); await next(); });
+            app.Use(async (context, next) => { context.Request.EnableBuffering(); await next(); });
             // loggerFactory.AddFile("Logs/HMGOnBaseIn-{Date}.txt"); , ILoggerFactory loggerFactory
             // app.UseRequestResponseLogging();
             if (env.IsDevelopment())
@@ -79,7 +79,7 @@ namespace HMGOnBaseIn
             app.UseStaticFiles();
             // app.UseRequestResponseLogging();
 
-           //MW
+            //MW
             app.UseMiddleware<ApiLogging>(properties);
 
             app.UseRouting();
@@ -104,7 +104,8 @@ namespace HMGOnBaseIn
             //    c.DefaultModelsExpandDepth(-1);
             //});
 
-            app.UseSwaggerUI(c => {
+            app.UseSwaggerUI(c =>
+            {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECM OnBase Out API");
                 c.DefaultModelsExpandDepth(-1);
             });

@@ -132,7 +132,7 @@ namespace vida_plus_In.DTO
 
     public class InsertGlJournalsIntoStgRequestData
     {
-        public Int64 vidaplus_id { get; set; }
+        public string vidaplus_id { get; set; }
         public string batch_number { get; set; }
         public DateTime accounting_date { get; set; }
         public string currency_code { get; set; }
@@ -151,7 +151,7 @@ namespace vida_plus_In.DTO
     public class InsertGlJournalsIntoStgResponce
     {
         public decimal oracle_id { get; set; }
-        public decimal vidaplus_id { get; set; }
+        public string vidaplus_id { get; set; }
         public string response_status { get; set; }
         public string response_msg { get; set; }
     }
@@ -171,7 +171,7 @@ namespace vida_plus_In.DTO
 
     public class InsertOffersIntoStgRequestData
     {
-        public int vidaplus_id { get; set; }
+        public string vidaplus_id { get; set; }
         public string operating_unit_code { get; set; }
         public string offer_type { get; set; }
         public string Lot_Number { get; set; }
@@ -187,7 +187,7 @@ namespace vida_plus_In.DTO
     public class InsertOffersIntoStgResponce
     {
         public decimal oracle_id { get; set; }
-        public decimal vidaplus_id { get; set; }
+        public string vidaplus_id { get; set; }
         public string response_status { get; set; }
         public string response_msg { get; set; }
     }
@@ -207,7 +207,7 @@ namespace vida_plus_In.DTO
 
     public class InsertApInvIntoStgRequestData
     {
-        public int vidaplus_id { get; set; }
+        public string vidaplus_id { get; set; }
         public string operating_unit_code { get; set; }
         public string invoice_number { get; set; }
         public DateTime invoice_date { get; set; }
@@ -222,7 +222,7 @@ namespace vida_plus_In.DTO
     public class InsertApInvIntoStgResponce
     {
         public decimal oracle_id { get; set; }
-        public decimal vidaplus_id { get; set; }
+        public string vidaplus_id { get; set; }
         public string response_status { get; set; }
         public string response_msg { get; set; }
     }
@@ -269,8 +269,8 @@ namespace vida_plus_In.DTO
     #endregion
 
 
-    //GetEmployeeDetails
-    #region GetEmployeeDetails
+    //InsertArRecIntoStgRequest
+    #region InsertArRecIntoStgRequest
     public class InsertArRecIntoStgRequest
     {
         public string GetSPName()
@@ -282,7 +282,7 @@ namespace vida_plus_In.DTO
 
     public class InsertArRecIntoStgRequestData
     {
-        public int vidaplus_id { get; set; }
+        public string vidaplus_id { get; set; }
         public string operating_unit_code { get; set; }
         public string payment_method_name { get; set; }
         public string receipt_number { get; set; }
@@ -296,29 +296,81 @@ namespace vida_plus_In.DTO
     public class InsertArRecIntoStgResponce
     {
         public decimal oracle_id { get; set; }
-        public decimal vidaplus_id { get; set; }
+        public string vidaplus_id { get; set; }
         public string response_status { get; set; }
         public string response_msg { get; set; }
     }
     #endregion
 
 
-
-    //GetEmployeeDetails
-    #region Get EmployeeDetails
-    public class GetEmployeeDetailsRequest
+    //GetEmployeeInfo
+    #region Get EmployeeInfo
+    public class GetEmployeeInfoRequest
     {
         public string GetSPName()
         {
-            return "HMG_VP_EMP_INFO_PKG.GET_EMPLOYEE_DETAILS";
+            return "HMG_VP_EMP_INT_IN_PKG.GET_EMPLOYEE_INFO";
         }
     }
 
-    public class GetEmployeeDetailsResponce
+    public class GetEmployeeInfoResponce
     {
         public string P_EMPLOYEE_INFORMATION { get; set; }
         public string P_RETURN_STATUS { get; set; }
         public string P_RETURN_MSG { get; set; }
     }
     #endregion
+
+
+    //InsertDeduction
+    #region InsertDeduction
+    public class InsertDeductionRequest
+    {
+        public string GetSPName()
+        {
+            return "HMG_VP_SAL_DED_INT_IN_PKG.INSERT_DEDUCTION";
+        }
+        public string VidaPlusId { get; set; }
+        public string transaction_type { get; set; }
+        public DateTime transaction_date { get; set; }
+        public string employee_number { get; set; }
+        public int patient_civil_id { get; set; }
+        public string invoice_number { get; set; }
+        public int invoice_amount { get; set; }
+        public int patient_id { get; set; }
+        public string patient_name { get; set; }
+        public string his_user { get; set; }
+        public string his_project { get; set; }
+    }
+
+    public class InsertDeductionResponce
+    {
+        public decimal ORACLE_ID { get; set; }
+        public string RESPONSE_STATUS { get; set; }
+        public string RESPONSE_MSG { get; set; }
+    }
+    #endregion
+
+
+    //ValidateDeduction
+    #region ValidateDeduction
+    public class ValidateDeductionRequest
+    {
+        public string GetSPName()
+        {
+            return "HMG_VP_SAL_DED_INT_IN_PKG.VALIDATE_DEDUCTION";
+        }
+        public string employee_number { get; set; }
+        public DateTime transaction_date { get; set; }
+        public int invoice_amount { get; set; }
+        public string patient_civil_id { get; set; }
+    }
+
+    public class ValidateDeductionResponce
+    {
+        public string RESPONSE_STATUS { get; set; }
+        public string RESPONSE_MSG { get; set; }
+    }
+    #endregion
+
 }

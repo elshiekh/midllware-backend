@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SFDA_PRODUCTION.DTO;
+using SFDA_PRODUCTION.Service;
 using System;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using SFDA_PRODUCTION.DTO;
-using SFDA_PRODUCTION.Service;
 
 namespace SFDA_PRODUCTION.Helper
 {

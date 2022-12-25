@@ -1,10 +1,8 @@
 ﻿using Org.BouncyCastle.Bcpg;
 using Org.BouncyCastle.Bcpg.OpenPgp;
 using Org.BouncyCastle.Security;
-using Org.BouncyCastle.Utilities.IO;
 using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace Kyriba_Out.PGB
@@ -201,7 +199,7 @@ namespace Kyriba_Out.PGB
             PgpPublicKey encKey = PgpExampleUtilities.ReadPublicKey(encKeyFileName);
             using (Stream output = File.Create(outputFileName))
             {
-                var cc =  EncryptBinaryFile(output, inputFileName, encKey, armor, withIntegrityCheck);
+                var cc = EncryptBinaryFile(output, inputFileName, encKey, armor, withIntegrityCheck);
                 //output.CopyTo(fileContents);
                 return fileContents.ToArray();
                 //return output;

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace APIMiddleware.Core.Services.Interface
 {
-    public  interface IFunctionService
+    public interface IFunctionService
     {
         bool AddFunction(FunctionDTO requestDTO);
         bool RemoveFunction(int id);

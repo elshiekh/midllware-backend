@@ -1,3 +1,5 @@
+using APIMiddleware.Core;
+using APIMiddleware.Core.DTO;
 using external_portal_in.Helper;
 using external_portal_in.Service;
 using Microsoft.AspNetCore.Authentication;
@@ -8,18 +10,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using System;
-using APIMiddleware.Core.DTO;
 using Microsoft.OpenApi.Models;
-using APIMiddleware.Core;
+using System;
 
 namespace external_portal_in
 {
     public class Startup
     {
         //MW
-       // WebAPIProject properties = new WebAPIProject() { Id = 8, Code = 8, Name = "HMGOnBaseOut", UserName = "HmgOnBase" };
-        WebAPIProject properties = new WebAPIProject() { Id = 210, Code= 210, Name = " externalPortalIn", UserName = "externalPortalIn" };
+        // WebAPIProject properties = new WebAPIProject() { Id = 8, Code = 8, Name = "HMGOnBaseOut", UserName = "HmgOnBase" };
+        WebAPIProject properties = new WebAPIProject() { Id = 210, Code = 210, Name = " externalPortalIn", UserName = "externalPortalIn" };
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -85,7 +85,7 @@ namespace external_portal_in
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-           // app.UseResponseCompression();
+            // app.UseResponseCompression();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();

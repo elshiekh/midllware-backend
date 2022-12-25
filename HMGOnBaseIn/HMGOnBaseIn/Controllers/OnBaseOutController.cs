@@ -2,7 +2,6 @@
 using HMGOnBaseIn.Controllers;
 using HMGOnBaseIn.DTO;
 using HMGOnBaseIn.Extenstion;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -168,9 +167,9 @@ namespace HmgOnBaseOut.Controllers
                 byte[] fileBlob;
                 try
                 {
-                     fileBlob = GetFIle(request.FileId).FILE_DATA;
+                    fileBlob = GetFIle(request.FileId).FILE_DATA;
                 }
-                catch (Exception ex )
+                catch (Exception ex)
                 {
                     _logger.LogError(ex, $"Error: FILE ERROR-" + DateTime.Now);
                     return ReturnException(ex);
@@ -204,7 +203,7 @@ namespace HmgOnBaseOut.Controllers
                     AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                     StringContent content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-                    using (var response = await httpClient.PostAsync(_dbOption.OnBaseAPI + "/"+ _dbOption.OnBaseSite + "/API/documents", content))
+                    using (var response = await httpClient.PostAsync(_dbOption.OnBaseAPI + "/" + _dbOption.OnBaseSite + "/API/documents", content))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         if (isXML)
@@ -290,7 +289,7 @@ namespace HmgOnBaseOut.Controllers
                     httpClient.DefaultRequestHeaders.Authorization = new
                     AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
                     StringContent content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-                    using (var response = await httpClient.PutAsync(_dbOption.OnBaseAPI +"/" + _dbOption.OnBaseSite + "/API/documents/UpdateDocByKeywords", content))
+                    using (var response = await httpClient.PutAsync(_dbOption.OnBaseAPI + "/" + _dbOption.OnBaseSite + "/API/documents/UpdateDocByKeywords", content))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         result = JsonConvert.DeserializeObject<List<UpdateDocumentByKeywordsResponse>>(apiResponse.ToString());
@@ -415,7 +414,7 @@ namespace HmgOnBaseOut.Controllers
                     StringContent content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
                     using (var response = await httpClient.PutAsync(_dbOption.OnBaseAPI + "/" + _dbOption.OnBaseSite + "/API/documents/", content))
                     {
-                       string apiResponse = await response.Content.ReadAsStringAsync();
+                        string apiResponse = await response.Content.ReadAsStringAsync();
                         result = JsonConvert.DeserializeObject<StoreUpdateDocumentResponse>(apiResponse.ToString());
                         if (string.IsNullOrEmpty(result.docURL)) { result.docURL = ""; }
                     }
@@ -499,7 +498,7 @@ namespace HmgOnBaseOut.Controllers
                 cmd.Parameters.Add(":P_FILE_ID", FILE_ID);
                 OracleDataReader reader = cmd.ExecuteReader();
                 GetFileResponse fileResponset = new GetFileResponse();
-                
+
                 while (reader.Read())
                 {
                     fileResponset = reader.ConvertToObject<GetFileResponse>();
@@ -520,7 +519,7 @@ namespace HmgOnBaseOut.Controllers
     }
 
 }
-     #region LegacySection
+#region LegacySection
 //private IActionResult TETS(RetrieveDocumentResponse request)
 //{
 

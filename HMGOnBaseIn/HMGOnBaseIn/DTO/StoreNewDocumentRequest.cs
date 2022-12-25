@@ -9,7 +9,7 @@ namespace HMGOnBaseIn.DTO
         public string FileExtension { get; set; }
         public string DocTypeName { get; set; }
         public List<IDictionary<string, string>> Keywords { get; set; }
-       // public Keywords Keywords { get; set; }
+        // public Keywords Keywords { get; set; }
     }
 
     public class StoreNewDocumentResponse

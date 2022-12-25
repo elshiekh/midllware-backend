@@ -2,10 +2,10 @@
 {
     public class PostRevisionRequest
     {
-       public long OnBaseDocID { get; set; }
-       public int FileId { get; set; }
-       public string  fileBytes { get; set; }
-       public string fileExtension { get; set; }
+        public long OnBaseDocID { get; set; }
+        public int FileId { get; set; }
+        public string fileBytes { get; set; }
+        public string fileExtension { get; set; }
     }
 
     public class PostRevisionResponse

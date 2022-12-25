@@ -30,7 +30,8 @@ namespace elevatus_out.PositionProject
         public IntegrateAccountPositionProject IntegrateAccount { get; set; }
         public List<Reason> Reason { get; set; }
     }
-    public class DeletePositionProjectResponse {
+    public class DeletePositionProjectResponse
+    {
         public IdentifierDeleteResponse Identifiers { get; set; }
     }
     #endregion
@@ -40,7 +41,8 @@ namespace elevatus_out.PositionProject
     public class GetPositionProjectRequest
     {
     }
-    public class GetPositionProjectResponse {
+    public class GetPositionProjectResponse
+    {
         public Identifiers Identifiers { get; set; }
         public IntegrateAccount IntegrateAccount { get; set; }
     }
@@ -72,7 +74,8 @@ namespace elevatus_out.PositionProject
         public string Limit { get; set; }
         public string Total { get; set; }
     }
-    public class IntegrateAccount {
+    public class IntegrateAccount
+    {
         public List<ExtraData> ExtraData { get; set; }
     }
 
@@ -96,8 +99,8 @@ namespace elevatus_out.PositionProject
         public string error { get; set; }
     }
 
-    public class Parent {}
-  
+    public class Parent { }
+
     public class CreateResponsePositionProject
     {
         public string Status { get; set; }

@@ -2,11 +2,9 @@
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Oracle.ManagedDataAccess.Client;
-using ServiceStack.Text;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -63,7 +61,7 @@ namespace elevatus_in.Extenstion
                 {
                     throw ex;
                 }
-               
+
             }
             return list;
         }

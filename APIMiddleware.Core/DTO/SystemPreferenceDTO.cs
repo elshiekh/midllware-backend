@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace APIMiddleware.Core.DTO
+﻿namespace APIMiddleware.Core.DTO
 {
     public class SystemPreferenceDTO
     {
