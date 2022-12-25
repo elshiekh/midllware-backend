@@ -9,12 +9,12 @@ namespace elevatus_out.Helper
 {
     public class HttpClientHelper
     {
-        private  readonly  DBOption _dbOption;
+        private readonly DBOption _dbOption;
         public HttpClientHelper(DBOption dbOption)
         {
             _dbOption = dbOption;
         }
-        public async Task<TOut> ExecuteRequestAsync<TIn, TOut>(TIn request,string url,HttpMethod methodType )
+        public async Task<TOut> ExecuteRequestAsync<TIn, TOut>(TIn request, string url, HttpMethod methodType)
         {
             var requestUri = new Uri(url);
             var payload = JsonConvert.SerializeObject(request);
@@ -27,7 +27,7 @@ namespace elevatus_out.Helper
             };
             return await SendUriAsync<TOut>(requestMessage);
         }
-        public  async Task<T> SendUriAsync<T>(HttpRequestMessage requestMessage)
+        public async Task<T> SendUriAsync<T>(HttpRequestMessage requestMessage)
         {
             using (var client = CreateClient())
             {
@@ -42,13 +42,13 @@ namespace elevatus_out.Helper
             }
         }
 
-        private  HttpClient CreateClient()
+        private HttpClient CreateClient()
         {
             byte[] cred = Encoding.UTF8.GetBytes(_dbOption.UserName + ":" + _dbOption.Password);
             var client = new HttpClient();
             client.BaseAddress = new Uri(_dbOption.BaseAddress);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(cred));
-         
+
             return client;
         }
     }

@@ -1,5 +1,4 @@
-﻿using AcceptDispatchPackageService;
-using AcceptProductService;
+﻿using AcceptProductService;
 using CheckStatusCodeService;
 using CityService;
 using ConsumeProductService;
@@ -35,7 +34,7 @@ using System.Threading.Tasks;
 
 namespace SFDA.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     public class SFDAController : ControllerBase
     {
@@ -329,7 +328,7 @@ namespace SFDA.Controllers
             }
             catch (Exception ex)
             {
-               return ReturnException(ex);
+                return ReturnException(ex);
             }
         }
         #endregion

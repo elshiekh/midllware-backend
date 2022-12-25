@@ -58,13 +58,13 @@ namespace APIMiddleware.Core.Entities
         public string IP_Address { get; set; }
 
         [Column("USER_NAME")]
-        public string  UserName { get; set; }
+        public string UserName { get; set; }
 
         [Column("ROW_VERSION")]
         public string RowVersion { get; set; }
 
         [Column("CREATION_DATE")]
-        public DateTime? Creation_Date { get; set; }
+        public DateTime Creation_Date { get; set; }
 
         [Column("CREATED_BY")]
         public string Created_By { get; set; }

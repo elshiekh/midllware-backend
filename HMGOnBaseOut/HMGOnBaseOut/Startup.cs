@@ -18,8 +18,8 @@ namespace HMGOnBaseOut
     public class Startup
     {
         //MW
-       // WebAPIProject properties = new WebAPIProject() { Id = 8, Code = 8, Name = "HMGOnBaseOut", UserName = "HmgOnBase" };
-        WebAPIProject properties = new WebAPIProject() { Id = 206, Code= 206, Name = "OnBaseIn", UserName = "onbasein" };
+        // WebAPIProject properties = new WebAPIProject() { Id = 8, Code = 8, Name = "HMGOnBaseOut", UserName = "HmgOnBase" };
+        WebAPIProject properties = new WebAPIProject() { Id = 206, Code = 206, Name = "OnBaseIn", UserName = "onbasein" };
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -85,7 +85,7 @@ namespace HMGOnBaseOut
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-           // app.UseResponseCompression();
+            // app.UseResponseCompression();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();

@@ -1,4 +1,3 @@
-using APIMiddleware.Core;
 using APIMiddleware.Core.DTO;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
@@ -16,7 +15,7 @@ namespace SFDA
     public class Startup
     {
         //WebAPIProject properties = new WebAPIProject() { RequestId = 203, Name = "SFDA" };
-        WebAPIProject properties = new WebAPIProject() { Id = 203, Code = 203, Name = "SFDA" , UserName = "SFDA" };
+        WebAPIProject properties = new WebAPIProject() { Id = 203, Code = 203, Name = "SFDA", UserName = "SFDA" };
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -43,6 +42,29 @@ namespace SFDA
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SFDA PROJECT", Version = "v1" });
                 c.CustomSchemaIds(type => type.ToString());
+                c.CustomSchemaIds(type => type.ToString());
+                c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "basic",
+                    In = ParameterLocation.Header,
+                    Description = "Basic Authorization header using the Bearer scheme."
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "basic"
+                                }
+                            },
+                            new string[] {}
+                    }
+                });
             });
 
             // If using IIS:
@@ -51,7 +73,7 @@ namespace SFDA
                 options.AllowSynchronousIO = true;
             });
 
-           //---- services.RegsiterAPIMiddlewareConfiguration(Configuration);
+            //---- services.RegsiterAPIMiddlewareConfiguration(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,10 +81,10 @@ namespace SFDA
         {
             if (env.IsDevelopment()) { app.UseDeveloperExceptionPage(); }
 
-         app.Use(async (context, next) => { context.Request.EnableBuffering(); await next(); });
+            app.Use(async (context, next) => { context.Request.EnableBuffering(); await next(); });
 
             //MW
-          //------ app.UseMiddleware<ApiLogging>(properties);
+            //------ app.UseMiddleware<ApiLogging>(properties);
 
             //app.UseHttpsRedirection();
             app.UseRouting();
@@ -72,7 +94,8 @@ namespace SFDA
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
             app.UseSwagger();
-            app.UseSwaggerUI(c => {
+            app.UseSwaggerUI(c =>
+            {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "SFDA PROJECT");
                 c.DefaultModelsExpandDepth(-1);
             });

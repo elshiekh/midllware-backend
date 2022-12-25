@@ -33,7 +33,7 @@ namespace Vida
         {
             //MW
             services.RegsiterAPIMiddlewareConfiguration(Configuration);
-           // services.AddCors();
+            // services.AddCors();
             services.AddMvc()
             .AddXmlSerializerFormatters()
             .AddXmlDataContractSerializerFormatters();
@@ -60,7 +60,7 @@ namespace Vida
             services.Configure(mduOptions);
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<DBOption>>().Value);
 
-          
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

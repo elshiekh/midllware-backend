@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace UblLarsen.Ubl2
 {
@@ -11,7 +10,8 @@ namespace UblLarsen.Ubl2
         private static XmlSerializerNamespaces xmlns = new XmlSerializerNamespaces(new[]
             {
                 new XmlQualifiedName("cac","urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"),
-                new XmlQualifiedName("cbc","urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2")
+                new XmlQualifiedName("cbc","urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"),
+                new XmlQualifiedName("ext","urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"),
             });
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace UblLarsen.Ubl2
             ["AttachedDocument"] = typeof(AttachedDocumentType),
             ["ApplicationResponse"] = typeof(ApplicationResponseType)
         };
-            //= typeof(UblBaseDocumentType).GetCustomAttributes(typeof(XmlIncludeAttribute), false)
-            //.Cast<XmlIncludeAttribute>().Where(a => a.Type.Name.EndsWith("Type")).ToDictionary(key => key.Type.Name.Substring(0, key.Type.Name.Length - 4), val => val.Type);
+        //= typeof(UblBaseDocumentType).GetCustomAttributes(typeof(XmlIncludeAttribute), false)
+        //.Cast<XmlIncludeAttribute>().Where(a => a.Type.Name.EndsWith("Type")).ToDictionary(key => key.Type.Name.Substring(0, key.Type.Name.Length - 4), val => val.Type);
     }
 }

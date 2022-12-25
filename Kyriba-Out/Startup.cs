@@ -31,8 +31,8 @@ namespace Kyriba_Out
         public void ConfigureServices(IServiceCollection services)
         {
             //MW
-             services.RegsiterAPIMiddlewareConfiguration(Configuration);
-             services.AddControllers().AddXmlSerializerFormatters();
+            services.RegsiterAPIMiddlewareConfiguration(Configuration);
+            services.AddControllers().AddXmlSerializerFormatters();
 
             // configure basic authentication 
             services.AddAuthentication("BasicAuthentication")
@@ -71,9 +71,9 @@ namespace Kyriba_Out
 
             Action<DBOption> mduOptions = (opt =>
             {
-                opt.FtpAddress = Configuration["KyribaOut:FtpAddress"];
-                opt.UserName = Configuration["KyribaOut:UserName"];
-                opt.Password = Configuration["KyribaOut:Password"];
+                opt.FtpAddress = Configuration["KyribaOut-PROD:FtpAddress"];
+                opt.UserName = Configuration["KyribaOut-PROD:UserName"];
+                opt.Password = Configuration["KyribaOut-PROD:Password"];
             });
             services.Configure(mduOptions);
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<DBOption>>().Value);

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using HMGOnBaseOut.DTO;
+using HMGOnBaseOut.Service;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -9,8 +11,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using HMGOnBaseOut.DTO;
-using HMGOnBaseOut.Service;
 
 namespace HMGOnBaseOut.Helper
 {
@@ -22,7 +22,7 @@ namespace HMGOnBaseOut.Helper
             ILoggerFactory logger,
             UrlEncoder encoder,
             ISystemClock clock,
-            IUserService userService): base(options, logger, encoder, clock)
+            IUserService userService) : base(options, logger, encoder, clock)
         {
             _userService = userService;
         }

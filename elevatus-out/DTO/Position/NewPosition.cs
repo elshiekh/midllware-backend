@@ -5,7 +5,8 @@ namespace elevatus_out.Position
 
     #region New-Position
 
-    public class GetPositionRequest {
+    public class GetPositionRequest
+    {
         public string system_branch_id { get; set; }
     }
 
@@ -45,7 +46,8 @@ namespace elevatus_out.Position
         public IntegrateAccountPosition IntegrateAccount { get; set; }
         public List<Reason> Reason { get; set; }
     }
-    public class DeletePositionResponse {
+    public class DeletePositionResponse
+    {
         public IdentifierDeleteResponse Identifiers { get; set; }
     }
     #endregion
@@ -55,7 +57,8 @@ namespace elevatus_out.Position
     //public class GetPositionRequest
     //{
     //}
-    public class GetPositionResponse {
+    public class GetPositionResponse
+    {
         public Identifiers Identifiers { get; set; }
         public IntegrateAccount IntegrateAccount { get; set; }
     }
@@ -87,7 +90,8 @@ namespace elevatus_out.Position
         public string Limit { get; set; }
         public string Total { get; set; }
     }
-    public class IntegrateAccount {
+    public class IntegrateAccount
+    {
         public List<ExtraData> ExtraData { get; set; }
     }
 
@@ -144,16 +148,19 @@ namespace elevatus_out.Position
     }
     #endregion
 
-    public class NumberOfRequisitionRequest {
-        public string  system_id { get; set; }
-        
+    public class NumberOfRequisitionRequest
+    {
+        public string system_id { get; set; }
+
     }
-    public class NumberOfRequisitionResponse {
+    public class NumberOfRequisitionResponse
+    {
         public Identifiers Identifiers { get; set; }
         public NORIntegrateAccount IntegrateAccount { get; set; }
         public List<Reason> Reason { get; set; }
     }
-    public class NORIntegrateAccount {
+    public class NORIntegrateAccount
+    {
         public NORExtraData ExtraData { get; set; }
     }
 

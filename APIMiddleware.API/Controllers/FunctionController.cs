@@ -17,7 +17,7 @@ namespace APIMiddleware.API.Controllers
             _functionService = functionService;
             _logger = logger;
         }
-   
+
         [HttpGet("GetAllFunctions")]
         public async Task<IActionResult> GetAllFunctions()
         {

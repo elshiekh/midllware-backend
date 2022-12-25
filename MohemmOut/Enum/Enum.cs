@@ -2,9 +2,9 @@
 {
     public class Enum
     {
-       public enum Response
-       {
-           S=1,
+        public enum Response
+        {
+            S = 1,
         };
         public enum ResponseCode
         {

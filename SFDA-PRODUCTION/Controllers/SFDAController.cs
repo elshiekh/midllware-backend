@@ -1,43 +1,42 @@
 ﻿
+using AcceptDispatchProductionService;
+using AcceptProductionService;
+using CityListProductionService;
+using ConsumeCancelProductionService;
+using ConsumeProductionService;
 using CountryService;
+using DeactivationCancelProductionService;
+using DeactivationProductionService;
+using DispatchCancelProductionService;
+using DispatchProductionService;
+using DrugListProductionService;
+using ErrorCodeListProductionService;
+using ExportCancelProductionService;
+using ExportProductionService;
+using ImportCancelProductionService;
+using ImportProductionService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using DeactivationProductionService;
-using PackageQuereyProductionService;
-using DrugListProductionService;
-using DeactivationCancelProductionService;
-using StakeholderListProductionService;
-using AcceptProductionService;
-using ErrorCodeListProductionService;
-using CityListProductionService;
-using ConsumeProductionService;
-using ConsumeCancelProductionService;
-using TransferProductionService;
-using TransferCancelProductionService;
-using AcceptDispatchProductionService;
 using PackageDownloadProductionService;
+using PackageQuereyProductionService;
+using PackageUploadProductionService;
 using PharmacySaleCancelProductionService;
 using PharmacySaleProductionService;
-using ExportProductionService;
-using ExportCancelProductionService;
-using ImportProductionService;
-using ImportCancelProductionService;
-using PackageUploadProductionService;
-using DispatchProductionService;
-using DispatchCancelProductionService;
 using ReturnProductionService;
 using SFDA_PRODUCTION.DTO;
 using SFDA_PRODUCTION.Extenstion;
+using StakeholderListProductionService;
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
+using TransferCancelProductionService;
+using TransferProductionService;
 
 namespace SFDA_PRODUCTION.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     public class SFDAController : ControllerBase
     {
@@ -89,7 +88,7 @@ namespace SFDA_PRODUCTION.Controllers
 
         #region  GetDrugList
         [HttpPost("api/SFDA/GetDrugList.{format}"), FormatFilter]
-          public async Task<IActionResult> GetDrugList([FromBody] drugListServiceRequest request, string gln)
+        public async Task<IActionResult> GetDrugList([FromBody] drugListServiceRequest request, string gln)
         {
             try
             {
@@ -98,7 +97,7 @@ namespace SFDA_PRODUCTION.Controllers
                 client.ClientCredentials.UserName.UserName = gln + "0000";
                 client.ClientCredentials.UserName.Password = "Sfda0506779945";
                 var result = await client.getDrugListAsync(requestedPost);
-                var testArray = result.DrugListServiceResponse.DRUGLIST.Select(p=> new { GTIN = p.GTIN, DrugName = p.DRUGNAME, DrugStatus = p.DRUGSTATUS==1?"Valid":"InValid" });
+                var testArray = result.DrugListServiceResponse.DRUGLIST.Select(p => new { GTIN = p.GTIN, DrugName = p.DRUGNAME, DrugStatus = p.DRUGSTATUS == 1 ? "Valid" : "InValid" });
                 //var list = new List<drug>(testArray);
                 //list.Select( x=> new { GTIN = x.GTIN , DrugName =x.DRUGNAME , DrugStatus = x.DRUGSTATUS});
                 return Ok(testArray);
@@ -265,7 +264,7 @@ namespace SFDA_PRODUCTION.Controllers
 
         #region  ProductDeactivation
         [HttpPost("api/SFDA/Deactivate.{format}"), FormatFilter]
-        public async  Task<IActionResult> ProductDeactivation([FromBody] deactivationServiceRequest request, string gln)
+        public async Task<IActionResult> ProductDeactivation([FromBody] deactivationServiceRequest request, string gln)
         {
             try
             {
@@ -279,11 +278,11 @@ namespace SFDA_PRODUCTION.Controllers
             }
             catch (Exception ex)
             {
-                return  ReturnException(ex);
+                return ReturnException(ex);
             }
         }
         #endregion
-        
+
         #region CancelDeactivation
         [HttpPost("api/SFDA/CancelDeactivate.{format}"), FormatFilter]
         public async Task<IActionResult> CancelDeactivation([FromBody] deactivationCancelServiceRequest request, string gln)
@@ -342,7 +341,7 @@ namespace SFDA_PRODUCTION.Controllers
             }
             catch (Exception ex)
             {
-                return  ReturnException(ex);
+                return ReturnException(ex);
             }
         }
         #endregion
@@ -364,7 +363,7 @@ namespace SFDA_PRODUCTION.Controllers
             }
             catch (Exception ex)
             {
-                return  ReturnException(ex);
+                return ReturnException(ex);
             }
         }
         #endregion
@@ -427,7 +426,7 @@ namespace SFDA_PRODUCTION.Controllers
             }
             catch (Exception ex)
             {
-                return  ReturnException(ex);
+                return ReturnException(ex);
             }
         }
         #endregion
@@ -469,7 +468,7 @@ namespace SFDA_PRODUCTION.Controllers
             }
             catch (Exception ex)
             {
-               return  ReturnException(ex);
+                return ReturnException(ex);
             }
         }
         #endregion
@@ -490,7 +489,7 @@ namespace SFDA_PRODUCTION.Controllers
             }
             catch (Exception ex)
             {
-               return  ReturnException(ex);
+                return ReturnException(ex);
             }
         }
         #endregion

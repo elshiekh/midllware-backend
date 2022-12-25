@@ -14,7 +14,10 @@ namespace Vida.Mapper
                     select new XElement("SERIAL",
                             new XElement("SFDA_BARCODE", serial.SFDA_BARCODE),
                             new XElement("GTIN", serial.GTIN),
-                            new XElement("SERIAL_NUMBER", serial.SERIAL_NUMBER))
+                            new XElement("SERIAL_NUMBER", serial.SERIAL_NUMBER),
+                            new XElement("MFG_BATCH_NUMBER", serial.MFG_BATCH_NUMBER),
+                            new XElement("EXPIRATION_DATE", serial.EXPIRATION_DATE)
+                          )
             ));
 
             return P_INV_TRX_SER_TBL.ToString();

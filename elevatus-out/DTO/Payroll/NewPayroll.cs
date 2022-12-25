@@ -28,7 +28,8 @@ namespace elevatus_out.Payroll
         public IntegrateAccountPayroll IntegrateAccount { get; set; }
         public List<Reason> Reason { get; set; }
     }
-    public class DeletePayrollResponse {
+    public class DeletePayrollResponse
+    {
         public IdentifierDeleteResponse Identifiers { get; set; }
     }
     #endregion
@@ -38,7 +39,8 @@ namespace elevatus_out.Payroll
     public class GetPayrollRequest
     {
     }
-    public class GetPayrollResponse {
+    public class GetPayrollResponse
+    {
         public Identifiers Identifiers { get; set; }
         public IntegrateAccount IntegrateAccount { get; set; }
     }
@@ -70,7 +72,8 @@ namespace elevatus_out.Payroll
         public string Limit { get; set; }
         public string Total { get; set; }
     }
-    public class IntegrateAccount {
+    public class IntegrateAccount
+    {
         public List<ExtraData> ExtraData { get; set; }
     }
 
@@ -93,8 +96,8 @@ namespace elevatus_out.Payroll
         public string error { get; set; }
     }
 
-    public class Parent {}
-  
+    public class Parent { }
+
     public class CreateResponsePayroll
     {
         public string Status { get; set; }

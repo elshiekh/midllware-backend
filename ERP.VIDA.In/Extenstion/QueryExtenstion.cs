@@ -25,11 +25,11 @@ namespace Vida.Extenstion
             T obj = default(T);
             while (dr.Read())
             {
-                    obj = Activator.CreateInstance<T>();
-                    foreach (PropertyInfo prop in obj.GetType().GetProperties())
+                obj = Activator.CreateInstance<T>();
+                foreach (PropertyInfo prop in obj.GetType().GetProperties())
+                {
+                    if (!object.Equals(dr[prop.Name], DBNull.Value))
                     {
-                        if (!object.Equals(dr[prop.Name], DBNull.Value))
-                        {
                         try
                         {
                             prop.SetValue(obj, dr[prop.Name], null);
@@ -39,10 +39,10 @@ namespace Vida.Extenstion
                             throw ex;
                         }
                     }
-                    }
-                    list.Add(obj);
+                }
+                list.Add(obj);
             }
             return list;
-        }   
+        }
     }
 }

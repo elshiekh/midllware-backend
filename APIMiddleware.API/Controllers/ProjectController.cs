@@ -18,7 +18,7 @@ namespace APIMiddleware.API.Controllers
             _projectService = requestService;
             _logger = logger;
         }
-   
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -33,7 +33,7 @@ namespace APIMiddleware.API.Controllers
             var model = new ProjectModel()
             {
                 Id = request.ProjectId,
-                Code =request.ProjectCode,
+                Code = request.ProjectCode,
                 Name = request.ProjectName,
             };
             return Ok(model);

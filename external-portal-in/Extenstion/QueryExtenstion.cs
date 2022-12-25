@@ -9,7 +9,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
-using System.Xml.Linq;
 //using Devart.Data.Oracle;
 
 namespace external_portal_in.Extenstion
@@ -62,7 +61,7 @@ namespace external_portal_in.Extenstion
                 {
                     throw ex;
                 }
-               
+
             }
             return list;
         }

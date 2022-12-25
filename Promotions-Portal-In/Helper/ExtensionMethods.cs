@@ -1,11 +1,11 @@
-﻿using System;
-using System.Data;
+﻿using Promotions_Portal_In.DTO;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
-using Promotions_Portal_In.DTO;
 
 namespace Promotions_Portal_In.Helper
 {
@@ -61,7 +61,7 @@ namespace Promotions_Portal_In.Helper
             // Creates a stream whose backing store is memory. 
             using (MemoryStream xmlStream = new MemoryStream())
             {
-                xmlSerializer.Serialize(xmlStream, YourClassObject,ns);
+                xmlSerializer.Serialize(xmlStream, YourClassObject, ns);
                 xmlStream.Position = 0;
                 //Loads the XML document from the specified string.
                 xmlDoc.Load(xmlStream);

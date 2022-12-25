@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Kyriba_Out.DTO
 {
@@ -7,7 +6,8 @@ namespace Kyriba_Out.DTO
     {
         public List<FileResponse> Files { get; set; }
     }
-    public class FileResponse {
+    public class FileResponse
+    {
         public string fileName { get; set; }
         public string fileBase64 { get; set; }
         public string LastModified { get; set; }

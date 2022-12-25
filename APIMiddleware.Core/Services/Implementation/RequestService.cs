@@ -1,7 +1,6 @@
 ﻿using APIMiddleware.Core.DBContext;
-using APIMiddleware.Core.Entities;
 using APIMiddleware.Core.DTO;
-using APIMiddleware.Core.Enum;
+using APIMiddleware.Core.Entities;
 using APIMiddleware.Core.Extenstion;
 using APIMiddleware.Core.Filter;
 using APIMiddleware.Core.Services.Interface;
@@ -42,7 +41,7 @@ namespace APIMiddleware.Core.Services.Implementation
                     RequestBody = requestDTO.RequestBody,
                     ElapsedMilliseconds = requestDTO.ElapsedMilliseconds,
                     ResponseCode = requestDTO.ResponseCode,
-                    RequestStatus = requestDTO.ResponseCode ==200 ? "S":"F",
+                    RequestStatus = requestDTO.ResponseCode == 200 ? "S" : "F",
                     RequestMethod = requestDTO.RequestMethod,
                     RequestFunction = requestDTO.RequestFunction,
                     RequestFormat = requestDTO.RequestFormat,
@@ -89,9 +88,9 @@ namespace APIMiddleware.Core.Services.Implementation
         {
             try
             {
-                var requests =  _dbContext.Requests.Include(s => s.Project);
+                var requests = _dbContext.Requests.Include(s => s.Project);
 
-                return  await requests.Select(request => new RequestDTO
+                return await requests.Select(request => new RequestDTO
                 {
                     Id = request.RequestId,
                     ProjectName = request.Project.ProjectName,
@@ -136,16 +135,16 @@ namespace APIMiddleware.Core.Services.Implementation
         {
             try
             {
-               // var requests = _dbContext.Requests.Include(s => s.Project);
-                var requests =  _dbContext.Requests.Include(s=>s.Project)
+                // var requests = _dbContext.Requests.Include(s => s.Project);
+                var requests = _dbContext.Requests.Include(s => s.Project)
                    .Skip((filter.PageNumber - 1) * filter.PageSize)
                    .Take(filter.PageSize);
                 var from_Date = DateExtension.GetDateFromString(fromDate);
                 var to_Date = DateExtension.GetDateFromString(toDate);
-               // var requests = _dbContext.Requests.Include(s => s.Project);
+                // var requests = _dbContext.Requests.Include(s => s.Project);
                 if (projectId > 0)
                 {
-                    requests = requests.Where(x => x.ProjectId == projectId).OrderByDescending(z=>z.RequestTime);
+                    requests = requests.Where(x => x.ProjectId == projectId).OrderByDescending(z => z.RequestTime);
                 }
                 if (function != null)
                 {
@@ -190,7 +189,7 @@ namespace APIMiddleware.Core.Services.Implementation
                     }
                 }
 
-                return  await requests.Select(request => new RequestDTO
+                return await requests.Select(request => new RequestDTO
                 {
                     Id = request.RequestId,
                     ProjectName = request.Project.ProjectName,
@@ -228,8 +227,8 @@ namespace APIMiddleware.Core.Services.Implementation
             }
         }
 
-         public async Task<List<RequestDTO>> GetAllWithFilter(int? requestId,int? projectId,int? function, int? responseCode, string requestStatus,
-         string ipAddress, string userName, string fromDate, string toDate)
+        public async Task<List<RequestDTO>> GetAllWithFilter(int? requestId, int? projectId, int? function, int? responseCode, string requestStatus,
+        string ipAddress, string userName, string fromDate, string toDate)
         {
             try
             {
@@ -237,13 +236,14 @@ namespace APIMiddleware.Core.Services.Implementation
                 var to_Date = DateExtension.ToDate(toDate);
                 var functionName = "";
                 var requestFunction = _dbContext.Functions.FirstOrDefault(x => x.ProjectId == projectId && x.FunctionId == function);
-                if (requestFunction!=null) { functionName = requestFunction.FunctionName; }
+                if (requestFunction != null) { functionName = requestFunction.FunctionName; }
                 var requests = _dbContext.Requests.Include(s => s.Project);
                 if (requestId > 0)
                 {
                     requests = requests.Where(x => x.RequestId == requestId).Include(s => s.Project);
                 }
-                if (projectId > 0) {
+                if (projectId > 0)
+                {
                     requests = requests.Where(x => x.ProjectId == projectId).Include(s => s.Project);
                 }
                 if (!string.IsNullOrEmpty(functionName))
@@ -277,12 +277,12 @@ namespace APIMiddleware.Core.Services.Implementation
                     ProjectName = request.Project.ProjectName,
                     ProjectId = request.ProjectId,
                     RequestGuid = request.RequestGuid,
-                    RequestTime = request.RequestTime,
+                    RequestTime = request.Creation_Date,
                     RequestDate = request.RequestTime,
-                    RequestStart = request.RequestTime.ToString("MM/dd/yyyy HH:mm:ss"),
-                    ResponseFinish = request.RequestTime.AddMilliseconds(request.ElapsedMilliseconds).ToString("MM/dd/yyyy HH:mm:ss"),
-                    Date = request.RequestTime.ToString("dd/MM/yyyy"),
-                    Time = request.RequestTime.ToString("HH:mm"),
+                    RequestStart = request.Creation_Date.ToString("MM/dd/yyyy HH:mm:ss"),
+                    ResponseFinish = request.Creation_Date.AddMilliseconds(request.ElapsedMilliseconds).ToString("MM/dd/yyyy HH:mm:ss"),
+                    Date = request.Creation_Date.ToString("dd/MM/yyyy"),
+                    Time = request.Creation_Date.ToString("HH:mm"),
                     ElapsedMilliseconds = request.ElapsedMilliseconds,
                     ResponseCode = request.ResponseCode,
                     RequestMethod = request.RequestMethod,
@@ -301,7 +301,7 @@ namespace APIMiddleware.Core.Services.Implementation
                     RequestStatus = request.RequestStatus,
                     UserName = request.UserName,
                     RowVersion = request.RowVersion
-                }).OrderByDescending(s => s.RequestTime).ToListAsync();
+                }).OrderByDescending(s => s.Creation_Date).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -311,7 +311,7 @@ namespace APIMiddleware.Core.Services.Implementation
 
         // PurgeAllWithFilter
         public bool PurgeAllWithFilter(int? requestId, int? projectId
-         ,int? function, int? responseCode, string requestStatus,
+         , int? function, int? responseCode, string requestStatus,
          string ipAddress, string userName, string fromDate, string toDate)
         {
             try
@@ -354,8 +354,8 @@ namespace APIMiddleware.Core.Services.Implementation
                 {
                     requests = requests.Where(x => x.RequestTime >= from_Date && x.RequestTime <= to_Date).Include(s => s.Project);
                 }
-                  _dbContext.RemoveRange(requests);
-                  _dbContext.SaveChanges();
+                _dbContext.RemoveRange(requests);
+                _dbContext.SaveChanges();
 
                 return true;
             }
@@ -368,7 +368,7 @@ namespace APIMiddleware.Core.Services.Implementation
         {
             try
             {
-                return  await _dbContext.Requests.CountAsync();
+                return await _dbContext.Requests.CountAsync();
             }
             catch (Exception)
             {
@@ -387,12 +387,12 @@ namespace APIMiddleware.Core.Services.Implementation
                     ProjectName = request.Project.ProjectName,
                     ProjectId = request.ProjectId,
                     RequestGuid = request.RequestGuid,
-                    RequestTime = request.RequestTime,
-                    RequestDate = request.RequestTime,
-                    RequestStart = request.RequestTime.ToString("MM/dd/yyyy HH:mm:ss"),
-                    ResponseFinish = request.RequestTime.AddMilliseconds(request.ElapsedMilliseconds).ToString("MM/dd/yyyy HH:mm:ss"),
-                    Date = request.RequestTime.ToString("dd/MM/yyyy"),
-                    Time = request.RequestTime.ToString("HH:mm"),
+                    RequestTime = request.Creation_Date,
+                    RequestDate = request.Creation_Date,
+                    RequestStart = request.Creation_Date.ToString("MM/dd/yyyy HH:mm:ss"),
+                    ResponseFinish = request.Creation_Date.AddMilliseconds(request.ElapsedMilliseconds).ToString("MM/dd/yyyy HH:mm:ss"),
+                    Date = request.Creation_Date.ToString("dd/MM/yyyy"),
+                    Time = request.Creation_Date.ToString("HH:mm"),
                     ElapsedMilliseconds = request.ElapsedMilliseconds,
                     ResponseCode = request.ResponseCode,
                     RequestMethod = request.RequestMethod,
@@ -409,7 +409,7 @@ namespace APIMiddleware.Core.Services.Implementation
                     RequestFormat = request.RequestFormat,
                     ResponseFormat = request.ResponseFormat,
                     RequestFunction = request.RequestFunction,
-                    RequestStatus = request.RequestStatus =="S"? "Success":"Failure"
+                    RequestStatus = request.ResponseCode == 200 ? "Success" : "Failure"
                 };
             }
             catch (Exception)
@@ -451,7 +451,7 @@ namespace APIMiddleware.Core.Services.Implementation
             var faildedAPITime = _systemPreferenceService.GetSystemPreferences().FaildedAPITime;
             DateTime dueDate = DateTime.Now.AddMinutes(-faildedAPITime);
 
-            var failerCount = _dbContext.Requests.Count(s => s.RequestUrl == path && dueDate <= s.RequestTime  && s.RequestStatus == "Failure");
+            var failerCount = _dbContext.Requests.Count(s => s.RequestUrl == path && dueDate <= s.RequestTime && s.RequestStatus == "Failure");
 
             if (failerCount >= limitFailerCount)
             {

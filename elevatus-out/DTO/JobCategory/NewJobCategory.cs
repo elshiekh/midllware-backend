@@ -29,7 +29,8 @@ namespace elevatus_out.JobCategory
         public IntegrateAccountJobCategory IntegrateAccount { get; set; }
         public List<Reason> Reason { get; set; }
     }
-    public class DeleteJobCategoryResponse {
+    public class DeleteJobCategoryResponse
+    {
         public IdentifierDeleteResponse Identifiers { get; set; }
     }
     #endregion
@@ -39,7 +40,8 @@ namespace elevatus_out.JobCategory
     public class GetJobCategoryRequest
     {
     }
-    public class GetJobCategoryResponse {
+    public class GetJobCategoryResponse
+    {
         public Identifiers Identifiers { get; set; }
         public IntegrateAccount IntegrateAccount { get; set; }
     }
@@ -72,7 +74,8 @@ namespace elevatus_out.JobCategory
         public string Limit { get; set; }
         public string Total { get; set; }
     }
-    public class IntegrateAccount {
+    public class IntegrateAccount
+    {
         public List<ExtraData> ExtraData { get; set; }
     }
 
@@ -95,8 +98,8 @@ namespace elevatus_out.JobCategory
         public string error { get; set; }
     }
 
-    public class Parent {}
-  
+    public class Parent { }
+
     public class CreateResponseJobCategory
     {
         public string Status { get; set; }

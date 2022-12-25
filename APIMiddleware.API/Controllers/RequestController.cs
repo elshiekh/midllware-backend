@@ -1,5 +1,4 @@
-﻿using APIMiddleware.API.Models;
-using APIMiddleware.Core.Services.Interface;
+﻿using APIMiddleware.Core.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -30,13 +29,13 @@ namespace APIMiddleware.API.Controllers
         }
 
         [HttpGet("GetAllWithFilter")]
-        public async Task<IActionResult> GetAllWithFilter(int? requestId,int? projectId, int? function,
+        public async Task<IActionResult> GetAllWithFilter(int? requestId, int? projectId, int? function,
             int? responseCode, string requestStatus,
             string ipAddress, string userName, string fromDate, string toDate)
         {
             try
             {
-                var result = await _requestService.GetAllWithFilter(requestId,projectId, function,
+                var result = await _requestService.GetAllWithFilter(requestId, projectId, function,
                 responseCode, requestStatus.Trim(),
                 ipAddress, userName, fromDate, toDate);
                 return Ok(result);
@@ -55,7 +54,7 @@ namespace APIMiddleware.API.Controllers
         {
             try
             {
-                var result =  _requestService.PurgeAllWithFilter(requestId, projectId, function,
+                var result = _requestService.PurgeAllWithFilter(requestId, projectId, function,
                 responseCode, requestStatus.Trim(),
                 ipAddress, userName, fromDate, toDate);
                 return Ok(result);
@@ -105,10 +104,28 @@ namespace APIMiddleware.API.Controllers
             if (request.RequestBody != null)
             {
                 byte[] bytes = request?.RequestBody;
+                string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
                 var output = new FileContentResult(bytes, "application/octet-stream");
                 output.FileDownloadName = request.RequestGuid + ".txt";
 
                 return Ok(output);
+            }
+
+            return null;
+        }
+
+        [HttpGet("GETFILE/{id}")]
+        public async Task<ActionResult> GETFILE(int id)
+        {
+            var request = await _requestService.GetRequestsDetails(id);
+            if (request.RequestBody != null)
+            {
+                byte[] bytes = request?.RequestBody;
+                string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+                var output = new FileContentResult(bytes, "application/octet-stream");
+                output.FileDownloadName = request.RequestGuid + ".txt";
+
+                return File(output.FileContents,output.ContentType, output.FileDownloadName);
             }
 
             return null;

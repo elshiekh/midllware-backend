@@ -1,6 +1,6 @@
 ﻿using APIMiddleware.Core.DBContext;
-using APIMiddleware.Core.Entities;
 using APIMiddleware.Core.DTO;
+using APIMiddleware.Core.Entities;
 using APIMiddleware.Core.Services.Interface;
 using APIMiddleware.Notification.Models;
 using System;
@@ -13,7 +13,8 @@ namespace APIMiddleware.Core.Services.Implementation
     {
         private readonly APIMiddlewareContext _dbContext;
 
-        public SystemPreferenceService() {
+        public SystemPreferenceService()
+        {
             _dbContext = new APIMiddlewareContext();
         }
 
@@ -102,8 +103,8 @@ namespace APIMiddleware.Core.Services.Implementation
                 {
                     faildedAPI.PreferenceValue = model.FaildedAPI.ToString();
                     _dbContext.Update(faildedAPI);
-                }                
-                
+                }
+
                 if (smtpServer.PreferenceValue != model.EmailSmtpServer.ToString())
                 {
                     smtpServer.PreferenceValue = model.EmailSmtpServer.ToString();
@@ -114,20 +115,20 @@ namespace APIMiddleware.Core.Services.Implementation
                 {
                     password.PreferenceValue = model.EmailPassword.ToString();
                     _dbContext.Update(password);
-                }                
-                
+                }
+
                 if (reciever.PreferenceValue != model.EmailReciever.ToString())
                 {
                     reciever.PreferenceValue = model.EmailReciever.ToString();
                     _dbContext.Update(reciever);
-                }                
-                
+                }
+
                 if (sender.PreferenceValue != model.EmailSender.ToString())
                 {
                     sender.PreferenceValue = model.EmailSender.ToString();
                     _dbContext.Update(sender);
-                }                
-                
+                }
+
                 if (serverPort.PreferenceValue != model.EmailServerPort.ToString())
                 {
                     serverPort.PreferenceValue = model.EmailServerPort.ToString();

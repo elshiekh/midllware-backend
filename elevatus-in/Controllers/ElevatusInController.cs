@@ -308,7 +308,7 @@ namespace elevatus_in.Controllers
                     byte[] byteArray = Convert.FromBase64String(resultBase64);
                     string jsonBack = Encoding.UTF8.GetString(byteArray);
                     result = JsonConvert.DeserializeObject<ValidateOfferResponse>(jsonBack);
-                
+
                     // ValidateOfferResponse
                     conn.Close();
                     conn.Dispose();

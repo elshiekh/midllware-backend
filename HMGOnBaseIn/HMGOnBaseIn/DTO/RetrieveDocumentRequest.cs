@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace HMGOnBaseIn.Controllers
+﻿namespace HMGOnBaseIn.Controllers
 {
-    public  class RetrieveDocumentRequest
+    public class RetrieveDocumentRequest
     {
     }
 
@@ -22,7 +20,7 @@ namespace HMGOnBaseIn.Controllers
 
     public class RetrieveDocResponse
     {
-        public long  ID { get; set; }
+        public long ID { get; set; }
         public string FileBytes { get; set; }
         public string FileExtension { get; set; }
         public string DocTypeName { get; set; }
@@ -35,7 +33,7 @@ namespace HMGOnBaseIn.Controllers
     public class DocFile
     {
         public string FileBytes { get; set; }
-       // public string FileExtension { get; set; }
+        // public string FileExtension { get; set; }
         //public DateTime CreationDate { get; set; }
     }
 }

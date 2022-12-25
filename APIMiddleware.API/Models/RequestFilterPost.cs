@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace APIMiddleware.API.Models
+﻿namespace APIMiddleware.API.Models
 {
     public class RequestFilterPost
     {

@@ -1,5 +1,4 @@
 ﻿using APIMiddleware.API.Helper;
-using APIMiddleware.API.Models;
 using APIMiddleware.Core.DTO;
 using APIMiddleware.Core.Entities;
 using APIMiddleware.Core.Helper;
@@ -59,7 +58,7 @@ namespace APIMiddleware.API.Controllers
             var tokenString = tokenHandler.WriteToken(token);
 
             // return basic user info (without password) and token to store client side
-            return Ok(new 
+            return Ok(new
             {
                 Id = user.Id,
                 Username = user.Username,

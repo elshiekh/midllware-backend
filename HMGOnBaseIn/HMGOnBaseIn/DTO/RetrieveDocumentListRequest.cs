@@ -4,7 +4,7 @@ namespace HMGOnBaseIn.DTO
 {
     public class RetrieveDocumentListRequest
     {
-         public List<DOCID> DOC { get; set; }
+        public List<DOCID> DOC { get; set; }
     }
 
     public class DOCID

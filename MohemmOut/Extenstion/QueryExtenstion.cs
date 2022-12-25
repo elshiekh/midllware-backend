@@ -1,18 +1,14 @@
 ﻿using FastMember;
-using MohemmOut.DTO;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 
 namespace MohemmOut.Extenstion
 {
@@ -50,17 +46,17 @@ namespace MohemmOut.Extenstion
                 obj = Activator.CreateInstance<T>();
                 foreach (PropertyInfo prop in obj.GetType().GetProperties())
                 {
-                        if (!object.Equals(dr[prop.Name], DBNull.Value))
-                        {
-                            prop.SetValue(obj, dr[prop.Name], null);
-                        }
-                
+                    if (!object.Equals(dr[prop.Name], DBNull.Value))
+                    {
+                        prop.SetValue(obj, dr[prop.Name], null);
+                    }
+
                 }
-             list.Add(obj);
+                list.Add(obj);
             }
             return list;
         }
-       
+
         public static List<T> SetCaching<T>(IMemoryCache _mCache, string cacheKey, List<T> response)
         {
             List<T> value;

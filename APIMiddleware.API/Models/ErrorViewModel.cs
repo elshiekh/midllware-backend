@@ -1,5 +1,3 @@
-using System;
-
 namespace APIMiddleware.API.Models
 {
     public class ErrorViewModel

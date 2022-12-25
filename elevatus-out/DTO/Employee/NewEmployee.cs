@@ -71,6 +71,16 @@ namespace elevatus_out.Employee
         public Paginate Paginate { get; set; }
     }
 
+    public class EmployeeConnectIdentifiers
+    {
+        public string Id { get; set; }
+        public string RequestId { get; set; }
+        public string ApplicationId { get; set; }
+        public string Action { get; set; }
+        public string Status { get; set; }
+        public int StatusCode { get; set; }
+    }
+
     public class IdentifierDeleteResponse
     {
         public string RequestId { get; set; }
@@ -134,7 +144,7 @@ namespace elevatus_out.Employee
         public string Status { get; set; }
         public string Message { get; set; }
         public string Reasons { get; set; }
-        public string  RequestId { get; set; }
+        public string RequestId { get; set; }
     }
 
     public class ResponseEmployeeType
@@ -188,12 +198,25 @@ namespace elevatus_out.Employee
     {
         public string system_id { get; set; }
         public string applicant_id { get; set; }
+        public string status { get; set; }
+        public string message { get; set; }
     }
-    public class ConnectEmployeeApplicantResponse
+    public class ConnectEmployeeApplicantErrorResponse
     {
         public Identifiers Identifiers { get; set; }
         public IntegrateAccountConnectEmployeeApplicant IntegrateAccount { get; set; }
-        public List<Reason> Reason { get; set; }
+        public List<ConnectEmployeeApplicantReason> Reason { get; set; }
+    }
+
+    public class ConnectEmployeeApplicant_Response
+    {
+        public EmployeeConnectIdentifiers Identifiers { get; set; }
+        public IntegrateAccountConnectEmployeeApplicant IntegrateAccount { get; set; }
+    }
+
+    public class ConnectEmployeeApplicantReason
+    {
+        public string message { get; set; }
     }
     public class IntegrateAccountConnectEmployeeApplicant
     {
@@ -201,7 +224,8 @@ namespace elevatus_out.Employee
     }
     public class ExtraDataConnectEmployeeApplicant
     {
-        public bool Type { get; set; }
+        public bool Status { get; set; }
+        public string Message { get; set; }
     }
 
     public class ConnectResponseApplicantEmployee

@@ -17,7 +17,7 @@ namespace elevatus_in.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody]AuthenticateModel model)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateModel model)
         {
             var user = await _userService.Authenticate(model.Username, model.Password);
 

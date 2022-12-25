@@ -13,7 +13,7 @@ namespace SFDA_PRODUCTION.DTO
 
     public class FILE
     {
-        public string  NAME { get; set; }
+        public string NAME { get; set; }
 
         [XmlIgnore]
         public string CONTENT { get; set; }

@@ -1,5 +1,5 @@
-using Promotions_Portal_In.Helper;
-using Promotions_Portal_In.Service;
+using APIMiddleware.Core;
+using APIMiddleware.Core.DTO;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,18 +8,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using System;
-using APIMiddleware.Core.DTO;
 using Microsoft.OpenApi.Models;
-using APIMiddleware.Core;
+using Promotions_Portal_In.Helper;
+using Promotions_Portal_In.Service;
+using System;
 
 namespace Promotions_Portal_In
 {
     public class Startup
     {
         //MW
-       // WebAPIProject properties = new WebAPIProject() { Id = 8, Code = 8, Name = "HMGOnBaseOut", UserName = "HmgOnBase" };
-        WebAPIProject properties = new WebAPIProject() { Id = 209, Code= 209, Name = " promotionsPortalIn", UserName = "promotionsPortalIn" };
+        // WebAPIProject properties = new WebAPIProject() { Id = 8, Code = 8, Name = "HMGOnBaseOut", UserName = "HmgOnBase" };
+        WebAPIProject properties = new WebAPIProject() { Id = 209, Code = 209, Name = " promotionsPortalIn", UserName = "promotionsPortalIn" };
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -85,7 +85,7 @@ namespace Promotions_Portal_In
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-           // app.UseResponseCompression();
+            // app.UseResponseCompression();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();

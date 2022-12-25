@@ -33,12 +33,12 @@ namespace elevatus_out
         public void ConfigureServices(IServiceCollection services)
         {
             //MW
-             services.RegsiterAPIMiddlewareConfiguration(Configuration);
+            services.RegsiterAPIMiddlewareConfiguration(Configuration);
             // services.AddCors();
             //services.AddMvc()
             //.AddXmlSerializerFormatters()
             //.AddXmlDataContractSerializerFormatters();
-             services.AddControllers().AddXmlSerializerFormatters();
+            services.AddControllers().AddXmlSerializerFormatters();
             // services.AddControllers().AddXmlDataContractSerializerFormatters();
 
 
@@ -78,10 +78,10 @@ namespace elevatus_out
 
             Action<DBOption> mduOptions = (opt =>
             { // ELEVATUS-DEV -------- ELEVATUS-PROD
-              opt.BaseAddress= Configuration["ELEVATUS-PROD:BaseAddress"];
-              opt.JsonFormat= Configuration["ELEVATUS-PROD:JsonFormat"];
-              opt.UserName = Configuration["ELEVATUS-PROD:UserName"];
-              opt.Password = Configuration["ELEVATUS-PROD:Password"];
+                opt.BaseAddress = Configuration["ELEVATUS-PROD:BaseAddress"];
+                opt.JsonFormat = Configuration["ELEVATUS-PROD:JsonFormat"];
+                opt.UserName = Configuration["ELEVATUS-PROD:UserName"];
+                opt.Password = Configuration["ELEVATUS-PROD:Password"];
             });
             services.Configure(mduOptions);
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<DBOption>>().Value);

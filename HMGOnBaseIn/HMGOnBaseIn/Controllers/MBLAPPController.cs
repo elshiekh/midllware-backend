@@ -18,9 +18,9 @@ namespace HMGOnBaseIn.Controllers
     public class MBLAPPController : Controller
     {
         #region Filed
-          private readonly DBOption _dbOption;
-          private readonly ILogger _logger;
-          public MBLAPPController(DBOption dbOption, ILogger<MBLAPPController> logger)
+        private readonly DBOption _dbOption;
+        private readonly ILogger _logger;
+        public MBLAPPController(DBOption dbOption, ILogger<MBLAPPController> logger)
         {
             _dbOption = dbOption;
             _logger = logger;
@@ -55,7 +55,7 @@ namespace HMGOnBaseIn.Controllers
                     var sessionObject = command.Parameters["P_SESSION_ID"].Value;
                     var result = new LoginResponse()
                     {
-                       // P_SESSION_ID = ((Oracle.ManagedDataAccess.Types.OracleDecimal)sessionObject).Value,
+                        // P_SESSION_ID = ((Oracle.ManagedDataAccess.Types.OracleDecimal)sessionObject).Value,
                         P_PASSWORD_EXPIRED = command.Parameters["P_PASSWORD_EXPIRED"].Value.ToString(),
                         P_PASSWORD_EXPIRED_MSG = command.Parameters["P_PASSWORD_EXPIRED_MSG"].Value.ToString(),
                         P_INVALID_LOGINS_MSG = command.Parameters["P_INVALID_LOGINS_MSG"].Value.ToString(),
@@ -63,8 +63,9 @@ namespace HMGOnBaseIn.Controllers
                         P_RETURN_MSG = command.Parameters["P_RETURN_MSG"].Value.ToString(),
                     };
 
-                     if (result.P_RETURN_STATUS != "E") {
-                        result.P_SESSION_ID = ((Oracle.ManagedDataAccess.Types.OracleDecimal)sessionObject).Value; 
+                    if (result.P_RETURN_STATUS != "E")
+                    {
+                        result.P_SESSION_ID = ((Oracle.ManagedDataAccess.Types.OracleDecimal)sessionObject).Value;
                     }
                     conn.Close();
                     conn.Dispose();
